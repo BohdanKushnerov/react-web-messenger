@@ -1,35 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Step1 from '@components/Registration/Step1';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const viteExample = import.meta.env.VITE_EXAMPLE;
+
+  // Використовуємо значення в вашому коді
+  console.log(viteExample);
+  console.log(3)
+
+    // Получаем доступ к переменной окружения VITE_EXAMPLE
+    const viteExample2 = process.env.VITE_EXAMPLE;
+
+    // Выводим значение в консоль для проверки
+    console.log(viteExample2);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="h-screen bg-main-bcg bg-no-repeat bg-cover bg-center">
+      <Step1 />
+    </div>
+  );
 }
 
-export default App
+export default App;
