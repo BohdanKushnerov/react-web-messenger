@@ -13,12 +13,9 @@ jobs:
 
       - name: Install, lint, build 🔧
         run: |
-          echo VITE_EXAMPLE=${{ secrets.VITE_EXAMPLE }} > .env
           npm install
           npm run lint
           npm run build
-        env:
-          VITE_EXAMPLE: ${{ secrets.VITE_EXAMPLE }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.0
