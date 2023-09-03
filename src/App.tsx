@@ -1,4 +1,4 @@
-import Step1 from '@components/Registration/Step1';
+import Step1 from '@components/Registration/Registration';
 
 function App() {
   return (

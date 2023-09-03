@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from "firebase/auth";
+import { browserLocalPersistence, getAuth, onAuthStateChanged, setPersistence } from "firebase/auth";
 
 const {
   VITE_API_KEY,
@@ -23,4 +23,20 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
+const auth = getAuth(app);
+
+// Установите тип хранения в localStorage.
+setPersistence(auth, browserLocalPersistence);
+
+// Отслеживайте изменения состояния аутентификации.
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // Пользователь уже вошел в систему. Вы можете использовать 'auth' объект.
+    console.log("Пользователь вошел в систему:", user);
+  } else {
+    // Пользователь не вошел в систему.
+    console.log("Пользователь не вошел в систему.");
+  }
+});
+
+export { auth };
