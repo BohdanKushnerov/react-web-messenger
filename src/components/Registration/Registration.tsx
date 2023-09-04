@@ -1,56 +1,36 @@
 import { useState } from 'react';
 import {
   ConfirmationResult,
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
   // updateProfile,
 } from 'firebase/auth';
 import { auth } from '../../firebase/config';
-import 'react-phone-number-input/style.css';
-import PhoneInput from 'react-phone-number-input';
-import VerificationInput from "react-verification-input";
 import { E164Number } from 'libphonenumber-js';
-// import CustomInput from './Input';
+import MyPhoneInput from './MyPhoneInput';
+import CodeInput from './CodeInput';
+import handleSubmitVerifyCode from './utils/handleSubmitVerifyCodeVerifyCode';
+import setUpRecaptcha from './utils/setUpRecaptcha';
 
-export default function Step1() {
-  const [phone, setPhone] = useState<E164Number | undefined>(undefined);
+export default function Registration() {
+  const [step, setStep] = useState('Step 1/3')
+  const [phone, setPhone] = useState<E164Number | string>('');
   const [code, setCode] = useState('');
   const [confirmationResult, setConfirmationResult] =
     useState<ConfirmationResult | null>(null);
 
-  const setUpRecaptcha = (phone: E164Number): Promise<ConfirmationResult> => {
-    const recaptchaVerifier = new RecaptchaVerifier(
-      auth,
-      'recaptcha-container',
-      {}
-    );
+    console.log(phone)
 
-    recaptchaVerifier.render();
-
-    return signInWithPhoneNumber(auth, phone, recaptchaVerifier);
-  };
-
-  const setVerifyCode = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (confirmationResult) {
-      try {
-        console.log('confirmationResult', confirmationResult);
-        console.log('code', code);
-        const userCredential = await confirmationResult.confirm(code);
-        console.log(userCredential);
-      } catch (error) {
-        console.log('setVerifyCode error', error);
-      }
-    }
-  };
 
   const handleSubmitPhone = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
 
+    // console.log(phone)
+
     if (phone) {
       try {
-        const response = await setUpRecaptcha(phone);
+        const response = await setUpRecaptcha(phone, auth);
+        setStep('Step 2/3')
+        console.log(step)
+
         setConfirmationResult(response);
       } catch (error) {
         console.log('handleSubmitPhone error', error);
@@ -60,67 +40,41 @@ export default function Step1() {
     }
   };
 
-  const handleChangeCode = (code: string) => {
-    setCode(code);
-  }
-
-  // npm i react-phone-input-2
-
   return (
     <div>
-      <div className="bg-gray-400 w-96 h-150 mx-auto my-0 p-4 rounded-md">
+      <p className='text-white font-bold text-center'>{step}</p>
+      <div className="bg-mybcg w-96 h-150 mx-auto my-0 p-4 rounded-md">
         <img
-          className="mx-auto mb-10"
+          className="mx-auto mb-10 rounded-md"
           src="/src/assets/phone.jpg"
           alt="phone"
-          width={100}
-          height={100}
+          width={120}
+          height={120}
         />
-        <h1 className="font-bold">Registration</h1>
-        <p>Enter your phone number and we will send you a confirmation code</p>
-        <form onSubmit={handleSubmitPhone} className="flex flex-col gap-1">
-          <PhoneInput
-            // className="border-gray-900 border-2 w-full rounded-md pl-2 outline-none"
-            // className="bg-transparent w-full rounded-md p-2 outline-none text-white"
-            placeholder="Enter phone number"
-            international
-            defaultCountry="UA"
-            value={phone}
-            onChange={setPhone}
-          />
+        <h1 className="font-bold text-white text-center">Registration</h1>
+        <p className="text-textcolor text-center">
+          Enter your phone number and we will send you a confirmation code
+        </p>
+        {step === 'Step 1/3' && <form onSubmit={handleSubmitPhone} className="flex flex-col gap-1">
+          <MyPhoneInput phone={phone} setPhone={setPhone} />
           <button
-            className="w-full p-2 rounded-md bg-blue-600"
+            className="w-full p-2 rounded-md bg-myblue text-white font-bold"
             // id="sign-in-button"
             type="submit"
           >
             Continue
           </button>
           <div className="mx-auto" id="recaptcha-container"></div>
-        </form>
-        <form onSubmit={setVerifyCode} className="flex flex-col gap-1">
-          {/* <input
-            className="border-gray-900	border-2 w-full rounded-md p-2 outline-none bg-transparent text-white"
-            value={code}
-            onChange={e => setCode(e.target.value)}
-          />
-          <button className="w-full p-2 rounded-md  bg-blue-600" type="submit">
-            Continue
-          </button> */}
-          <VerificationInput
-            classNames={{
-              container: "flex justify-center bg-transparent",
-              character: "bg-transparent border-t-0 border-x-0 border-b-4 outline-none text-white",
-              // characterInactive: "border-red-900",
-              characterSelected: "border-blue-300"
-          }}
-            length={6} 
-            placeholder={" "} 
-            value={code}
-            onChange={handleChangeCode} />
-          <button className="w-full p-2 rounded-md  bg-blue-600" type="submit">
+        </form>}
+        {step === 'Step 2/3' && <form onSubmit={(e)=>handleSubmitVerifyCode(e, confirmationResult, code)} className="flex flex-col gap-1">
+          <CodeInput setCode={setCode} />
+          <button
+            className="w-full p-2 rounded-md bg-myblue text-white font-bold"
+            type="submit"
+          >
             Continue
           </button>
-        </form>
+        </form>}
       </div>
     </div>
   );

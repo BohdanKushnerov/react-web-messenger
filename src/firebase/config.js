@@ -27,7 +27,6 @@ const auth = getAuth(app);
 
 // Установите тип хранения в localStorage.
 setPersistence(auth, browserLocalPersistence);
-
 // Отслеживайте изменения состояния аутентификации.
 onAuthStateChanged(auth, (user) => {
   if (user) {

@@ -8,6 +8,15 @@ export default {
     extend: {
       backgroundImage: {
         'main-bcg': "url('/src/assets/bcg.jpg')",
+      },
+      backgroundColor: {
+        "mybcg": "#1F2025"
+      },
+      colors: {
+        "textcolor": '#707175',
+        "inputChar": "#35363B",
+        "inputCharSelect": "#13BAEE",
+        "myblue": "#13BAEE",
       }
     },
   },
