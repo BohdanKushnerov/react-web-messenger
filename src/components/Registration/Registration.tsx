@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   ConfirmationResult,
-  // updateProfile,
+  updateProfile,
 } from 'firebase/auth';
 import { auth } from '../../firebase/config';
 import { E164Number } from 'libphonenumber-js';
@@ -10,20 +10,19 @@ import CodeInput from './CodeInput';
 import handleSubmitVerifyCode from './utils/handleSubmitVerifyCodeVerifyCode';
 import setUpRecaptcha from './utils/setUpRecaptcha';
 
+type Steps = 'Step 1/3' | 'Step 2/3' | 'Step 3/3'
+
 export default function Registration() {
-  const [step, setStep] = useState('Step 1/3')
+  const [step, setStep] = useState<Steps>('Step 1/3')
   const [phone, setPhone] = useState<E164Number | string>('');
   const [code, setCode] = useState('');
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
   const [confirmationResult, setConfirmationResult] =
     useState<ConfirmationResult | null>(null);
 
-    console.log(phone)
-
-
   const handleSubmitPhone = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-
-    // console.log(phone)
 
     if (phone) {
       try {
@@ -37,6 +36,23 @@ export default function Registration() {
       }
     } else {
       console.error('Номер телефона не определен');
+    }
+  };
+
+  const handleUpdateProfile = async(e: React.FormEvent) => {
+    e.preventDefault();
+
+    const user = auth.currentUser;
+  
+    if (user) {
+      const result = await updateProfile(user, {
+        displayName: `${name} ${surname}`,
+        // photoURL: "https://example.com/jane-q-user/profile.jpg"
+      });
+
+      console.log("result handleUpdateProfile", result)
+    } else {
+      console.error("Пользователь не вошел в систему");
     }
   };
 
@@ -66,8 +82,24 @@ export default function Registration() {
           </button>
           <div className="mx-auto" id="recaptcha-container"></div>
         </form>}
-        {step === 'Step 2/3' && <form onSubmit={(e)=>handleSubmitVerifyCode(e, confirmationResult, code)} className="flex flex-col gap-1">
+        {step === 'Step 2/3' && <form onSubmit={(e)=>handleSubmitVerifyCode(e, confirmationResult, code, setStep)} className="flex flex-col gap-1">
           <CodeInput setCode={setCode} />
+          <button
+            className="w-full p-2 rounded-md bg-myblue text-white font-bold"
+            type="submit"
+          >
+            Continue
+          </button>
+        </form>}
+        {step === 'Step 3/3' && <form onSubmit={handleUpdateProfile} className="flex flex-col gap-1">
+          <label htmlFor="name" className="font-bold text-textcolor">
+            Name
+            <input className='w-full h-10 p-2 rounded-md bg-transparent border border-inputChar' id='name' type="text" value={name} onChange={(e)=>setName(e.target.value)} />
+          </label>
+          <label htmlFor="lastname" className="font-bold text-textcolor">
+            Surname
+            <input className='w-full h-10 p-2 rounded-md bg-transparent border border-inputChar' id='lastname' type="text" value={surname} onChange={(e)=>setSurname(e.target.value)} />
+          </label>
           <button
             className="w-full p-2 rounded-md bg-myblue text-white font-bold"
             type="submit"
