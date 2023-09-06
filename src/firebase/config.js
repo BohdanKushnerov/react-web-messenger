@@ -48,6 +48,7 @@ onAuthStateChanged(auth, user => {
   if (user) {
     // Пользователь уже вошел в систему. Вы можете использовать 'auth' объект.
     console.log('Пользователь вошел в систему:', user);
+    console.log("auth", auth)
 
     
   } else {

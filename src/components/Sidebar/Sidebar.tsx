@@ -8,7 +8,7 @@ export default function Sidebar() {
     const [chatList, setChatList] = useState<QuerySnapshot<
       DocumentData,
       DocumentData
-    > | null>(null);
+    > | []>([]);
 
 
   return (

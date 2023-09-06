@@ -57,11 +57,11 @@ export default function Registration() {
       await setDoc(doc(db, 'users', user.uid), {
         displayName: user.displayName,
         uid: user.uid,
-        PhotoURL:
+        photoURL:
           'https://cdn.iconscout.com/icon/free/png-256/free-profile-1439375-1214445.png?f=avif&w=128',
       });
 
-      // =================создаем обьект чаты нашего зера которого мы создали=======================
+      // =================создаем обьект чаты нашего юзера которого мы только создали=======================
       await setDoc(doc(db, 'userChats', user.uid), {});
     } else {
       console.error('Пользователь не вошел в систему');

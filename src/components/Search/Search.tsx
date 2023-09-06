@@ -3,17 +3,15 @@ import {
   DocumentData,
   QuerySnapshot,
   collection,
-  // endAt,
   getDocs,
-  // orderBy,
   query,
-  // startAt,
   where,
 } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
+import capitalizeName from './utils/capitalizeFirstLetterName';
 
 interface SearchProps {
-  setChatList: (value: QuerySnapshot<DocumentData, DocumentData>) => void;
+  setChatList: (value: QuerySnapshot<DocumentData, DocumentData> | []) => void;
 }
 
 export default function Search({ setChatList }: SearchProps) {
@@ -22,26 +20,22 @@ export default function Search({ setChatList }: SearchProps) {
 useEffect(() => {
   const fetchData = async () => {
     if (search.trim() === '') {
-      // If the search input is empty or only contains whitespace, don't perform the query.
+      setChatList([])
       return;
     }
 
-    // const lowercasedSearch = search.toLowerCase(); // Convert search query to lowercase
+    const queryName = capitalizeName(search);
 
     const usersRef = collection(db, 'users');
     const q = query(
       usersRef,
-      where('displayName', '>=', search),
-      where('displayName', '<=', search + '\uf8ff')
-      // usersRef,
-      // orderBy('displayName'), // Order by the 'displayName' field
-      // startAt(lowercasedSearch), // Start at the lowercase search query
-      // endAt(lowercasedSearch + '\uf8ff') // End at the lowercase search query + '\uf8ff'
+      where('displayName', '>=', queryName),
+      where('displayName', '<=', queryName + '\uf8ff')
     );
 
     try {
       const querySnapshot = await getDocs(q);
-      console.log(querySnapshot.docs);
+
       setChatList(querySnapshot);
     } catch (error) {
       console.error('Error fetching data:', error);
