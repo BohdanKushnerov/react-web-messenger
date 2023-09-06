@@ -5,12 +5,13 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   resolve: {
     alias: {
-      "@components": "/src/components",
+      '@components': '/src/components',
+      '@pages': '/src/pages',
     },
   },
   plugins: [react()],
-  base: "/react-web-messenger",
+  base: '/react-web-messenger',
   build: {
-    outDir: "build", // Здесь указываем папку "build"
+    outDir: 'build', // Здесь указываем папку "build"
   },
 });

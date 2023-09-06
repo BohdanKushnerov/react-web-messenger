@@ -18,6 +18,8 @@ const getRecaptchaVerifier = (auth: Auth) => {
 const setUpRecaptcha = (phone: E164Number, auth: Auth): Promise<ConfirmationResult> => {
   const recaptchaVerifier = getRecaptchaVerifier(auth);
   recaptchaVerifier.render();
+  console.log(`+${phone}`);
+  console.log(recaptchaVerifier);
   return signInWithPhoneNumber(auth, `+${phone}`, recaptchaVerifier);
 };
 
