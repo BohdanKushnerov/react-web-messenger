@@ -1,5 +1,5 @@
 import Home from '@pages/Home/Home';
-// import Registration from '@components/Registration/Registration';
+import Registration from '@components/Registration/Registration';
 import { User, signOut } from 'firebase/auth';
 import { auth } from './firebase/config';
 import { useState, useEffect } from 'react';
@@ -35,7 +35,7 @@ function App() {
       <button className="border-gray-600" onClick={handleSignOut}>
         Sign Out
       </button>
-      {/* <Registration /> */}
+      <Registration />
       {user && <Home />}
     </div>
   );

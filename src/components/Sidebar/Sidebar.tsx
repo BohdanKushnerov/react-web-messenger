@@ -43,8 +43,8 @@ export default function Sidebar() {
 
 
   return (
-    <div className="bg-gray-300 w-80">
-      <div className="flex pl-1 pr-2 py-1">
+    <div className="bg-bg-myBlackBcg w-80">
+      <div className="flex pl-1 pr-2 py-1 bg-myBlackBcg">
         <Navbar />
         <Search
           searchUsers={searchUsers}

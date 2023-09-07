@@ -92,9 +92,7 @@ export default function ChatList({ setSearchUsers, chatList, setChatList }: Chat
   const [userChatList, setUserChatList] = useState<DocumentData | []>([]);
 
   useEffect(() => {
-    console.log('useEf', auth.currentUser);
     if (!auth?.currentUser?.uid) return;
-
     // ==========================================
     const unSub = onSnapshot(
       doc(db, 'userChats', auth?.currentUser?.uid),
@@ -115,49 +113,54 @@ export default function ChatList({ setSearchUsers, chatList, setChatList }: Chat
     };
   }, []);
 
-  console.log(userChatList);
+  const handleSelectChat = (chat: ChatListItem) => {
+    // console.dir(e.currentTarget);
+    console.log(chat);
 
-  const handleClickLI = (e: React.MouseEvent<HTMLLIElement>) => {
-    console.dir(e.currentTarget);
+    // надо сделать переписку +
+    // добавить переписку когда с поиска выбираешь 
+    // но тут уже надо либо контекс либо зустанд
   };
 
   return (
     <div>
-      <ul>
+      <ul className="bg-myBlackBcg">
         {/* тут список юзеров в поиске */}
         {chatList instanceof QuerySnapshot &&
-          chatList.docs.map(doc => (
-            <li
-              className="flex"
-              key={doc.id}
-              id={doc.id}
-              onClick={() =>
-                handleCreateChat(doc.data(), setChatList, setSearchUsers)
-              }
-            >
-              <img
-                width={24}
-                height={24}
-                src={doc.data().photoURL}
-                alt={doc.data().displayName}
-              />
+          chatList.docs.map(doc => {
+            console.log('chatList search doc', doc.data());
+            return (
+              <li
+                className="flex"
+                key={doc.id}
+                onClick={() =>
+                  handleCreateChat(doc.data(), setChatList, setSearchUsers)
+                }
+              >
+                <img
+                  width={24}
+                  height={24}
+                  src={doc.data().photoURL}
+                  alt={doc.data().displayName}
+                />
 
-              <p>{doc.data().displayName}</p>
-            </li>
-          ))}
+                <p className="text-white">{doc.data().displayName}</p>
+              </li>
+            );
+          })}
       </ul>
       {/* тут список твоих чатов */}
-      <ul>
+      <ul className="bg-myBlackBcg">
         {userChatList &&
           chatList &&
           userChatList.map((chat: ChatListItem) => {
-            console.log('chat', chat);
+            // console.log('chat', chat);
             return (
               <li
-                id={chat[0]}
+                // id={chat[0]}
                 key={chat[0]}
                 className="border border-inputChar"
-                onClick={handleClickLI}
+                onClick={()=>handleSelectChat(chat)}
               >
                 <img
                   width={24}
@@ -165,8 +168,8 @@ export default function ChatList({ setSearchUsers, chatList, setChatList }: Chat
                   src={chat[1].userInfo.photoURL}
                   alt={chat[1].userInfo.displayName}
                 />
-                <p>{chat[1].userInfo.displayName}</p>
-                <p>last message</p>
+                <p className="text-white">{chat[1].userInfo.displayName}</p>
+                <p className="text-white">last message</p>
               </li>
             );
           })}
