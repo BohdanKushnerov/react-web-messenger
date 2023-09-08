@@ -1,26 +1,28 @@
 import Home from '@pages/Home/Home';
 import Registration from '@components/Registration/Registration';
-import { User, signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import { auth } from '@myfirebase/config';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import useChatStore from '@zustand/store';
 
 function App() {
-  const [user, setUser] = useState<User | null>(null);
+  const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
+  const { currentUser, isLoggedIn } = useChatStore(state => state);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(authUser => {
       if (authUser) {
         // Пользователь авторизован
-        setUser(authUser);
+        updateCurrentUser(authUser);
       } else {
         // Пользователь не авторизован
-        setUser(null);
+        updateCurrentUser(null);
       }
     });
 
     // Отписываемся от слежения при размонтировании компонента
     return () => unsubscribe();
-  }, []);
+  }, [updateCurrentUser]);
 
   const handleSignOut = async () => {
     const exit = await signOut(auth);
@@ -30,12 +32,12 @@ function App() {
   return (
     // <div className="h-screen bg-main-bcg bg-no-repeat bg-cover bg-center">
     <div className="h-screen bg-no-repeat bg-cover bg-center">
-      <p>{user?.displayName}</p>
+      <p>{currentUser?.displayName}</p>
       <button className="border border-gray-600" onClick={handleSignOut}>
         Sign Out
       </button>
-      <Registration />
-      {user && <Home />}
+      {!isLoggedIn && <Registration />}
+      {isLoggedIn && <Home />}
     </div>
   );
 }
