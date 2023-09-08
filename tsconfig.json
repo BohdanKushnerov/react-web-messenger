@@ -4,6 +4,8 @@
     "paths": {
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
+      "@myfirebase/*": ["myfirebase/*"],
+      "@zustand/*": ["zustand/*"],
     },
     "target": "ES2020",
     "useDefineForClassFields": true,

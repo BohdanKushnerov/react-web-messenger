@@ -1,10 +1,13 @@
-interface SearchProps {
-  searchUsers: string;
-  setSearchUsers: (value: string) => void;
-}
+import useChatStore from "@zustand/store";
 
-export default function Search({ searchUsers, setSearchUsers }: SearchProps) {
+// interface SearchProps {
+//   searchUsers: string;
+//   setSearchUsers: (value: string) => void;
+// }
 
+export default function Search() {
+  const searchValue = useChatStore(state => state.searchValue);
+  const updateSearchValue = useChatStore(state => state.updateSearchValue);
 
   return (
     <div>
@@ -12,8 +15,10 @@ export default function Search({ searchUsers, setSearchUsers }: SearchProps) {
         className="py-1 px-10 h-10 w-60 rounded-3xl bg-mySeacrhBcg"
         type="text"
         placeholder="Search"
-        value={searchUsers}
-        onChange={e => setSearchUsers(e.target.value)}
+        // value={searchUsers}
+        // onChange={e => setSearchUsers(e.target.value)}
+        value={searchValue}
+        onChange={e => updateSearchValue(e.target.value)}
       />
     </div>
   );

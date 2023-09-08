@@ -1,62 +1,64 @@
-import ChatList from '@components/ChatList/ChatList'
-import Navbar from '@components/Navbar/Navbar'
-import Search from '@components/Search/Search'
-import capitalizeName from '@components/Search/utils/capitalizeFirstLetterName';
-import { db } from '../../firebase/config';
-import { DocumentData, QuerySnapshot, collection, getDocs, query, where } from 'firebase/firestore';
-import { useState, useEffect } from 'react';
+import ChatList from '@components/ChatList/ChatList';
+import Navbar from '@components/Navbar/Navbar';
+import Search from '@components/Search/Search';
+import SearchChatList from '@components/SearchChatList/SearchChatList';
+// import capitalizeName from '@components/Search/utils/capitalizeFirstLetterName';
+// import { db } from '@myfirebase/config';
+// import { useSearchUsers } from '@zustand/useSearchUsers';
+// import {
+//   DocumentData,
+//   QuerySnapshot,
+//   collection,
+//   getDocs,
+//   query,
+//   where,
+// } from 'firebase/firestore';
+// import { useState, useEffect } from 'react';
 
 export default function Sidebar() {
-    const [searchUsers, setSearchUsers] = useState('');
-    const [chatList, setChatList] = useState<QuerySnapshot<
-      DocumentData,
-      DocumentData
-    > | []>([]);
+  // const [chatList, setChatList] = useState<
+  //   QuerySnapshot<DocumentData, DocumentData> | []
+  // >([]);
 
-      useEffect(() => {
-        const fetchData = async () => {
-          if (searchUsers.trim() === '') {
-            setChatList([]);
-            return;
-          }
+  // const searchValue = useSearchUsers(state => state.searchValue);
 
-          const queryName = capitalizeName(searchUsers);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     // if (searchUsers.trim() === '') {
+  //     if (searchValue.trim() === '') {
+  //       setChatList([]);
+  //       return;
+  //     }
 
-          const usersRef = collection(db, 'users');
-          const q = query(
-            usersRef,
-            where('displayName', '>=', queryName),
-            where('displayName', '<=', queryName + '\uf8ff')
-          );
+  //     const queryName = capitalizeName(searchValue);
 
-          try {
-            const querySnapshot = await getDocs(q);
+  //     const usersRef = collection(db, 'users');
+  //     const q = query(
+  //       usersRef,
+  //       where('displayName', '>=', queryName),
+  //       where('displayName', '<=', queryName + '\uf8ff')
+  //     );
 
-            setChatList(querySnapshot);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
-        };
+  //     try {
+  //       const querySnapshot = await getDocs(q);
 
-        fetchData();
-      }, [searchUsers, setChatList]);
+  //       setChatList(querySnapshot);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
 
+  //   fetchData();
+  // }, [searchValue, setChatList]);
 
   return (
     <div className="bg-bg-myBlackBcg w-80">
       <div className="flex pl-1 pr-2 py-1 bg-myBlackBcg">
         <Navbar />
-        <Search
-          searchUsers={searchUsers}
-          setSearchUsers={setSearchUsers}
-          // setChatList={setChatList}
-        />
+        <Search/>
       </div>
-      <ChatList
-        setSearchUsers={setSearchUsers}
-        chatList={chatList}
-        setChatList={setChatList}
-      />
+      <SearchChatList/>
+      <ChatList/>
     </div>
   );
 }

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "firebase": "^10.3.1",
+    "immer": "^10.0.2",
     "libphonenumber-js": "^1.10.44",
     "react": "^18.2.0",
     "react-auth-code-input": "^3.2.1",
@@ -18,7 +19,8 @@
     "react-dom": "^18.2.0",
     "react-phone-input-2": "^2.15.1",
     "react-phone-number-input": "^3.3.6",
-    "react-verification-input": "^3.3.1"
+    "react-verification-input": "^3.3.1",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@types/node": "^20.5.8",
