@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import createSearchUsersState from './searchUsersSlice'
 import createAuthSliceState from './authSlice';
+import createChatSliceState from './chatSlice';
 import { User } from 'firebase/auth';
 
 interface SearchUsersState {
@@ -19,10 +20,18 @@ interface AuthSliceState {
   updateCurrentUser: (user: User | null) => void;
 }
 
-const useChatStore = create<SearchUsersState & AuthSliceState>()(
+interface ChatSliceState {
+  chatUID: string | null;
+  updateChatUID: (id: string) => void;
+}
+
+const useChatStore = create<
+  SearchUsersState & AuthSliceState & ChatSliceState
+>()(
   devtools((...a) => ({
     ...createSearchUsersState(...a),
     ...createAuthSliceState(...a),
+    ...createChatSliceState(...a),
   }))
 );
 
