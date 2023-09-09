@@ -2,16 +2,11 @@ import { initializeApp } from 'firebase/app';
 import {
   browserLocalPersistence,
   getAuth,
-  // onAuthStateChanged,
+  onAuthStateChanged,
   setPersistence,
 } from 'firebase/auth';
 import {
-  // addDoc,
-  // collection,
-  // getDocs,
   getFirestore,
-  // query,
-  // where,
 } from 'firebase/firestore';
 
 const {
@@ -32,28 +27,25 @@ const firebaseConfig = {
   messagingSenderId: VITE_MESSAGING_SENDER_ID,
   appId: VITE_APP_ID,
   measurementId: VITE_MEASUREMENT_ID,
-  // databaseURL: "https://DATABASE_NAME.firebaseio.com",
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Установите тип хранения в localStorage.
 setPersistence(auth, browserLocalPersistence);
-// Отслеживайте изменения состояния аутентификации.
 
-// onAuthStateChanged(auth, user => {
-//   if (user) {
-//     // Пользователь уже вошел в систему. Вы можете использовать 'auth' объект.
-//     console.log('Пользователь вошел в систему:', user);
-//     console.log("auth", auth)
+onAuthStateChanged(auth, user => {
+  if (user) {
+    // Пользователь уже вошел в систему. Вы можете использовать 'auth' объект.
+    console.log('Пользователь вошел в систему:', user);
+    console.log("auth", auth)
 
     
-//   } else {
-//     // Пользователь не вошел в систему.
-//     console.log('Пользователь не вошел в систему.');
-//   }
-// });
+  } else {
+    // Пользователь не вошел в систему.
+    console.log('Пользователь не вошел в систему.');
+  }
+});
 
 export { auth, db };

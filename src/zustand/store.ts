@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import createSearchUsersState from './searchUsersSlice'
 import createAuthSliceState from './authSlice';
-import createChatSliceState from './chatSlice';
+import createCurrentChatInfoState from './currentChatInfoSlice';
 import { User } from 'firebase/auth';
 
 interface SearchUsersState {
@@ -20,26 +20,37 @@ interface AuthSliceState {
   updateCurrentUser: (user: User | null) => void;
 }
 
-interface ChatSliceState {
-  chatUID: string | null;
-  updateChatUID: (id: string) => void;
+type ChatListItem = [
+  string,
+  {
+    userInfo: {
+      photoURL: string;
+      displayName: string;
+      uid: string;
+    };
+  }
+];
+
+interface currentChatInfoState {
+  currentChatInfo: {
+    chatUID: string | null;
+    userInfo: {
+      photoURL: string | null;
+      displayName: string | null;
+      uid: string | null;
+    };
+  };
+  updateCurrentChatInfo: (chat: ChatListItem) => void;
 }
 
 const useChatStore = create<
-  SearchUsersState & AuthSliceState & ChatSliceState
+  SearchUsersState & AuthSliceState & currentChatInfoState
 >()(
   devtools((...a) => ({
     ...createSearchUsersState(...a),
     ...createAuthSliceState(...a),
-    ...createChatSliceState(...a),
+    ...createCurrentChatInfoState(...a),
   }))
 );
-
-// const useChatStore = create(
-//   devtools((...a) => ({
-//     ...createSearchUsersState(...a),
-//     ...createAuthSliceState(...a),
-//   }))
-// );
 
 export default useChatStore;

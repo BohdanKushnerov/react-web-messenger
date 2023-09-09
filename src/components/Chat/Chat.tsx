@@ -7,10 +7,12 @@ import { useEffect, useState } from 'react';
 export default function Chat() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<DocumentData | null>(null);
-  const chatUID = useChatStore(state => state.chatUID);
-  const currentUserUID = useChatStore(state => state.currentUser.uid);
 
-  console.log('messages', messages);
+  // const chatUID = useChatStore(state => state.currentChatInfo.chatUID);
+  const currentUserUID = useChatStore(state => state.currentUser.uid);
+  const { chatUID, userInfo } = useChatStore(state => state.currentChatInfo);
+
+  console.log('userInfo', userInfo);
 
   useEffect(() => {
     if(chatUID === null) return
@@ -53,10 +55,14 @@ export default function Chat() {
 
   return (
     <div className="bg-blue-100 w-full">
+      <div className='bg-gray-500'>
+        <img src={userInfo.photoURL || ''} alt={userInfo.photoURL || ''} />{' '}
+        <p>{userInfo.displayName}</p>
+      </div>
       <ul>
         {messages &&
           messages.map((mes: DocumentData) => {
-            console.log('mes', mes);
+            // console.log('mes', mes);
 
             return (
               <li key={mes.id}>

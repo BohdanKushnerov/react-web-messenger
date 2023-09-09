@@ -29,7 +29,10 @@ type ChatListItem = [
 
 export default function ChatList() {
   const [userChatList, setUserChatList] = useState<DocumentData | []>([]);
-  const updateChatUID = useChatStore(state => state.updateChatUID)
+  // const updateChatUID = useChatStore(state => state.updateChatUID)
+  const updateCurrentChatInfo = useChatStore(
+    state => state.updateCurrentChatInfo
+  );
 
   // юзефект для загрузки твоих переписок 
   useEffect(() => {
@@ -55,14 +58,7 @@ export default function ChatList() {
   }, []);
 
   const handleSelectChat = (chat: ChatListItem) => {
-    // console.dir(e.currentTarget);
-    const chatUID = chat[0] 
-    console.log(chat);
-
-    // надо сделать переписку +
-    // добавить переписку когда с поиска выбираешь
-    // но тут уже надо либо контекс либо зустанд
-    updateChatUID(chatUID);
+    updateCurrentChatInfo(chat);
   };
 
   return (
