@@ -1,12 +1,7 @@
 import { useEffect, useState } from 'react';
-import {
-  DocumentData,
-  doc,
-  onSnapshot,
-} from 'firebase/firestore';
+import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-
 
 // interface ChatListProps {
 //   setSearchUsers: (value: string) => void;
@@ -34,7 +29,7 @@ export default function ChatList() {
     state => state.updateCurrentChatInfo
   );
 
-  // юзефект для загрузки твоих переписок 
+  // юзефект для загрузки твоих переписок
   useEffect(() => {
     if (!auth?.currentUser?.uid) return;
     // ==========================================
@@ -72,17 +67,21 @@ export default function ChatList() {
               <li
                 // id={chat[0]}
                 key={chat[0]}
-                className="border border-inputChar"
+                className="flex border border-inputChar"
                 onClick={() => handleSelectChat(chat)}
               >
                 <img
-                  width={24}
-                  height={24}
+                  width={50}
+                  height={50}
                   src={chat[1].userInfo.photoURL}
                   alt={chat[1].userInfo.displayName}
                 />
-                <p className="text-white">{chat[1].userInfo.displayName}</p>
-                <p className="text-white">last message</p>
+                <div>
+                  <p className="font-bold text-white">
+                    {chat[1].userInfo.displayName}
+                  </p>
+                  <p className="text-textSecondary">last message</p>
+                </div>
               </li>
             );
           })}

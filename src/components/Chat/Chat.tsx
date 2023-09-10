@@ -4,11 +4,18 @@ import { v4 as uuidv4 } from 'uuid';
 import { DocumentData, Timestamp, arrayUnion, doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
+function formatTime(dateString: string) {
+  const date = new Date(dateString);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+  return formattedTime;
+}
+
 export default function Chat() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<DocumentData | null>(null);
 
-  // const chatUID = useChatStore(state => state.currentChatInfo.chatUID);
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userInfo } = useChatStore(state => state.currentChatInfo);
 
@@ -48,40 +55,65 @@ export default function Chat() {
           date: Timestamp.now(),
         }),
       });
+
+      setMessage("")
     } catch (error) {
       console.log('error handleSendMessage', error);
     }
   };
 
   return (
-    <div className="bg-blue-100 w-full">
-      <div className='bg-gray-500'>
-        <img src={userInfo.photoURL || ''} alt={userInfo.photoURL || ''} />{' '}
-        <p>{userInfo.displayName}</p>
+    <div className="bg-myBlackBcg w-full">
+      <div className="flex mb-10 h-12 border-b bg-myBlackBcg">
+        <img
+          src={userInfo.photoURL || ''}
+          alt={userInfo.photoURL || ''}
+          width={40}
+          height={40}
+        />{' '}
+        <p className="text-textSecondary">{userInfo.displayName}</p>
       </div>
-      <ul>
+      <ul className="h-96 mb-10 flex flex-col gap-2 overflow-y-auto">
         {messages &&
           messages.map((mes: DocumentData) => {
-            // console.log('mes', mes);
+            // console.log('senderUserID', mes.senderUserID);
+
+            const qwe = currentUserUID === mes.senderUserID;
+            console.log(qwe);
 
             return (
-              <li key={mes.id}>
-                <p>{mes.message}</p>
-                <p>{mes.date && mes.date.toDate().toString()}</p>
+              <li
+                key={mes.id}
+                className={`py-2 px-4 border ${
+                  qwe
+                    ? 'place-self-end bg-blue-800'
+                    : 'place-self-start bg-green-800'
+                } border-white  rounded-3xl`}
+              >
+                <p className="text-white">{mes.message}</p>
+                {/* <p className="text-white">
+                  {mes.date && mes.date.toDate().toString()}
+                </p> */}
+                <p className="text-white">
+                  {mes.date && formatTime(mes.date.toDate().toString())}
+                </p>
               </li>
             );
           })}
       </ul>
       <form
+        className="flex gap-4"
         onSubmit={e => handleSendMessage(e, message, chatUID, currentUserUID)}
       >
         <input
-          className="py-1 px-10 h-10 w-60 rounded-3xl bg-mySeacrhBcg text-white"
+          className="py-1 px-10 h-10 w-8/12 rounded-3xl bg-mySeacrhBcg text-white"
           type="text"
           value={message}
           onChange={e => setMessage(e.target.value)}
         />
-        <button type="submit">Send message</button>
+        <button className="h-10 bg-white border rounded-full" type="submit">
+          Send
+        </button>
       </form>
     </div>
   );
