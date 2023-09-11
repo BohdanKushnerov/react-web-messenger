@@ -5,9 +5,7 @@ import {
   onAuthStateChanged,
   setPersistence,
 } from 'firebase/auth';
-import {
-  getFirestore,
-} from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
 
 const {
   VITE_API_KEY,
@@ -17,7 +15,7 @@ const {
   VITE_MESSAGING_SENDER_ID,
   VITE_APP_ID,
   VITE_MEASUREMENT_ID,
-} = import.meta.env;
+} = import.meta.env || ({} as NodeJS.Process['env']);
 
 const firebaseConfig = {
   apiKey: VITE_API_KEY,
@@ -39,9 +37,7 @@ onAuthStateChanged(auth, user => {
   if (user) {
     // Пользователь уже вошел в систему. Вы можете использовать 'auth' объект.
     console.log('Пользователь вошел в систему:', user);
-    console.log("auth", auth)
-
-    
+    console.log('auth', auth);
   } else {
     // Пользователь не вошел в систему.
     console.log('Пользователь не вошел в систему.');

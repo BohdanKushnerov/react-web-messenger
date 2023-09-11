@@ -1,21 +1,36 @@
-name: Build and deploy to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
 
-      - name: Install, lint, build 🔧
-        run: |
-          npm install
-          npm run lint
-          npm run build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy to GitHub Pages
+        env:
+          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+          VITE_AUTH_DOMAIN: ${{ secrets.VITE_AUTH_DOMAIN }}
+          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+          VITE_STORAGE_BUCKET: ${{ secrets.VITE_STORAGE_BUCKET }}
+          VITE_MESSAGING_SENDER_ID: ${{ secrets.VITE_MESSAGING_SENDER_ID }}
+          VITE_APP_ID: ${{ secrets.VITE_APP_ID }}
+          VITE_MEASUREMENT_ID: ${{ secrets.VITE_MEASUREMENT_ID }}
+        run: npm run build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.0
