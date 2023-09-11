@@ -1,13 +1,8 @@
 import { StateCreator } from 'zustand';
 import { produce } from 'immer';
+import { ISearchUsersState } from '@interfaces/ISearchUsersState';
 
-interface SearchUsersState {
-  searchValue: string;
-  updateSearchValue: (value: string) => void;
-  resetSearchValue: () => void;
-}
-
-const createSearchUsersState: StateCreator<SearchUsersState> = set => ({
+const createSearchUsersState: StateCreator<ISearchUsersState> = set => ({
   searchValue: '',
   updateSearchValue: (value: string) => {
     set(

@@ -3,14 +3,7 @@ import useChatStore from '@zustand/store';
 import { v4 as uuidv4 } from 'uuid';
 import { DocumentData, Timestamp, arrayUnion, doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-
-function formatTime(dateString: string) {
-  const date = new Date(dateString);
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
-  return formattedTime;
-}
+import formatTime from './utils/formatTime';
 
 export default function Chat() {
   const [message, setMessage] = useState("");
@@ -76,24 +69,18 @@ export default function Chat() {
       <ul className="h-96 mb-10 flex flex-col gap-2 overflow-y-auto">
         {messages &&
           messages.map((mes: DocumentData) => {
-            // console.log('senderUserID', mes.senderUserID);
-
-            const qwe = currentUserUID === mes.senderUserID;
-            console.log(qwe);
+            const myUID = currentUserUID === mes.senderUserID;
 
             return (
               <li
                 key={mes.id}
                 className={`py-2 px-4 border ${
-                  qwe
+                  myUID
                     ? 'place-self-end bg-blue-800'
                     : 'place-self-start bg-green-800'
                 } border-white  rounded-3xl`}
               >
                 <p className="text-white">{mes.message}</p>
-                {/* <p className="text-white">
-                  {mes.date && mes.date.toDate().toString()}
-                </p> */}
                 <p className="text-white">
                   {mes.date && formatTime(mes.date.toDate().toString())}
                 </p>

@@ -6,6 +6,8 @@
       "@pages/*": ["pages/*"],
       "@myfirebase/*": ["myfirebase/*"],
       "@zustand/*": ["zustand/*"],
+      // "@types/*": ["types/*"],
+      "@interfaces/*": ["interfaces/*"],
     },
     "target": "ES2020",
     "useDefineForClassFields": true,

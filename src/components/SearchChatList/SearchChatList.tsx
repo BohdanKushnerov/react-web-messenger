@@ -22,7 +22,6 @@ const handleCreateChat = async (
   setChatList: React.Dispatch<
     React.SetStateAction<QuerySnapshot<DocumentData, DocumentData> | []>
   >,
-  // setSearchUsers: (value: string) => void
   updateSearchValue: (value: string) => void
 ) => {
   // выйдем если не авторизирован
@@ -68,7 +67,6 @@ const handleCreateChat = async (
     }
 
     setChatList([]);
-    // setSearchUsers('');
     updateSearchValue('');
   } catch (error) {
     console.log('error handleCreateChat', error);
@@ -86,7 +84,6 @@ export default function SearchChatList() {
   // юзефект для поиска контактов(юзеров) в поисковой строке
   useEffect(() => {
     const fetchData = async () => {
-      // if (searchUsers.trim() === '') {
       if (searchValue.trim() === '') {
         setSearchChatList([]);
         return;
@@ -125,7 +122,6 @@ export default function SearchChatList() {
                 className="flex"
                 key={doc.id}
                 onClick={() =>
-                  // handleCreateChat(doc.data(), setChatList, setSearchUsers)
                   handleCreateChat(
                     doc.data(),
                     setSearchChatList,

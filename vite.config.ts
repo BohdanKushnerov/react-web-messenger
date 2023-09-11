@@ -9,6 +9,8 @@ export default defineConfig({
       '@pages': '/src/pages',
       '@myfirebase': '/src/myfirebase',
       '@zustand': '/src/zustand',
+      // '@types': '/src/types',
+      '@interfaces': '/src/interfaces',
     },
   },
   plugins: [react()],

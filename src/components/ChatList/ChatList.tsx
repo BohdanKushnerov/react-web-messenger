@@ -2,29 +2,10 @@ import { useEffect, useState } from 'react';
 import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-
-// interface ChatListProps {
-//   setSearchUsers: (value: string) => void;
-//   chatList: QuerySnapshot<DocumentData, DocumentData> | [];
-//   setChatList: React.Dispatch<
-//     React.SetStateAction<QuerySnapshot<DocumentData, DocumentData> | []>
-//   >;
-// }
-
-type ChatListItem = [
-  string,
-  {
-    userInfo: {
-      photoURL: string;
-      displayName: string;
-      uid: string;
-    };
-  }
-];
+import { TChatListItem } from 'types/TChatListItem';
 
 export default function ChatList() {
   const [userChatList, setUserChatList] = useState<DocumentData | []>([]);
-  // const updateChatUID = useChatStore(state => state.updateChatUID)
   const updateCurrentChatInfo = useChatStore(
     state => state.updateCurrentChatInfo
   );
@@ -36,9 +17,6 @@ export default function ChatList() {
     const unSub = onSnapshot(
       doc(db, 'userChats', auth?.currentUser?.uid),
       doc => {
-        // const data = doc.data() as DocumentData;
-        // const entries = Object.entries(data);
-        // ====================================
         const data = doc.data();
         if (data) {
           const entries = Object.entries(data);
@@ -52,7 +30,7 @@ export default function ChatList() {
     };
   }, []);
 
-  const handleSelectChat = (chat: ChatListItem) => {
+  const handleSelectChat = (chat: TChatListItem) => {
     updateCurrentChatInfo(chat);
   };
 
@@ -61,11 +39,9 @@ export default function ChatList() {
       {/* тут список твоих чатов */}
       <ul className="bg-myBlackBcg">
         {userChatList &&
-          userChatList.map((chat: ChatListItem) => {
-            // console.log('chat', chat);
+          userChatList.map((chat: TChatListItem) => {
             return (
               <li
-                // id={chat[0]}
                 key={chat[0]}
                 className="flex border border-inputChar"
                 onClick={() => handleSelectChat(chat)}

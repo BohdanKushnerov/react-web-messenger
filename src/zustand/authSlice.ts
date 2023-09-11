@@ -1,17 +1,8 @@
 import { StateCreator } from 'zustand';
 import { produce } from 'immer';
-import { User } from 'firebase/auth';
+import { IAuthSliceState } from '@interfaces/IAuthSliceState';
 
-interface AuthSliceState {
-  isLoggedIn: boolean;
-  currentUser: {
-    uid: string | null;
-    displayName: string | null;
-  };
-  updateCurrentUser: (user: User | null) => void;
-}
-
-const createAuthSliceState: StateCreator<AuthSliceState> = set => ({
+const createAuthSliceState: StateCreator<IAuthSliceState> = set => ({
   isLoggedIn: false,
   currentUser: {
     uid: null,
