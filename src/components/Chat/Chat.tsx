@@ -56,8 +56,8 @@ export default function Chat() {
   };
 
   return (
-    <div className="bg-myBlackBcg w-full">
-      <div className="flex mb-10 h-12 border-b bg-myBlackBcg">
+    <div className="bg-transparent w-screen h-screen">
+      <div className="flex h-12 border-b bg-myBlackBcg">
         <img
           src={userInfo.photoURL || ''}
           alt={userInfo.photoURL || ''}
@@ -66,7 +66,7 @@ export default function Chat() {
         />{' '}
         <p className="text-textSecondary">{userInfo.displayName}</p>
       </div>
-      <ul className="h-96 mb-10 flex flex-col gap-2 overflow-y-auto">
+      <ul className="p-4 flex flex-col gap-2 overflow-y-auto">
         {messages &&
           messages.map((mes: DocumentData) => {
             const myUID = currentUserUID === mes.senderUserID;
@@ -89,7 +89,7 @@ export default function Chat() {
           })}
       </ul>
       <form
-        className="flex gap-4"
+        className="flex gap-4 p-4"
         onSubmit={e => handleSendMessage(e, message, chatUID, currentUserUID)}
       >
         <input

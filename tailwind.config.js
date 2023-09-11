@@ -5,6 +5,7 @@ export default {
     extend: {
       backgroundImage: {
         'main-bcg': "url('/src/assets/bcg.jpg')",
+        'main-bcg2': "url('/src/assets/bcg-dark.jpg')",
       },
       backgroundColor: {
         mybcg: '#1F2025',

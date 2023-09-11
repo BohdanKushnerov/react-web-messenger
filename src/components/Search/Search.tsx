@@ -7,7 +7,7 @@ export default function Search() {
   return (
     <div>
       <input
-        className="py-1 px-10 h-10 w-60 rounded-3xl bg-mySeacrhBcg"
+        className="py-2 px-8 h-10 w-60 rounded-3xl bg-mySeacrhBcg text-white"
         type="text"
         placeholder="Search"
         value={searchValue}
