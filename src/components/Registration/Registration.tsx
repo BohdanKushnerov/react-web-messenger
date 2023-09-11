@@ -29,6 +29,7 @@ export default function Registration() {
     if (phone) {
       try {
         const response = await setUpRecaptcha(phone, auth);
+        console.log('response setUpRecaptcha', response);
         setStep('Step 2/3');
         console.log(step);
 
@@ -93,12 +94,12 @@ export default function Registration() {
             <MyPhoneInput phone={phone} setPhone={setPhone} />
             <button
               className="w-full p-2 rounded-md bg-myblue text-white font-bold"
-              // id="sign-in-button"
+              id="sign-in-button"
               type="submit"
             >
               Continue
             </button>
-            <div className="mx-auto" id="recaptcha-container"></div>
+            {/* <div className="mx-auto" id="recaptcha-container"></div> */}
           </form>
         )}
         {step === 'Step 2/3' && (
