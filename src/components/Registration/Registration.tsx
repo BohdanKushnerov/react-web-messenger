@@ -7,17 +7,21 @@ import CodeInput from './CodeInput';
 import handleSubmitVerifyCode from './utils/handleSubmitVerifyCodeVerifyCode';
 import setUpRecaptcha from './utils/setUpRecaptcha';
 import { doc, setDoc } from 'firebase/firestore';
+import useChatStore from '@zustand/store';
 
 type Steps = 'Step 1/3' | 'Step 2/3' | 'Step 3/3';
 
 export default function Registration() {
   const [step, setStep] = useState<Steps>('Step 1/3');
   const [phone, setPhone] = useState<E164Number | string>('380 63 677 1111');
-  const [code, setCode] = useState('111111');
+  const [code, setCode] = useState('');
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [confirmationResult, setConfirmationResult] =
     useState<ConfirmationResult | null>(null);
+
+  const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
+
 
   const handleSubmitPhone = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
@@ -49,6 +53,8 @@ export default function Registration() {
       });
 
       console.log('user handleUpdateProfile', user);
+      // =================обновим юзеру имя в стейте============================
+      await updateCurrentUser(user);
       // =================создаем юзера для поиска пользователей=======================
 
       await setDoc(doc(db, 'users', user.uid), {
@@ -60,6 +66,8 @@ export default function Registration() {
 
       // =================создаем обьект чаты нашего юзера которого мы только создали=======================
       await setDoc(doc(db, 'userChats', user.uid), {});
+
+      
     } else {
       console.error('Пользователь не вошел в систему');
     }

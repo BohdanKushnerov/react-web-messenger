@@ -9,6 +9,8 @@ function App() {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
   const { currentUser, isLoggedIn } = useChatStore(state => state);
 
+  console.log(currentUser)
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(authUser => {
       if (authUser) {
@@ -36,8 +38,9 @@ function App() {
       <button className="border border-gray-600" onClick={handleSignOut}>
         Sign Out
       </button>
-      {!isLoggedIn && <Registration />}
-      {isLoggedIn && <Home />}
+      {/* {<Registration />} */}
+      {currentUser.displayName === null && <Registration />}
+      {isLoggedIn && currentUser.displayName && <Home />}
     </div>
   );
 }
