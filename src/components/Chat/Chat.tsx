@@ -1,12 +1,20 @@
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import { v4 as uuidv4 } from 'uuid';
-import { DocumentData, Timestamp, arrayUnion, doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import {
+  DocumentData,
+  Timestamp,
+  arrayUnion,
+  doc,
+  onSnapshot,
+  serverTimestamp,
+  updateDoc,
+} from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import formatTime from './utils/formatTime';
 
 export default function Chat() {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<DocumentData | null>(null);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
@@ -15,7 +23,7 @@ export default function Chat() {
   console.log('userInfo', userInfo);
 
   useEffect(() => {
-    if(chatUID === null) return
+    if (chatUID === null) return;
     const unSub = onSnapshot(
       doc(db, 'chats', chatUID),
       doc => doc.exists() && setMessages(doc.data().messages)
@@ -34,7 +42,7 @@ export default function Chat() {
   ) => {
     e.preventDefault();
 
-    if (chatUID === null || currentUserUID === null) {
+    if (chatUID === null || currentUserUID === null || userInfo.uid === null) {
       // Обработка случая, когда chatUID равен null
       return;
     }
@@ -49,7 +57,17 @@ export default function Chat() {
         }),
       });
 
-      setMessage("")
+      // здесь надо переписывать последнее сообщение мне и напарнику
+      await updateDoc(doc(db, 'userChats', currentUserUID), {
+        [chatUID + '.lastMessage']: message,
+        [chatUID + '.date']: serverTimestamp(),
+      });
+      // =====================================================
+      await updateDoc(doc(db, 'userChats', userInfo.uid), {
+        [chatUID + '.lastMessage']: message,
+        [chatUID + '.date']: serverTimestamp(),
+      });
+      setMessage('');
     } catch (error) {
       console.log('error handleSendMessage', error);
     }

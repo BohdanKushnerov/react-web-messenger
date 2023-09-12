@@ -1,7 +1,6 @@
-export type TChatListItem = [
+export type TCurrentChatInfo = [
   string,
   {
-    lastMessage: string;
     userInfo: {
       photoURL: string;
       displayName: string;

@@ -1,4 +1,6 @@
-import { TChatListItem } from 'types/TChatListItem';
+// import { TChatListItem } from 'types/TChatListItem';
+
+import { TCurrentChatInfo } from "types/TCurrentChatInfo";
 
 export interface ICurrentChatInfoState {
   currentChatInfo: {
@@ -9,5 +11,5 @@ export interface ICurrentChatInfoState {
       uid: string | null;
     };
   };
-  updateCurrentChatInfo: (chat: TChatListItem) => void;
+  updateCurrentChatInfo: (chat: TCurrentChatInfo) => void;
 }

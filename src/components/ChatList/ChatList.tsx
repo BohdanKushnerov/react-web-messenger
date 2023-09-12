@@ -40,6 +40,7 @@ export default function ChatList() {
       <ul className="bg-myBlackBcg">
         {userChatList &&
           userChatList.map((chat: TChatListItem) => {
+            console.log("chat", chat)
             return (
               <li
                 key={chat[0]}
@@ -56,7 +57,9 @@ export default function ChatList() {
                   <p className="font-bold text-white">
                     {chat[1].userInfo.displayName}
                   </p>
-                  <p className="text-textSecondary">last message</p>
+                  <p className="text-textSecondary">
+                    {chat[1].lastMessage}
+                  </p>
                 </div>
               </li>
             );
