@@ -5,6 +5,7 @@ import SearchChatList from '@components/SearchChatList/SearchChatList';
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import { signOut } from 'firebase/auth';
+import Scrollbars from 'react-custom-scrollbars-2';
 
 export default function Sidebar() {
   const { currentUser } = useChatStore(state => state);
@@ -26,8 +27,12 @@ export default function Sidebar() {
           Sign Out
         </button>
       </div>
-      <SearchChatList />
-      <ChatList />
+      <div>
+        <Scrollbars autoHide style={{ width: '100%', height: '80vh' }}>
+          <SearchChatList />
+          <ChatList />
+        </Scrollbars>
+      </div>
     </div>
   );
 }

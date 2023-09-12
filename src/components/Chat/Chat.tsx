@@ -21,7 +21,7 @@ export default function Chat() {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userInfo } = useChatStore(state => state.currentChatInfo);
 
-  console.log('userInfo', userInfo);
+  // console.log('userInfo', userInfo);
 
   useEffect(() => {
     if (chatUID === null) return;

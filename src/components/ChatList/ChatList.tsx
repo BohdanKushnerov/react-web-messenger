@@ -40,7 +40,7 @@ export default function ChatList() {
       <ul className="bg-myBlackBcg">
         {userChatList &&
           userChatList.map((chat: TChatListItem) => {
-            console.log("chat", chat)
+            // console.log("chat", chat)
             return (
               <li
                 key={chat[0]}
