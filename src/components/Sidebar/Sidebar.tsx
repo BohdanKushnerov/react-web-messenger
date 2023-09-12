@@ -20,7 +20,7 @@ export default function Sidebar() {
         <Navbar />
         <Search />
       </div>
-      <div className='bg-gray-100'>
+      <div className="bg-gray-100">
         <p>{currentUser?.displayName}</p>
         <button className="border border-gray-600" onClick={handleSignOut}>
           Sign Out

@@ -12,6 +12,7 @@ import {
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import formatTime from './utils/formatTime';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 export default function Chat() {
   const [message, setMessage] = useState('');
@@ -74,52 +75,70 @@ export default function Chat() {
   };
 
   return (
-    <div className="bg-transparent w-screen h-screen">
-      <div className="flex h-12 border-b bg-myBlackBcg">
-        <img
-          src={userInfo.photoURL || ''}
-          alt={userInfo.photoURL || ''}
-          width={40}
-          height={40}
-        />{' '}
-        <p className="text-textSecondary">{userInfo.displayName}</p>
-      </div>
-      <ul className="p-4 flex flex-col gap-2 overflow-y-auto">
-        {messages &&
-          messages.map((mes: DocumentData) => {
-            const myUID = currentUserUID === mes.senderUserID;
+    <div className="bg-transparent w-screen">
+      {messages && (
+        <>
+          <div className="flex gap-4 items-center h-12 px-7 border-b bg-myBlackBcg">
+            <img
+              src={userInfo.photoURL || ''}
+              alt={userInfo.photoURL || ''}
+              width={40}
+              height={40}
+            />{' '}
+            <p className="text-textSecondary">{userInfo.displayName}</p>
+          </div>
 
-            return (
-              <li
-                key={mes.id}
-                className={`py-2 px-4 border ${
-                  myUID
-                    ? 'place-self-end bg-blue-800'
-                    : 'place-self-start bg-green-800'
-                } border-white  rounded-3xl`}
+          <div className='mx-4'>
+            <Scrollbars
+              autoHide
+              style={{ width: '100%', height: '80vh' }}
+            >
+              <ul className="flex flex-col gap-2 p-3">
+                {messages.map((mes: DocumentData) => {
+                  const myUID = currentUserUID === mes.senderUserID;
+
+                  return (
+                    <li
+                      key={mes.id}
+                      className={`py-2 px-4 border ${
+                        myUID
+                          ? 'place-self-end bg-blue-800'
+                          : 'place-self-start bg-green-800'
+                      } border-white  rounded-3xl`}
+                    >
+                      <p className="text-white">{mes.message}</p>
+                      <p className="text-white">
+                        {mes.date && formatTime(mes.date.toDate().toString())}
+                      </p>
+                    </li>
+                  );
+                })}
+              </ul>
+            </Scrollbars>
+
+            <form
+              className="flex items-end gap-4 my-auto p-6 border-t"
+              onSubmit={e =>
+                handleSendMessage(e, message, chatUID, currentUserUID)
+              }
+            >
+              <input
+                className="py-1 px-10 h-12 w-8/12 rounded-3xl bg-mySeacrhBcg text-white"
+                type="text"
+                value={message}
+                onChange={e => setMessage(e.target.value)}
+              />
+              <button
+                className="h-12 w-12 bg-white border rounded-full"
+                type="submit"
               >
-                <p className="text-white">{mes.message}</p>
-                <p className="text-white">
-                  {mes.date && formatTime(mes.date.toDate().toString())}
-                </p>
-              </li>
-            );
-          })}
-      </ul>
-      <form
-        className="flex gap-4 p-4"
-        onSubmit={e => handleSendMessage(e, message, chatUID, currentUserUID)}
-      >
-        <input
-          className="py-1 px-10 h-10 w-8/12 rounded-3xl bg-mySeacrhBcg text-white"
-          type="text"
-          value={message}
-          onChange={e => setMessage(e.target.value)}
-        />
-        <button className="h-10 bg-white border rounded-full" type="submit">
-          Send
-        </button>
-      </form>
+                Send
+              </button>
+            </form>
+          </div>
+        </>
+      )}
     </div>
   );
+
 }
