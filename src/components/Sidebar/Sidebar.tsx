@@ -16,8 +16,8 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="bg-myBlackBcg w-80 h-screen border-r">
-      <div className="flex px-2 py-2 bg-myBlackBcg">
+    <div className="bg-myBlackBcg w-1/4 h-screen border-r">
+      <div className="flex gap-2 px-3 py-2 bg-myBlackBcg">
         <Navbar />
         <Search />
       </div>

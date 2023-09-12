@@ -56,7 +56,7 @@ export default function SearchChatList() {
         {/* тут список юзеров в поиске */}
         {searchChatList instanceof QuerySnapshot &&
           searchChatList.docs.map(doc => {
-            // console.log('chatList search doc', doc.data());
+            console.log('chatList search doc', doc.data());
             // фильтруем себя
             if (doc.data().uid === currentUser.uid) return
 
