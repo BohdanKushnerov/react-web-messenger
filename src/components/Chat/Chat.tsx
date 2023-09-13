@@ -6,6 +6,7 @@ import {
   Timestamp,
   arrayUnion,
   doc,
+  // getDoc,
   onSnapshot,
   serverTimestamp,
   updateDoc,
@@ -28,6 +29,30 @@ export default function Chat() {
 
   useEffect(() => {
     if (chatUID === null) return;
+
+    // const updateIsReadForMessages = async () => {
+    //   const chatRef = doc(db, 'chats', chatUID);
+    //   const chatSnap = await getDoc(chatRef);
+
+    //   if (chatSnap.exists()) {
+    //     const chatData = chatSnap.data();
+    //     const messagesToUpdate = chatData.messages.filter(message => {
+    //       // Выбираем только сообщения, которые не отправлены текущему пользователю
+    //       return message.senderUserID !== currentUserUID && !message.isRead;
+    //     });
+
+    //     console.log('messagesToUpdate', messagesToUpdate);
+    //     // ==================================================
+    //     messagesToUpdate.forEach(async (message) => {
+    //       console.log(message)
+
+    //     });
+    //   }
+    // };
+
+    // updateIsReadForMessages(); // Вызываем функцию для обновления isRead
+
+    // ===================================================
     const unSub = onSnapshot(
       doc(db, 'chats', chatUID),
       doc => doc.exists() && setMessages(doc.data().messages)
@@ -36,7 +61,7 @@ export default function Chat() {
     return () => {
       unSub();
     };
-  }, [chatUID]);
+  }, [chatUID, currentUserUID]);
 
   const handleSendMessage = async (
     e: React.FormEvent,
@@ -58,6 +83,7 @@ export default function Chat() {
           message,
           senderUserID: currentUserUID,
           date: Timestamp.now(),
+          isRead: false,
         }),
       });
 
@@ -131,6 +157,7 @@ export default function Chat() {
                       <p className="text-white">
                         {mes.date && formatTime(mes.date.toDate().toString())}
                       </p>
+                      <p>{mes.isRead ? 'прочитано' : 'непрочитано'}</p>
                     </li>
                   );
                 })}

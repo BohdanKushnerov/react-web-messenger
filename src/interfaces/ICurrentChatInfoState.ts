@@ -1,5 +1,3 @@
-// import { TChatListItem } from 'types/TChatListItem';
-
 import { TCurrentChatInfo } from "types/TCurrentChatInfo";
 
 export interface ICurrentChatInfoState {

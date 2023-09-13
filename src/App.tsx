@@ -1,6 +1,5 @@
 import Home from '@pages/Home/Home';
 import Registration from '@components/Registration/Registration';
-// import { signOut } from 'firebase/auth';
 import { auth } from '@myfirebase/config';
 import { useEffect } from 'react';
 import useChatStore from '@zustand/store';
@@ -8,8 +7,6 @@ import useChatStore from '@zustand/store';
 function App() {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
   const { currentUser, isLoggedIn } = useChatStore(state => state);
-
-  // console.log(currentUser)
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(authUser => {
@@ -25,11 +22,6 @@ function App() {
     // Отписываемся от слежения при размонтировании компонента
     return () => unsubscribe();
   }, [updateCurrentUser]);
-
-  // const handleSignOut = async () => {
-  //   const exit = await signOut(auth);
-  //   console.log('exit', exit);
-  // };
 
   return (
     <div className="h-screen bg-main-bcg2 bg-no-repeat bg-cover bg-center">
