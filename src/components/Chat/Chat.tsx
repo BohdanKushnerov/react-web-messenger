@@ -14,9 +14,18 @@ import { useEffect, useState, useRef } from 'react';
 import formatTime from './utils/formatTime';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 
+interface Message {
+  message: string;
+  senderUserID: string;
+  date: {
+    toDate: () => Date;
+  };
+  isRead: boolean;
+}
+
 export default function Chat() {
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<DocumentData | null>(null);
+  const [messages, setMessages] = useState<DocumentData[] | null>(null);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
@@ -24,13 +33,29 @@ export default function Chat() {
 
   const scrollbarsRef = useRef<Scrollbars>(null);
 
+  // console.log(messages);
+
   useEffect(() => {
     if (chatUID === null) return;
-    // ===================================================
-    const unSub = onSnapshot(
-      doc(db, 'chats', chatUID),
-      doc => doc.exists() && setMessages(Object.entries(doc.data().messages))
-    );
+
+    // надо оптимизировать сорт чтобы сортировал фаербейз, надо изменить структуру в фаербейзе
+    const unSub = onSnapshot(doc(db, 'chats', chatUID), docSnapshot => {
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data();
+        if (data && data.messages) {
+          const messagesArray: [string, Message][] = Object.entries(
+            data.messages
+          );
+
+          messagesArray.sort(
+            (a, b) =>
+              a[1].date.toDate().getTime() - b[1].date.toDate().getTime()
+          );
+
+          setMessages(messagesArray);
+        }
+      }
+    });
 
     return () => {
       unSub();
@@ -109,7 +134,7 @@ export default function Chat() {
       return;
     }
 
-    await updateDoc(doc(db, 'chats', chatUID), {
+    updateDoc(doc(db, 'chats', chatUID), {
       [`messages.${mesUID}.isRead`]: true,
     });
   };
@@ -136,8 +161,9 @@ export default function Chat() {
               onScroll={handleScroll}
             >
               <ul className="flex flex-col gap-2 p-3">
-                {messages.map((mes: DocumentData) => {
+                {messages.map(mes => {
                   const myUID = currentUserUID === mes[1].senderUserID;
+                  // console.log('mes[0]', mes[0]);
 
                   if (
                     mes[1].senderUserID !== currentUserUID &&
