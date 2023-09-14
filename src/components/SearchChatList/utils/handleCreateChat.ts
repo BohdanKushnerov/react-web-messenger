@@ -30,7 +30,7 @@ const handleCreateChat = async (
 
     if (!res.exists()) {
       // если нету чата, создаем
-      await setDoc(doc(db, 'chats', combinedUsersChatID), { messages: [] });
+      await setDoc(doc(db, 'chats', combinedUsersChatID), { messages: {} });
 
       // обновляем обьект с нашими чатами и у нас появиться чат в списке чатов
       await updateDoc(doc(db, 'userChats', currentUserUID), {

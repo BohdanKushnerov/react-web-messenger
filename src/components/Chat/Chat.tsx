@@ -3,10 +3,9 @@ import useChatStore from '@zustand/store';
 import { v4 as uuidv4 } from 'uuid';
 import {
   DocumentData,
+  Firestore,
   Timestamp,
-  arrayUnion,
   doc,
-  // getDoc,
   onSnapshot,
   serverTimestamp,
   updateDoc,
@@ -25,37 +24,12 @@ export default function Chat() {
 
   const scrollbarsRef = useRef<Scrollbars>(null);
 
-  // console.log('userInfo', userInfo);
-
   useEffect(() => {
     if (chatUID === null) return;
-
-    // const updateIsReadForMessages = async () => {
-    //   const chatRef = doc(db, 'chats', chatUID);
-    //   const chatSnap = await getDoc(chatRef);
-
-    //   if (chatSnap.exists()) {
-    //     const chatData = chatSnap.data();
-    //     const messagesToUpdate = chatData.messages.filter(message => {
-    //       // Выбираем только сообщения, которые не отправлены текущему пользователю
-    //       return message.senderUserID !== currentUserUID && !message.isRead;
-    //     });
-
-    //     console.log('messagesToUpdate', messagesToUpdate);
-    //     // ==================================================
-    //     messagesToUpdate.forEach(async (message) => {
-    //       console.log(message)
-
-    //     });
-    //   }
-    // };
-
-    // updateIsReadForMessages(); // Вызываем функцию для обновления isRead
-
     // ===================================================
     const unSub = onSnapshot(
       doc(db, 'chats', chatUID),
-      doc => doc.exists() && setMessages(doc.data().messages)
+      doc => doc.exists() && setMessages(Object.entries(doc.data().messages))
     );
 
     return () => {
@@ -67,37 +41,43 @@ export default function Chat() {
     e: React.FormEvent,
     message: string,
     chatUID: string | null,
-    currentUserUID: string | null
+    currentUserUID: string | null,
+    userUID: string | null
   ) => {
     e.preventDefault();
 
-    if (chatUID === null || currentUserUID === null || userInfo.uid === null) {
+    if (chatUID === null || currentUserUID === null || userUID === null) {
       // Обработка случая, когда chatUID равен null
       return;
     }
 
     try {
+      // создаем сообщение в виде обьекта и отправляем в обьект фаербейз
       await updateDoc(doc(db, 'chats', chatUID), {
-        messages: arrayUnion({
-          id: uuidv4(),
+        ['messages' + `.${uuidv4()}`]: {
           message,
           senderUserID: currentUserUID,
           date: Timestamp.now(),
           isRead: false,
-        }),
+        },
       });
 
       // здесь надо переписывать последнее сообщение мне и напарнику
-      await updateDoc(doc(db, 'userChats', currentUserUID), {
+      updateDoc(doc(db, 'userChats', currentUserUID), {
         [chatUID + '.lastMessage']: message,
         [chatUID + '.date']: serverTimestamp(),
       });
+      console.log(2);
+
       // =====================================================
-      await updateDoc(doc(db, 'userChats', userInfo.uid), {
+      updateDoc(doc(db, 'userChats', userUID), {
         [chatUID + '.lastMessage']: message,
         [chatUID + '.date']: serverTimestamp(),
       });
+      console.log(3);
+
       setMessage('');
+      console.log(4);
     } catch (error) {
       console.log('error handleSendMessage', error);
     }
@@ -117,6 +97,21 @@ export default function Chat() {
     const isNearBottom = scrollHeight - scrollTop - clientHeight > 100;
 
     setIsButtonVisible(isNearBottom);
+  };
+
+  const makeReadMes = async (
+    db: Firestore,
+    chatUID: string,
+    mesUID: string
+  ) => {
+    if (chatUID === null) {
+      // Обработка случая, когда chatUID равен null
+      return;
+    }
+
+    await updateDoc(doc(db, 'chats', chatUID), {
+      [`messages.${mesUID}.isRead`]: true,
+    });
   };
 
   return (
@@ -142,22 +137,75 @@ export default function Chat() {
             >
               <ul className="flex flex-col gap-2 p-3">
                 {messages.map((mes: DocumentData) => {
-                  const myUID = currentUserUID === mes.senderUserID;
+                  const myUID = currentUserUID === mes[1].senderUserID;
+
+                  if (
+                    mes[1].senderUserID !== currentUserUID &&
+                    !mes[1].isRead &&
+                    chatUID
+                  ) {
+                    makeReadMes(db, chatUID, mes[0]);
+                  }
 
                   return (
                     <li
-                      key={mes.id}
+                      key={mes[0]}
                       className={`py-2 px-4 border ${
                         myUID
                           ? 'place-self-end bg-blue-800'
                           : 'place-self-start bg-green-800'
                       } border-white  rounded-3xl`}
                     >
-                      <p className="text-white">{mes.message}</p>
+                      <p className="text-white">{mes[1].message}</p>
                       <p className="text-white">
-                        {mes.date && formatTime(mes.date.toDate().toString())}
+                        {mes[1].date &&
+                          formatTime(mes[1].date.toDate().toString())}
                       </p>
-                      <p>{mes.isRead ? 'прочитано' : 'непрочитано'}</p>
+                      <p>
+                        {mes[1].isRead ? (
+                          <svg
+                            width="30px"
+                            height="30px"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M4 12.9L7.14286 16.5L15 7.5"
+                              // stroke="#1C274C"
+                              stroke="#FFFFFF"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M20 7.5625L11.4283 16.5625L11 16"
+                              // stroke="#1C274C"
+                              stroke="#FFFFFF"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        ) : (
+                          <svg
+                            width="30px"
+                            height="30px"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M7 12.9L10.1429 16.5L18 7.5"
+                              // stroke="#1C274C"
+                              stroke="#FFFFFF"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        )}
+                      </p>
                     </li>
                   );
                 })}
@@ -185,7 +233,13 @@ export default function Chat() {
             <form
               className="flex items-end gap-4 my-auto p-6 border-t"
               onSubmit={e =>
-                handleSendMessage(e, message, chatUID, currentUserUID)
+                handleSendMessage(
+                  e,
+                  message,
+                  chatUID,
+                  currentUserUID,
+                  userInfo.uid
+                )
               }
             >
               <input
