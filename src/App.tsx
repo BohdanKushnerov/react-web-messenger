@@ -38,3 +38,6 @@ function App() {
 }
 
 export default App;
+
+// react avatar
+// make functions for inputs instead of setStates

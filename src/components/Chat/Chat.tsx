@@ -5,23 +5,18 @@ import {
   DocumentData,
   Firestore,
   Timestamp,
+  collection,
   doc,
   onSnapshot,
+  orderBy,
+  query,
   serverTimestamp,
   updateDoc,
+  addDoc,
 } from 'firebase/firestore';
 import { useEffect, useState, useRef } from 'react';
 import formatTime from './utils/formatTime';
 import { Scrollbars } from 'react-custom-scrollbars-2';
-
-interface Message {
-  message: string;
-  senderUserID: string;
-  date: {
-    toDate: () => Date;
-  };
-  isRead: boolean;
-}
 
 export default function Chat() {
   const [message, setMessage] = useState('');
@@ -33,27 +28,43 @@ export default function Chat() {
 
   const scrollbarsRef = useRef<Scrollbars>(null);
 
-  // console.log(messages);
-
   useEffect(() => {
     if (chatUID === null) return;
 
-    // надо оптимизировать сорт чтобы сортировал фаербейз, надо изменить структуру в фаербейзе
-    const unSub = onSnapshot(doc(db, 'chats', chatUID), docSnapshot => {
-      if (docSnapshot.exists()) {
-        const data = docSnapshot.data();
-        if (data && data.messages) {
-          const messagesArray: [string, Message][] = Object.entries(
-            data.messages
-          );
+    const q = query(
+      collection(db, `chats/${chatUID}/messages`),
+      orderBy('date', 'asc')
+      // orderBy('date', 'desc')
+    );
 
-          messagesArray.sort(
-            (a, b) =>
-              a[1].date.toDate().getTime() - b[1].date.toDate().getTime()
-          );
-
-          setMessages(messagesArray);
+    onSnapshot(q, snapshot => {
+        // if (!snapshot.empty) {
+        //   if(!messages) {
+        //     console.log('1111111111111111111111111111111111111111111111')
+        //     setMessages(snapshot.docs);
+        //   }
+        // }
+      snapshot.docChanges().forEach(change => {
+        if (change.type === 'added') {
+          console.log('New mes: ', change.doc.data());
+          // if(messages) {
+          //   setMessages([change.doc]);
+          // } else {
+          //   setMessages(prev => [...prev, change.doc]);
+          // }
         }
+        if (change.type === 'modified') {
+          console.log('Modified mes: ', change.doc.data());
+        }
+        if (change.type === 'removed') {
+          console.log('Removed mes: ', change.doc.data());
+        }
+      });
+    });
+
+    const unSub = onSnapshot(q, querySnapshot => {
+      if (!querySnapshot.empty) {
+        setMessages(querySnapshot.docs);
       }
     });
 
@@ -61,6 +72,10 @@ export default function Chat() {
       unSub();
     };
   }, [chatUID, currentUserUID]);
+
+  useEffect(() => {
+    handleClickScrollBottom();
+  }, [messages]);
 
   const handleSendMessage = async (
     e: React.FormEvent,
@@ -77,14 +92,13 @@ export default function Chat() {
     }
 
     try {
-      // создаем сообщение в виде обьекта и отправляем в обьект фаербейз
-      await updateDoc(doc(db, 'chats', chatUID), {
-        ['messages' + `.${uuidv4()}`]: {
-          message,
-          senderUserID: currentUserUID,
-          date: Timestamp.now(),
-          isRead: false,
-        },
+      // создаем сообщение в виде обьекта и отправляем в подколекцию фаербейз
+      await addDoc(collection(db, `chats/${chatUID}/messages`), {
+        uid: uuidv4(),
+        message,
+        senderUserID: currentUserUID,
+        date: Timestamp.now(),
+        isRead: false,
       });
 
       // здесь надо переписывать последнее сообщение мне и напарнику
@@ -92,17 +106,14 @@ export default function Chat() {
         [chatUID + '.lastMessage']: message,
         [chatUID + '.date']: serverTimestamp(),
       });
-      console.log(2);
 
       // =====================================================
       updateDoc(doc(db, 'userChats', userUID), {
         [chatUID + '.lastMessage']: message,
         [chatUID + '.date']: serverTimestamp(),
       });
-      console.log(3);
 
       setMessage('');
-      console.log(4);
     } catch (error) {
       console.log('error handleSendMessage', error);
     }
@@ -114,6 +125,7 @@ export default function Chat() {
     }
   };
 
+  // надо тротл добавить чтобі не так часто срабатывало
   const handleScroll = () => {
     const scrollHeight = scrollbarsRef.current?.getScrollHeight() || 0;
     const clientHeight = scrollbarsRef.current?.getClientHeight() || 0;
@@ -134,8 +146,8 @@ export default function Chat() {
       return;
     }
 
-    updateDoc(doc(db, 'chats', chatUID), {
-      [`messages.${mesUID}.isRead`]: true,
+    updateDoc(doc(db, 'chats', chatUID, 'messages', `${mesUID}`), {
+      ['isRead']: true,
     });
   };
 
@@ -162,33 +174,34 @@ export default function Chat() {
             >
               <ul className="flex flex-col gap-2 p-3">
                 {messages.map(mes => {
-                  const myUID = currentUserUID === mes[1].senderUserID;
-                  // console.log('mes[0]', mes[0]);
+                  // console.log(mes)
+                  const myUID = currentUserUID === mes.data().senderUserID;
+                  // console.log('mes', mes);
 
                   if (
-                    mes[1].senderUserID !== currentUserUID &&
-                    !mes[1].isRead &&
+                    mes.data().senderUserID !== currentUserUID &&
+                    !mes.data().isRead &&
                     chatUID
                   ) {
-                    makeReadMes(db, chatUID, mes[0]);
+                    makeReadMes(db, chatUID, mes.id);
                   }
 
                   return (
                     <li
-                      key={mes[0]}
+                      key={mes.id}
                       className={`py-2 px-4 border ${
                         myUID
                           ? 'place-self-end bg-blue-800'
                           : 'place-self-start bg-green-800'
                       } border-white  rounded-3xl`}
                     >
-                      <p className="text-white">{mes[1].message}</p>
+                      <p className="text-white">{mes.data().message}</p>
                       <p className="text-white">
-                        {mes[1].date &&
-                          formatTime(mes[1].date.toDate().toString())}
+                        {mes.data().date &&
+                          formatTime(mes.data().date.toDate().toString())}
                       </p>
                       <p>
-                        {mes[1].isRead ? (
+                        {mes.data().isRead ? (
                           <svg
                             width="30px"
                             height="30px"
@@ -198,7 +211,6 @@ export default function Chat() {
                           >
                             <path
                               d="M4 12.9L7.14286 16.5L15 7.5"
-                              // stroke="#1C274C"
                               stroke="#FFFFFF"
                               strokeWidth="1.5"
                               strokeLinecap="round"
@@ -206,7 +218,6 @@ export default function Chat() {
                             />
                             <path
                               d="M20 7.5625L11.4283 16.5625L11 16"
-                              // stroke="#1C274C"
                               stroke="#FFFFFF"
                               strokeWidth="1.5"
                               strokeLinecap="round"
@@ -223,7 +234,6 @@ export default function Chat() {
                           >
                             <path
                               d="M7 12.9L10.1429 16.5L18 7.5"
-                              // stroke="#1C274C"
                               stroke="#FFFFFF"
                               strokeWidth="1.5"
                               strokeLinecap="round"
