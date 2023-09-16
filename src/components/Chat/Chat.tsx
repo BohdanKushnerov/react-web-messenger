@@ -1,6 +1,4 @@
-import { db } from '@myfirebase/config';
-import useChatStore from '@zustand/store';
-import { v4 as uuidv4 } from 'uuid';
+import { useEffect, useState, useRef } from 'react';
 import {
   DocumentData,
   Firestore,
@@ -14,11 +12,14 @@ import {
   updateDoc,
   addDoc,
 } from 'firebase/firestore';
-import { useEffect, useState, useRef } from 'react';
-import formatTime from './utils/formatTime';
 import { Scrollbars } from 'react-custom-scrollbars-2';
+import { v4 as uuidv4 } from 'uuid';
 
-export default function Chat() {
+import { db } from '@myfirebase/config';
+import useChatStore from '@zustand/store';
+import formatTime from './utils/formatTime';
+
+function Chat() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<DocumentData[] | null>(null);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
@@ -297,3 +298,5 @@ export default function Chat() {
     </div>
   );
 }
+
+export default Chat;

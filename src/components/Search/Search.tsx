@@ -1,6 +1,6 @@
 import useChatStore from "@zustand/store";
 
-export default function Search() {
+function Search() {
   const searchValue = useChatStore(state => state.searchValue);
   const updateSearchValue = useChatStore(state => state.updateSearchValue);
 
@@ -16,3 +16,5 @@ export default function Search() {
     </div>
   );
 }
+
+export default Search;

@@ -1,5 +1,6 @@
-import { auth, db } from "@myfirebase/config";
 import { DocumentData, QuerySnapshot, doc, getDoc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+
+import { auth, db } from "@myfirebase/config";
 
 // создаем общий ИД для общего чата + обновляем списки чатов у 2их юзеров(1. я как текущий и 2. тот которого выбрал)
 const handleCreateChat = async (

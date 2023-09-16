@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
+
 import { auth, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import { TChatListItem } from 'types/TChatListItem';
 
-export default function ChatList() {
+function ChatList() {
   const [userChatList, setUserChatList] = useState<DocumentData | []>([]);
   const updateCurrentChatInfo = useChatStore(
     state => state.updateCurrentChatInfo
@@ -68,3 +69,5 @@ export default function ChatList() {
     </div>
   );
 }
+
+export default ChatList;

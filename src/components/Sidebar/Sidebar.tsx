@@ -1,13 +1,14 @@
+import { signOut } from 'firebase/auth';
+import Scrollbars from 'react-custom-scrollbars-2';
+
 import ChatList from '@components/ChatList/ChatList';
 import Navbar from '@components/Navbar/Navbar';
 import Search from '@components/Search/Search';
 import SearchChatList from '@components/SearchChatList/SearchChatList';
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import { signOut } from 'firebase/auth';
-import Scrollbars from 'react-custom-scrollbars-2';
 
-export default function Sidebar() {
+function Sidebar() {
   const { currentUser } = useChatStore(state => state);
 
   const handleSignOut = async () => {
@@ -36,3 +37,5 @@ export default function Sidebar() {
     </div>
   );
 }
+
+export default Sidebar;

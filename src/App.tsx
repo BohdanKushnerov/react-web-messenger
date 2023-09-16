@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
+
 import Home from '@pages/Home/Home';
 import Registration from '@components/Registration/Registration';
 import { auth } from '@myfirebase/config';
-import { useEffect } from 'react';
 import useChatStore from '@zustand/store';
 
 function App() {

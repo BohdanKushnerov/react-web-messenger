@@ -1,6 +1,7 @@
 import { StateCreator } from 'zustand';
 import { produce } from 'immer';
-import { ISearchUsersState } from '@interfaces/ISearchUsersState';
+
+import { ISearchUsersState } from '@interfaces/zustand/ISearchUsersState';
 
 const createSearchUsersState: StateCreator<ISearchUsersState> = set => ({
   searchValue: '',

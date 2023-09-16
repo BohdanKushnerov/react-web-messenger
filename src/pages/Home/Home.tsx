@@ -1,11 +1,13 @@
 import Chat from '@components/Chat/Chat'
 import Sidebar from '@components/Sidebar/Sidebar'
 
-export default function Home() {
+function Home() {
   return (
     <div className='flex h-screen'>
       <Sidebar/>
-      <Chat/>
+      <Chat />
     </div>
   )
 }
+
+export default Home;

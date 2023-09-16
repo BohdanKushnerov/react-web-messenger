@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { ConfirmationResult, updateProfile } from 'firebase/auth';
-import { auth, db } from '@myfirebase/config';
+import { doc, setDoc } from 'firebase/firestore';
 import { E164Number } from 'libphonenumber-js';
+
 import MyPhoneInput from './MyPhoneInput';
 import CodeInput from './CodeInput';
+import { auth, db } from '@myfirebase/config';
+import useChatStore from '@zustand/store';
 import handleSubmitVerifyCode from './utils/handleSubmitVerifyCodeVerifyCode';
 import setUpRecaptcha from './utils/setUpRecaptcha';
-import { doc, setDoc } from 'firebase/firestore';
-import useChatStore from '@zustand/store';
 
 type Steps = 'Step 1/3' | 'Step 2/3' | 'Step 3/3';
 

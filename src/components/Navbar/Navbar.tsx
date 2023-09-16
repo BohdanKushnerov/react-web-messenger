@@ -1,4 +1,4 @@
-export default function Navbar() {
+function Navbar() {
   return (
     <div className="w-10 h-10 flex justify-center items-center bg-transparent">
       <svg
@@ -30,3 +30,5 @@ export default function Navbar() {
     </div>
   );
 }
+
+export default Navbar;

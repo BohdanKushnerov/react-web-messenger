@@ -1,13 +1,9 @@
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { E164Number } from 'libphonenumber-js';
 
-interface MyPhoneInputProps {
-  phone: E164Number;
-  setPhone: (value: E164Number) => void;
-}
+import { IMyPhoneInputProps } from '@interfaces/IMyPhoneInputProps';
 
-export default function MyPhoneInput({ phone, setPhone }: MyPhoneInputProps): JSX.Element {
+function MyPhoneInput({ phone, setPhone }: IMyPhoneInputProps) {
   return (
     <PhoneInput
       containerStyle={{
@@ -31,3 +27,5 @@ export default function MyPhoneInput({ phone, setPhone }: MyPhoneInputProps): JS
     />
   );
 }
+
+export default MyPhoneInput;

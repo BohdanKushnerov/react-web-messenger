@@ -1,4 +1,4 @@
-import useChatStore from '@zustand/store';
+import { useState, useEffect } from 'react';
 import {
   DocumentData,
   QuerySnapshot,
@@ -7,12 +7,14 @@ import {
   query,
   where,
 } from 'firebase/firestore';
-import { useState, useEffect } from 'react';
+
 import capitalizeName from '@components/Search/utils/capitalizeFirstLetterName';
 import { db } from '@myfirebase/config';
+import useChatStore from '@zustand/store';
 import handleCreateChat from './utils/handleCreateChat';
 
-export default function SearchChatList() {
+
+function SearchChatList() {
   const [searchChatList, setSearchChatList] = useState<
     QuerySnapshot<DocumentData, DocumentData> | []
   >([]);
@@ -87,3 +89,5 @@ export default function SearchChatList() {
     </div>
   );
 }
+
+export default SearchChatList;

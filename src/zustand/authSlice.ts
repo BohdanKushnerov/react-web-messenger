@@ -1,6 +1,7 @@
 import { StateCreator } from 'zustand';
 import { produce } from 'immer';
-import { IAuthSliceState } from '@interfaces/IAuthSliceState';
+
+import { IAuthSliceState } from '@interfaces/zustand/IAuthSliceState';
 
 const createAuthSliceState: StateCreator<IAuthSliceState> = set => ({
   isLoggedIn: false,
