@@ -26,11 +26,6 @@ function App() {
 
   return (
     <div className="h-screen bg-main-bcg2 bg-no-repeat bg-cover bg-center">
-    {/* // <div className="h-screen bg-no-repeat bg-cover bg-center"> */}
-      {/* <p>{currentUser?.displayName}</p>
-      <button className="border border-gray-600" onClick={handleSignOut}>
-        Sign Out
-      </button> */}
       {currentUser.displayName === null && <Registration />}
       {isLoggedIn && currentUser.displayName && <Home />}
       {/* <Home /> */}
@@ -41,4 +36,3 @@ function App() {
 export default App;
 
 // react avatar
-// make functions for inputs instead of setStates

@@ -4,6 +4,10 @@ import 'react-phone-input-2/lib/style.css';
 import { IMyPhoneInputProps } from '@interfaces/IMyPhoneInputProps';
 
 function MyPhoneInput({ phone, setPhone }: IMyPhoneInputProps) {
+  const handleChangePhone = (value: string) => {
+    setPhone(value);
+  };
+
   return (
     <PhoneInput
       containerStyle={{
@@ -23,7 +27,7 @@ function MyPhoneInput({ phone, setPhone }: IMyPhoneInputProps) {
       }}
       country={'ua'}
       value={phone}
-      onChange={setPhone}
+      onChange={handleChangePhone}
     />
   );
 }
