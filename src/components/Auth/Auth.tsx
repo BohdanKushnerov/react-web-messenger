@@ -9,10 +9,10 @@ import { auth, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleSubmitVerifyCode from './utils/handleSubmitVerifyCodeVerifyCode';
 import setUpRecaptcha from './utils/setUpRecaptcha';
-import { TRegistrationSteps } from 'types/TRegistrationSteps';
+import { TAuthSteps } from 'types/TAuthSteps';
 
-export default function Registration() {
-  const [step, setStep] = useState<TRegistrationSteps>('Step 1/3');
+function Auth() {
+  const [step, setStep] = useState<TAuthSteps>('Step 1/3');
   const [phone, setPhone] = useState<E164Number | string>('380 63 677 1111');
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
@@ -83,15 +83,15 @@ export default function Registration() {
     <div>
       <p className="text-white font-bold text-center">{step}</p>
       <div className="bg-mybcg min-w-240px max-w-320px h-150 mx-auto my-0 p-4 rounded-md">
-        <img
-          className="mx-auto mb-10 rounded-md"
-          src="/src/assets/phone.jpg"
-          alt="phone"
-          width={120}
-          height={120}
-        />
         {step === 'Step 1/3' && (
           <>
+            <img
+              className="mx-auto mb-10 rounded-md"
+              src="https://images.nightcafe.studio/jobs/b1mMho0tc6Zo10GkTLXe/b1mMho0tc6Zo10GkTLXe--1--h5wl0.jpg?tr=w-120,c-at_max"
+              alt="phone"
+              width={120}
+              height={120}
+            />
             <h1 className="font-bold text-white text-center">Registration</h1>
             <p className="text-textcolor text-center">
               Enter your phone number and we will send you a confirmation code
@@ -111,6 +111,13 @@ export default function Registration() {
         )}
         {step === 'Step 2/3' && (
           <>
+            <img
+              className="mx-auto mb-10 rounded-md"
+              src="https://images.nightcafe.studio/jobs/wSrsDx9XKJfVx8fOPc9F/wSrsDx9XKJfVx8fOPc9F--1--7ni36.jpg?tr=w-120,c-at_max"
+              alt="phone"
+              width={120}
+              height={120}
+            />
             <h1 className="font-bold text-white text-center">Verification</h1>
             <p className="text-textcolor text-center">
               Enter 6 digits from the message we sent you
@@ -133,36 +140,50 @@ export default function Registration() {
           </>
         )}
         {step === 'Step 3/3' && (
-          <form onSubmit={handleUpdateProfile} className="flex flex-col gap-1">
-            <label htmlFor="name" className="font-bold text-textcolor">
-              Name
-              <input
-                className="w-full h-10 p-2 rounded-md bg-transparent border border-inputChar"
-                id="name"
-                type="text"
-                value={name}
-                onChange={handleChangeName}
-              />
-            </label>
-            <label htmlFor="lastname" className="font-bold text-textcolor">
-              Surname
-              <input
-                className="w-full h-10 p-2 rounded-md bg-transparent border border-inputChar"
-                id="lastname"
-                type="text"
-                value={surname}
-                onChange={handleChangeSurname}
-              />
-            </label>
-            <button
-              className="w-full p-2 rounded-md bg-myblue text-white font-bold"
-              type="submit"
+          <>
+            <img
+              className="mx-auto mb-10 rounded-md"
+              src="https://images.nightcafe.studio/jobs/bcazXMvJXZlem8MrBUaH/bcazXMvJXZlem8MrBUaH--1--c2com.jpg?tr=w-120,c-at_max"
+              alt="phone"
+              width={120}
+              height={120}
+            />
+            <form
+              onSubmit={handleUpdateProfile}
+              className="flex flex-col gap-1"
             >
-              Continue
-            </button>
-          </form>
+              <label htmlFor="name" className="font-bold text-textcolor">
+                Name
+                <input
+                  className="w-full h-10 p-2 rounded-md bg-transparent border border-inputChar"
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={handleChangeName}
+                />
+              </label>
+              <label htmlFor="lastname" className="font-bold text-textcolor">
+                Surname
+                <input
+                  className="w-full h-10 p-2 rounded-md bg-transparent border border-inputChar"
+                  id="lastname"
+                  type="text"
+                  value={surname}
+                  onChange={handleChangeSurname}
+                />
+              </label>
+              <button
+                className="w-full p-2 rounded-md bg-myblue text-white font-bold"
+                type="submit"
+              >
+                Continue
+              </button>
+            </form>
+          </>
         )}
       </div>
     </div>
   );
 }
+
+export default Auth;

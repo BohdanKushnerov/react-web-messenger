@@ -7,6 +7,7 @@ export default defineConfig({
     alias: {
       '@components': '/src/components',
       '@pages': '/src/pages',
+      '@routes': '/src/routes',
       '@myfirebase': '/src/myfirebase',
       '@zustand': '/src/zustand',
       // '@types': '/src/types',

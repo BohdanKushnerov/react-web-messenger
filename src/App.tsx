@@ -1,36 +1,44 @@
-import { useEffect } from 'react';
-
 import Home from '@pages/Home/Home';
-import Registration from '@components/Registration/Registration';
-import { auth } from '@myfirebase/config';
+import Auth from '@components/Auth/Auth';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import RestrictedRoute from '@routes/RestrictedRoute';
+import PrivateRoute from '@routes/PrivateRoute';
+import { useEffect } from 'react';
 import useChatStore from '@zustand/store';
+import { auth } from '@myfirebase/config';
 
 function App() {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
-  const { currentUser, isLoggedIn } = useChatStore(state => state);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(authUser => {
+    const unsub = auth.onAuthStateChanged(authUser => {
       if (authUser) {
-        // Пользователь авторизован
         updateCurrentUser(authUser);
       } else {
-        // Пользователь не авторизован
         updateCurrentUser(null);
       }
     });
 
-    // Отписываемся от слежения при размонтировании компонента
-    return () => unsubscribe();
+    return () => unsub();
   }, [updateCurrentUser]);
 
-  return (
-    <div className="h-screen bg-main-bcg2 bg-no-repeat bg-cover bg-center">
-      {currentUser.displayName === null && <Registration />}
-      {isLoggedIn && currentUser.displayName && <Home />}
-      {/* <Home /> */}
-    </div>
+  const router = createBrowserRouter(
+    [
+      {
+        path: '/authentication',
+        element: <RestrictedRoute component={Auth} redirectTo="/" />,
+      },
+      {
+        path: '/',
+        element: <PrivateRoute component={Home} redirectTo="/authentication" />,
+      },
+    ],
+    {
+      basename: '/react-web-messenger',
+    }
   );
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;

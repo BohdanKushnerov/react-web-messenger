@@ -4,6 +4,7 @@
     "paths": {
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
+      "@routes/*": ["routes/*"],
       "@myfirebase/*": ["myfirebase/*"],
       "@zustand/*": ["zustand/*"],
       // "@types/*": ["types/*"],
