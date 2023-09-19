@@ -16,8 +16,8 @@ import handleCreateChat from './utils/handleCreateChat';
 
 function SearchChatList() {
   const [searchChatList, setSearchChatList] = useState<
-    QuerySnapshot<DocumentData, DocumentData> | []
-  >([]);
+    QuerySnapshot<DocumentData, DocumentData> | null
+  >(null);
 
   const searchValue = useChatStore(state => state.searchValue);
   const updateSearchValue = useChatStore(state => state.updateSearchValue);
@@ -27,7 +27,7 @@ function SearchChatList() {
   useEffect(() => {
     const fetchData = async () => {
       if (searchValue.trim() === '') {
-        setSearchChatList([]);
+        setSearchChatList(null);
         return;
       }
 
@@ -56,34 +56,34 @@ function SearchChatList() {
     <div>
       <ul className="bg-myBlackBcg">
         {/* тут список юзеров в поиске */}
-        {searchChatList instanceof QuerySnapshot &&
+        {searchChatList &&
           searchChatList.docs.map(doc => {
             console.log('chatList search doc', doc.data());
             // фильтруем себя
-            if (doc.data().uid === currentUser.uid) return
+            if (doc.data().uid === currentUser.uid) return;
 
-              return (
-                <li
-                  className="flex"
-                  key={doc.id}
-                  onClick={() =>
-                    handleCreateChat(
-                      doc.data(),
-                      setSearchChatList,
-                      updateSearchValue
-                    )
-                  }
-                >
-                  <img
-                    width={24}
-                    height={24}
-                    src={doc.data().photoURL}
-                    alt={doc.data().displayName}
-                  />
+            return (
+              <li
+                className="flex items-center content-center gap-3 h-72px"
+                key={doc.id}
+                onClick={() =>
+                  handleCreateChat(
+                    doc.data(),
+                    setSearchChatList,
+                    updateSearchValue
+                  )
+                }
+              >
+                <img
+                  width={50}
+                  height={50}
+                  src={doc.data().photoURL}
+                  alt={doc.data().displayName}
+                />
 
-                  <p className="text-white">{doc.data().displayName}</p>
-                </li>
-              );
+                <p className="text-white">{doc.data().displayName}</p>
+              </li>
+            );
           })}
       </ul>
     </div>

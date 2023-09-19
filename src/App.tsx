@@ -6,6 +6,8 @@ import PrivateRoute from '@routes/PrivateRoute';
 import { useEffect } from 'react';
 import useChatStore from '@zustand/store';
 import { auth } from '@myfirebase/config';
+import Chat from '@components/Chat/Chat';
+import Sidebar from '@components/Sidebar/Sidebar';
 
 function App() {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
@@ -31,6 +33,16 @@ function App() {
       {
         path: '/',
         element: <PrivateRoute component={Home} redirectTo="/authentication" />,
+        children: [
+          {
+            path: '/',
+            element: <Sidebar />,
+          },
+          {
+            path: ':id',
+            element: <Chat />,
+          },
+        ],
       },
     ],
     {
@@ -42,5 +54,3 @@ function App() {
 }
 
 export default App;
-
-// react avatar

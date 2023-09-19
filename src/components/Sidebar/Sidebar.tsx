@@ -7,8 +7,13 @@ import Search from '@components/Search/Search';
 import SearchChatList from '@components/SearchChatList/SearchChatList';
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import { TScreen } from '@pages/Home/Home';
 
-function Sidebar() {
+interface ISidebar {
+  setScreen?: (value: TScreen) => void;
+}
+
+function Sidebar({ setScreen }: ISidebar) {
   const { currentUser } = useChatStore(state => state);
 
   const handleSignOut = async () => {
@@ -17,7 +22,8 @@ function Sidebar() {
   };
 
   return (
-    <div className="bg-myBlackBcg w-1/4 h-screen border-r">
+    // <div className="bg-myBlackBcg min-w-300px w-1/4 h-screen border-r">
+    <div className="bg-myBlackBcg w-full sm:min-w-400px sm:w-1/4 h-screen border-r">
       <div className="flex gap-2 px-3 py-2 bg-myBlackBcg">
         <Navbar />
         <Search />
@@ -28,12 +34,17 @@ function Sidebar() {
           Sign Out
         </button>
       </div>
-      <div>
-        <Scrollbars autoHide style={{ width: '100%', height: '80vh' }}>
-          <SearchChatList />
-          <ChatList />
-        </Scrollbars>
-      </div>
+      <Scrollbars
+        autoHide
+        style={{
+          width: '100%',
+          //  height: '80vh',
+          height: 'calc(100vh - 48px - 80px)',
+        }}
+      >
+        <SearchChatList />
+        <ChatList setScreen={setScreen} />
+      </Scrollbars>
     </div>
   );
 }

@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
 import {
   DocumentData,
-  // Firestore,
   collection,
-  // doc,
   onSnapshot,
   orderBy,
   query,
-  // updateDoc,
 } from 'firebase/firestore';
-// import { Scrollbars } from 'react-custom-scrollbars-2';
 
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-// import formatTime from './utils/formatTime';
 import handleSendMessage from './utils/handleSendMessage';
 import MessageList from '../MessageList/MessageList';
+import { TScreen } from '@pages/Home/Home';
 
-function Chat() {
+interface IChat {
+  setScreen?: (value: TScreen) => void;
+}
+
+function Chat({ setScreen }: IChat) {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<DocumentData[] | null>(null);
   // const [isButtonVisible, setIsButtonVisible] = useState(false);
@@ -35,6 +35,8 @@ function Chat() {
       orderBy('date', 'asc')
       // orderBy('date', 'desc')
     );
+
+    // console.log("q", q)
 
     onSnapshot(q, snapshot => {
       // if (!snapshot.empty) {
@@ -62,9 +64,10 @@ function Chat() {
     });
 
     const unSub = onSnapshot(q, querySnapshot => {
-      if (!querySnapshot.empty) {
+      // if (!querySnapshot.empty) {
+        // console.log(querySnapshot);
         setMessages(querySnapshot.docs);
-      }
+      // }
     });
 
     return () => {
@@ -116,7 +119,15 @@ function Chat() {
     <div className="bg-transparent w-screen">
       {messages && (
         <>
-          <div className="flex gap-4 items-center h-12 px-7 border-b bg-myBlackBcg">
+          <div className="flex gap-4 items-center h-12 px-6 border-b bg-myBlackBcg">
+            {setScreen && (
+              <button
+                className="text-white"
+                onClick={() => setScreen('Sidebar')}
+              >
+                назад
+              </button>
+            )}
             <img
               src={userInfo.photoURL || ''}
               alt={userInfo.photoURL || ''}
@@ -126,35 +137,34 @@ function Chat() {
             <p className="text-textSecondary">{userInfo.displayName}</p>
           </div>
 
-          <div className="mx-4">
-            <MessageList messages={messages} />
-            <form
-              className="flex items-end gap-4 my-auto p-6 border-t"
-              onSubmit={e =>
-                handleSendMessage(
-                  e,
-                  message,
-                  setMessage,
-                  chatUID,
-                  currentUserUID,
-                  userInfo.uid
-                )
-              }
+          <MessageList messages={messages} />
+
+          <form
+            className="flex items-center gap-4 h-20 px-6 border-t"
+            onSubmit={e =>
+              handleSendMessage(
+                e,
+                message,
+                setMessage,
+                chatUID,
+                currentUserUID,
+                userInfo.uid
+              )
+            }
+          >
+            <input
+              className="h-10 w-full sm:w-8/12 py-1 px-10 rounded-3xl bg-mySeacrhBcg text-white"
+              type="text"
+              value={message}
+              onChange={handleChangeMessage}
+            />
+            <button
+              className="h-10 w-12 bg-white border rounded-full"
+              type="submit"
             >
-              <input
-                className="py-1 px-10 h-12 w-8/12 rounded-3xl bg-mySeacrhBcg text-white"
-                type="text"
-                value={message}
-                onChange={handleChangeMessage}
-              />
-              <button
-                className="h-12 w-12 bg-white border rounded-full"
-                type="submit"
-              >
-                Send
-              </button>
-            </form>
-          </div>
+              Send
+            </button>
+          </form>
         </>
       )}
     </div>

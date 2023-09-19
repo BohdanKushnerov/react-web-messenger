@@ -3,8 +3,13 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      height: {
+        "72px": "72px",
+      },
       minWidth: {
         '240px': '240px',
+        '300px': '300px',
+        '400px': '400px',
       },
 
       maxWidth: {

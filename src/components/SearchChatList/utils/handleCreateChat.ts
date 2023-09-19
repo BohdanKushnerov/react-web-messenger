@@ -6,7 +6,7 @@ import { auth, db } from "@myfirebase/config";
 const handleCreateChat = async (
   user: DocumentData,
   setChatList: React.Dispatch<
-    React.SetStateAction<QuerySnapshot<DocumentData, DocumentData> | []>
+    React.SetStateAction<QuerySnapshot<DocumentData, DocumentData> | null>
   >,
   updateSearchValue: (value: string) => void
 ) => {
@@ -27,7 +27,9 @@ const handleCreateChat = async (
     // проверим есть ли такой чат уже у нас
     const res = await getDoc(doc(db, 'chats', combinedUsersChatID));
 
-    console.log('res getDoc combinedUsersChatID', res);
+    // console.log('res getDoc combinedUsersChatID', res);
+
+    console.log('user.photoURL ', user.photoURL);
 
     if (!res.exists()) {
       // если нету чата, создаем
@@ -55,7 +57,7 @@ const handleCreateChat = async (
       });
     }
 
-    setChatList([]);
+    setChatList(null);
     updateSearchValue('');
   } catch (error) {
     console.log('error handleCreateChat', error);

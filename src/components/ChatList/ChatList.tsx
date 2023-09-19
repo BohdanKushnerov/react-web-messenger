@@ -1,12 +1,20 @@
 import { useEffect, useState } from 'react';
 import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
+import { Link, useLocation } from 'react-router-dom';
 
 import { auth, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import { TChatListItem } from 'types/TChatListItem';
+import { TScreen } from '@pages/Home/Home';
 
-function ChatList() {
+interface IChatList {
+  setScreen?: (value: TScreen) => void;
+}
+
+function ChatList({ setScreen }: IChatList) {
   const [userChatList, setUserChatList] = useState<DocumentData | []>([]);
+  const location = useLocation();
+
   const updateCurrentChatInfo = useChatStore(
     state => state.updateCurrentChatInfo
   );
@@ -33,6 +41,7 @@ function ChatList() {
 
   const handleSelectChat = (chat: TChatListItem) => {
     updateCurrentChatInfo(chat);
+    if (setScreen) setScreen('Chat');
   };
 
   return (
@@ -41,27 +50,31 @@ function ChatList() {
       <ul className="bg-myBlackBcg">
         {userChatList &&
           userChatList.map((chat: TChatListItem) => {
-            // console.log("chat", chat)
+            // console.log('chat', chat);
             return (
               <li
                 key={chat[0]}
-                className="flex border border-inputChar"
+                className="border border-inputChar"
                 onClick={() => handleSelectChat(chat)}
               >
-                <img
-                  width={50}
-                  height={50}
-                  src={chat[1].userInfo.photoURL}
-                  alt={chat[1].userInfo.displayName}
-                />
-                <div>
-                  <p className="font-bold text-white">
-                    {chat[1].userInfo.displayName}
-                  </p>
-                  <p className="text-textSecondary">
-                    {chat[1].lastMessage}
-                  </p>
-                </div>
+                <Link
+                  className="flex items-center content-center gap-3 h-72px "
+                  to={chat[0]}
+                  state={{ from: location }}
+                >
+                  <img
+                    width={50}
+                    height={50}
+                    src={chat[1].userInfo.photoURL}
+                    alt={chat[1].userInfo.displayName}
+                  />
+                  <div>
+                    <p className="font-bold text-white">
+                      {chat[1].userInfo.displayName}
+                    </p>
+                    <p className="text-textSecondary">{chat[1].lastMessage}</p>
+                  </div>
+                </Link>
               </li>
             );
           })}
