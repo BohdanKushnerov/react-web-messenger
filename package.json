@@ -10,11 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@babel/runtime": "^7.22.15",
+    "core-js-pure": "^3.32.2",
     "firebase": "^10.3.1",
     "immer": "^10.0.2",
     "libphonenumber-js": "^1.10.44",
     "react": "^18.2.0",
     "react-auth-code-input": "^3.2.1",
+    "react-avatar": "^5.0.3",
     "react-code-input": "^3.10.1",
     "react-custom-scrollbars-2": "^4.5.0",
     "react-dom": "^18.2.0",

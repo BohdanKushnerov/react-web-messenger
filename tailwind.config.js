@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       height: {
-        "72px": "72px",
+        '72px': '72px',
       },
       minWidth: {
         '240px': '240px',
@@ -27,6 +27,7 @@ export default {
         mybcg: '#1F2025',
         myBlackBcg: 'rgb(33,33,33)',
         mySeacrhBcg: 'rgb(44,44,44)',
+        hoverGray: 'rgba( 170,170,170 , 0.08)',
       },
       colors: {
         textSecondary: 'rgb(170,170,170)',
@@ -34,6 +35,9 @@ export default {
         inputChar: '#35363B',
         inputCharSelect: '#13BAEE',
         myblue: '#13BAEE',
+      },
+      boxShadow: {
+        mainShadow: '0 0.25rem 0.5rem 0.125rem rgb(16,16,16,0.612);',
       },
     },
   },

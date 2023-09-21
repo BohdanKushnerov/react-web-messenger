@@ -23,7 +23,7 @@ function Home() {
   }, []);
 
   return (
-    <div className={isMobileScreen ? '' : 'flex h-screen'}>
+    <div className={isMobileScreen ? 'h-full' : 'flex h-screen'}>
       {isMobileScreen ? (
         screen === 'Sidebar' ? (
           <Sidebar setScreen={setScreen} />

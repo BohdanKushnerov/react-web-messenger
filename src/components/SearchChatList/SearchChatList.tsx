@@ -7,12 +7,12 @@ import {
   query,
   where,
 } from 'firebase/firestore';
+import Avatar from 'react-avatar';
 
 import capitalizeName from '@components/Search/utils/capitalizeFirstLetterName';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleCreateChat from './utils/handleCreateChat';
-
 
 function SearchChatList() {
   const [searchChatList, setSearchChatList] = useState<
@@ -25,13 +25,13 @@ function SearchChatList() {
 
   // юзефект для поиска контактов(юзеров) в поисковой строке
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchSearchUsers = async () => {
       if (searchValue.trim() === '') {
         setSearchChatList(null);
         return;
       }
 
-      const queryName = capitalizeName(searchValue);
+      const queryName = capitalizeName(searchValue).trim();
 
       const usersRef = collection(db, 'users');
       const q = query(
@@ -49,7 +49,7 @@ function SearchChatList() {
       }
     };
 
-    fetchData();
+    fetchSearchUsers();
   }, [searchValue]);
 
   return (
@@ -58,7 +58,7 @@ function SearchChatList() {
         {/* тут список юзеров в поиске */}
         {searchChatList &&
           searchChatList.docs.map(doc => {
-            console.log('chatList search doc', doc.data());
+            // console.log('chatList search doc', doc.data());
             // фильтруем себя
             if (doc.data().uid === currentUser.uid) return;
 
@@ -74,13 +74,17 @@ function SearchChatList() {
                   )
                 }
               >
-                <img
+                {/* <img
                   width={50}
                   height={50}
                   src={doc.data().photoURL}
                   alt={doc.data().displayName}
+                /> */}
+                <Avatar
+                  className="rounded-full"
+                  name={`${doc.data().displayName}`}
+                  size="50"
                 />
-
                 <p className="text-white">{doc.data().displayName}</p>
               </li>
             );

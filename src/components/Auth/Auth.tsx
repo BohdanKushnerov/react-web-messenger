@@ -60,8 +60,9 @@ function Auth() {
       await setDoc(doc(db, 'users', user.uid), {
         displayName: user.displayName,
         uid: user.uid,
-        photoURL:
-          'https://cdn.iconscout.com/icon/free/png-256/free-profile-1439375-1214445.png?f=avif&w=128',
+        // photoURL:
+        //   'https://cdn.iconscout.com/icon/free/png-256/free-profile-1439375-1214445.png?f=avif&w=128',
+        photoURL: null,
       });
 
       // =================создаем обьект чаты нашего юзера которого мы только создали=======================

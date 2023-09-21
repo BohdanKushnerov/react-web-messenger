@@ -1,7 +1,6 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     alias: {
@@ -10,6 +9,7 @@ export default defineConfig({
       '@routes': '/src/routes',
       '@myfirebase': '/src/myfirebase',
       '@zustand': '/src/zustand',
+      '@utils': '/src/utils',
       // '@types': '/src/types',
       '@interfaces': '/src/interfaces',
     },
@@ -17,6 +17,6 @@ export default defineConfig({
   plugins: [react()],
   base: '/react-web-messenger',
   build: {
-    outDir: 'build', // Здесь указываем папку "build"
+    outDir: 'build',
   },
 });
