@@ -12,7 +12,7 @@ interface ISidebar {
 
 function Sidebar({ setScreen }: ISidebar) {
   return (
-    <div className="relative bg-myBlackBcg w-full sm:min-w-400px sm:w-1/4 h-screen border-r">
+    <div className="relative w-full h-full bg-myBlackBcg sm:min-w-400px sm:w-1/4 border-r">
       <div className="flex gap-2 px-3 py-2 bg-myBlackBcg">
         <Navbar />
         <Search />
@@ -23,7 +23,7 @@ function Sidebar({ setScreen }: ISidebar) {
           width: '100%',
           height:
             // 'calc(100vh - 48px - env(safe-area-inset-bottom))',
-            'calc(100vh - 48px - env(safe-area-inset-bottom))',
+            'calc(100% - 48px - env(safe-area-inset-bottom))',
         }}
       >
         <SearchChatList />

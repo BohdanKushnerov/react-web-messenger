@@ -76,10 +76,10 @@ function Chat({ setScreen }: IChat) {
   };
 
   return (
-    <div className="relative bg-transparent w-screen h-full">
+    <div className="relative overflow-hidden h-full bg-transparent w-screen">
       {messages && (
         <>
-          <div className="flex gap-4 items-center h-12 px-6 border-b bg-myBlackBcg">
+          <div className="fixed top-0 z-10 flex gap-4 items-center w-full h-12 px-6 border-b bg-myBlackBcg">
             {setScreen && (
               <button
                 className="text-white"
@@ -105,7 +105,7 @@ function Chat({ setScreen }: IChat) {
           <MessageList messages={messages} />
 
           <form
-            className="absolute bottom-0 left-0 w-full z-10 flex items-center gap-4 h-20 px-6 border-t"
+            className="absolute bottom-0 left-0 overflow-hidden w-full z-10 flex items-center gap-4 h-20 px-6 border-t"
             onSubmit={e =>
               handleSendMessage(
                 e,

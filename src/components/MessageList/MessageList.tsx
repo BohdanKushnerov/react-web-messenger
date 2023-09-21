@@ -54,17 +54,19 @@ function MessageList({ messages }: iMessageListProps) {
   };
 
   return (
-    <>
+    <div className='h-full py-1'>
       <Scrollbars
         ref={scrollbarsRef}
         autoHide
         style={{
+          top: 48,
           // overflow: 'hidden',
           width: '100%',
           height:
             // 'calc(100vh - 48px - 80px - env(safe-area-inset-bottom))',
             // 'calc(100vh - 48px - 80px)',
-            'calc(100vh - 48px - 80px - env(safe-area-inset-bottom))',
+            'calc(100% - 48px - 80px)',
+            // '100%',
         }}
         onScroll={handleScroll}
       >
@@ -162,7 +164,7 @@ function MessageList({ messages }: iMessageListProps) {
           </svg>
         </button>
       )}
-    </>
+    </div>
   );
 }
 

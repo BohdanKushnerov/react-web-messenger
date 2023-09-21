@@ -5,11 +5,13 @@ import { useState, useEffect } from 'react';
 export type TScreen = 'Sidebar' | 'Chat';
 
 function Home() {
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [isMobileScreen, setIsMobileScreen] = useState(false);
   const [screen, setScreen] = useState<TScreen>('Sidebar');
 
   useEffect(() => {
     const handleResize = () => {
+      setWindowHeight(window.innerHeight);
       setIsMobileScreen(window.innerWidth <= 640);
     };
 
@@ -23,7 +25,13 @@ function Home() {
   }, []);
 
   return (
-    <div className={isMobileScreen ? 'h-full' : 'flex h-screen'}>
+    <div
+      style={{
+        display: 'flex',
+        height: `${windowHeight}px`,
+        overflow: 'hidden',
+      }}
+    >
       {isMobileScreen ? (
         screen === 'Sidebar' ? (
           <Sidebar setScreen={setScreen} />
@@ -31,10 +39,16 @@ function Home() {
           <Chat setScreen={setScreen} />
         )
       ) : (
-        <>
+        <div
+          style={{
+            display: 'flex',
+            height: `${windowHeight}px`,
+            overflow: 'hidden',
+          }}
+        >
           <Sidebar />
           <Chat />
-        </>
+        </div>
       )}
     </div>
   );
