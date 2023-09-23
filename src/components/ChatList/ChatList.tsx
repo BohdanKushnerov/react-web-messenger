@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
 import { Link, useLocation } from 'react-router-dom';
 import Avatar from 'react-avatar';
@@ -13,7 +13,10 @@ interface IChatList {
   setScreen?: (value: TScreen) => void;
 }
 
-function ChatList({ setScreen }: IChatList) {
+const ChatList = React.memo(({ setScreen }: IChatList) => {
+  console.log('ChatList');
+
+  // function ChatList({ setScreen }: IChatList) {
   const [userChatList, setUserChatList] = useState<DocumentData | []>([]);
   const location = useLocation();
 
@@ -21,6 +24,10 @@ function ChatList({ setScreen }: IChatList) {
     state => state.updateCurrentChatInfo
   );
   const { chatUID } = useChatStore(state => state.currentChatInfo);
+  console.log('chatUID', chatUID);
+
+  // console.log("updateCurrentChatInfo", updateCurrentChatInfo);
+  // console.log("chatUID", chatUID);
 
   // юзефект для загрузки твоих переписок
   useEffect(() => {
@@ -31,7 +38,17 @@ function ChatList({ setScreen }: IChatList) {
       doc => {
         const data = doc.data();
         if (data) {
-          const entries = Object.entries(data);
+          // после uodate last message из-за асинхронщины сначала date: null приходит, а потом аж date: _Timestamp поэтому чтобы не пригал список 2 раза делаем проверку на null
+          if (chatUID && !data?.[chatUID].date) {
+            return;
+          }
+
+          const entries = Object.entries(data).sort(
+            (a, b) => b[1].date - a[1].date
+          );
+          // console.log(data);
+          // const entries = Object.entries(data);
+          console.log(entries);
           setUserChatList(entries);
         }
       }
@@ -40,12 +57,7 @@ function ChatList({ setScreen }: IChatList) {
     return () => {
       unSub();
     };
-  }, []);
-
-  // const handleSelectChat = (chat: TChatListItem) => {
-  //   updateCurrentChatInfo(chat);
-  //   if (setScreen) setScreen('Chat');
-  // };
+  }, [chatUID]);
 
   return (
     <div>
@@ -101,6 +113,6 @@ function ChatList({ setScreen }: IChatList) {
       </ul>
     </div>
   );
-}
+});
 
 export default ChatList;

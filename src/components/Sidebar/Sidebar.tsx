@@ -11,6 +11,7 @@ interface ISidebar {
 }
 
 function Sidebar({ setScreen }: ISidebar) {
+  console.log('Sidebar');
   return (
     <div className="relative w-full h-full bg-myBlackBcg sm:min-w-400px sm:w-1/4 border-r">
       <div className="flex gap-2 px-3 py-2 bg-myBlackBcg">

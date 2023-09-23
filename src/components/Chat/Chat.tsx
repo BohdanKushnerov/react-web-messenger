@@ -43,7 +43,7 @@ function Chat({ setScreen }: IChat) {
       // }
       snapshot.docChanges().forEach(change => {
         if (change.type === 'added') {
-          console.log('New mes: ', change.doc.data());
+          // console.log('New mes: ', change.doc.data());
           // if(messages) {
           //   setMessages([change.doc]);
           // } else {
@@ -51,10 +51,10 @@ function Chat({ setScreen }: IChat) {
           // }
         }
         if (change.type === 'modified') {
-          console.log('Modified mes: ', change.doc.data());
+          // console.log('Modified mes: ', change.doc.data());
         }
         if (change.type === 'removed') {
-          console.log('Removed mes: ', change.doc.data());
+          // console.log('Removed mes: ', change.doc.data());
         }
       });
     });
