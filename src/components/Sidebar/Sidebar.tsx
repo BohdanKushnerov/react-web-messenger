@@ -21,12 +21,10 @@ function Sidebar({ setScreen }: ISidebar) {
         autoHide
         style={{
           width: '100%',
-          height:
-            // 'calc(100vh - 48px - env(safe-area-inset-bottom))',
-            'calc(100% - 48px - env(safe-area-inset-bottom))',
+          height: 'calc(100% - 48px)',
         }}
       >
-        <SearchChatList />
+        <SearchChatList setScreen={setScreen} />
         <ChatList setScreen={setScreen} />
       </Scrollbars>
     </div>

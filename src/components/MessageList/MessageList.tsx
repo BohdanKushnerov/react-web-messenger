@@ -60,13 +60,8 @@ function MessageList({ messages }: iMessageListProps) {
         autoHide
         style={{
           top: 48,
-          // overflow: 'hidden',
           width: '100%',
-          height:
-            // 'calc(100vh - 48px - 80px - env(safe-area-inset-bottom))',
-            // 'calc(100vh - 48px - 80px)',
-            'calc(100% - 48px - 80px)',
-            // '100%',
+          height: 'calc(100% - 48px - 80px)',
         }}
         onScroll={handleScroll}
       >

@@ -13,15 +13,24 @@ import capitalizeName from '@components/Search/utils/capitalizeFirstLetterName';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleCreateChat from './utils/handleCreateChat';
+import { TScreen } from '@pages/Home/Home';
 
-function SearchChatList() {
-  const [searchChatList, setSearchChatList] = useState<
-    QuerySnapshot<DocumentData, DocumentData> | null
-  >(null);
+interface IChatList {
+  setScreen?: (value: TScreen) => void;
+}
+
+function SearchChatList({ setScreen }: IChatList) {
+  const [searchChatList, setSearchChatList] = useState<QuerySnapshot<
+    DocumentData,
+    DocumentData
+  > | null>(null);
 
   const searchValue = useChatStore(state => state.searchValue);
   const updateSearchValue = useChatStore(state => state.updateSearchValue);
   const currentUser = useChatStore(state => state.currentUser);
+    const updateCurrentChatInfo = useChatStore(
+      state => state.updateCurrentChatInfo
+    );
 
   // юзефект для поиска контактов(юзеров) в поисковой строке
   useEffect(() => {
@@ -37,7 +46,7 @@ function SearchChatList() {
       const q = query(
         usersRef,
         where('displayName', '>=', queryName),
-        where('displayName', '<=', queryName + '\uf8ff'),
+        where('displayName', '<=', queryName + '\uf8ff')
       );
 
       try {
@@ -70,7 +79,9 @@ function SearchChatList() {
                   handleCreateChat(
                     doc.data(),
                     setSearchChatList,
-                    updateSearchValue
+                    updateSearchValue,
+                    updateCurrentChatInfo,
+                    setScreen
                   )
                 }
               >
