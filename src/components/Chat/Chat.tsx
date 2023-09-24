@@ -76,8 +76,8 @@ function Chat({ setScreen }: IChat) {
   };
 
   return (
-    <div className="relative overflow-hidden h-full bg-transparent w-screen">
-      {messages && (
+    <div className="relative h-full w-screen bg-transparent overflow-hidden ">
+      {messages ? (
         <>
           <div className="fixed top-0 z-10 flex gap-4 items-center w-full h-12 px-6 border-b bg-myBlackBcg">
             {setScreen && (
@@ -178,6 +178,10 @@ function Chat({ setScreen }: IChat) {
             </button>
           </form>
         </>
+      ) : (
+        <h2 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 bg-gray-700 rounded-xl text-center text-white font-black">
+          Choose or search user who you would like to write to
+        </h2>
       )}
     </div>
   );
