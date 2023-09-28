@@ -14,7 +14,7 @@ interface IChatList {
 }
 
 const ChatList = React.memo(({ setScreen }: IChatList) => {
-  console.log('ChatList');
+  // console.log('ChatList');
 
   // function ChatList({ setScreen }: IChatList) {
   const [userChatList, setUserChatList] = useState<DocumentData | []>([]);
@@ -24,7 +24,7 @@ const ChatList = React.memo(({ setScreen }: IChatList) => {
     state => state.updateCurrentChatInfo
   );
   const { chatUID } = useChatStore(state => state.currentChatInfo);
-  console.log('chatUID', chatUID);
+  // console.log('chatUID', chatUID);
 
   // console.log("updateCurrentChatInfo", updateCurrentChatInfo);
   // console.log("chatUID", chatUID);
@@ -48,7 +48,7 @@ const ChatList = React.memo(({ setScreen }: IChatList) => {
           );
           // console.log(data);
           // const entries = Object.entries(data);
-          console.log(entries);
+          // console.log(entries);
           setUserChatList(entries);
         }
       }

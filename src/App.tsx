@@ -36,11 +36,17 @@ function App() {
         children: [
           {
             path: '/',
+            // element: (
+            //   <PrivateRoute component={Sidebar} redirectTo="/authentication" />
+            // ),
             element: <Sidebar />,
           },
           {
             path: ':id',
-            element: <Chat />,
+            element: (
+              <PrivateRoute component={Chat} redirectTo="/authentication" />
+            ),
+            // element: <Chat />,
           },
         ],
       },

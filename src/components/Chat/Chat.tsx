@@ -13,6 +13,7 @@ import useChatStore from '@zustand/store';
 import handleSendMessage from './utils/handleSendMessage';
 import MessageList from '../MessageList/MessageList';
 import { TScreen } from '@pages/Home/Home';
+import { useNavigate } from 'react-router-dom';
 
 interface IChat {
   setScreen?: (value: TScreen) => void;
@@ -22,16 +23,19 @@ function Chat({ setScreen }: IChat) {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<DocumentData[] | null>(null);
 
+  const navigate = useNavigate();
+
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userInfo } = useChatStore(state => state.currentChatInfo);
 
   useEffect(() => {
     if (chatUID === null) return;
 
+    localStorage.setItem('currentChatId', chatUID);
+
     const q = query(
       collection(db, `chats/${chatUID}/messages`),
       orderBy('date', 'asc')
-      // orderBy('date', 'desc')
     );
 
     onSnapshot(q, snapshot => {
@@ -68,6 +72,7 @@ function Chat({ setScreen }: IChat) {
 
     return () => {
       unSub();
+      localStorage.removeItem('currentChatId');
     };
   }, [chatUID, currentUserUID]);
 
@@ -83,7 +88,10 @@ function Chat({ setScreen }: IChat) {
             {setScreen && (
               <button
                 className="flex justify-center items-center w-12 h-12 text-white hover:bg-hoverGray rounded-full cursor-pointer"
-                onClick={() => setScreen('Sidebar')}
+                onClick={() => {
+                  setScreen('Sidebar')
+                  navigate('/')
+                }}
               >
                 <svg
                   className="rotate-180"
