@@ -9,9 +9,6 @@ function PrivateRoute({
 }: IPrivateRouteProps) {
   const { currentUser, isLoggedIn } = useChatStore(state => state);
 
-  console.log(currentUser);
-  console.log(isLoggedIn);
-
   return isLoggedIn && currentUser.displayName ? (
     <Component />
   ) : (

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
+import {
+  DocumentData,
+  // collection,
+  doc,
+  // getDoc,
+  onSnapshot,
+} from 'firebase/firestore';
 import { Link, useLocation } from 'react-router-dom';
 import Avatar from 'react-avatar';
 
@@ -46,6 +52,23 @@ const ChatList = React.memo(({ setScreen }: IChatList) => {
           const entries = Object.entries(data).sort(
             (a, b) => b[1].date - a[1].date
           );
+
+          // ===========================================
+          // тут можно попробовать брать данные юзера через фор ич пройтись по каждом и сделать запросы, чисто потестить
+
+
+          // entries.map(el => {
+
+          //   // el[1].userInfo.uid;
+          //   // console.log(el[1].userInfo.uid);
+
+          //   // collection(db, 'cities');
+
+          //   const docRef = doc(db, 'users', el[1].userInfo.uid);
+          //   getDoc(docRef).then(data=>console.log(data.data()));
+
+          // });
+          // ===========================================
           // console.log(data);
           // const entries = Object.entries(data);
           // console.log(entries);

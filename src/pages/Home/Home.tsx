@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 import Chat from '@components/Chat/Chat';
 import Sidebar from '@components/Sidebar/Sidebar';
@@ -19,41 +19,43 @@ function Home() {
   const navigate = useNavigate();
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
+  // const currentUser = useChatStore(state => state.currentUser);
 
   const updateCurrentChatInfo = useChatStore(
     state => state.updateCurrentChatInfo
   );
 
+  // isRedirectToCurrentChat
   useEffect(() => {
-  async function isRedirectToCurrentChat(
-    currentUserUID: string | null,
-    handleSelectChat: (
-      chat: TChatListItem,
-      updateCurrentChatInfo: (chat: TChatListItem) => void,
-      setScreen?: ((value: TScreen) => void) | undefined
-    ) => void,
-    updateCurrentChatInfo: (chat: TCurrentChatInfo) => void,
-    setScreen: React.Dispatch<React.SetStateAction<TScreen>>
-  ) {
-    const combinedUsersChatUID = localStorage.getItem('currentChatId');
+    async function isRedirectToCurrentChat(
+      currentUserUID: string | null,
+      handleSelectChat: (
+        chat: TChatListItem,
+        updateCurrentChatInfo: (chat: TChatListItem) => void,
+        setScreen?: ((value: TScreen) => void) | undefined
+      ) => void,
+      updateCurrentChatInfo: (chat: TCurrentChatInfo) => void,
+      setScreen: React.Dispatch<React.SetStateAction<TScreen>>
+    ) {
+      const combinedUsersChatUID = localStorage.getItem('currentChatId');
 
-    if (combinedUsersChatUID && currentUserUID) {
-      const res = await getDoc(doc(db, 'userChats', currentUserUID));
+      if (combinedUsersChatUID && currentUserUID) {
+        const res = await getDoc(doc(db, 'userChats', currentUserUID));
 
-      const chatItem: TChatListItem = [
-        combinedUsersChatUID,
-        {
-          lastMessage: res.data()?.[combinedUsersChatUID].lastMessage,
-          userInfo: res.data()?.[combinedUsersChatUID].userInfo,
-        },
-      ];
+        const chatItem: TChatListItem = [
+          combinedUsersChatUID,
+          {
+            lastMessage: res.data()?.[combinedUsersChatUID].lastMessage,
+            userInfo: res.data()?.[combinedUsersChatUID].userInfo,
+          },
+        ];
 
-      console.log(chatItem);
+        console.log(chatItem);
 
-      handleSelectChat(chatItem, updateCurrentChatInfo, setScreen);
-      navigate(combinedUsersChatUID);
+        handleSelectChat(chatItem, updateCurrentChatInfo, setScreen);
+        navigate(combinedUsersChatUID);
+      }
     }
-  }
 
     isRedirectToCurrentChat(
       currentUserUID,
@@ -63,6 +65,7 @@ function Home() {
     );
   }, [currentUserUID, navigate, updateCurrentChatInfo]);
 
+  // resize window
   useEffect(() => {
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
@@ -78,25 +81,30 @@ function Home() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   // делаем селект чат чтобы он открылся сразу при перезагрузке страницы
-  //   if (combinedUsersChatID) {
-  //     async function qwe() {
-  //       const res = await getDoc(doc(db, 'userChats', currentUserUID));
+  useEffect(() => {
+      const updateOnlineStatus = (online: boolean) => {
+        if (currentUserUID) {
+          const userDocRef = doc(db, 'users', currentUserUID);
+          const onlineStatus = online
+            ? { isOnline: true }
+            : { isOnline: false };
 
-  //       const chatItem: TChatListItem = [
-  //         combinedUsersChatID,
-  //         {
-  //           lastMessage: res.data()?.[combinedUsersChatID].lastMessage,
-  //           userInfo: res.data()?.[combinedUsersChatID].userInfo,
-  //         },
-  //       ];
-  //       handleSelectChat(chatItem, updateCurrentChatInfo, setScreen);
-  //     }
+          setDoc(userDocRef, onlineStatus, { merge: true });
+        }
+      };
+    updateOnlineStatus(true);
 
-  //     qwe();
-  //   }
-  // }, []);
+    const handleBeforeUnload = () => {
+      updateOnlineStatus(false);
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      updateOnlineStatus(false);
+    };
+  }, [currentUserUID]);
 
   return (
     <div
