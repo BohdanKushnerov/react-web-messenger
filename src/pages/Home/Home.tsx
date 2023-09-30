@@ -50,7 +50,7 @@ function Home() {
           },
         ];
 
-        console.log(chatItem);
+        // console.log(chatItem);
 
         handleSelectChat(chatItem, updateCurrentChatInfo, setScreen);
         navigate(combinedUsersChatUID);
