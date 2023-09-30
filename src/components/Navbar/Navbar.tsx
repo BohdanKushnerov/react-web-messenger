@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import { signOut } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
-import { auth } from '@myfirebase/config';
+import { auth, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 
 function Navbar() {
   const [isModalOpen, setIsModelOpen] = useState(false);
 
   const { currentUser } = useChatStore(state => state);
+  const resetCurrentChatInfo = useChatStore(
+    state => state.resetCurrentChatInfo
+  );
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -22,7 +26,21 @@ function Navbar() {
     };
   }, []);
 
+  console.log("currentUser", currentUser);
+
   const handleSignOut = async () => {
+    // localStorage.removeItem('currentChatId');
+
+    if (currentUser.uid) {
+      await setDoc(
+        doc(db, 'users', currentUser.uid),
+        { isOnline: false },
+        { merge: true }
+      );
+    }
+
+    resetCurrentChatInfo()
+
     const exit = await signOut(auth);
     console.log('exit', exit);
   };
