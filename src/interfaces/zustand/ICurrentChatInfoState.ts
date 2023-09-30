@@ -11,4 +11,5 @@ export interface ICurrentChatInfoState {
     // };
   };
   updateCurrentChatInfo: (chat: TCurrentChatInfo) => void;
+  resetCurrentChatInfo: () => void;
 }

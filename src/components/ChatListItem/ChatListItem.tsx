@@ -71,11 +71,13 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItem) => {
               src={chat[1].userInfo.photoURL}
               alt={chat[1].userInfo.displayName}
             /> */}
-        <Avatar
-          className="rounded-full"
-          name={`${userInfo?.displayName}`}
-          size="50"
-        />
+        {userInfo?.displayName && (
+          <Avatar
+            className="rounded-full"
+            name={`${userInfo?.displayName}`}
+            size="50"
+          />
+        )}
         <div className="w-full">
           <p className="font-bold text-white">{userInfo?.displayName}</p>
           <p

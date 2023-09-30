@@ -39,7 +39,7 @@ function Home() {
     ) {
       const combinedUsersChatUID = localStorage.getItem('currentChatId');
 
-      console.log("combinedUsersChatUID", combinedUsersChatUID);
+      console.log('combinedUsersChatUID', combinedUsersChatUID);
       console.log('currentUserUID', currentUserUID);
 
       if (combinedUsersChatUID && currentUserUID) {
@@ -87,26 +87,26 @@ function Home() {
   }, []);
 
   useEffect(() => {
-      const updateOnlineStatus = (online: boolean) => {
-        if (currentUserUID) {
-          const userDocRef = doc(db, 'users', currentUserUID);
-          const onlineStatus = online
-            ? { isOnline: true }
-            : { isOnline: false };
+    const updateOnlineStatus = (online: boolean) => {
+      if (currentUserUID) {
+        const userDocRef = doc(db, 'users', currentUserUID);
+        const onlineStatus = online ? { isOnline: true } : { isOnline: false };
 
-          setDoc(userDocRef, onlineStatus, { merge: true });
-        }
-      };
+        setDoc(userDocRef, onlineStatus, { merge: true });
+      }
+    };
     updateOnlineStatus(true);
 
-    const handleBeforeUnload = () => {
+    const handleUpdateStatus = () => {
       updateOnlineStatus(false);
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('unload', handleUpdateStatus);
+    window.addEventListener('beforeunload', handleUpdateStatus);
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('unload', handleUpdateStatus);
+      window.removeEventListener('beforeunload', handleUpdateStatus);
       updateOnlineStatus(false);
     };
   }, [currentUserUID]);

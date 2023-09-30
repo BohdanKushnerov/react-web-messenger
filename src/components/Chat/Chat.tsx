@@ -142,11 +142,11 @@ function Chat({ setScreen }: IChat) {
               width={40}
               height={40}
             /> */}
-            <Avatar
+            {currentChatInfo?.displayName && <Avatar
               className="rounded-full"
-              name={`${currentChatInfo && currentChatInfo.displayName}`}
+              name={`${currentChatInfo?.displayName}`}
               size="35"
-            />
+            />}
             <p className="text-textSecondary">{currentChatInfo?.displayName}</p>
             <div
               className={`${

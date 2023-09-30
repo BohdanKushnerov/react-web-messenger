@@ -31,6 +31,21 @@ const createCurrentChatInfoState: StateCreator<
       })
     );
   },
+  resetCurrentChatInfo: () => {
+    set(
+      produce(state => {
+        state.currentChatInfo = {
+          chatUID: null,
+          userUID: null,
+          // userInfo: {
+          //   displayName: chat[1].userInfo.displayName,
+          //   uid: chat[1].userInfo.uid,
+          //   photoURL: chat[1].userInfo.photoURL,
+          // },
+        };
+      })
+    );
+  }
 });
 
 export default createCurrentChatInfoState;

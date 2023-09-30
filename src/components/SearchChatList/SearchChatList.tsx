@@ -8,13 +8,13 @@ import {
   where,
 } from 'firebase/firestore';
 import Avatar from 'react-avatar';
+import { useNavigate } from 'react-router-dom';
 
 import capitalizeName from '@components/Search/utils/capitalizeFirstLetterName';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleCreateChat from './utils/handleCreateChat';
 import { TScreen } from '@pages/Home/Home';
-import { useNavigate } from 'react-router-dom';
 
 interface IChatList {
   setScreen?: (value: TScreen) => void;
