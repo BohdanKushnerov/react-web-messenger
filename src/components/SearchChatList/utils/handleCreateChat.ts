@@ -51,21 +51,23 @@ const handleCreateChat = async (
 
       // обновляем обьект с нашими чатами и у нас появиться чат в списке чатов
       await updateDoc(doc(db, 'userChats', currentUserUID), {
-        [combinedUsersChatID + '.userInfo']: {
-          uid: user.uid,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-        },
+        // [combinedUsersChatID + '.userInfo']: {
+        //   uid: user.uid,
+        //   displayName: user.displayName,
+        //   photoURL: user.photoURL,
+        // },
+        [combinedUsersChatID + '.userUID']: user.uid,
         [combinedUsersChatID + '.date']: serverTimestamp(),
       });
 
       // обновляем обьект для юзера с которым создаем чат чтобы у него появился чат в списке чатов
       await updateDoc(doc(db, 'userChats', selectionUserUID), {
-        [combinedUsersChatID + '.userInfo']: {
-          uid: auth?.currentUser.uid,
-          displayName: auth?.currentUser.displayName,
-          photoURL: auth?.currentUser.photoURL,
-        },
+        // [combinedUsersChatID + '.userInfo']: {
+        //   uid: auth?.currentUser.uid,
+        //   displayName: auth?.currentUser.displayName,
+        //   photoURL: auth?.currentUser.photoURL,
+        // },
+        [combinedUsersChatID + '.userUID']: auth?.currentUser.uid,
         [combinedUsersChatID + '.date']: serverTimestamp(),
       });
 
@@ -76,7 +78,7 @@ const handleCreateChat = async (
         combinedUsersChatID,
         {
           lastMessage: res.data()?.[combinedUsersChatID].lastMessage,
-          userInfo: res.data()?.[combinedUsersChatID].userInfo,
+          userUID: res.data()?.[combinedUsersChatID].userInfo,
         },
       ];
 

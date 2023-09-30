@@ -39,18 +39,23 @@ function Home() {
     ) {
       const combinedUsersChatUID = localStorage.getItem('currentChatId');
 
+      console.log("combinedUsersChatUID", combinedUsersChatUID);
+      console.log('currentUserUID', currentUserUID);
+
       if (combinedUsersChatUID && currentUserUID) {
         const res = await getDoc(doc(db, 'userChats', currentUserUID));
+
+        console.log('res', res.data());
 
         const chatItem: TChatListItem = [
           combinedUsersChatUID,
           {
             lastMessage: res.data()?.[combinedUsersChatUID].lastMessage,
-            userInfo: res.data()?.[combinedUsersChatUID].userInfo,
+            userUID: res.data()?.[combinedUsersChatUID].userUID,
           },
         ];
 
-        // console.log(chatItem);
+        console.log(chatItem);
 
         handleSelectChat(chatItem, updateCurrentChatInfo, setScreen);
         navigate(combinedUsersChatUID);

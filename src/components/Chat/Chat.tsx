@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   DocumentData,
   collection,
+  doc,
   onSnapshot,
   orderBy,
   query,
@@ -20,13 +21,32 @@ interface IChat {
 }
 
 function Chat({ setScreen }: IChat) {
+  const [currentChatInfo, setCurrentChatInfo] = useState<DocumentData | null>(null);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<DocumentData[] | null>(null);
 
   const navigate = useNavigate();
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
-  const { chatUID, userInfo } = useChatStore(state => state.currentChatInfo);
+  const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
+
+  useEffect(() => {
+    if (!userUID) return 
+      const unsub = onSnapshot(doc(db, 'users', userUID), doc => {
+        const data = doc.data();
+        if (data) {
+          console.log("data", data);
+          // setUserInfo(data);
+          setCurrentChatInfo(data);
+          // displayName: 'Test 2', photoURL: null, isOnline: true
+        }
+        // setIsOnline(data?.isOnline);
+      });
+
+    return () => {
+      unsub();
+    };
+  }, [userUID]);
 
   useEffect(() => {
     if (chatUID === null) return;
@@ -89,8 +109,8 @@ function Chat({ setScreen }: IChat) {
               <button
                 className="flex justify-center items-center w-12 h-12 text-white hover:bg-hoverGray rounded-full cursor-pointer"
                 onClick={() => {
-                  setScreen('Sidebar')
-                  navigate('/')
+                  setScreen('Sidebar');
+                  navigate('/');
                 }}
               >
                 <svg
@@ -124,10 +144,19 @@ function Chat({ setScreen }: IChat) {
             /> */}
             <Avatar
               className="rounded-full"
-              name={`${userInfo.displayName}`}
+              name={`${currentChatInfo && currentChatInfo.displayName}`}
               size="35"
             />
-            <p className="text-textSecondary">{userInfo.displayName}</p>
+            <p className="text-textSecondary">{currentChatInfo?.displayName}</p>
+            <div
+              className={`${
+                currentChatInfo && currentChatInfo.isOnline
+                  ? 'text-green-600'
+                  : 'text-red-700'
+              }`}
+            >
+              {currentChatInfo?.isOnline ? 'Online' : 'Offline'}
+            </div>
           </div>
 
           <MessageList messages={messages} />
@@ -141,7 +170,8 @@ function Chat({ setScreen }: IChat) {
                 setMessage,
                 chatUID,
                 currentUserUID,
-                userInfo.uid
+                // userInfo.uid
+                userUID
               )
             }
           >

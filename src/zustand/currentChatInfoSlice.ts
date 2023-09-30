@@ -9,22 +9,24 @@ const createCurrentChatInfoState: StateCreator<
 > = set => ({
   currentChatInfo: {
     chatUID: null,
-    userInfo: {
-      photoURL: null,
-      displayName: null,
-      uid: null,
-    },
+    userUID: null,
+    // userInfo: {
+    //   photoURL: null,
+    //   displayName: null,
+    //   uid: null,
+    // },
   },
   updateCurrentChatInfo: (chat: TCurrentChatInfo) => {
     set(
       produce(state => {
         state.currentChatInfo = {
           chatUID: chat[0],
-          userInfo: {
-            displayName: chat[1].userInfo.displayName,
-            uid: chat[1].userInfo.uid,
-            photoURL: chat[1].userInfo.photoURL,
-          },
+          userUID: chat[1].userUID,
+          // userInfo: {
+          //   displayName: chat[1].userInfo.displayName,
+          //   uid: chat[1].userInfo.uid,
+          //   photoURL: chat[1].userInfo.photoURL,
+          // },
         };
       })
     );
