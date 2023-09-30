@@ -12,6 +12,7 @@ import { auth, db } from '@myfirebase/config';
 import handleSelectChat from '@utils/handleSelectChat';
 import { TScreen } from '@pages/Home/Home';
 import { TChatListItem } from 'types/TChatListItem';
+import { NavigateFunction } from 'react-router-dom';
 
 // создаем общий ИД для общего чата + обновляем списки чатов у 2их юзеров(1. я как текущий и 2. тот которого выбрал)
 const handleCreateChat = async (
@@ -21,7 +22,8 @@ const handleCreateChat = async (
   >,
   updateSearchValue: (value: string) => void,
   updateCurrentChatInfo: (chat: TChatListItem) => void,
-  setScreen?: (value: TScreen) => void
+  navigate: NavigateFunction,
+  setScreen?: (value: TScreen) => void,
 ) => {
   // выйдем если не авторизирован
   if (!auth?.currentUser?.uid) return;
@@ -78,11 +80,14 @@ const handleCreateChat = async (
         combinedUsersChatID,
         {
           lastMessage: res.data()?.[combinedUsersChatID].lastMessage,
-          userUID: res.data()?.[combinedUsersChatID].userInfo,
+          userUID: res.data()?.[combinedUsersChatID].userUID,
         },
       ];
 
+      console.log(chatItem);
+
       handleSelectChat(chatItem, updateCurrentChatInfo, setScreen);
+      navigate(combinedUsersChatID);
     }
 
     setChatList(null);

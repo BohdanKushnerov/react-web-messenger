@@ -14,6 +14,7 @@ import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleCreateChat from './utils/handleCreateChat';
 import { TScreen } from '@pages/Home/Home';
+import { useNavigate } from 'react-router-dom';
 
 interface IChatList {
   setScreen?: (value: TScreen) => void;
@@ -24,13 +25,14 @@ function SearchChatList({ setScreen }: IChatList) {
     DocumentData,
     DocumentData
   > | null>(null);
+  const navigate = useNavigate();
 
   const searchValue = useChatStore(state => state.searchValue);
   const updateSearchValue = useChatStore(state => state.updateSearchValue);
   const currentUser = useChatStore(state => state.currentUser);
-    const updateCurrentChatInfo = useChatStore(
-      state => state.updateCurrentChatInfo
-    );
+  const updateCurrentChatInfo = useChatStore(
+    state => state.updateCurrentChatInfo
+  );
 
   // юзефект для поиска контактов(юзеров) в поисковой строке
   useEffect(() => {
@@ -67,7 +69,7 @@ function SearchChatList({ setScreen }: IChatList) {
         {/* тут список юзеров в поиске */}
         {searchChatList &&
           searchChatList.docs.map(doc => {
-            // console.log('chatList search doc', doc.data());
+            console.log('chatList search doc', doc.data());
             // фильтруем себя
             if (doc.data().uid === currentUser.uid) return;
 
@@ -75,15 +77,16 @@ function SearchChatList({ setScreen }: IChatList) {
               <li
                 className="flex items-center content-center gap-3 h-72px"
                 key={doc.id}
-                onClick={() =>
+                onClick={() => {
                   handleCreateChat(
                     doc.data(),
                     setSearchChatList,
                     updateSearchValue,
                     updateCurrentChatInfo,
+                    navigate,
                     setScreen
-                  )
-                }
+                  );
+                }}
               >
                 {/* <img
                   width={50}
