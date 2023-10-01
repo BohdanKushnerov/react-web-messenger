@@ -9,21 +9,25 @@ import {
 } from 'firebase/firestore';
 import Avatar from 'react-avatar';
 
-import { db } from '@myfirebase/config';
+import { database, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleSendMessage from './utils/handleSendMessage';
 import MessageList from '../MessageList/MessageList';
 import { TScreen } from '@pages/Home/Home';
 import { useNavigate } from 'react-router-dom';
+import { onValue, ref } from 'firebase/database';
 
 interface IChat {
   setScreen?: (value: TScreen) => void;
 }
 
 function Chat({ setScreen }: IChat) {
-  const [currentChatInfo, setCurrentChatInfo] = useState<DocumentData | null>(null);
+  const [currentChatInfo, setCurrentChatInfo] = useState<DocumentData | null>(
+    null
+  );
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<DocumentData[] | null>(null);
+  const [isOnline, setIsOnline] = useState<boolean | null>(null);
 
   const navigate = useNavigate();
 
@@ -31,20 +35,33 @@ function Chat({ setScreen }: IChat) {
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
 
   useEffect(() => {
-    if (!userUID) return 
-      const unsub = onSnapshot(doc(db, 'users', userUID), doc => {
-        const data = doc.data();
-        if (data) {
-          console.log("data", data);
-          // setUserInfo(data);
-          setCurrentChatInfo(data);
-          // displayName: 'Test 2', photoURL: null, isOnline: true
-        }
-        // setIsOnline(data?.isOnline);
-      });
+    if (!userUID) return;
+    const unsub = onSnapshot(doc(db, 'users', userUID), doc => {
+      const data = doc.data();
+      if (data) {
+        console.log('data', data);
+        // setUserInfo(data);
+        setCurrentChatInfo(data);
+        // displayName: 'Test 2', photoURL: null, isOnline: true
+      }
+      // setIsOnline(data?.isOnline);
+    });
+
+    const dbRef = ref(database, 'status/' + userUID);
+
+    // Устанавливаем слушатель для данных
+    const unsubscribe = onValue(dbRef, snapshot => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        setIsOnline(data); // Здесь data будет true, если пользователь онлайн, и false, если офлайн
+      } else {
+        setIsOnline(false); // Если данных нет, считаем пользователя офлайн
+      }
+    });
 
     return () => {
       unsub();
+      unsubscribe();
     };
   }, [userUID]);
 
@@ -142,20 +159,16 @@ function Chat({ setScreen }: IChat) {
               width={40}
               height={40}
             /> */}
-            {currentChatInfo?.displayName && <Avatar
-              className="rounded-full"
-              name={`${currentChatInfo?.displayName}`}
-              size="35"
-            />}
+            {currentChatInfo?.displayName && (
+              <Avatar
+                className="rounded-full"
+                name={`${currentChatInfo?.displayName}`}
+                size="35"
+              />
+            )}
             <p className="text-textSecondary">{currentChatInfo?.displayName}</p>
-            <div
-              className={`${
-                currentChatInfo && currentChatInfo.isOnline
-                  ? 'text-green-600'
-                  : 'text-red-700'
-              }`}
-            >
-              {currentChatInfo?.isOnline ? 'Online' : 'Offline'}
+            <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
+              {isOnline ? 'Online' : 'Offline'}
             </div>
           </div>
 

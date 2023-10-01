@@ -5,6 +5,7 @@ import {
   onAuthStateChanged,
   setPersistence,
 } from 'firebase/auth';
+import { getDatabase } from 'firebase/database';
 import { getFirestore } from 'firebase/firestore';
 
 const {
@@ -25,12 +26,14 @@ const firebaseConfig = {
   messagingSenderId: VITE_MESSAGING_SENDER_ID,
   appId: VITE_APP_ID,
   measurementId: VITE_MEASUREMENT_ID,
+  databaseURL:
+    'https://react-web-messenger-dc6c4-default-rtdb.europe-west1.firebasedatabase.app/',
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-// const database = getDatabase(app);
+const database = getDatabase(app);
 
 setPersistence(auth, browserLocalPersistence);
 
@@ -45,4 +48,4 @@ onAuthStateChanged(auth, user => {
   }
 });
 
-export { auth, db };
+export { auth, db, database };

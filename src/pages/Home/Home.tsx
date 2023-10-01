@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 
 import Chat from '@components/Chat/Chat';
 import Sidebar from '@components/Sidebar/Sidebar';
-import { db } from '@myfirebase/config';
+import { database, db } from '@myfirebase/config';
 import handleSelectChat from '@utils/handleSelectChat';
 import useChatStore from '@zustand/store';
 import { TChatListItem } from 'types/TChatListItem';
 import { TCurrentChatInfo } from 'types/TCurrentChatInfo';
+import { onDisconnect, ref, set } from 'firebase/database';
 
 export type TScreen = 'Sidebar' | 'Chat';
 
@@ -17,6 +18,9 @@ function Home() {
   const [isMobileScreen, setIsMobileScreen] = useState(false);
   const [screen, setScreen] = useState<TScreen>('Sidebar');
   const navigate = useNavigate();
+
+    // const [isOnline, setIsOnline] = useState(true);
+
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   // const currentUser = useChatStore(state => state.currentUser);
@@ -86,29 +90,51 @@ function Home() {
     };
   }, []);
 
+  // useEffect(() => {
+  //   const updateOnlineStatus = (online: boolean) => {
+  //     if (currentUserUID) {
+  //       const userDocRef = doc(db, 'users', currentUserUID);
+  //       const onlineStatus = online ? { isOnline: true } : { isOnline: false };
+
+  //       setDoc(userDocRef, onlineStatus, { merge: true });
+  //     }
+  //   };
+  //   updateOnlineStatus(true);
+
+  //   const handleUpdateStatus = () => {
+  //     updateOnlineStatus(false);
+  //   };
+
+  //   window.addEventListener('unload', handleUpdateStatus);
+  //   window.addEventListener('beforeunload', handleUpdateStatus);
+
+  //   return () => {
+  //     window.removeEventListener('unload', handleUpdateStatus);
+  //     window.removeEventListener('beforeunload', handleUpdateStatus);
+  //     updateOnlineStatus(false);
+  //   };
+  // }, [currentUserUID]);
+
   useEffect(() => {
-    const updateOnlineStatus = (online: boolean) => {
-      if (currentUserUID) {
-        const userDocRef = doc(db, 'users', currentUserUID);
-        const onlineStatus = online ? { isOnline: true } : { isOnline: false };
+    if (currentUserUID) {
+      const dbRef = ref(database, 'status/' + currentUserUID);
 
-        setDoc(userDocRef, onlineStatus, { merge: true });
-      }
-    };
-    updateOnlineStatus(true);
+      // Устанавливаем онлайн-статус при входе
+      set(dbRef, true);
 
-    const handleUpdateStatus = () => {
-      updateOnlineStatus(false);
-    };
+      // Устанавливаем обработчик отключения
+      const disconnectRef = onDisconnect(dbRef);
 
-    window.addEventListener('unload', handleUpdateStatus);
-    window.addEventListener('beforeunload', handleUpdateStatus);
+      // Устанавливаем офлайн-статус при отключении
+      disconnectRef.set(false);
 
-    return () => {
-      window.removeEventListener('unload', handleUpdateStatus);
-      window.removeEventListener('beforeunload', handleUpdateStatus);
-      updateOnlineStatus(false);
-    };
+      return () => {
+        // Очищаем обработчик отключения при размонтировании компонента
+        disconnectRef.cancel();
+        // Устанавливаем офлайн-статус при размонтировании компонента
+        set(dbRef, false);
+      };
+    }
   }, [currentUserUID]);
 
   return (
