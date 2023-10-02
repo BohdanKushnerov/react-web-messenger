@@ -4,15 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { db } from "@myfirebase/config";
 
 const handleSendMessage = async (
-  e: React.FormEvent,
   message: string,
-  setMessage: (value: string)=>void,
   chatUID: string | null,
   currentUserUID: string | null,
   userUID: string | null
 ) => {
-  e.preventDefault();
-
   if (chatUID === null || currentUserUID === null || userUID === null) {
     // Обработка случая, когда chatUID равен null
     return;
@@ -39,8 +35,6 @@ const handleSendMessage = async (
       [chatUID + '.lastMessage']: message,
       [chatUID + '.date']: serverTimestamp(),
     });
-
-    setMessage('');
   } catch (error) {
     console.log('error handleSendMessage', error);
   }

@@ -4,7 +4,7 @@ import ChatList from '@components/ChatList/ChatList';
 import Navbar from '@components/Navbar/Navbar';
 import Search from '@components/Search/Search';
 import SearchChatList from '@components/SearchChatList/SearchChatList';
-import { TScreen } from '@pages/Home/Home';
+import { TScreen } from 'types/TScreen';
 
 interface ISidebar {
   setScreen?: (value: TScreen) => void;

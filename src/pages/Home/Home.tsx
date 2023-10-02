@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
+import { onDisconnect, ref, set } from 'firebase/database';
 
 import Chat from '@components/Chat/Chat';
 import Sidebar from '@components/Sidebar/Sidebar';
-import { db } from '@myfirebase/config';
+import { database, db } from '@myfirebase/config';
 import handleSelectChat from '@utils/handleSelectChat';
 import useChatStore from '@zustand/store';
 import { TChatListItem } from 'types/TChatListItem';
 import { TCurrentChatInfo } from 'types/TCurrentChatInfo';
-
-export type TScreen = 'Sidebar' | 'Chat';
+import { TScreen } from 'types/TScreen';
 
 function Home() {
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
@@ -19,7 +19,6 @@ function Home() {
   const navigate = useNavigate();
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
-  // const currentUser = useChatStore(state => state.currentUser);
 
   const updateCurrentChatInfo = useChatStore(
     state => state.updateCurrentChatInfo
@@ -39,13 +38,13 @@ function Home() {
     ) {
       const combinedUsersChatUID = localStorage.getItem('currentChatId');
 
-      console.log('combinedUsersChatUID', combinedUsersChatUID);
-      console.log('currentUserUID', currentUserUID);
+      // console.log('combinedUsersChatUID', combinedUsersChatUID);
+      // console.log('currentUserUID', currentUserUID);
 
       if (combinedUsersChatUID && currentUserUID) {
         const res = await getDoc(doc(db, 'userChats', currentUserUID));
 
-        console.log('res', res.data());
+        // console.log('res', res.data());
 
         const chatItem: TChatListItem = [
           combinedUsersChatUID,
@@ -55,7 +54,7 @@ function Home() {
           },
         ];
 
-        console.log(chatItem);
+        // console.log(chatItem);
 
         handleSelectChat(chatItem, updateCurrentChatInfo, setScreen);
         navigate(combinedUsersChatUID);
@@ -86,29 +85,27 @@ function Home() {
     };
   }, []);
 
+  // update online/offline status in realtime database
   useEffect(() => {
-    const updateOnlineStatus = (online: boolean) => {
-      if (currentUserUID) {
-        const userDocRef = doc(db, 'users', currentUserUID);
-        const onlineStatus = online ? { isOnline: true } : { isOnline: false };
+    if (currentUserUID) {
+      const dbRef = ref(database, 'status/' + currentUserUID);
 
-        setDoc(userDocRef, onlineStatus, { merge: true });
-      }
-    };
-    updateOnlineStatus(true);
+      // Устанавливаем онлайн-статус при входе
+      set(dbRef, true);
 
-    const handleUpdateStatus = () => {
-      updateOnlineStatus(false);
-    };
+      // Устанавливаем обработчик отключения
+      const disconnectRef = onDisconnect(dbRef);
 
-    window.addEventListener('unload', handleUpdateStatus);
-    window.addEventListener('beforeunload', handleUpdateStatus);
+      // Устанавливаем офлайн-статус при отключении
+      disconnectRef.set(false);
 
-    return () => {
-      window.removeEventListener('unload', handleUpdateStatus);
-      window.removeEventListener('beforeunload', handleUpdateStatus);
-      updateOnlineStatus(false);
-    };
+      return () => {
+        // Очищаем обработчик отключения при размонтировании компонента
+        disconnectRef.cancel();
+        // Устанавливаем офлайн-статус при размонтировании компонента
+        set(dbRef, false);
+      };
+    }
   }, [currentUserUID]);
 
   return (

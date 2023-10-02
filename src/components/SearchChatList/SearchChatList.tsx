@@ -14,7 +14,7 @@ import capitalizeName from '@components/Search/utils/capitalizeFirstLetterName';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleCreateChat from './utils/handleCreateChat';
-import { TScreen } from '@pages/Home/Home';
+import { TScreen } from 'types/TScreen';
 
 interface IChatList {
   setScreen?: (value: TScreen) => void;
@@ -63,6 +63,24 @@ function SearchChatList({ setScreen }: IChatList) {
     fetchSearchUsers();
   }, [searchValue]);
 
+  const handleManageCreateChat = (docData: DocumentData) => {
+    handleCreateChat(
+      docData,
+      // setSearchChatList,
+      // updateSearchValue,
+      updateCurrentChatInfo,
+      navigate
+      // setScreen
+    );
+
+    setSearchChatList(null);
+    updateSearchValue('');
+
+    if (setScreen) {
+      setScreen('Chat');
+    }
+  };
+
   return (
     <div>
       <ul className="bg-myBlackBcg">
@@ -73,20 +91,23 @@ function SearchChatList({ setScreen }: IChatList) {
             // фильтруем себя
             if (doc.data().uid === currentUser.uid) return;
 
+            const docData: DocumentData = doc.data();
+
             return (
               <li
                 className="flex items-center content-center gap-3 h-72px"
                 key={doc.id}
-                onClick={() => {
-                  handleCreateChat(
-                    doc.data(),
-                    setSearchChatList,
-                    updateSearchValue,
-                    updateCurrentChatInfo,
-                    navigate,
-                    setScreen
-                  );
-                }}
+                // onClick={() => {
+                //   handleCreateChat(
+                //     doc.data(),
+                //     setSearchChatList,
+                //     updateSearchValue,
+                //     updateCurrentChatInfo,
+                //     navigate,
+                //     setScreen
+                //   );
+                // }}
+                onClick={() => handleManageCreateChat(docData)}
               >
                 {/* <img
                   width={50}

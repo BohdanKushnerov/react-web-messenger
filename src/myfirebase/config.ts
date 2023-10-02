@@ -5,6 +5,7 @@ import {
   onAuthStateChanged,
   setPersistence,
 } from 'firebase/auth';
+import { getDatabase } from 'firebase/database';
 import { getFirestore } from 'firebase/firestore';
 
 const {
@@ -15,6 +16,7 @@ const {
   VITE_MESSAGING_SENDER_ID,
   VITE_APP_ID,
   VITE_MEASUREMENT_ID,
+  VITE_DB_URL,
 } = import.meta.env || ({} as NodeJS.Process['env']);
 
 const firebaseConfig = {
@@ -25,12 +27,13 @@ const firebaseConfig = {
   messagingSenderId: VITE_MESSAGING_SENDER_ID,
   appId: VITE_APP_ID,
   measurementId: VITE_MEASUREMENT_ID,
+  databaseURL: VITE_DB_URL,
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-// const database = getDatabase(app);
+const database = getDatabase(app);
 
 setPersistence(auth, browserLocalPersistence);
 
@@ -45,4 +48,4 @@ onAuthStateChanged(auth, user => {
   }
 });
 
-export { auth, db };
+export { auth, db, database };

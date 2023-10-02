@@ -9,7 +9,7 @@ import ChatListItem from '@components/ChatListItem/ChatListItem';
 import { auth, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import { TChatListItem } from 'types/TChatListItem';
-import { TScreen } from '@pages/Home/Home';
+import { TScreen } from 'types/TScreen';
 
 interface IChatList {
   setScreen?: (value: TScreen) => void;

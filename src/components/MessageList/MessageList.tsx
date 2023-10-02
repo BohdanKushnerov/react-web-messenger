@@ -4,7 +4,7 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import formatTime from '@components/Chat/utils/formatTime';
+import formatTime from '@utils/formatTime';
 
 interface iMessageListProps {
   messages: DocumentData[] | null;

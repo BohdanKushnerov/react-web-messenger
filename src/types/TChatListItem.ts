@@ -3,10 +3,5 @@ export type TChatListItem = [
   {
     lastMessage: string;
     userUID: string;
-    // userInfo: {
-    //   photoURL: string;
-    //   displayName: string;
-    //   uid: string;
-    // };
   }
 ];

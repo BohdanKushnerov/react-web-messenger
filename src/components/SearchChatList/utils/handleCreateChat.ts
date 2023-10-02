@@ -1,29 +1,29 @@
 import {
   DocumentData,
-  QuerySnapshot,
+  // QuerySnapshot,
   doc,
   getDoc,
   serverTimestamp,
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
+import { NavigateFunction } from 'react-router-dom';
 
 import { auth, db } from '@myfirebase/config';
 import handleSelectChat from '@utils/handleSelectChat';
-import { TScreen } from '@pages/Home/Home';
 import { TChatListItem } from 'types/TChatListItem';
-import { NavigateFunction } from 'react-router-dom';
+// import { TScreen } from 'types/TScreen';
 
 // создаем общий ИД для общего чата + обновляем списки чатов у 2их юзеров(1. я как текущий и 2. тот которого выбрал)
 const handleCreateChat = async (
   user: DocumentData,
-  setChatList: React.Dispatch<
-    React.SetStateAction<QuerySnapshot<DocumentData, DocumentData> | null>
-  >,
-  updateSearchValue: (value: string) => void,
+  // setChatList: React.Dispatch<
+  //   React.SetStateAction<QuerySnapshot<DocumentData, DocumentData> | null>
+  // >,
+  // updateSearchValue: (value: string) => void,
   updateCurrentChatInfo: (chat: TChatListItem) => void,
   navigate: NavigateFunction,
-  setScreen?: (value: TScreen) => void,
+  // setScreen?: (value: TScreen) => void,
 ) => {
   // выйдем если не авторизирован
   if (!auth?.currentUser?.uid) return;
@@ -86,12 +86,12 @@ const handleCreateChat = async (
 
       console.log(chatItem);
 
-      handleSelectChat(chatItem, updateCurrentChatInfo, setScreen);
+      handleSelectChat(chatItem, updateCurrentChatInfo);
       navigate(combinedUsersChatID);
     }
 
-    setChatList(null);
-    updateSearchValue('');
+    // setChatList(null);
+    // updateSearchValue('');
   } catch (error) {
     console.log('error handleCreateChat', error);
   }

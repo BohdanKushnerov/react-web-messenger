@@ -10,11 +10,6 @@ const createCurrentChatInfoState: StateCreator<
   currentChatInfo: {
     chatUID: null,
     userUID: null,
-    // userInfo: {
-    //   photoURL: null,
-    //   displayName: null,
-    //   uid: null,
-    // },
   },
   updateCurrentChatInfo: (chat: TCurrentChatInfo) => {
     set(
@@ -22,11 +17,6 @@ const createCurrentChatInfoState: StateCreator<
         state.currentChatInfo = {
           chatUID: chat[0],
           userUID: chat[1].userUID,
-          // userInfo: {
-          //   displayName: chat[1].userInfo.displayName,
-          //   uid: chat[1].userInfo.uid,
-          //   photoURL: chat[1].userInfo.photoURL,
-          // },
         };
       })
     );
@@ -37,11 +27,6 @@ const createCurrentChatInfoState: StateCreator<
         state.currentChatInfo = {
           chatUID: null,
           userUID: null,
-          // userInfo: {
-          //   displayName: chat[1].userInfo.displayName,
-          //   uid: chat[1].userInfo.uid,
-          //   photoURL: chat[1].userInfo.photoURL,
-          // },
         };
       })
     );

@@ -7,44 +7,57 @@ import {
   orderBy,
   query,
 } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { onValue, ref } from 'firebase/database';
 import Avatar from 'react-avatar';
 
-import { db } from '@myfirebase/config';
+import { database, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import handleSendMessage from './utils/handleSendMessage';
+import handleSendMessage from '../../utils/handleSendMessage';
 import MessageList from '../MessageList/MessageList';
-import { TScreen } from '@pages/Home/Home';
-import { useNavigate } from 'react-router-dom';
+import { TScreen } from 'types/TScreen';
 
 interface IChat {
   setScreen?: (value: TScreen) => void;
 }
 
 function Chat({ setScreen }: IChat) {
-  const [currentChatInfo, setCurrentChatInfo] = useState<DocumentData | null>(null);
+  const [currentChatInfo, setCurrentChatInfo] = useState<DocumentData | null>(
+    null
+  );
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<DocumentData[] | null>(null);
-
+  const [isOnline, setIsOnline] = useState<boolean | null>(null);
   const navigate = useNavigate();
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
 
   useEffect(() => {
-    if (!userUID) return 
-      const unsub = onSnapshot(doc(db, 'users', userUID), doc => {
-        const data = doc.data();
-        if (data) {
-          console.log("data", data);
-          // setUserInfo(data);
-          setCurrentChatInfo(data);
-          // displayName: 'Test 2', photoURL: null, isOnline: true
-        }
-        // setIsOnline(data?.isOnline);
-      });
+    if (!userUID) return;
+    const unsubUserInfoData = onSnapshot(doc(db, 'users', userUID), doc => {
+      const data = doc.data();
+      if (data) {
+        // console.log('data', data);
+        setCurrentChatInfo(data);
+      }
+    });
+
+    const dbRef = ref(database, 'status/' + userUID);
+
+    // Устанавливаем слушатель для данных
+    const unsubOnlineStatus = onValue(dbRef, snapshot => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        setIsOnline(data); // Здесь data будет true, если пользователь онлайн, и false, если офлайн
+      } else {
+        setIsOnline(false); // Если данных нет, считаем пользователя офлайн
+      }
+    });
 
     return () => {
-      unsub();
+      unsubUserInfoData();
+      unsubOnlineStatus();
     };
   }, [userUID]);
 
@@ -100,6 +113,13 @@ function Chat({ setScreen }: IChat) {
     setMessage(e.target.value);
   };
 
+  const handleManageSendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    handleSendMessage(message, chatUID, currentUserUID, userUID);
+    setMessage('');
+  };
+
   return (
     <div className="relative h-full w-screen bg-transparent overflow-hidden ">
       {messages ? (
@@ -142,20 +162,16 @@ function Chat({ setScreen }: IChat) {
               width={40}
               height={40}
             /> */}
-            {currentChatInfo?.displayName && <Avatar
-              className="rounded-full"
-              name={`${currentChatInfo?.displayName}`}
-              size="35"
-            />}
+            {currentChatInfo?.displayName && (
+              <Avatar
+                className="rounded-full"
+                name={`${currentChatInfo?.displayName}`}
+                size="35"
+              />
+            )}
             <p className="text-textSecondary">{currentChatInfo?.displayName}</p>
-            <div
-              className={`${
-                currentChatInfo && currentChatInfo.isOnline
-                  ? 'text-green-600'
-                  : 'text-red-700'
-              }`}
-            >
-              {currentChatInfo?.isOnline ? 'Online' : 'Offline'}
+            <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
+              {isOnline ? 'Online' : 'Offline'}
             </div>
           </div>
 
@@ -163,17 +179,7 @@ function Chat({ setScreen }: IChat) {
 
           <form
             className="absolute bottom-0 left-0 overflow-hidden w-full z-10 flex items-center gap-4 h-20 px-6 border-t"
-            onSubmit={e =>
-              handleSendMessage(
-                e,
-                message,
-                setMessage,
-                chatUID,
-                currentUserUID,
-                // userInfo.uid
-                userUID
-              )
-            }
+            onSubmit={handleManageSendMessage}
           >
             <input
               className="h-10 w-full sm:w-8/12 py-1 px-10 rounded-3xl bg-mySeacrhBcg text-white"

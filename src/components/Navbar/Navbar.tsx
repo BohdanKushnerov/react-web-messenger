@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { signOut } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
 
-import { auth, db } from '@myfirebase/config';
+import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 
 function Navbar() {
@@ -26,19 +25,9 @@ function Navbar() {
     };
   }, []);
 
-  console.log("currentUser", currentUser);
+  // console.log("currentUser", currentUser);
 
   const handleSignOut = async () => {
-    // localStorage.removeItem('currentChatId');
-
-    if (currentUser.uid) {
-      await setDoc(
-        doc(db, 'users', currentUser.uid),
-        { isOnline: false },
-        { merge: true }
-      );
-    }
-
     resetCurrentChatInfo()
 
     const exit = await signOut(auth);
