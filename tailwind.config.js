@@ -22,6 +22,7 @@ export default {
       backgroundImage: {
         'main-bcg': "url('/src/assets/bcg.jpg')",
         'main-bcg2': "url('/src/assets/bcg-dark.jpg')",
+        'loader-bcg': "url('/src/assets/loader-img.jpg')",
       },
       backgroundColor: {
         mybcg: '#1F2025',

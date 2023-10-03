@@ -19,10 +19,19 @@ function Home() {
   const navigate = useNavigate();
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
-
   const updateCurrentChatInfo = useChatStore(
     state => state.updateCurrentChatInfo
   );
+
+  // useEffect(() => {
+  //   if(isMobileScreen) {
+  //     setScreen()
+  //   }
+  //   // return () => {
+  //   //   second
+  //   // }
+  // }, [isMobileScreen]);
+  
 
   // isRedirectToCurrentChat
   useEffect(() => {
@@ -31,7 +40,6 @@ function Home() {
       handleSelectChat: (
         chat: TChatListItem,
         updateCurrentChatInfo: (chat: TChatListItem) => void,
-        setScreen?: ((value: TScreen) => void) | undefined
       ) => void,
       updateCurrentChatInfo: (chat: TCurrentChatInfo) => void,
       setScreen: React.Dispatch<React.SetStateAction<TScreen>>
@@ -56,7 +64,8 @@ function Home() {
 
         // console.log(chatItem);
 
-        handleSelectChat(chatItem, updateCurrentChatInfo, setScreen);
+        handleSelectChat(chatItem, updateCurrentChatInfo);
+        setScreen('Chat');
         navigate(combinedUsersChatUID);
       }
     }
@@ -108,8 +117,11 @@ function Home() {
     }
   }, [currentUserUID]);
 
+  console.log("screen", screen)
+
   return (
     <div
+      className="bg-main-bcg2 bg-no-repeat bg-cover bg-center"
       style={{
         display: 'flex',
         height: `${windowHeight}px`,
@@ -130,7 +142,7 @@ function Home() {
             overflow: 'hidden',
           }}
         >
-          <Sidebar />
+          <Sidebar setScreen={setScreen} />
           <Chat />
         </div>
       )}

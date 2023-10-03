@@ -36,9 +36,6 @@ function App() {
         children: [
           {
             path: '/',
-            // element: (
-            //   <PrivateRoute component={Sidebar} redirectTo="/authentication" />
-            // ),
             element: <Sidebar />,
           },
           {
@@ -46,7 +43,6 @@ function App() {
             element: (
               <PrivateRoute component={Chat} redirectTo="/authentication" />
             ),
-            // element: <Chat />,
           },
         ],
       },

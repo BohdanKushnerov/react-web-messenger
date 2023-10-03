@@ -81,7 +81,7 @@ function Auth() {
   };
 
   return (
-    <div className='h-screen'>
+    <div className="bg-main-bcg bg-no-repeat bg-cover bg-center h-screen">
       <p className="text-white font-bold text-center">{step}</p>
       <div className="bg-mybcg min-w-240px max-w-320px h-150 mx-auto my-0 p-4 rounded-md">
         {step === 'Step 1/3' && (

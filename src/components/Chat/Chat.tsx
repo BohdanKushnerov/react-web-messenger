@@ -32,6 +32,9 @@ function Chat({ setScreen }: IChat) {
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
+  const resetCurrentChatInfo = useChatStore(
+    state => state.resetCurrentChatInfo
+  );
 
   useEffect(() => {
     if (!userUID) return;
@@ -130,6 +133,7 @@ function Chat({ setScreen }: IChat) {
                 className="flex justify-center items-center w-12 h-12 text-white hover:bg-hoverGray rounded-full cursor-pointer"
                 onClick={() => {
                   setScreen('Sidebar');
+                  resetCurrentChatInfo();
                   navigate('/');
                 }}
               >
