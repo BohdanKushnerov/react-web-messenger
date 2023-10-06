@@ -17,13 +17,8 @@ import { TChatListItem } from 'types/TChatListItem';
 // создаем общий ИД для общего чата + обновляем списки чатов у 2их юзеров(1. я как текущий и 2. тот которого выбрал)
 const handleCreateChat = async (
   user: DocumentData,
-  // setChatList: React.Dispatch<
-  //   React.SetStateAction<QuerySnapshot<DocumentData, DocumentData> | null>
-  // >,
-  // updateSearchValue: (value: string) => void,
   updateCurrentChatInfo: (chat: TChatListItem) => void,
   navigate: NavigateFunction,
-  // setScreen?: (value: TScreen) => void,
 ) => {
   // выйдем если не авторизирован
   if (!auth?.currentUser?.uid) return;
@@ -43,55 +38,39 @@ const handleCreateChat = async (
     const res = await getDoc(doc(db, 'chats', combinedUsersChatID));
 
     // console.log('res getDoc combinedUsersChatID', res);
-
     // console.log('user.photoURL ', user.photoURL);
 
     if (!res.exists()) {
       // если нету чата, создаем
-      // await setDoc(doc(db, 'chats', combinedUsersChatID), { messages: {} });
       await setDoc(doc(db, 'chats', combinedUsersChatID), {});
 
       // обновляем обьект с нашими чатами и у нас появиться чат в списке чатов
       await updateDoc(doc(db, 'userChats', currentUserUID), {
-        // [combinedUsersChatID + '.userInfo']: {
-        //   uid: user.uid,
-        //   displayName: user.displayName,
-        //   photoURL: user.photoURL,
-        // },
         [combinedUsersChatID + '.userUID']: user.uid,
         [combinedUsersChatID + '.date']: serverTimestamp(),
       });
 
       // обновляем обьект для юзера с которым создаем чат чтобы у него появился чат в списке чатов
       await updateDoc(doc(db, 'userChats', selectionUserUID), {
-        // [combinedUsersChatID + '.userInfo']: {
-        //   uid: auth?.currentUser.uid,
-        //   displayName: auth?.currentUser.displayName,
-        //   photoURL: auth?.currentUser.photoURL,
-        // },
         [combinedUsersChatID + '.userUID']: auth?.currentUser.uid,
         [combinedUsersChatID + '.date']: serverTimestamp(),
       });
-
-      // делаем селект чат чтобы он открылся сразу
-      const res = await getDoc(doc(db, 'userChats', currentUserUID));
-
-      const chatItem: TChatListItem = [
-        combinedUsersChatID,
-        {
-          lastMessage: res.data()?.[combinedUsersChatID].lastMessage,
-          userUID: res.data()?.[combinedUsersChatID].userUID,
-        },
-      ];
-
-      console.log(chatItem);
-
-      handleSelectChat(chatItem, updateCurrentChatInfo);
-      navigate(combinedUsersChatID);
     }
 
-    // setChatList(null);
-    // updateSearchValue('');
+    // делаем селект чат чтобы он открылся сразу
+    const newResponse = await getDoc(doc(db, 'userChats', currentUserUID));
+
+    const chatItem: TChatListItem = [
+      combinedUsersChatID,
+      {
+        lastMessage: newResponse.data()?.[combinedUsersChatID].lastMessage,
+        userUID: newResponse.data()?.[combinedUsersChatID].userUID,
+      },
+    ];
+
+    handleSelectChat(chatItem, updateCurrentChatInfo);
+    navigate(combinedUsersChatID);
+
   } catch (error) {
     console.log('error handleCreateChat', error);
   }

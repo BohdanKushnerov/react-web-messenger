@@ -29,13 +29,16 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItem) => {
   // console.log(chatInfo);
 
   useEffect(() => {
-    const unsubUserInfoData = onSnapshot(doc(db, 'users', chatInfo[1].userUID), doc => {
-      const data = doc.data();
-      if (data) {
-        // console.log(data);
-        setUserInfo(data);
+    const unsubUserInfoData = onSnapshot(
+      doc(db, 'users', chatInfo[1].userUID),
+      doc => {
+        const data = doc.data();
+        if (data) {
+          // console.log(data);
+          setUserInfo(data);
+        }
       }
-    });
+    );
 
     const dbRef = ref(database, 'status/' + chatInfo[1].userUID);
 
@@ -57,6 +60,7 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItem) => {
 
   const handleManageSelectChat = () => {
     handleSelectChat(chatInfo, updateCurrentChatInfo);
+
     if (setScreen) {
       setScreen('Chat');
     }

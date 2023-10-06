@@ -64,14 +64,7 @@ function SearchChatList({ setScreen }: IChatList) {
   }, [searchValue]);
 
   const handleManageCreateChat = (docData: DocumentData) => {
-    handleCreateChat(
-      docData,
-      // setSearchChatList,
-      // updateSearchValue,
-      updateCurrentChatInfo,
-      navigate
-      // setScreen
-    );
+    handleCreateChat(docData, updateCurrentChatInfo, navigate);
 
     setSearchChatList(null);
     updateSearchValue('');
@@ -97,16 +90,6 @@ function SearchChatList({ setScreen }: IChatList) {
               <li
                 className="flex items-center content-center gap-3 h-72px"
                 key={doc.id}
-                // onClick={() => {
-                //   handleCreateChat(
-                //     doc.data(),
-                //     setSearchChatList,
-                //     updateSearchValue,
-                //     updateCurrentChatInfo,
-                //     navigate,
-                //     setScreen
-                //   );
-                // }}
                 onClick={() => handleManageCreateChat(docData)}
               >
                 {/* <img
