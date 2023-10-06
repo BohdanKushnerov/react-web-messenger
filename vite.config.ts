@@ -12,6 +12,7 @@ export default defineConfig({
       '@utils': '/src/utils',
       // '@types': '/src/types',
       '@interfaces': '/src/interfaces',
+      '@hooks': '/src/hooks',
     },
   },
   plugins: [react()],

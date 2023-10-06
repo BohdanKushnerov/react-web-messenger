@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { signOut } from 'firebase/auth';
 
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import ModalWindow from '@components/ModalWindow/ModalWindow';
 
 function Navbar() {
   const [isModalOpen, setIsModelOpen] = useState(false);
@@ -12,44 +13,22 @@ function Navbar() {
     state => state.resetCurrentChatInfo
   );
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        toggleModal();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
-
-  // console.log("currentUser", currentUser);
-
   const handleSignOut = async () => {
-    resetCurrentChatInfo()
+    resetCurrentChatInfo();
 
     const exit = await signOut(auth);
     console.log('exit', exit);
   };
 
-  const toggleModal = () => {
+  const handleToggleModal = () => {
     setIsModelOpen(prev => !prev);
-  };
-
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log(e);
-    if (e.target === e.currentTarget) {
-      toggleModal();
-    }
   };
 
   return (
     <>
       <div
         className="w-12 h-10 flex justify-center items-center bg-transparent hover:bg-hoverGray rounded-full cursor-pointer"
-        onClick={toggleModal}
+        onClick={handleToggleModal}
       >
         <svg
           width="25"
@@ -79,10 +58,7 @@ function Navbar() {
         </svg>
       </div>
       {isModalOpen && (
-        <div
-          onClick={handleBackdropClick}
-          className="absolute top-0 left-0 z-10 w-screen h-screen bg-transparent"
-        >
+        <ModalWindow handleToggleModal={handleToggleModal}>
           <div className="absolute top-14 left-5 z-20 w-56 h-96 p-2 bg-myBlackBcg rounded-md shadow-mainShadow">
             <div className="flex justify-between items-center text-white">
               <p>{currentUser?.displayName}</p>
@@ -94,7 +70,7 @@ function Navbar() {
               </button>
             </div>
           </div>
-        </div>
+        </ModalWindow>
       )}
     </>
   );

@@ -10,6 +10,7 @@
       "@utils/*": ["utils/*"],
       // "@types/*": ["types/*"],
       "@interfaces/*": ["interfaces/*"],
+      "@hooks/*": ["hooks/*"],
     },
     "target": "ES2020",
     "useDefineForClassFields": true,
