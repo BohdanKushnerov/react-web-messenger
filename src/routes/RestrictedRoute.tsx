@@ -9,12 +9,6 @@ function RestrictedRoute({
 }: IRestrictedRouteProps) {
     const { currentUser, isLoggedIn } = useChatStore(state => state);
 
-  console.log('RestrictedRoute');
-
-  console.log('RestrictedRoute', isLoggedIn);
-
-  // element: <RestrictedRoute component={Auth} redirectTo="/" />,
-
   return (
     <>
       {isLoggedIn !== null && !currentUser.displayName &&  <Component />}
@@ -24,18 +18,5 @@ function RestrictedRoute({
     </>
   );
 }
-
-// function RestrictedRoute({
-//   component: Component,
-//   redirectTo = '/',
-// }: IRestrictedRouteProps) {
-//   const { currentUser } = useChatStore(state => state);
-
-//   return currentUser.displayName === null ? (
-//     <Component />
-//   ) : (
-//     <Navigate to={redirectTo} />
-//   );
-// }
 
 export default RestrictedRoute;
