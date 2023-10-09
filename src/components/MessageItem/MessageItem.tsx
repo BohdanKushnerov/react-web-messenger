@@ -39,7 +39,7 @@ export default function MessageItem({ mes }: IMessageItem) {
   }
 
   return (
-      <li
+      <div
         className={`relative flex w-full ${myUID ? 'justify-end' : 'justify-start'}`}
       >
         <div
@@ -94,6 +94,6 @@ export default function MessageItem({ mes }: IMessageItem) {
             )}
           </p>
         </div>
-      </li>
+      </div>
   );
 }
