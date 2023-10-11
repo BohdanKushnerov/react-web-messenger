@@ -7,6 +7,7 @@ import {
 } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 const {
   VITE_API_KEY,
@@ -34,6 +35,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const database = getDatabase(app);
+// const storage = getStorage(app, `gs://${VITE_STORAGE_BUCKET}`);
+const storage = getStorage(app, "gs://react-web-messenger-dc6c4.appspot.com");
 
 setPersistence(auth, browserLocalPersistence);
 
@@ -48,4 +51,4 @@ onAuthStateChanged(auth, user => {
   }
 });
 
-export { auth, db, database };
+export { auth, db, database, storage };

@@ -9,7 +9,12 @@ const handleSendMessage = async (
   currentUserUID: string | null,
   userUID: string | null
 ) => {
-  if (chatUID === null || currentUserUID === null || userUID === null) {
+  if (
+    chatUID === null ||
+    currentUserUID === null ||
+    userUID === null ||
+    message === ''
+  ) {
     // Обработка случая, когда chatUID равен null
     return;
   }
