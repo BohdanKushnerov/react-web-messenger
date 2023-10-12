@@ -1,5 +1,5 @@
 import { Timestamp, addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
 import { db } from "@myfirebase/config";
 
@@ -12,8 +12,7 @@ const handleSendMessage = async (
   if (
     chatUID === null ||
     currentUserUID === null ||
-    userUID === null ||
-    message === ''
+    userUID === null 
   ) {
     // Обработка случая, когда chatUID равен null
     return;
@@ -22,7 +21,7 @@ const handleSendMessage = async (
   try {
     // создаем сообщение в виде обьекта и отправляем в подколекцию фаербейз
     await addDoc(collection(db, `chats/${chatUID}/messages`), {
-      uid: uuidv4(),
+      // uid: uuidv4(),
       message,
       senderUserID: currentUserUID,
       date: Timestamp.now(),

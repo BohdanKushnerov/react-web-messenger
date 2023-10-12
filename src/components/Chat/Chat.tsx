@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   DocumentData,
+  Timestamp,
+  addDoc,
   collection,
   doc,
   onSnapshot,
   orderBy,
   query,
+  serverTimestamp,
+  updateDoc,
 } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { onValue, ref } from 'firebase/database';
@@ -122,6 +126,10 @@ function Chat({ setScreen }: IChat) {
   const handleManageSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (message.trim() === '') {
+      return;
+    }
+
     handleSendMessage(message, chatUID, currentUserUID, userUID);
     setMessage('');
   };
@@ -133,10 +141,40 @@ function Chat({ setScreen }: IChat) {
   };
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('go');
+
     if (event.target.files) {
       const fileUploaded = event.target.files[0];
-      const file = await uploadFileToStorage(fileUploaded, 'image');
+      const { type, name } = fileUploaded;
+
+      console.log(`fileUploaded: ${name}`);
+      console.log(`Тип файла: ${type}`);
+
+      const file = await uploadFileToStorage(fileUploaded, type);
       console.log('file', file);
+      // надо создать сообщение с полем файл и отправить на сохранение
+      await addDoc(collection(db, `chats/${chatUID}/messages`), {
+        // uid: uuidv4(),
+        file: file,
+        type: type,
+        message: name,
+        senderUserID: currentUserUID,
+        date: Timestamp.now(),
+        isRead: false,
+      });
+
+      // + переписать последние сообщения у нас двоих, опредилиться с форматом
+      if (currentUserUID && userUID) {
+        await updateDoc(doc(db, 'userChats', currentUserUID), {
+          [chatUID + '.lastMessage']: name,
+          [chatUID + '.date']: serverTimestamp(),
+        });
+        // =====================================================
+        await updateDoc(doc(db, 'userChats', userUID), {
+          [chatUID + '.lastMessage']: name,
+          [chatUID + '.date']: serverTimestamp(),
+        });
+      }
     }
   };
 
