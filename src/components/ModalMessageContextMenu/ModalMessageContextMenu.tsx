@@ -11,11 +11,11 @@ interface IModalMessageContextMenu {
   children: React.ReactNode;
 }
 
-function MessageContextMenuModal({
+const MessageContextMenuModal = ({
   closeModal,
   modalPosition,
   children,
-}: IModalMessageContextMenu) {
+}: IModalMessageContextMenu) => {
   useCloseModal(closeModal);
 
   return (

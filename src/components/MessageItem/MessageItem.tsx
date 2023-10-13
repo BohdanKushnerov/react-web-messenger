@@ -45,15 +45,38 @@ export default function MessageItem({ mes }: IMessageItem) {
       }`}
     >
       <div
-        className={`w-36 py-2 px-4 border border-white rounded-3xl ${
+        className={`py-2 px-4 border border-white rounded-3xl ${
           myUID ? 'bg-blue-800' : 'bg-green-800'
         }`}
       >
-        {(mes.data().type === 'image/png' ||
+        {mes.data().file &&
+          mes.data().file.map((file: {url: string, type: string}, index: number) => {
+            return (
+              <div key={index}>
+                {file.type === 'image/png' ||
+                file.type === 'image/jpeg' ||
+                file.type === 'image/webp' ||
+                file.type === 'image/svg+xml' ? (
+                  <img
+                    src={file.url}
+                    alt={file.type}
+                    width={file.type === 'image/svg+xml' ? 25: 400}
+                    height={400}
+                  />
+                ) : (
+                  <p className='flex gap-8 bg-white'>
+                    <span>{file.type}</span>
+                    <a href={file.url}>Link</a>
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        {/* {(mes.data().type === 'image/png' ||
           mes.data().type === 'image/jpeg' ||
           mes.data().type === 'image/svg+xml') && (
-            <img src={mes.data().file} alt={mes.data().message} />
-          )}
+            <img src={mes.data().file} alt={mes.data().message} width={400} height={400} />
+          )} */}
         <p className="break-all text-white">{mes.data().message}</p>
         <p className="text-white ">
           {mes.data().date && formatTime(mes.data().date.toDate().toString())}

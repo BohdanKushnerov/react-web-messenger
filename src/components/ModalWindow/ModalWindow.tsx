@@ -7,7 +7,7 @@ interface IModalWindow {
   children: React.ReactNode;
 }
 
-function ModalWindow({ handleToggleModal, children }: IModalWindow) {
+const ModalWindow = ({ handleToggleModal, children }: IModalWindow) => {
   useCloseModal(handleToggleModal);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
