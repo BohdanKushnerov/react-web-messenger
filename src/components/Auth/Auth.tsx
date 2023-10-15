@@ -13,7 +13,7 @@ import { TAuthSteps } from 'types/TAuthSteps';
 
 function Auth() {
   const [step, setStep] = useState<TAuthSteps>('Step 1/3');
-  const [phone, setPhone] = useState<E164Number | string>('380 63 677 1111');
+  const [phone, setPhone] = useState<E164Number | string>('16505553435');
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');

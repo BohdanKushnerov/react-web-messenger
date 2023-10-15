@@ -191,6 +191,8 @@ function Chat({ setScreen }: IChat) {
         const fileBlob = new Blob([file]);
         const { name, type } = file;
 
+        console.log(file)
+
         const fileUrlFromStorage = await uploadFileToStorage(
           fileBlob,
           type,
@@ -199,6 +201,7 @@ function Chat({ setScreen }: IChat) {
 
         return {
           type,
+          name,
           url: fileUrlFromStorage,
         };
       });
@@ -314,7 +317,8 @@ function Chat({ setScreen }: IChat) {
             >
               <div className="relative w-full h-10 sm:w-8/12 ">
                 <input
-                  className="w-full h-full py-1 px-10 rounded-3xl bg-mySeacrhBcg text-white"
+                  autoFocus
+                  className="w-full h-full py-1 px-10 rounded-3xl bg-mySeacrhBcg text-white outline-none"
                   type="text"
                   value={message}
                   onChange={handleChangeMessage}
@@ -399,7 +403,7 @@ function Chat({ setScreen }: IChat) {
           </>
         ) : (
           <h2 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 bg-gray-700 rounded-xl text-center text-white font-black">
-            Choose or search user who you would like to write to
+            Select or search user who you would to start messaging
           </h2>
         )}
       </div>

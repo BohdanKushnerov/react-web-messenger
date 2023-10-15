@@ -35,8 +35,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const database = getDatabase(app);
-// const storage = getStorage(app, `gs://${VITE_STORAGE_BUCKET}`);
-const storage = getStorage(app, "gs://react-web-messenger-dc6c4.appspot.com");
+const storage = getStorage(app, `gs://${VITE_STORAGE_BUCKET}`);
 
 setPersistence(auth, browserLocalPersistence);
 
