@@ -154,7 +154,7 @@ function MessageList({ messages }: iMessageListProps) {
               return (
                 <li
                   key={mes.id}
-                  className={`rounded-3xl ${
+                  className={`${
                     currentItem && 'bg-currentContextMenuMessage'
                   }`}
                   onClick={handleCloseModal}
