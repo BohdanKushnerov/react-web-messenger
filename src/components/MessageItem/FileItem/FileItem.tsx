@@ -8,7 +8,7 @@ interface IFileItemProps {
   file: { url: string; name: string; type: string };
 }
 
-export default function FileItem({ file }: IFileItemProps) {
+function FileItem({ file }: IFileItemProps) {
   const [link, setLink] = useState('');
 
   const fileType: DefaultExtensionType =
@@ -47,3 +47,5 @@ useEffect(() => {
     </p>
   );
 }
+
+export default FileItem;
