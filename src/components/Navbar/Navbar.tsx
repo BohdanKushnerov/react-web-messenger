@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { signOut } from 'firebase/auth';
+// import Avatar from 'react-avatar';
 
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import ModalWindow from '@components/ModalWindow/ModalWindow';
+// import ProfileSettings from '@components/ProfileSettings/ProfileSettings';
 
 function Navbar() {
   const [isModalOpen, setIsModelOpen] = useState(false);
@@ -12,6 +14,8 @@ function Navbar() {
   const resetCurrentChatInfo = useChatStore(
     state => state.resetCurrentChatInfo
   );
+
+  const setSidebarScreen = useChatStore(state => state.setSidebarScreen);
 
   const handleSignOut = async () => {
     resetCurrentChatInfo();
@@ -22,6 +26,11 @@ function Navbar() {
 
   const handleToggleModal = () => {
     setIsModelOpen(prev => !prev);
+  };
+
+  const handleSettingsClick = () => {
+    // setIsProfileSettingsOpen(prev => !prev);
+    setSidebarScreen('profileSettings')
   };
 
   return (
@@ -69,6 +78,10 @@ function Navbar() {
                 Sign Out
               </button>
             </div>
+            <button className="text-white" onClick={handleSettingsClick}>
+              Profile Settings
+            </button>
+            {/* <ProfileSettings /> */}
           </div>
         </ModalWindow>
       )}
