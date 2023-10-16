@@ -113,10 +113,7 @@ function Chat({ setScreen }: IChat) {
     });
 
     const unSub = onSnapshot(q, querySnapshot => {
-      // if (!querySnapshot.empty) {
-      // console.log(querySnapshot);
       setMessages(querySnapshot.docs);
-      // }
     });
 
     return () => {
@@ -158,9 +155,6 @@ function Chat({ setScreen }: IChat) {
       console.log(`fileUploaded: ${name}`);
       console.log(`Тип файла: ${type}`);
 
-      // const fileBlob = new Blob([fileUploaded]);
-      // const imageUrl = URL.createObjectURL(fileBlob);
-      // setUploadFile(imageUrl);
       handleToggleModal();
     }
   };
@@ -184,8 +178,6 @@ function Chat({ setScreen }: IChat) {
   const handleManageSendFile = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // const filesArr: { type: string; url: string }[] = [];
-
     if (hiddenFileInput.current?.files) {
       const qqq = Array.from(hiddenFileInput.current.files).map(async (file) => {
         const fileBlob = new Blob([file]);
@@ -208,9 +200,6 @@ function Chat({ setScreen }: IChat) {
 
       const filesArr = await Promise.all(qqq);
 
-      // console.log("qqq", qqq);
-      console.log('filesArr', filesArr);
-
       // надо создать сообщение с полем файл и отправить на сохранение
       await addDoc(collection(db, `chats/${chatUID}/messages`), {
         file: filesArr,
@@ -222,16 +211,19 @@ function Chat({ setScreen }: IChat) {
 
       if (currentUserUID && userUID) {
         await updateDoc(doc(db, 'userChats', currentUserUID), {
+          // [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
+          //   fileDescription ? fileDescription : `${filesArr.length} file(s)`
+          // }`,
           [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
-            fileDescription ? fileDescription : `${filesArr.length} file(s)`
-          }`,
+            filesArr.length
+          } file(s) ${fileDescription}`,
           [chatUID + '.date']: serverTimestamp(),
         });
         // =====================================================
         await updateDoc(doc(db, 'userChats', userUID), {
           [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
-            fileDescription ? fileDescription : `${filesArr.length} file(s)`
-          }`,
+            filesArr.length
+          } file(s) ${fileDescription}`,
           [chatUID + '.date']: serverTimestamp(),
         });
       }
@@ -311,9 +303,9 @@ function Chat({ setScreen }: IChat) {
 
             <MessageList messages={messages} />
 
-            <form
+            <div
               className="absolute bottom-0 left-0 overflow-hidden w-full z-10 flex items-center gap-4 h-20 px-6 border-t"
-              onSubmit={handleManageSendMessage}
+              // onSubmit={handleManageSendMessage}
             >
               <div className="relative w-full h-10 sm:w-8/12 ">
                 <input
@@ -368,7 +360,8 @@ function Chat({ setScreen }: IChat) {
               </div>
               <button
                 className="flex justify-center items-center h-12 w-12 bg-transparent hover:bg-hoverGray rounded-full cursor-pointer"
-                type="submit"
+                // type="submit"
+                onClick={handleManageSendMessage}
               >
                 <svg
                   height="25px"
@@ -399,7 +392,7 @@ function Chat({ setScreen }: IChat) {
                   </g>
                 </svg>
               </button>
-            </form>
+            </div>
           </>
         ) : (
           <h2 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 bg-gray-700 rounded-xl text-center text-white font-black">

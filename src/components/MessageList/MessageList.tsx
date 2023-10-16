@@ -97,21 +97,29 @@ function MessageList({ messages }: iMessageListProps) {
         // console.log('messages.length > 1');
         // если последнее сообщение то ставим последнее сообщение messages[selectedItemIndexForOpenModal - 1]
         if (selectedItemIndexForOpenModal === messages.length - 1) {
-          const lastMessage =
-            messages[selectedItemIndexForOpenModal - 1].data().message;
+          const lastFiles =
+            messages[selectedItemIndexForOpenModal - 1].data()?.file;
+
+          const lastMessage = lastFiles
+            ? `${String.fromCodePoint(128206)} ${lastFiles.length} file(s) ${
+                messages[selectedItemIndexForOpenModal - 1].data().message
+              }`
+            : messages[selectedItemIndexForOpenModal - 1].data().message;
 
           const lastDateMessage =
             messages[selectedItemIndexForOpenModal - 1].data().date;
 
           // здесь надо переписывать последнее сообщение мне и напарнику после удаления
           await updateDoc(doc(db, 'userChats', currentUserUID), {
-            [chatUID + '.lastMessage']: lastMessage,
+            [chatUID + '.lastMessage']:
+              lastMessage,
             [chatUID + '.date']: lastDateMessage,
           });
 
           // =====================================================
           await updateDoc(doc(db, 'userChats', userUID), {
-            [chatUID + '.lastMessage']: lastMessage,
+            [chatUID + '.lastMessage']:
+              lastMessage,
             [chatUID + '.date']: lastDateMessage,
           });
         }
@@ -154,9 +162,7 @@ function MessageList({ messages }: iMessageListProps) {
               return (
                 <li
                   key={mes.id}
-                  className={`${
-                    currentItem && 'bg-currentContextMenuMessage'
-                  }`}
+                  className={`${currentItem && 'bg-currentContextMenuMessage'}`}
                   onClick={handleCloseModal}
                   onContextMenu={e => handleClickRigthButtonMessage(index, e)}
                 >
