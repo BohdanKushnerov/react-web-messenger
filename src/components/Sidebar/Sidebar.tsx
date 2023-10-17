@@ -13,8 +13,9 @@ interface ISidebar {
 }
 
 function Sidebar({ setScreen }: ISidebar) {
-  // console.log('Sidebar');
-    const sidebarScreen = useChatStore(state => state.sidebarScreen);
+  const sidebarScreen = useChatStore(state => state.sidebarScreen);
+
+  console.log('screen --> Sidebar');
 
   return (
     <div className="relative w-full h-full bg-myBlackBcg sm:min-w-400px sm:w-1/4 border-r">
@@ -36,9 +37,7 @@ function Sidebar({ setScreen }: ISidebar) {
           </Scrollbars>
         </>
       )}
-      {sidebarScreen === 'profileSettings' && (
-        <ProfileSettings />
-      )}
+      {sidebarScreen === 'profileSettings' && <ProfileSettings />}
     </div>
   );
 }

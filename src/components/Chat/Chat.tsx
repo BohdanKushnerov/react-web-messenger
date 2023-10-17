@@ -37,6 +37,8 @@ function Chat({ setScreen }: IChat) {
     state => state.resetCurrentChatInfo
   );
 
+  console.log('screen --> Chat')
+
   useEffect(() => {
     if (!userUID) return;
     const unsubUserInfoData = onSnapshot(doc(db, 'users', userUID), doc => {
@@ -163,13 +165,15 @@ function Chat({ setScreen }: IChat) {
                   </svg>
                 </button>
               )}
-              {/* <img
-              src={userInfo.photoURL || ''}
-              alt={userInfo.photoURL || ''}
-              width={40}
-              height={40}
-            /> */}
-              {currentChatInfo?.displayName && (
+              {currentChatInfo?.photoURL ? (
+                <img
+                  className="rounded-full"
+                  width={35}
+                  height={35}
+                  src={currentChatInfo?.photoURL}
+                  alt={currentChatInfo?.displayName}
+                />
+              ) : (
                 <Avatar
                   className="rounded-full"
                   name={`${currentChatInfo?.displayName}`}
@@ -200,7 +204,7 @@ function Chat({ setScreen }: IChat) {
                   value={message}
                   onChange={handleChangeMessage}
                 />
-                <FileInput/>
+                <FileInput />
               </div>
               <button
                 className="flex justify-center items-center h-12 w-12 bg-transparent hover:bg-hoverGray rounded-full cursor-pointer"

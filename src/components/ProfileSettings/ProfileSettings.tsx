@@ -1,20 +1,103 @@
-// import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Avatar from 'react-avatar';
+import { doc, updateDoc } from 'firebase/firestore';
+import { updateProfile } from 'firebase/auth';
 
+import ModalWindow from '@components/ModalWindow/ModalWindow';
 import useChatStore from '@zustand/store';
-import { auth } from '@myfirebase/config';
+import { auth, db } from '@myfirebase/config';
+import uploadFileToStorage from '@utils/uploadFileToStorage';
 
 function ProfileSettings() {
-  // const [isProfileSettingsOpen, setIsProfileSettingsOpen] = useState(false);
+  const [newDisplayName, setNewDisplayName] = useState(
+    () => auth.currentUser?.displayName
+  );
+  const [isModalPhotoProfileOpen, setIsModalPhotoProfileOpen] = useState(false);
 
-  const { displayName } = useChatStore(state => state.currentUser);
+  const photoProfileInput = useRef<HTMLInputElement>(null);
+
+  const { uid } = useChatStore(state => state.currentUser);
+  const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
   const setSidebarScreen = useChatStore(state => state.setSidebarScreen);
 
   const handleClickTurnBackToDefaultScreen = () => {
     setSidebarScreen('default');
   };
 
-  console.log();
+  const handleChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewDisplayName(e.target.value);
+  };
+
+  const handleClickChangeDisplayName = async(name: string) => {
+    if (auth.currentUser && uid) {
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+      })
+        .then(() => {
+          console.log('Profile updated!');
+          updateCurrentUser(auth.currentUser);
+        })
+        .catch(error => {
+          // An error occurred
+          console.log('handleClickChangeDisplayName error', error);
+        });
+
+      // обновить имя в клауде
+      await updateDoc(doc(db, 'users', uid), {
+        displayName: name,
+      });
+    }
+  };
+
+  const handleToggleProfilePhotoModal = () => {
+    setIsModalPhotoProfileOpen(prev => !prev);
+  };
+
+  const handleChangeProfilePhoto = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.files) {
+      // const fileUploaded = event.target.files[0];
+      handleToggleProfilePhotoModal();
+    }
+  };
+
+  const handleUpdateProfilePhoto = async () => {
+    if (photoProfileInput.current?.files && auth.currentUser && uid) {
+      const file = photoProfileInput.current.files[0];
+
+      if (file) {
+        const fileBlob = new Blob([file]);
+        const { name, type } = file;
+
+        const fileUrlFromStorage = await uploadFileToStorage(
+          fileBlob,
+          type,
+          name
+        );
+
+        await updateProfile(auth.currentUser, {
+          photoURL: fileUrlFromStorage,
+        })
+          .then(() => {
+            console.log('photoURL updated!');
+            updateCurrentUser(auth.currentUser);
+          })
+          .catch(error => {
+            console.log('handleUpdateProfilePhoto error', error);
+            // An error occurred
+          });
+
+        // update doc user чтобы появилась ссылка в photoURL
+        await updateDoc(doc(db, 'users', uid), {
+          photoURL: fileUrlFromStorage,
+        });
+
+        handleToggleProfilePhotoModal();
+      }
+    }
+  };
+
   return (
     <>
       <button
@@ -44,18 +127,68 @@ function ProfileSettings() {
         </svg>
       </button>
       <div className="flex flex-col justify-center items-center gap-4">
-        {displayName && (
-          <Avatar className="rounded-full" name={`${displayName}`} size="100" />
+        <input
+          type="file"
+          accept="image/png, image/jpeg"
+          ref={photoProfileInput}
+          onChange={handleChangeProfilePhoto}
+        />
+        {auth.currentUser?.photoURL && auth.currentUser.displayName ? (
+          <img
+            className="rounded-full"
+            width={200}
+            height={200}
+            src={auth.currentUser?.photoURL}
+            alt={auth.currentUser?.displayName}
+          />
+        ) : (
+          <Avatar
+            className="rounded-full"
+            name={`${auth.currentUser?.displayName}`}
+            size="200"
+          />
         )}
         <div className="text-white">
           <p>{auth?.currentUser?.phoneNumber}</p>
           <p>Number</p>
         </div>
         <div className="text-white">
-          <p>{displayName}</p>
-          <p>UserName</p>
+          {newDisplayName && (
+            <>
+              <input
+                className="text-black"
+                type="text"
+                value={newDisplayName}
+                onChange={handleChangeDisplayName}
+              />
+              <button
+                onClick={() => handleClickChangeDisplayName(newDisplayName)}
+              >
+                Change displayName
+              </button>
+            </>
+          )}
+          {/* <p>{displayName}</p>
+          <p>UserName</p> */}
         </div>
       </div>
+      {isModalPhotoProfileOpen && (
+        <ModalWindow handleToggleModal={handleToggleProfilePhotoModal}>
+          <div className="h-full flex justify-center items-center">
+            <div className="flex flex-col gap-8 bg-myBlackBcg">
+              {photoProfileInput.current?.files && (
+                <img
+                  src={URL.createObjectURL(photoProfileInput.current?.files[0])}
+                  alt={photoProfileInput.current?.files[0].name}
+                  width={200}
+                  height={200}
+                />
+              )}
+              <button onClick={handleUpdateProfilePhoto}>Change photo</button>
+            </div>
+          </div>
+        </ModalWindow>
+      )}
     </>
   );
 }

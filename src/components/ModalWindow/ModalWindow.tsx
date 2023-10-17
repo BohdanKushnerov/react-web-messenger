@@ -14,7 +14,7 @@ const ModalWindow = ({ handleToggleModal, children }: IModalWindow) => {
   useCloseModal(handleToggleModal);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log(e);
+    // console.log(e);
     if (e.target === e.currentTarget) {
       handleToggleModal();
     }

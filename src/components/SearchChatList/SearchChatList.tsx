@@ -88,21 +88,25 @@ function SearchChatList({ setScreen }: IChatList) {
 
             return (
               <li
-                className="flex items-center content-center gap-3 h-72px"
+                className="flex items-center content-center gap-3 h-72px p-2"
                 key={doc.id}
                 onClick={() => handleManageCreateChat(docData)}
               >
-                {/* <img
-                  width={50}
-                  height={50}
-                  src={doc.data().photoURL}
-                  alt={doc.data().displayName}
-                /> */}
-                <Avatar
-                  className="rounded-full"
-                  name={`${doc.data().displayName}`}
-                  size="50"
-                />
+                {doc.data()?.photoURL ? (
+                  <img
+                    className="rounded-full"
+                    width={50}
+                    height={50}
+                    src={doc.data()?.photoURL}
+                    alt={doc.data()?.displayName}
+                  />
+                ) : (
+                  <Avatar
+                    className="rounded-full"
+                    name={`${doc.data()?.displayName}`}
+                    size="50"
+                  />
+                )}
                 <p className="text-white">{doc.data().displayName}</p>
               </li>
             );

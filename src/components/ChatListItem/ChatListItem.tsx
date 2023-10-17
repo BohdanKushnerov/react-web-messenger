@@ -78,13 +78,15 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItem) => {
         to={chatInfo[0]}
         state={{ from: location }}
       >
-        {/* <img
-              width={50}
-              height={50}
-              src={chat[1].userInfo.photoURL}
-              alt={chat[1].userInfo.displayName}
-            /> */}
-        {userInfo?.displayName && (
+        {userInfo?.photoURL ? (
+          <img
+            className="rounded-full"
+            width={50}
+            height={50}
+            src={userInfo?.photoURL}
+            alt={userInfo?.displayName}
+          />
+        ) : (
           <Avatar
             className="rounded-full"
             name={`${userInfo?.displayName}`}
@@ -99,7 +101,6 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItem) => {
             }`}
           >
             {truncateLastMessageString(chatInfo[1].lastMessage, 25)}
-            {/* {chatInfo[1].lastMessage} */}
           </p>
         </div>
         <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>

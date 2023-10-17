@@ -14,7 +14,7 @@ import useChatStore from '@zustand/store';
 import uploadFileToStorage from '@utils/uploadFileToStorage';
 
 function FileInput() {
-  const [isModalAddFileOpen, setIsModelAddFileOpen] = useState(false);
+  const [isModalAddFileOpen, setIsModalAddFileOpen] = useState(false);
   const [fileDescription, setFileDescription] = useState('');
   const hiddenFileInput = useRef<HTMLInputElement>(null);
 
@@ -22,11 +22,11 @@ function FileInput() {
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
 
   const handleToggleModal = () => {
-    setIsModelAddFileOpen(prev => !prev);
+    setIsModalAddFileOpen(prev => !prev);
   };
 
   const handleCloseAddFileModal = () => {
-    setIsModelAddFileOpen(false);
+    setIsModalAddFileOpen(false);
     // setUploadFile('');
     if (fileDescription) {
       setFileDescription('');
@@ -122,7 +122,7 @@ function FileInput() {
     }
   };
   
-  console.log(isModalAddFileOpen);
+  // console.log(isModalAddFileOpen);
 
   return (
     <>
@@ -170,7 +170,7 @@ function FileInput() {
       </button>
       {isModalAddFileOpen && (
         <ModalWindow handleToggleModal={handleToggleModal}>
-          <div className="h-full flex justify-center items-center ">
+          <div className="h-full flex justify-center items-center">
             <div className="flex flex-col gap-8 bg-myBlackBcg">
               <div className="flex gap-8">
                 <button
