@@ -54,13 +54,27 @@ function MessageList({ messages }: iMessageListProps) {
     if (e) {
       e.preventDefault();
 
-      const parentDiv = e.currentTarget; // Родительский div, в котором произошел клик
-      const rect = parentDiv.getBoundingClientRect(); // Получаем координаты родительского div
-      const offsetX = e.clientX - rect.left; // Вычисляем позицию X относительно родительского div
-      // const offsetY = e.clientY - rect.top; // Вычисляем позицию Y относительно родительского div
-      const { clientY } = e;
+      const ul = e.currentTarget.parentElement;
+      const rect = ul?.getBoundingClientRect();
+      const containerTop = rect?.top;
+      const containerLeft = rect?.left;
 
-      setModalPosition({ top: clientY, left: offsetX });
+      const menuWidth = 224;
+      const menuHeight = 224;
+
+      if (containerTop && containerLeft && ul) {
+        const left =
+          e.clientX - containerLeft + ul.scrollLeft + menuWidth > ul.offsetWidth
+            ? e.clientX - containerLeft - menuWidth
+            : e.clientX - containerLeft;
+
+        const top =
+          e.clientY - containerTop + ul.scrollTop + menuHeight > ul.offsetHeight
+            ? e.clientY - containerTop - menuHeight + 35
+            : e.clientY - containerTop + 35;
+
+        setModalPosition({ top, left });
+      }
     }
 
     if (selectedItemIndexForOpenModal === index) {
@@ -111,15 +125,13 @@ function MessageList({ messages }: iMessageListProps) {
 
           // здесь надо переписывать последнее сообщение мне и напарнику после удаления
           await updateDoc(doc(db, 'userChats', currentUserUID), {
-            [chatUID + '.lastMessage']:
-              lastMessage,
+            [chatUID + '.lastMessage']: lastMessage,
             [chatUID + '.date']: lastDateMessage,
           });
 
           // =====================================================
           await updateDoc(doc(db, 'userChats', userUID), {
-            [chatUID + '.lastMessage']:
-              lastMessage,
+            [chatUID + '.lastMessage']: lastMessage,
             [chatUID + '.date']: lastDateMessage,
           });
         }

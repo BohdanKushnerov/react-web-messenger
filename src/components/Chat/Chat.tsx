@@ -12,7 +12,7 @@ import { onValue, ref } from 'firebase/database';
 import Avatar from 'react-avatar';
 
 import MessageList from '@components/MessageList/MessageList';
-import FileInput from './FileInput/FileInput';
+import FileInput from '@components/Inputs/FileInput/FileInput';
 import { database, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleSendMessage from '@utils/handleSendMessage';

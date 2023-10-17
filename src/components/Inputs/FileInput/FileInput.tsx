@@ -100,16 +100,26 @@ function FileInput() {
     setFileDescription(e.target.value);
   };
 
-  const handleClickFileInput = () => {
-    if (hiddenFileInput.current) {
-      hiddenFileInput.current.click();
-      console.log('click input');
+  const handleClickFileInput = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+
+    if (
+      target.nodeName !== 'path' &&
+      target.nodeName !== 'svg' &&
+      target.nodeName !== 'input'
+    ) {
+      return
     }
+      if (hiddenFileInput.current) {
+        hiddenFileInput.current.click();
+        console.log('click input');
+      }
   };
 
-  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeFileInput = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     console.log('event', event);
-    console.log('go');
 
     if (event.target.files) {
       const fileUploaded = event.target.files[0];
@@ -121,7 +131,7 @@ function FileInput() {
       handleToggleModal();
     }
   };
-  
+
   // console.log(isModalAddFileOpen);
 
   return (
@@ -133,7 +143,6 @@ function FileInput() {
         <svg
           fill="#FFFFFF"
           version="1.1"
-          id="Capa_1"
           xmlns="http://www.w3.org/2000/svg"
           xmlnsXlink="http://www.w3.org/1999/xlink"
           width="25px"
@@ -163,7 +172,7 @@ function FileInput() {
         <input
           type="file"
           multiple
-          onChange={handleChange}
+          onChange={handleChangeFileInput}
           ref={hiddenFileInput}
           style={{ display: 'none' }}
         />
