@@ -50,24 +50,49 @@ function MessageList({ messages }: iMessageListProps) {
     if (e) {
       e.preventDefault();
 
-      const ul = e.currentTarget.parentElement;
-      const rect = ul?.getBoundingClientRect();
+      const chatContainerEl = e.currentTarget.parentElement?.parentElement;
+      // console.dir(div)
+      const rect = chatContainerEl?.getBoundingClientRect();
+      // console.log(rect)
       const containerTop = rect?.top;
       const containerLeft = rect?.left;
 
       const menuWidth = 224;
       const menuHeight = 224;
 
-      if (containerTop && containerLeft && ul) {
+      if (containerTop && containerLeft && chatContainerEl) {
         const left =
-          e.clientX - containerLeft + ul.scrollLeft + menuWidth > ul.offsetWidth
+          // e.clientX - containerLeft + chatContainerEl.scrollLeft + menuWidth >
+          // chatContainerEl.offsetWidth
+          //   ? e.clientX - containerLeft - menuWidth
+          //   : e.clientX - containerLeft;
+          // ========================
+          e.clientX - containerLeft + menuWidth > chatContainerEl.clientWidth
             ? e.clientX - containerLeft - menuWidth
             : e.clientX - containerLeft;
 
+        // console.log('x', e.clientX);
+        // console.log('containerLeft', containerLeft);
+        // console.log('El.clientWidth', chatContainerEl.clientWidth);
+        // console.log(e.clientX - containerLeft > chatContainerEl.clientWidth);
+
         const top =
-          e.clientY - containerTop + ul.scrollTop + menuHeight > ul.offsetHeight
-            ? e.clientY - containerTop - menuHeight + 35
-            : e.clientY - containerTop + 35;
+          // e.clientY - containerTop + div.scrollTop + menuHeight > div.offsetHeight
+          // ? e.clientY - containerTop - menuHeight + 35
+          // : e.clientY - containerTop + 35;
+          // ======================================
+          // e.clientY + containerTop > chatContainerEl.clientHeight
+          //   ? e.clientY - containerTop - menuHeight + 50
+          //   : e.clientY - containerTop + 50;
+          // ======================================
+          e.clientY - containerTop + menuHeight > chatContainerEl.clientHeight
+            ? e.clientY - containerTop - menuHeight + 50
+            : e.clientY - containerTop + 50;
+
+        // console.log(e.clientY);
+        // console.log(containerTop);
+        // console.log(div.clientHeight);
+        // console.log(e.clientY - containerTop > div.clientHeight);
 
         setModalPosition({ top, left });
       }

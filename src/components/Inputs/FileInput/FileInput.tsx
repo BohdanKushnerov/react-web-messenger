@@ -170,11 +170,11 @@ function FileInput() {
           </g>
         </svg>
         <input
+          style={{ display: 'none' }}
           type="file"
           multiple
           onChange={handleChangeFileInput}
           ref={hiddenFileInput}
-          style={{ display: 'none' }}
         />
       </button>
       {isModalAddFileOpen && (
