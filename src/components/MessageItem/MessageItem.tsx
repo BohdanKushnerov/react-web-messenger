@@ -1,10 +1,9 @@
 import { DocumentData, Firestore, doc, updateDoc } from 'firebase/firestore';
 
+import FileItem from './FileItem/FileItem';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import formatTime from '@utils/formatTime';
-// import { getDownloadURL, ref } from 'firebase/storage';
-import FileItem from './FileItem/FileItem';
 
 interface IMessageItem {
   mes: DocumentData;
@@ -59,7 +58,6 @@ export default function MessageItem({ mes }: IMessageItem) {
                 index: number
               ) => {
 
-
                 return (
                   <div key={index}>
                     {file.type === 'image/png' ||
@@ -73,14 +71,14 @@ export default function MessageItem({ mes }: IMessageItem) {
                         height={400}
                       />
                     ) : (
-                      <FileItem file={file}/>
+                      <FileItem file={file} />
                     )}
                   </div>
                 );
               }
             )}
         <p className="break-all text-white">{mes.data().message}</p>
-        <div className='flex justify-end items-center gap-2'>
+        <div className="flex justify-end items-center gap-2">
           <p className="text-white ">
             {mes.data().date && formatTime(mes.data().date.toDate().toString())}
           </p>

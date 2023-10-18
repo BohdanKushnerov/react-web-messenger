@@ -9,12 +9,13 @@ const createAuthSliceState: StateCreator<IAuthSliceState> = set => ({
   currentUser: {
     uid: null,
     displayName: null,
+    photoURL: null,
   },
   updateCurrentUser: user => {
     if (user === null) {
       set(() => ({
         isLoggedIn: false,
-        currentUser: { uid: null, displayName: null },
+        currentUser: { uid: null, displayName: null, photoURL: null },
       }));
     } else {
       set(
@@ -22,6 +23,7 @@ const createAuthSliceState: StateCreator<IAuthSliceState> = set => ({
           state.isLoggedIn = true;
           state.currentUser.uid = user.uid;
           state.currentUser.displayName = user.displayName;
+          state.currentUser.photoURL = user.photoURL;
         })
       );
     }

@@ -7,16 +7,20 @@ import {
   serverTimestamp,
   updateDoc,
 } from 'firebase/firestore';
+import { DefaultExtensionType, FileIcon, defaultStyles } from 'react-file-icon';
 
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
+import ButtonCloseModal from '@components/Buttons/ButtonCloseModal/ButtonCloseModal';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import uploadFileToStorage from '@utils/uploadFileToStorage';
+import Scrollbars from 'react-custom-scrollbars-2';
 
 function FileInput() {
   const [isModalAddFileOpen, setIsModalAddFileOpen] = useState(false);
   const [fileDescription, setFileDescription] = useState('');
   const hiddenFileInput = useRef<HTMLInputElement>(null);
+  const scrollbarsRef = useRef<Scrollbars>(null);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
@@ -132,8 +136,6 @@ function FileInput() {
     }
   };
 
-  // console.log(isModalAddFileOpen);
-
   return (
     <>
       <button
@@ -180,77 +182,88 @@ function FileInput() {
       {isModalAddFileOpen && (
         <ModalWindow handleToggleModal={handleToggleModal}>
           <div className="h-full flex justify-center items-center">
-            <div className="flex flex-col gap-8 bg-myBlackBcg">
-              <div className="flex gap-8">
-                <button
-                  className="hover:bg-hoverGray cursor-pointer"
-                  onClick={handleCloseAddFileModal}
-                >
-                  <svg
-                    fill="#000000"
-                    height="25px"
-                    width="25px"
-                    version="1.1"
-                    id="Layer_1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlnsXlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 0 512 512"
-                    xmlSpace="preserve"
-                  >
-                    <g>
-                      <g>
-                        <polygon
-                          points="512,59.076 452.922,0 256,196.922 59.076,0 0,59.076 196.922,256 0,452.922 59.076,512 256,315.076 452.922,512 
-			512,452.922 315.076,256 		"
-                        />
-                      </g>
-                    </g>
-                  </svg>
-                </button>
-                <p className="text-white">Send File</p>
-              </div>
-              {hiddenFileInput.current?.files &&
-                Array.from(hiddenFileInput.current.files).map(file => {
-                  console.log('file', file);
-                  if (
-                    file.type === 'image/jpeg' ||
-                    file.type === 'image/png' ||
-                    file.type === 'image/gif' ||
-                    file.type === 'image/webp'
-                  ) {
-                    return (
-                      <div key={file.name}>
-                        <img
-                          src={URL.createObjectURL(file)}
-                          alt={`Image ${file.name}`}
-                          width={100}
-                          height={100}
-                        />
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <p key={file.name}>
-                        <span className="bg-gray-100">{file.type}</span>
-                        {file.name}
-                      </p>
-                    );
-                  }
-                })}
+            <div className="relative w-1/3 h-1/2 flex flex-col gap-8 justify-between items-center p-2 bg-myBlackBcg rounded-3xl">
+              <p className="text-white font-extrabold">Send File(s)</p>
+              <ButtonCloseModal handleToggleModal={handleCloseAddFileModal} />
+              <Scrollbars
+                ref={scrollbarsRef}
+                autoHide
+                style={{
+                  // top: 0,
+                  width: '100%',
+                  height: '100%',
+                }}
+              >
+                <ul className="flex flex-col gap-2">
+                  {hiddenFileInput.current?.files &&
+                    Array.from(hiddenFileInput.current.files).map(file => {
+                      console.log('file', file);
+                      if (
+                        file.type === 'image/jpeg' ||
+                        file.type === 'image/png' ||
+                        file.type === 'image/gif' ||
+                        file.type === 'image/webp'
+                      ) {
+                        return (
+                          <li key={file.name} className="flex gap-2">
+                            <img
+                              src={URL.createObjectURL(file)}
+                              alt={`Image ${file.name}`}
+                              width={48}
+                              height={48}
+                            />
+                            <div className="flex flex-col">
+                              <p className="text-white">{file.name}</p>
+                              <p className="text-gray-500">
+                                {(file.size / 1024).toFixed(2) + ' KB'}
+                              </p>
+                            </div>
+                          </li>
+                        );
+                      } else {
+                        const fileType: DefaultExtensionType =
+                          (file.name
+                            .split('.')
+                            .pop() as DefaultExtensionType) || 'default';
+
+                        return (
+                          <li
+                            key={file.name}
+                            className="flex items-center gap-4"
+                          >
+                            <span className="w-10 h-10">
+                              <FileIcon
+                                extension={fileType}
+                                {...defaultStyles[fileType]}
+                              />
+                            </span>
+                            <div className="flex flex-col">
+                              <p className="text-white">{file.name}</p>
+                              <p className="text-gray-500">
+                                {(file.size / 1024).toFixed(2) + ' KB'}
+                              </p>
+                            </div>
+                          </li>
+                        );
+                      }
+                    })}
+                </ul>
+              </Scrollbars>
               <form
-                className="w-full flex items-center gap-4 h-20 px-6 border-t"
+                className="w-full flex items-center gap-4 h-8 px-6"
                 onSubmit={handleManageSendFile}
               >
                 <div className="relative w-full h-10 sm:w-8/12 ">
                   <input
-                    className="w-full h-full py-1 px-10 rounded-3xl bg-mySeacrhBcg text-white"
+                    className="w-full h-full py-1 px-10 rounded-3xl bg-mySeacrhBcg text-white outline-none border-2 border-transparent focus:border-cyan-500"
                     type="text"
+                    placeholder='Add a caption...'
                     value={fileDescription}
                     onChange={handleChangeFileDescription}
                   />
                 </div>
                 <button
-                  className="flex justify-center items-center h-12 w-12 bg-transparent text-white hover:bg-hoverGray rounded-full cursor-pointer"
+                  className="h-10 px-2 border border-gray-600 rounded-full text-white hover:shadow-mainShadow hover:bg-gray-800 cursor-pointer"
                   type="submit"
                 >
                   Send

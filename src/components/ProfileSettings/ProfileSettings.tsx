@@ -7,6 +7,7 @@ import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import useChatStore from '@zustand/store';
 import { auth, db } from '@myfirebase/config';
 import uploadFileToStorage from '@utils/uploadFileToStorage';
+import ButtonCloseModal from '@components/Buttons/ButtonCloseModal/ButtonCloseModal';
 
 function ProfileSettings() {
   const [newDisplayName, setNewDisplayName] = useState(
@@ -211,7 +212,7 @@ function ProfileSettings() {
                 displayName === newDisplayName
                   ? 'text-black border-black'
                   : 'text-white'
-              } hover:shadow-mainShadow cursor-pointer`}
+              } hover:shadow-mainShadow hover:bg-gray-800 cursor-pointer`}
               onClick={() => handleClickChangeDisplayName(newDisplayName)}
               disabled={displayName === newDisplayName}
             >
@@ -224,31 +225,9 @@ function ProfileSettings() {
         <ModalWindow handleToggleModal={handleToggleProfilePhotoModal}>
           <div className="h-full flex justify-center items-center">
             <div className="relative w-1/3 h-1/2 flex flex-col gap-8 justify-center items-center bg-myBlackBcg rounded-3xl">
-              <button
-                className="absolute top-2 left-2 hover:bg-hoverGray cursor-pointer"
-                onClick={handleToggleProfilePhotoModal}
-              >
-                <svg
-                  fill="#000000"
-                  height="25px"
-                  width="25px"
-                  version="1.1"
-                  id="Layer_1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                  viewBox="0 0 512 512"
-                  xmlSpace="preserve"
-                >
-                  <g>
-                    <g>
-                      <polygon
-                        points="512,59.076 452.922,0 256,196.922 59.076,0 0,59.076 196.922,256 0,452.922 59.076,512 256,315.076 452.922,512 
-			512,452.922 315.076,256 		"
-                      />
-                    </g>
-                  </g>
-                </svg>
-              </button>
+              <ButtonCloseModal
+                handleToggleModal={handleToggleProfilePhotoModal}
+              />
               {photoProfileInput.current?.files && (
                 <img
                   className="rounded-full"
@@ -259,7 +238,7 @@ function ProfileSettings() {
                 />
               )}
               <button
-                className="w-48 border-2 rounded-3xl text-white hover:shadow-mainShadow cursor-pointer"
+                className="w-48 border-2 rounded-3xl text-white hover:shadow-mainShadow hover:bg-gray-800 cursor-pointer"
                 onClick={handleUpdateProfilePhoto}
               >
                 Change profile photo

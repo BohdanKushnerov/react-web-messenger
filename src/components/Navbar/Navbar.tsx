@@ -4,6 +4,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
+import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 
 function Navbar() {
   const [isModalOpen, setIsModelOpen] = useState(false);
@@ -65,8 +66,15 @@ function Navbar() {
       </div>
       {isModalOpen && (
         <ModalWindow handleToggleModal={handleToggleModal}>
-          <div className="absolute top-14 left-5 z-20 w-56 h-96 p-2 bg-myBlackBcg rounded-md shadow-mainShadow">
+          <div className="absolute top-14 left-5 z-20 flex flex-col gap-2 w-56 h-96 p-2 bg-myBlackBcg rounded-md shadow-mainShadow">
             <div className="flex justify-between items-center text-white">
+              {currentUser?.photoURL && currentUser?.displayName && (
+                <AvatarProfile
+                  photoURL={currentUser.photoURL}
+                  displayName={currentUser.displayName}
+                  size="50"
+                />
+              )}
               <p>{currentUser?.displayName}</p>
               <button
                 className="p-1 border border-gray-600 rounded-full hover:shadow-mainShadow hover:bg-gray-800"
@@ -75,7 +83,10 @@ function Navbar() {
                 Sign Out
               </button>
             </div>
-            <button className="text-white" onClick={handleSettingsClick}>
+            <button
+              className="p-1 border border-gray-600 rounded-full text-white hover:shadow-mainShadow hover:bg-gray-800"
+              onClick={handleSettingsClick}
+            >
               Profile Settings
             </button>
           </div>

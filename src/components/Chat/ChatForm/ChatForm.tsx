@@ -16,6 +16,7 @@ function ChatForm({
           autoFocus
           className="w-full h-full py-1 px-10 rounded-3xl bg-mySeacrhBcg text-white outline-none"
           type="text"
+          placeholder='Write your message...'
           value={message}
           onChange={handleChangeMessage}
         />

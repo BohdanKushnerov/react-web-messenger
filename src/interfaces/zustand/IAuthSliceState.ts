@@ -5,6 +5,7 @@ export interface IAuthSliceState {
   currentUser: {
     uid: string | null;
     displayName: string | null;
+    photoURL: string | null;
   };
   updateCurrentUser: (user: User | null) => void;
 }
