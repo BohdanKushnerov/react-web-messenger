@@ -8,7 +8,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 
-import ModalWindow from '@components/ModalWindow/ModalWindow';
+import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import uploadFileToStorage from '@utils/uploadFileToStorage';
@@ -108,12 +108,12 @@ function FileInput() {
       target.nodeName !== 'svg' &&
       target.nodeName !== 'input'
     ) {
-      return
+      return;
     }
-      if (hiddenFileInput.current) {
-        hiddenFileInput.current.click();
-        console.log('click input');
-      }
+    if (hiddenFileInput.current) {
+      hiddenFileInput.current.click();
+      console.log('click input');
+    }
   };
 
   const handleChangeFileInput = async (

@@ -1,13 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
-// import { DocumentData, Firestore, doc, updateDoc } from 'firebase/firestore';
 import { DocumentData, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 
-// import { db } from '@myfirebase/config';
-// import useChatStore from '@zustand/store';
-// import formatTime from '@utils/formatTime';
 import MessageItem from '@components/MessageItem/MessageItem';
-import MessageContextMenuModal from '@components/ModalMessageContextMenu/ModalMessageContextMenu';
+import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 

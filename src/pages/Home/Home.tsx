@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { onDisconnect, ref, set } from 'firebase/database';
@@ -12,7 +12,7 @@ import { TChatListItem } from 'types/TChatListItem';
 import { TCurrentChatInfo } from 'types/TCurrentChatInfo';
 import { TScreen } from 'types/TScreen';
 
-function Home() {
+const Home = React.memo(() => {
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [isMobileScreen, setIsMobileScreen] = useState(false);
   const [screen, setScreen] = useState<TScreen>('Sidebar');
@@ -23,7 +23,6 @@ function Home() {
     state => state.updateCurrentChatInfo
   );
 
-  // console.log("screen", screen)
   console.log('screen --> Home');
 
   // isRedirectToCurrentChat
@@ -132,6 +131,6 @@ function Home() {
       )}
     </div>
   );
-}
+});
 
 export default Home;

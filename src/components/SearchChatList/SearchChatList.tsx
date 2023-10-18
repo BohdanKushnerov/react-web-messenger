@@ -7,13 +7,13 @@ import {
   query,
   where,
 } from 'firebase/firestore';
-import Avatar from 'react-avatar';
 import { useNavigate } from 'react-router-dom';
 
-import capitalizeName from '@components/Search/utils/capitalizeFirstLetterName';
+import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import handleCreateChat from './utils/handleCreateChat';
+import capitalizeName from '@utils/capitalizeFirstLetterName';
+import handleCreateChat from '@utils/handleCreateChat';
 import { TScreen } from 'types/TScreen';
 
 interface IChatList {
@@ -92,21 +92,11 @@ function SearchChatList({ setScreen }: IChatList) {
                 key={doc.id}
                 onClick={() => handleManageCreateChat(docData)}
               >
-                {doc.data()?.photoURL ? (
-                  <img
-                    className="rounded-full"
-                    width={50}
-                    height={50}
-                    src={doc.data()?.photoURL}
-                    alt={doc.data()?.displayName}
-                  />
-                ) : (
-                  <Avatar
-                    className="rounded-full"
-                    name={`${doc.data()?.displayName}`}
-                    size="50"
-                  />
-                )}
+                <AvatarProfile
+                  photoURL={doc.data()?.photoURL}
+                  displayName={doc.data()?.displayName}
+                  size="50"
+                />
                 <p className="text-white">{doc.data().displayName}</p>
               </li>
             );

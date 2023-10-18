@@ -3,8 +3,8 @@ import { ConfirmationResult, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { E164Number } from 'libphonenumber-js';
 
-import MyPhoneInput from './MyPhoneInput';
-import CodeInput from './CodeInput';
+import MyPhoneInput from '@components/Inputs/MyPhoneInput/MyPhoneInput';
+import CodeInput from '@components/Inputs/CodeInput/CodeInput';
 import { auth, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleSubmitVerifyCode from './utils/handleSubmitVerifyCodeVerifyCode';

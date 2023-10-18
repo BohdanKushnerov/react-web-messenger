@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { signOut } from 'firebase/auth';
-// import Avatar from 'react-avatar';
 
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import ModalWindow from '@components/ModalWindow/ModalWindow';
-// import ProfileSettings from '@components/ProfileSettings/ProfileSettings';
+import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 
 function Navbar() {
   const [isModalOpen, setIsModelOpen] = useState(false);
@@ -29,8 +27,7 @@ function Navbar() {
   };
 
   const handleSettingsClick = () => {
-    // setIsProfileSettingsOpen(prev => !prev);
-    setSidebarScreen('profileSettings')
+    setSidebarScreen('profileSettings');
   };
 
   return (
@@ -81,7 +78,6 @@ function Navbar() {
             <button className="text-white" onClick={handleSettingsClick}>
               Profile Settings
             </button>
-            {/* <ProfileSettings /> */}
           </div>
         </ModalWindow>
       )}

@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom/client';
 
 import App from './App.tsx';
 import './index.css';
-import Loader from '@components/Loader/Loader.jsx';
+import MainChatLoader from '@components/MainChatLoader/MainChatLoader.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-      <App />
-      <Loader />
+    <App />
+    <MainChatLoader />
   </React.StrictMode>
 );

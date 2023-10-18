@@ -3,7 +3,7 @@ import Avatar from 'react-avatar';
 import { doc, updateDoc } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
 
-import ModalWindow from '@components/ModalWindow/ModalWindow';
+import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import useChatStore from '@zustand/store';
 import { auth, db } from '@myfirebase/config';
 import uploadFileToStorage from '@utils/uploadFileToStorage';
@@ -28,7 +28,7 @@ function ProfileSettings() {
     setNewDisplayName(e.target.value);
   };
 
-  const handleClickChangeDisplayName = async(name: string) => {
+  const handleClickChangeDisplayName = async (name: string) => {
     if (auth.currentUser && uid) {
       await updateProfile(auth.currentUser, {
         displayName: name,

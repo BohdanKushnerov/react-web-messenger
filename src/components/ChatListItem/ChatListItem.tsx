@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
-import Avatar from 'react-avatar';
+import { onValue, ref } from 'firebase/database';
 
+import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import { database, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import truncateLastMessageString from '@utils/truncateLastMessageString';
 import handleSelectChat from '@utils/handleSelectChat';
 import { TChatListItem } from 'types/TChatListItem';
-import { onValue, ref } from 'firebase/database';
 import { TScreen } from 'types/TScreen';
 
 interface IChatListItem {
@@ -18,7 +18,6 @@ interface IChatListItem {
 
 const ChatListItem = ({ chatInfo, setScreen }: IChatListItem) => {
   const [userInfo, setUserInfo] = useState<DocumentData | null>(null);
-  // const [isOnline, setIsOnline] = useState(false);
   const [isOnline, setIsOnline] = useState<boolean | null>(null);
   const location = useLocation();
 
@@ -26,7 +25,6 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItem) => {
   const updateCurrentChatInfo = useChatStore(
     state => state.updateCurrentChatInfo
   );
-  // console.log(chatInfo);
 
   useEffect(() => {
     const unsubUserInfoData = onSnapshot(
@@ -78,21 +76,11 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItem) => {
         to={chatInfo[0]}
         state={{ from: location }}
       >
-        {userInfo?.photoURL ? (
-          <img
-            className="rounded-full"
-            width={50}
-            height={50}
-            src={userInfo?.photoURL}
-            alt={userInfo?.displayName}
-          />
-        ) : (
-          <Avatar
-            className="rounded-full"
-            name={`${userInfo?.displayName}`}
-            size="50"
-          />
-        )}
+        <AvatarProfile
+          photoURL={userInfo?.photoURL}
+          displayName={userInfo?.displayName}
+          size='50'
+        />
         <div className="w-full">
           <p className="font-bold text-white">{userInfo?.displayName}</p>
           <p
