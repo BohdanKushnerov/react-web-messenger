@@ -8,14 +8,10 @@ import {
 import ChatListItem from '@components/ChatListItem/ChatListItem';
 import { auth, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import { IChatListProps } from '@interfaces/IChatListProps';
 import { TChatListItem } from 'types/TChatListItem';
-import { TScreen } from 'types/TScreen';
 
-interface IChatList {
-  setScreen?: (value: TScreen) => void;
-}
-
-const ChatList = React.memo(({ setScreen }: IChatList) => {
+const ChatList = React.memo(({ setScreen }: IChatListProps) => {
   // console.log('ChatList');
   const [userChatList, setUserChatList] = useState<DocumentData | []>([]);
 

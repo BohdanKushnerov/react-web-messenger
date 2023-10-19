@@ -1,8 +1,8 @@
 import Avatar from 'react-avatar';
 
-import { IAvatarProfile } from '@interfaces/IAvatarProfile';
+import { IAvatarProfileProps } from '@interfaces/IAvatarProfileProps';
 
-function AvatarProfile({ photoURL, displayName, size }: IAvatarProfile) {
+function AvatarProfile({ photoURL, displayName, size }: IAvatarProfileProps) {
   return photoURL ? (
     <img
       className="rounded-full"

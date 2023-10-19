@@ -14,13 +14,9 @@ import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import capitalizeName from '@utils/capitalizeFirstLetterName';
 import handleCreateChat from '@utils/handleCreateChat';
-import { TScreen } from 'types/TScreen';
+import { IChatListProps } from '@interfaces/IChatListProps';
 
-interface IChatList {
-  setScreen?: (value: TScreen) => void;
-}
-
-function SearchChatList({ setScreen }: IChatList) {
+function SearchChatList({ setScreen }: IChatListProps) {
   const [searchChatList, setSearchChatList] = useState<QuerySnapshot<
     DocumentData,
     DocumentData

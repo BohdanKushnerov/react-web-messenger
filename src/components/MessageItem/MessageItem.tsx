@@ -1,34 +1,33 @@
 import { DocumentData, Firestore, doc, updateDoc } from 'firebase/firestore';
 
-import FileItem from './FileItem/FileItem';
+import MessageFileItem from '@components/MessageFileItem/MessageFileItem';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import formatTime from '@utils/formatTime';
+import sprite from '@assets/sprite.svg';
 
-interface IMessageItem {
+interface IMessageItemProps {
   mes: DocumentData;
 }
 
-export default function MessageItem({ mes }: IMessageItem) {
+export default function MessageItem({ mes }: IMessageItemProps) {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID } = useChatStore(state => state.currentChatInfo);
 
   const makeReadMes = async (
     db: Firestore,
     chatUID: string,
-    mesUID: string
+    mes: DocumentData
   ) => {
     if (chatUID === null) {
       // Обработка случая, когда chatUID равен null
       return;
     }
 
-    updateDoc(doc(db, 'chats', chatUID, 'messages', `${mesUID}`), {
+    updateDoc(doc(db, 'chats', chatUID, 'messages', `${mes}`), {
       ['isRead']: true,
     });
   };
-
-  const myUID = currentUserUID === mes.data().senderUserID;
 
   if (
     mes.data().senderUserID !== currentUserUID &&
@@ -37,6 +36,8 @@ export default function MessageItem({ mes }: IMessageItem) {
   ) {
     makeReadMes(db, chatUID, mes.id);
   }
+
+  const myUID = currentUserUID === mes.data().senderUserID;
 
   return (
     <div
@@ -57,21 +58,19 @@ export default function MessageItem({ mes }: IMessageItem) {
                 file: { url: string; name: string; type: string },
                 index: number
               ) => {
-
                 return (
                   <div key={index}>
                     {file.type === 'image/png' ||
                     file.type === 'image/jpeg' ||
-                    file.type === 'image/webp' ||
-                    file.type === 'image/svg+xml' ? (
+                    file.type === 'image/webp' ? (
                       <img
                         src={file.url}
                         alt={file.type}
-                        width={file.type === 'image/svg+xml' ? 25 : 400}
+                        width={400}
                         height={400}
                       />
                     ) : (
-                      <FileItem file={file} />
+                      <MessageFileItem file={file} />
                     )}
                   </div>
                 );
@@ -84,43 +83,12 @@ export default function MessageItem({ mes }: IMessageItem) {
           </p>
           <p>
             {mes.data().isRead ? (
-              <svg
-                width="30px"
-                height="30px"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M4 12.9L7.14286 16.5L15 7.5"
-                  stroke="#FFFFFF"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M20 7.5625L11.4283 16.5625L11 16"
-                  stroke="#FFFFFF"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+              <svg width={24} height={24}>
+                <use href={sprite + '#icon-double-check'} fill="#FFFFFF" />
               </svg>
             ) : (
-              <svg
-                width="30px"
-                height="30px"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M7 12.9L10.1429 16.5L18 7.5"
-                  stroke="#FFFFFF"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+              <svg width={24} height={24}>
+                <use href={sprite + '#icon-single-check'} fill="#FFFFFF" />
               </svg>
             )}
           </p>

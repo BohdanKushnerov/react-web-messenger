@@ -1,21 +1,13 @@
-import React from 'react'
-
 import useCloseModal from '@hooks/useCloseModal';
+import { IModalMessageContextMenuProps } from '@interfaces/IModalMessageContextMenuProps';
 
-interface IModalMessageContextMenu {
-  closeModal: () => void;
-  modalPosition: {
-    top: number;
-    left: number;
-  };
-  children: React.ReactNode;
-}
+
 
 const MessageContextMenuModal = ({
   closeModal,
   modalPosition,
   children,
-}: IModalMessageContextMenu) => {
+}: IModalMessageContextMenuProps) => {
   useCloseModal(closeModal);
 
   return (
@@ -30,6 +22,6 @@ const MessageContextMenuModal = ({
       {children}
     </div>
   );
-}
+};
 
 export default MessageContextMenuModal;

@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { signOut } from 'firebase/auth';
 
+import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
+import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
-import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
+import sprite from '@assets/sprite.svg';
+
 
 function Navbar() {
   const [isModalOpen, setIsModelOpen] = useState(false);
@@ -37,31 +39,8 @@ function Navbar() {
         className="w-12 h-10 flex justify-center items-center bg-transparent hover:bg-hoverGray rounded-full cursor-pointer"
         onClick={handleToggleModal}
       >
-        <svg
-          width="25"
-          height="25"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M4 18L20 18"
-            stroke="rgb(170,170,170)"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <path
-            d="M4 12L20 12"
-            stroke="rgb(170,170,170)"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <path
-            d="M4 6L20 6"
-            stroke="rgb(170,170,170)"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
+        <svg width={32} height={32}>
+          <use href={sprite + '#icon-menu'} fill="rgb(170,170,170)" />
         </svg>
       </div>
       {isModalOpen && (

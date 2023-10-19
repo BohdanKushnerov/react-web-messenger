@@ -8,15 +8,9 @@ import { database, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import truncateLastMessageString from '@utils/truncateLastMessageString';
 import handleSelectChat from '@utils/handleSelectChat';
-import { TChatListItem } from 'types/TChatListItem';
-import { TScreen } from 'types/TScreen';
+import { IChatListItemProps } from '@interfaces/IChatListItemProps';
 
-interface IChatListItem {
-  chatInfo: TChatListItem;
-  setScreen?: (value: TScreen) => void;
-}
-
-const ChatListItem = ({ chatInfo, setScreen }: IChatListItem) => {
+const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
   const [userInfo, setUserInfo] = useState<DocumentData | null>(null);
   const [isOnline, setIsOnline] = useState<boolean | null>(null);
   const location = useLocation();
@@ -79,7 +73,7 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItem) => {
         <AvatarProfile
           photoURL={userInfo?.photoURL}
           displayName={userInfo?.displayName}
-          size='50'
+          size="50"
         />
         <div className="w-full">
           <p className="font-bold text-white">{userInfo?.displayName}</p>

@@ -47,7 +47,7 @@ function ChatHeader({
   }, [userUID]);
 
   return (
-    <div className="fixed top-0 z-10 flex gap-4 items-center w-full h-12 px-6 border-b bg-myBlackBcg">
+    <div className="absolute top-0 left-0 z-10 flex gap-4 items-center w-full h-14 px-6 bg-myBlackBcg shadow-bottomShadow">
       {setScreen && (
         <button
           className="flex justify-center items-center w-12 h-12 text-white hover:bg-hoverGray rounded-full cursor-pointer"

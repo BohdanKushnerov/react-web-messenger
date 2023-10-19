@@ -1,4 +1,4 @@
-export interface IAvatarProfile {
+export interface IAvatarProfileProps {
   photoURL: string;
   displayName: string;
   size: string;

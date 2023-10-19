@@ -6,13 +6,9 @@ import Search from '@components/Search/Search';
 import SearchChatList from '@components/SearchChatList/SearchChatList';
 import ProfileSettings from '@components/ProfileSettings/ProfileSettings';
 import useChatStore from '@zustand/store';
-import { TScreen } from 'types/TScreen';
+import { ISidebarProps } from '@interfaces/ISidebarProps';
 
-interface ISidebar {
-  setScreen?: (value: TScreen) => void;
-}
-
-function Sidebar({ setScreen }: ISidebar) {
+function Sidebar({ setScreen }: ISidebarProps) {
   const sidebarScreen = useChatStore(state => state.sidebarScreen);
 
   console.log('screen --> Sidebar');

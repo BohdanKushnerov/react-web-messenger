@@ -40,6 +40,9 @@ export default {
       },
       boxShadow: {
         mainShadow: '0 0.25rem 0.5rem 0.125rem rgb(16,16,16,0.612);',
+        whiteTopShadow:
+          '0rem -0.6875rem 0.4375rem -0.4375rem rgba(255, 255, 255, 0.612)',
+        bottomShadow: '0 0.5rem 0.75rem 0.125rem rgba(16, 16, 16, 0.612)',
       },
     },
   },

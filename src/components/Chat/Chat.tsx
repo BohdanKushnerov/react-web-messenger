@@ -9,8 +9,8 @@ import {
 } from 'firebase/firestore';
 
 import MessageList from '@components/MessageList/MessageList';
-import ChatForm from './ChatForm/ChatForm';
-import ChatHeader from './ChatHeader/ChatHeader';
+import ChatForm from '../ChatForm/ChatForm';
+import ChatHeader from '../ChatHeader/ChatHeader';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleSendMessage from '@utils/handleSendMessage';
@@ -99,7 +99,7 @@ function Chat({ setScreen }: IChat) {
 
   return (
     <>
-      <div className="relative h-full w-screen bg-transparent overflow-hidden ">
+      <div className="relative h-full w-screen xl:flex xl:flex-col xl:items-center bg-transparent overflow-hidden ">
         {messages ? (
           <>
             <ChatHeader

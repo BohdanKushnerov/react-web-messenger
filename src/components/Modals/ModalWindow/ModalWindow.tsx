@@ -2,15 +2,11 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 
 import useCloseModal from '@hooks/useCloseModal';
-
-interface IModalWindow {
-  handleToggleModal: ()=>void;
-  children: React.ReactNode;
-}
+import { IModalWindowProps } from '@interfaces/IModalWindowProps';
 
 const modalRoot = document.querySelector('#modal-root')!;
 
-const ModalWindow = ({ handleToggleModal, children }: IModalWindow) => {
+const ModalWindow = ({ handleToggleModal, children }: IModalWindowProps) => {
   useCloseModal(handleToggleModal);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -29,6 +25,6 @@ const ModalWindow = ({ handleToggleModal, children }: IModalWindow) => {
     </div>,
     modalRoot
   );
-}
+};
 
 export default ModalWindow;
