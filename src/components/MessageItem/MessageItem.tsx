@@ -41,7 +41,7 @@ export default function MessageItem({ mes }: IMessageItemProps) {
 
   return (
     <div
-      className={`relative flex w-full items-end ${
+      className={`relative flex w-full items-end xl:w-8/12 ${
         myUID ? 'justify-end' : 'justify-start'
       }`}
     >

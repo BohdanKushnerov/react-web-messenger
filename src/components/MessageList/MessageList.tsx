@@ -30,7 +30,7 @@ function MessageList({ messages }: iMessageListProps) {
     }
   };
 
-  // надо тротл добавить чтобі не так часто срабатывало
+  // надо тротл добавить чтобы не так часто срабатывало
   const handleScroll = () => {
     const scrollHeight = scrollbarsRef.current?.getScrollHeight() || 0;
     const clientHeight = scrollbarsRef.current?.getClientHeight() || 0;
@@ -49,20 +49,24 @@ function MessageList({ messages }: iMessageListProps) {
       e.preventDefault();
 
       const chatContainerEl = e.currentTarget.parentElement?.parentElement;
-      // console.dir(div)
       const rect = chatContainerEl?.getBoundingClientRect();
-      // console.log(rect)
       const containerTop = rect?.top;
       const containerLeft = rect?.left;
 
       const menuWidth = 224;
       const menuHeight = 224;
 
+      // тут получаеться есть и сайдбар и тут идет подчет позиции контекстного меню
       if (containerTop && containerLeft && chatContainerEl) {
         const left =
           e.clientX - containerLeft + menuWidth > chatContainerEl.clientWidth
             ? e.clientX - containerLeft - menuWidth
             : e.clientX - containerLeft;
+
+        console.log(e.clientX);
+        console.log(containerLeft);
+        console.log(menuWidth);
+        console.log(chatContainerEl.clientWidth);
 
         const top =
           e.clientY - containerTop + menuHeight > chatContainerEl.clientHeight
@@ -70,6 +74,21 @@ function MessageList({ messages }: iMessageListProps) {
             : e.clientY - containerTop + 50;
 
         setModalPosition({ top, left });
+      } else {
+        // тут получаеться нету сайдбара и подсчет координат идет без него
+        if (chatContainerEl) {
+          const left =
+            e.clientX + menuWidth > chatContainerEl.clientWidth
+              ? e.clientX - menuWidth
+              : e.clientX;
+
+          const top =
+            e.clientY + menuHeight > chatContainerEl.clientHeight
+              ? e.clientY - menuHeight
+              : e.clientY;
+
+          setModalPosition({ top, left });
+        }
       }
     }
 
@@ -101,7 +120,7 @@ function MessageList({ messages }: iMessageListProps) {
           'messages',
           messages[selectedItemIndexForOpenModal].id
         )
-      ).then(()=>setSelectedItemIndexForOpenModal(null))
+      ).then(() => setSelectedItemIndexForOpenModal(null));
 
       // если последнее сообщение то ставим последнее сообщение messages[selectedItemIndexForOpenModal - 1]
       if (messages.length > 1) {
@@ -148,7 +167,7 @@ function MessageList({ messages }: iMessageListProps) {
 
   return (
     <>
-      <div className="h-full w-full xl:w-8/12 py-1">
+      <div className="h-full w-full py-1">
         <Scrollbars
           ref={scrollbarsRef}
           autoHide
@@ -158,7 +177,7 @@ function MessageList({ messages }: iMessageListProps) {
           }}
           onScroll={handleScroll}
         >
-          <ul className="flex flex-col gap-2 px-6">
+          <ul className="flex flex-col px-6">
             {messages &&
               messages.map((mes, index) => {
                 // console.log(mes)
@@ -167,7 +186,7 @@ function MessageList({ messages }: iMessageListProps) {
                 return (
                   <li
                     key={mes.id}
-                    className={`${
+                    className={`flex justify-center p-0.5 rounded-xl ${
                       currentItem && 'bg-currentContextMenuMessage'
                     }`}
                     onClick={handleCloseModal}
