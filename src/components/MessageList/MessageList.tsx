@@ -19,6 +19,12 @@ function MessageList({ messages }: iMessageListProps) {
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
+  // const { isEditMessage, editMessage } = useChatStore(
+  //   state => state.messageEditingFormState
+  // );
+  const updateEditingMessage = useChatStore(
+    state => state.updateEditingMessage
+  );
 
   useEffect(() => {
     handleClickScrollBottom();
@@ -63,10 +69,10 @@ function MessageList({ messages }: iMessageListProps) {
             ? e.clientX - containerLeft - menuWidth
             : e.clientX - containerLeft;
 
-        console.log(e.clientX);
-        console.log(containerLeft);
-        console.log(menuWidth);
-        console.log(chatContainerEl.clientWidth);
+        // console.log(e.clientX);
+        // console.log(containerLeft);
+        // console.log(menuWidth);
+        // console.log(chatContainerEl.clientWidth);
 
         const top =
           e.clientY - containerTop + menuHeight > chatContainerEl.clientHeight
@@ -165,6 +171,25 @@ function MessageList({ messages }: iMessageListProps) {
     }
   };
 
+  const handleChooseEditMessage = () => {
+    if (chatUID && messages && selectedItemIndexForOpenModal !== null) {
+      const selectedMessage = messages[selectedItemIndexForOpenModal];
+
+      const editingMessageInfo = {
+        selectedMessage,
+        isLastMessage:
+          selectedItemIndexForOpenModal === messages.length - 1 ? true : false,
+      };
+
+      console.log("handleChooseEditMessage", editingMessageInfo);
+
+      updateEditingMessage(editingMessageInfo);
+      handleCloseModal();
+
+      // console.log(messages[selectedItemIndexForOpenModal].data());
+    }
+  };
+
   return (
     <>
       <div className="h-full w-full py-1">
@@ -173,7 +198,7 @@ function MessageList({ messages }: iMessageListProps) {
           autoHide
           style={{
             top: 56,
-            height: 'calc(100% - 56px - 80px)',
+            height: 'calc(100% - 56px - 96px)',
           }}
           onScroll={handleScroll}
         >
@@ -232,7 +257,15 @@ function MessageList({ messages }: iMessageListProps) {
               </svg>
               <span>DELETE</span>
             </button>
-            {/* <p>{selectedItemIndexForOpenModal}</p> */}
+            <button
+              className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
+              onClick={handleChooseEditMessage}
+            >
+              <svg width={20} height={20}>
+                <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
+              </svg>
+              <span>EDIT</span>
+            </button>
           </div>
         </MessageContextMenuModal>
       )}

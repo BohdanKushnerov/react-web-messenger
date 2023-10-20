@@ -16,7 +16,7 @@ function Navbar() {
     state => state.resetCurrentChatInfo
   );
 
-  const setSidebarScreen = useChatStore(state => state.setSidebarScreen);
+  const updateSidebarScreen = useChatStore(state => state.updateSidebarScreen);
 
   const handleSignOut = async () => {
     resetCurrentChatInfo();
@@ -30,7 +30,7 @@ function Navbar() {
   };
 
   const handleSettingsClick = () => {
-    setSidebarScreen('profileSettings');
+    updateSidebarScreen('profileSettings');
   };
 
   return (

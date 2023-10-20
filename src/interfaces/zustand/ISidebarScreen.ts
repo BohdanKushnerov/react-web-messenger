@@ -1,6 +1,6 @@
 import { TValueSidebarScreen } from "types/TValueSidebarScreen";
 
-export interface ISidebarScreen {
+export interface ISidebarScreenState {
   sidebarScreen: TValueSidebarScreen;
-  setSidebarScreen: (value: TValueSidebarScreen) => void;
+  updateSidebarScreen: (value: TValueSidebarScreen) => void;
 }

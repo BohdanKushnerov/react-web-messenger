@@ -23,10 +23,10 @@ function ProfileSettings() {
     state => state.currentUser
   );
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
-  const setSidebarScreen = useChatStore(state => state.setSidebarScreen);
+  const updateSidebarScreen = useChatStore(state => state.updateSidebarScreen);
 
   const handleClickTurnBackToDefaultScreen = () => {
-    setSidebarScreen('default');
+    updateSidebarScreen('default');
   };
 
   const handleChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {

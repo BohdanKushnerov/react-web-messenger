@@ -15,6 +15,7 @@ import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleSendMessage from '@utils/handleSendMessage';
 import { IChat } from '@interfaces/IChat';
+import handleUpdateEditMessage from '@utils/handleUpdateEditMessage';
 
 function Chat({ setScreen }: IChat) {
   const [message, setMessage] = useState('');
@@ -26,8 +27,22 @@ function Chat({ setScreen }: IChat) {
   const resetCurrentChatInfo = useChatStore(
     state => state.resetCurrentChatInfo
   );
+  
+  const { editingMessageInfo, resetEditingMessage } = useChatStore(
+    state => state
+  );
 
   console.log('screen --> Chat');
+
+  useEffect(() => {
+    if (editingMessageInfo) {
+      const mes = editingMessageInfo.selectedMessage.data().message;
+      setMessage(mes);
+    } else {
+      setMessage('');
+    }
+  }, [editingMessageInfo]);
+
 
   useEffect(() => {
     if (chatUID === null) return;
@@ -85,8 +100,19 @@ function Chat({ setScreen }: IChat) {
       return;
     }
 
-    handleSendMessage(message, chatUID, currentUserUID, userUID);
-    setMessage('');
+    if (editingMessageInfo) {
+      handleUpdateEditMessage(
+        editingMessageInfo,
+        chatUID,
+        message,
+        currentUserUID,
+        userUID
+      );
+      resetEditingMessage();
+    } else {
+      handleSendMessage(message, chatUID, currentUserUID, userUID);
+      setMessage('');
+    }
   };
 
   const handleClickBackToSidebarScreen = () => {

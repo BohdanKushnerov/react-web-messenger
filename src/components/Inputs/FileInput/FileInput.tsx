@@ -25,6 +25,7 @@ function FileInput() {
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
+  const editingMessageInfo = useChatStore(state => state.editingMessageInfo);
 
   const handleToggleModal = () => {
     setIsModalAddFileOpen(prev => !prev);
@@ -141,7 +142,9 @@ function FileInput() {
   return (
     <>
       <button
-        className="absolute top-5 right-24 w-10 h-10 flex justify-center items-center bg-transparent hover:bg-hoverGray rounded-full cursor-pointer"
+        className={`absolute ${
+          editingMessageInfo ? 'bottom-1' : 'top-7'
+        } right-20 w-10 h-10 flex justify-center items-center bg-transparent hover:bg-hoverGray rounded-full cursor-pointer`}
         onClick={handleClickFileInput}
       >
         <svg width={24} height={24}>

@@ -1,12 +1,12 @@
 import { StateCreator } from "zustand";
 import { produce } from "immer";
 
-import { ISidebarScreen } from "@interfaces/zustand/ISidebarScreen";
+import { ISidebarScreenState } from '@interfaces/zustand/ISidebarScreen';
 import { TValueSidebarScreen } from "types/TValueSidebarScreen";
 
-const createSidebarScreenState: StateCreator<ISidebarScreen> = set => ({
+const createSidebarScreenState: StateCreator<ISidebarScreenState> = set => ({
   sidebarScreen: 'default',
-  setSidebarScreen: (value: TValueSidebarScreen) => {
+  updateSidebarScreen: (value: TValueSidebarScreen) => {
     set(
       produce(state => {
         state.sidebarScreen = value;
