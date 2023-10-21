@@ -31,8 +31,11 @@ function ChatForm({
               <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
             </svg>
             <div>
-              <p className='flex text-violet-500'>Edit message</p>
-              <p className='text-white'>{editingMessageInfo.selectedMessage.data().message}</p>
+              <p className="flex text-violet-500">Edit message</p>
+              <p className="text-white">
+                {editingMessageInfo.selectedMessage.data().message ||
+                  'empty message... =)'}
+              </p>
             </div>
             <button onClick={handleCancelEditingMessage}>
               <svg className="absolute top-3.5 right-4" width={20} height={20}>

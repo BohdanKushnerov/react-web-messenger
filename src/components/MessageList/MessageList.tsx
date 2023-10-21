@@ -175,13 +175,13 @@ function MessageList({ messages }: iMessageListProps) {
     if (chatUID && messages && selectedItemIndexForOpenModal !== null) {
       const selectedMessage = messages[selectedItemIndexForOpenModal];
 
-      const editingMessageInfo = {
-        selectedMessage,
-        isLastMessage:
-          selectedItemIndexForOpenModal === messages.length - 1 ? true : false,
-      };
-
-      console.log("handleChooseEditMessage", editingMessageInfo);
+        const editingMessageInfo = {
+          selectedMessage,
+          isLastMessage:
+            selectedItemIndexForOpenModal === messages.length - 1
+              ? true
+              : false,
+        };
 
       updateEditingMessage(editingMessageInfo);
       handleCloseModal();
@@ -266,6 +266,15 @@ function MessageList({ messages }: iMessageListProps) {
               </svg>
               <span>EDIT</span>
             </button>
+            {/* {!messages[selectedItemIndexForOpenModal].data().file && (<button
+              className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
+              onClick={handleChooseEditMessage}
+            >
+              <svg width={20} height={20}>
+                <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
+              </svg>
+              <span>EDIT</span>
+            </button>)} */}
           </div>
         </MessageContextMenuModal>
       )}
