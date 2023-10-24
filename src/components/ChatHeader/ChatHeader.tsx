@@ -10,6 +10,7 @@ import { IChatHeader } from '@interfaces/IChatHeader';
 function ChatHeader({
   setScreen,
   handleClickBackToSidebarScreen,
+  isOpponentTyping
 }: IChatHeader) {
   const [currentChatInfo, setCurrentChatInfo] = useState<DocumentData | null>(
     null
@@ -82,9 +83,14 @@ function ChatHeader({
         size="40"
       />
       <p className="text-textSecondary">{currentChatInfo?.displayName}</p>
-      <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
-        {isOnline ? 'Online' : 'Offline'}
-      </div>
+
+      {isOpponentTyping ? (
+        <h2 className="text-white">Typing...</h2>
+      ) : (
+        <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
+          {isOnline ? 'Online' : 'Offline'}
+        </div>
+      )}
     </div>
   );
 }
