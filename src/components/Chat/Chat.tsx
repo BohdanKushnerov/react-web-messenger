@@ -83,7 +83,7 @@ function Chat({ setScreen }: IChat) {
   useEffect(() => {
     return () => {
       if (typingTimeout && myTyping) {
-        console.log('111')
+        console.log('111');
         clearTimeout(typingTimeout);
       }
     };
@@ -153,6 +153,16 @@ function Chat({ setScreen }: IChat) {
           // } else {
           //   setMessages(prev => [...prev, change.doc]);
           // }
+          // console.log('change', change.doc.data());
+
+          if (
+            change.doc.data().senderUserID !== currentUserUID &&
+            change.doc.data().isRead === false
+          ) {
+            new Notification('new Message', {
+              body: change.doc.data().message,
+            });
+          }
         }
         if (change.type === 'modified') {
           // console.log('Modified mes: ', change.doc.data());
@@ -172,6 +182,22 @@ function Chat({ setScreen }: IChat) {
       localStorage.removeItem('currentChatId');
     };
   }, [chatUID, currentUserUID]);
+
+  useEffect(()=>{
+    const requestPermission = async () => {
+      console.log('Requesting permission...');
+      try {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+          console.log('Notification permission granted.');
+        }
+      } catch (error) {
+        console.error('Failed to request notification permission:', error);
+      }
+    };
+
+    requestPermission();
+  },[])
 
   const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
