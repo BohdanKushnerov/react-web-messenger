@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { onDisconnect, ref, set } from 'firebase/database';
@@ -11,12 +11,16 @@ import useChatStore from '@zustand/store';
 import { TChatListItem } from 'types/TChatListItem';
 import { TCurrentChatInfo } from 'types/TCurrentChatInfo';
 import { TScreen } from 'types/TScreen';
+import { CSSTransition } from 'react-transition-group';
 
 const Home = React.memo(() => {
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [isMobileScreen, setIsMobileScreen] = useState(false);
   const [screen, setScreen] = useState<TScreen>('Sidebar');
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
+  const nodeRef = useRef(null);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const updateCurrentChatInfo = useChatStore(
@@ -24,6 +28,32 @@ const Home = React.memo(() => {
   );
 
   console.log('screen --> Home');
+
+  useEffect(() => {
+    if (screen === 'Sidebar') {
+      setShowSidebar(true);
+      setShowChat(false);
+    } else {
+      setShowSidebar(false);
+      setShowChat(true);
+    }
+  }, [screen]);
+
+  useEffect(() => {
+    const requestPermission = async () => {
+      console.log('Requesting permission...');
+      try {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+          console.log('Notification permission granted.');
+        }
+      } catch (error) {
+        console.error('Failed to request notification permission:', error);
+      }
+    };
+
+    requestPermission();
+  }, []);
 
   // isRedirectToCurrentChat
   useEffect(() => {
@@ -113,9 +143,55 @@ const Home = React.memo(() => {
     >
       {isMobileScreen ? (
         screen === 'Sidebar' ? (
-          <Sidebar setScreen={setScreen} />
+          // <CSSTransition
+          //   in={showSidebar}
+          //   nodeRef={nodeRef}
+          //   timeout={500}
+          //   classNames={{
+          //     enter:
+          //       'transform scale-50 opacity-0 transition-transform duration-500 transition-opacity duration-500',
+          //     enterActive: 'transform scale-100 opacity-100',
+          //     exit: 'transform scale-100 opacity-100 transition-transform duration-500 transition-opacity duration-500',
+          //     exitActive: 'transform scale-50 opacity-0',
+          //     enterDone: 'transform scale-100 opacity-100',
+          //     exitDone: 'transform scale-50 opacity-0',
+          //   }}
+          //   mountOnEnter
+          // >
+          //   <Sidebar setScreen={setScreen} />
+          // </CSSTransition>
+          <CSSTransition
+            in={showSidebar}
+            nodeRef={nodeRef}
+            timeout={{ enter: 500, exit: 500 }}
+            classNames={{
+              enter: 'transform scale-50 opacity-0',
+              enterActive: 'transform scale-100 opacity-100',
+              exit: 'transform scale-100 opacity-100',
+              exitActive: 'transform scale-50 opacity-0',
+            }}
+            mountOnEnter
+          >
+            <Sidebar setScreen={setScreen} />
+          </CSSTransition>
         ) : (
-          <Chat setScreen={setScreen} />
+          <CSSTransition
+            in={showChat}
+            nodeRef={nodeRef}
+            timeout={500}
+            classNames={{
+              enter:
+                'transform scale-50 opacity-0 transition-transform duration-500 transition-opacity duration-500',
+              enterActive: 'transform scale-100 opacity-100',
+              exit: 'transform scale-100 opacity-100 transition-transform duration-500 transition-opacity duration-500',
+              exitActive: 'transform scale-50 opacity-0',
+              enterDone: 'transform scale-100 opacity-100',
+              exitDone: 'transform scale-50 opacity-0',
+            }}
+            unmountOnExit
+          >
+            <Chat setScreen={setScreen} />
+          </CSSTransition>
         )
       ) : (
         <div
