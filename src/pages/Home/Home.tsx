@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { onDisconnect, ref, set } from 'firebase/database';
+import { Transition } from 'react-transition-group';
 
 import Chat from '@components/Chat/Chat';
 import Sidebar from '@components/Sidebar/Sidebar';
@@ -11,7 +12,6 @@ import useChatStore from '@zustand/store';
 import { TChatListItem } from 'types/TChatListItem';
 import { TCurrentChatInfo } from 'types/TCurrentChatInfo';
 import { TScreen } from 'types/TScreen';
-import { CSSTransition } from 'react-transition-group';
 
 const Home = React.memo(() => {
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
@@ -20,7 +20,8 @@ const Home = React.memo(() => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
-  const nodeRef = useRef(null);
+  const nodeRefSidebar = useRef(null);
+  const nodeRefChat = useRef(null);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const updateCurrentChatInfo = useChatStore(
@@ -142,57 +143,59 @@ const Home = React.memo(() => {
       }}
     >
       {isMobileScreen ? (
-        screen === 'Sidebar' ? (
-          // <CSSTransition
-          //   in={showSidebar}
-          //   nodeRef={nodeRef}
-          //   timeout={500}
-          //   classNames={{
-          //     enter:
-          //       'transform scale-50 opacity-0 transition-transform duration-500 transition-opacity duration-500',
-          //     enterActive: 'transform scale-100 opacity-100',
-          //     exit: 'transform scale-100 opacity-100 transition-transform duration-500 transition-opacity duration-500',
-          //     exitActive: 'transform scale-50 opacity-0',
-          //     enterDone: 'transform scale-100 opacity-100',
-          //     exitDone: 'transform scale-50 opacity-0',
-          //   }}
-          //   mountOnEnter
-          // >
-          //   <Sidebar setScreen={setScreen} />
-          // </CSSTransition>
-          <CSSTransition
-            in={showSidebar}
-            nodeRef={nodeRef}
-            timeout={{ enter: 500, exit: 500 }}
-            classNames={{
-              enter: 'transform scale-50 opacity-0',
-              enterActive: 'transform scale-100 opacity-100',
-              exit: 'transform scale-100 opacity-100',
-              exitActive: 'transform scale-50 opacity-0',
+        <>
+          <Transition in={showSidebar} timeout={300} unmountOnExit>
+            {state => (
+              <div
+                ref={nodeRefSidebar}
+                className={`w-full ${
+                  state === 'exited' ? 'hidden' : ''
+                } transform transition-transform ${
+                  state === 'entered'
+                    ? 'translate-x-0 scale-100'
+                    : '-translate-x-full scale-0'
+                }`}
+              >
+                <Sidebar setScreen={setScreen} />
+              </div>
+            )}
+          </Transition>
+          <Transition in={showChat} timeout={300} unmountOnExit>
+            {state => {
+              console.log('state', state);
+              return (
+                <div
+                  ref={nodeRefChat}
+                  className={`w-full transform transition-transform 
+                  ${
+                    ''
+                    // state === 'entering' ? 'opacity-70' : 'opacity-100'
+                    // state === 'entering' ? 'translate-y-full' : 'translate-y-0'
+                  }
+                  ${
+                    // ''
+                    // state === 'entered' ? 'scale-100' : 'scale-0'
+                    state === 'entered'
+                      ? 'translate-x-0 scale-100'
+                      : 'translate-x-full scale-0'
+                  }
+                  ${
+                    ''
+                    // state === 'exiting' ? 'opacity-0' : 'opacity-100'
+                    // state === 'exiting' ? 'hidden' : ''
+                    // state === 'exiting' ? 'translate-x-full' : 'translate-x-0'
+                  }
+                  ${
+                    // ''
+                    state === 'exited' ? 'hidden' : ''
+                  }`}
+                >
+                  <Chat setScreen={setScreen} />
+                </div>
+              );
             }}
-            mountOnEnter
-          >
-            <Sidebar setScreen={setScreen} />
-          </CSSTransition>
-        ) : (
-          <CSSTransition
-            in={showChat}
-            nodeRef={nodeRef}
-            timeout={500}
-            classNames={{
-              enter:
-                'transform scale-50 opacity-0 transition-transform duration-500 transition-opacity duration-500',
-              enterActive: 'transform scale-100 opacity-100',
-              exit: 'transform scale-100 opacity-100 transition-transform duration-500 transition-opacity duration-500',
-              exitActive: 'transform scale-50 opacity-0',
-              enterDone: 'transform scale-100 opacity-100',
-              exitDone: 'transform scale-50 opacity-0',
-            }}
-            unmountOnExit
-          >
-            <Chat setScreen={setScreen} />
-          </CSSTransition>
-        )
+          </Transition>
+        </>
       ) : (
         <div
           style={{

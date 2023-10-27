@@ -14,6 +14,7 @@ function Sidebar({ setScreen }: ISidebarProps) {
   console.log('screen --> Sidebar');
 
   return (
+    // <div className="relative w-full h-full bg-myBlackBcg sm:min-w-400px sm:w-1/4 border-r">
     <div className="relative w-full h-full bg-myBlackBcg sm:min-w-400px sm:w-1/4 border-r">
       {sidebarScreen === 'default' && (
         <>
