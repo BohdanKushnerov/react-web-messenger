@@ -144,7 +144,12 @@ const Home = React.memo(() => {
     >
       {isMobileScreen ? (
         <>
-          <Transition in={showSidebar} timeout={300} unmountOnExit>
+          <Transition
+            nodeRef={nodeRefSidebar}
+            in={showSidebar}
+            timeout={300}
+            unmountOnExit
+          >
             {state => (
               <div
                 ref={nodeRefSidebar}
@@ -160,34 +165,25 @@ const Home = React.memo(() => {
               </div>
             )}
           </Transition>
-          <Transition in={showChat} timeout={300} unmountOnExit>
+          <Transition
+            nodeRef={nodeRefChat}
+            in={showChat}
+            timeout={300}
+            unmountOnExit
+          >
             {state => {
-              console.log('state', state);
+              // console.log('state', state);
               return (
                 <div
                   ref={nodeRefChat}
                   className={`w-full transform transition-transform 
                   ${
-                    ''
-                    // state === 'entering' ? 'opacity-70' : 'opacity-100'
-                    // state === 'entering' ? 'translate-y-full' : 'translate-y-0'
+                    state === 'exited' ? 'hidden' : ''
                   }
                   ${
-                    // ''
-                    // state === 'entered' ? 'scale-100' : 'scale-0'
                     state === 'entered'
                       ? 'translate-x-0 scale-100'
                       : 'translate-x-full scale-0'
-                  }
-                  ${
-                    ''
-                    // state === 'exiting' ? 'opacity-0' : 'opacity-100'
-                    // state === 'exiting' ? 'hidden' : ''
-                    // state === 'exiting' ? 'translate-x-full' : 'translate-x-0'
-                  }
-                  ${
-                    // ''
-                    state === 'exited' ? 'hidden' : ''
                   }`}
                 >
                   <Chat setScreen={setScreen} />

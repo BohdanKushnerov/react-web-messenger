@@ -6,7 +6,11 @@ import { IModalWindowProps } from '@interfaces/IModalWindowProps';
 
 const modalRoot = document.querySelector('#modal-root')!;
 
-const ModalWindow = ({ handleToggleModal, children }: IModalWindowProps) => {
+const ModalWindow = ({
+  handleToggleModal,
+  children,
+  contentClasses,
+}: IModalWindowProps) => {
   useCloseModal(handleToggleModal);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -21,7 +25,7 @@ const ModalWindow = ({ handleToggleModal, children }: IModalWindowProps) => {
       onClick={handleBackdropClick}
       className="absolute top-0 left-0 z-10 w-screen h-screen bg-transparent"
     >
-      {children}
+      <div className={`${contentClasses}`}>{children}</div>
     </div>,
     modalRoot
   );
