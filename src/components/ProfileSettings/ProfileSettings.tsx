@@ -71,38 +71,44 @@ function ProfileSettings() {
       const file = photoProfileInput.current.files[0];
 
       if (file && photoURL) {
-        const fileBlob = new Blob([file]);
-        const { name, type } = file;
+        try {
+          const fileBlob = new Blob([file]);
+          const { name, type } = file;
 
-        const fileUrlFromStorage = await uploadFileToStorage(
-          fileBlob,
-          type,
-          name
-        );
+          const fileUrlFromStorage = await uploadFileToStorage(
+            fileBlob,
+            type,
+            name,
+            uid
+          );
 
-        const desertRef = ref(storage, photoURL);
-        await deleteObject(desertRef).then(() =>
-          console.log('delete old photo success')
-        );
+          const desertRef = ref(storage, photoURL);
 
-        await updateProfile(auth.currentUser, {
-          photoURL: fileUrlFromStorage,
-        })
-          .then(() => {
-            console.log('photoURL updated!');
-            updateCurrentUser(auth.currentUser);
+          await deleteObject(desertRef).then(() =>
+            console.log('delete old photoURL success')
+          );
+
+          await updateProfile(auth.currentUser, {
+            photoURL: fileUrlFromStorage,
           })
-          .catch(error => {
-            console.log('handleUpdateProfilePhoto error', error);
-            // An error occurred
+            .then(() => {
+              console.log('photoURL updated!');
+              updateCurrentUser(auth.currentUser);
+            })
+            .catch(error => {
+              console.log('handleUpdateProfilePhoto error', error);
+              // An error occurred
+            });
+
+          // update doc user чтобы появилась ссылка в photoURL
+          await updateDoc(doc(db, 'users', uid), {
+            photoURL: fileUrlFromStorage,
           });
 
-        // update doc user чтобы появилась ссылка в photoURL
-        await updateDoc(doc(db, 'users', uid), {
-          photoURL: fileUrlFromStorage,
-        });
-
-        handleToggleProfilePhotoModal();
+          handleToggleProfilePhotoModal();
+        } catch (error) {
+          console.log('handleUpdateProfilePhoto error', error);
+        }
       }
     }
   };

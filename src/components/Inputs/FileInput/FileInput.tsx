@@ -46,27 +46,30 @@ function FileInput() {
   const handleManageSendFile = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (hiddenFileInput.current?.files) {
-      const qqq = Array.from(hiddenFileInput.current.files).map(async file => {
-        const fileBlob = new Blob([file]);
-        const { name, type } = file;
+    if (hiddenFileInput.current?.files && currentUserUID) {
+      const promiseArrayURLsOfFiles = Array.from(hiddenFileInput.current.files).map(
+        async file => {
+          const fileBlob = new Blob([file]);
+          const { name, type } = file;
 
-        console.log(file);
+          console.log(file);
 
-        const fileUrlFromStorage = await uploadFileToStorage(
-          fileBlob,
-          type,
-          name
-        );
+          const fileUrlFromStorage = await uploadFileToStorage(
+            fileBlob,
+            type,
+            name,
+            currentUserUID
+          );
 
-        return {
-          type,
-          name,
-          url: fileUrlFromStorage,
-        };
-      });
+          return {
+            type,
+            name,
+            url: fileUrlFromStorage,
+          };
+        }
+      );
 
-      const filesArr = await Promise.all(qqq);
+      const filesArr = await Promise.all(promiseArrayURLsOfFiles);
 
       // надо создать сообщение с полем файл и отправить на сохранение
       await addDoc(collection(db, `chats/${chatUID}/messages`), {

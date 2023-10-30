@@ -23,9 +23,9 @@ const ModalWindow = ({
   return createPortal(
     <div
       onClick={handleBackdropClick}
-      className="absolute top-0 left-0 z-10 w-screen h-screen bg-transparent"
+      className={`absolute top-0 left-0 z-10 w-screen h-screen bg-transparent ${contentClasses}`}
     >
-      <div className={`${contentClasses}`}>{children}</div>
+      {children}
     </div>,
     modalRoot
   );
