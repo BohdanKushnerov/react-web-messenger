@@ -5,12 +5,13 @@ import { getDownloadURL, uploadBytes } from 'firebase/storage';
 const uploadFileToStorage = async (
   fileBlob: Blob,
   fileType: string,
-  name: string
+  name: string,
+  userUID: string,
 ) => {
   // const fileBlob = new Blob([file]);
   // const imageUrl = URL.createObjectURL(fileBlob);
   // const uniquePostId = Date.now().toString();
-  const storageRef = ref(storage, `${fileType}/${name}`);
+  const storageRef = ref(storage, `${fileType}/${userUID}/${name}`);
 
   const metadata = {
     contentType: fileType,

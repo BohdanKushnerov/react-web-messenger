@@ -31,6 +31,7 @@ function Navbar() {
 
   const handleSettingsClick = () => {
     updateSidebarScreen('profileSettings');
+    handleToggleModal();
   };
 
   return (
@@ -46,16 +47,17 @@ function Navbar() {
       <Transition
         nodeRef={nodeRefNavBar}
         in={isModalOpen}
-        timeout={500}
+        timeout={300}
         unmountOnExit
       >
         {state => {
-          // console.log('state', state);
+          // console.log('state NavBar', state);
+          // console.log('isModalOpen NavBar', isModalOpen);
           return (
             <div ref={nodeRefNavBar}>
               <ModalWindow
                 handleToggleModal={handleToggleModal}
-                contentClasses={`transform origin-top-left transition-transform ${
+                contentClasses={`flex items-center justify-center transform origin-top-left transition-transform ${
                   state === 'exited' ? 'hidden' : ''
                 } 
                 ${

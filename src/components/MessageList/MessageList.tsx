@@ -4,10 +4,11 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 
 import MessageItem from '@components/MessageItem/MessageItem';
 import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
-import { db } from '@myfirebase/config';
+import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import { iMessageListProps } from '@interfaces/iMessageListProps';
 import sprite from '@assets/sprite.svg';
+import { deleteObject, ref } from 'firebase/storage';
 
 function MessageList({ messages }: iMessageListProps) {
   const [isButtonVisible, setIsButtonVisible] = useState(false);
@@ -118,6 +119,27 @@ function MessageList({ messages }: iMessageListProps) {
       currentUserUID &&
       userUID
     ) {
+
+      const arrayURLsOfFiles =
+        messages[selectedItemIndexForOpenModal].data()?.file;
+
+      if (arrayURLsOfFiles) {
+        const promisesArrOfURLs = arrayURLsOfFiles.map(
+          (el: { url: string }) => {
+            console.log(el.url);
+            const desertRef = ref(storage, el.url);
+
+            return deleteObject(desertRef).then(() =>
+              console.log('delete URL success')
+            );
+          }
+        );
+
+        await Promise.all(promisesArrOfURLs).then(() =>
+          console.log('delete All URLs success')
+        );
+      }
+
       await deleteDoc(
         doc(
           db,
@@ -126,7 +148,9 @@ function MessageList({ messages }: iMessageListProps) {
           'messages',
           messages[selectedItemIndexForOpenModal].id
         )
-      ).then(() => setSelectedItemIndexForOpenModal(null));
+      ).then(() => {
+        setSelectedItemIndexForOpenModal(null);
+      });
 
       // если последнее сообщение то ставим последнее сообщение messages[selectedItemIndexForOpenModal - 1]
       if (messages.length > 1) {
@@ -175,13 +199,11 @@ function MessageList({ messages }: iMessageListProps) {
     if (chatUID && messages && selectedItemIndexForOpenModal !== null) {
       const selectedMessage = messages[selectedItemIndexForOpenModal];
 
-        const editingMessageInfo = {
-          selectedMessage,
-          isLastMessage:
-            selectedItemIndexForOpenModal === messages.length - 1
-              ? true
-              : false,
-        };
+      const editingMessageInfo = {
+        selectedMessage,
+        isLastMessage:
+          selectedItemIndexForOpenModal === messages.length - 1 ? true : false,
+      };
 
       updateEditingMessage(editingMessageInfo);
       handleCloseModal();
