@@ -232,6 +232,7 @@ function Chat({ setScreen }: IChat) {
 
             <ChatForm
               message={message}
+              setMessage={setMessage}
               handleChangeMessage={handleChangeMessage}
               handleManageSendMessage={handleManageSendMessage}
             />
