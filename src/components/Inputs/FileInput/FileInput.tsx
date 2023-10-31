@@ -147,7 +147,7 @@ function FileInput() {
       <button
         className={`absolute ${
           editingMessageInfo ? 'bottom-1' : 'top-7'
-        } right-20 w-10 h-10 flex justify-center items-center bg-transparent hover:bg-hoverGray rounded-full cursor-pointer`}
+        } right-16 w-10 h-10 flex justify-center items-center bg-transparent hover:bg-hoverGray rounded-full cursor-pointer`}
         onClick={handleClickFileInput}
       >
         <svg width={24} height={24}>
