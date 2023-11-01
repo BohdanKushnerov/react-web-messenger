@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
-import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
+import { useEffect, useRef } from 'react';
 
 import FileInput from '@components/Inputs/FileInput/FileInput';
 import useChatStore from '@zustand/store';
 import { IChatFormProps } from '@interfaces/IChatFormProps';
 import sprite from '@assets/sprite.svg';
+import Emoji from '@components/Emoji/Emoji';
 
 function ChatForm({
   message,
@@ -12,10 +12,10 @@ function ChatForm({
   handleChangeMessage,
   handleManageSendMessage,
 }: IChatFormProps) {
-  const [isShowEmoji, setIsShowEmoji] = useState(false);
-  const [emojiTimeOutId, setEmojiTimeOutId] = useState<NodeJS.Timeout | null>(
-    null
-  );
+  // const [isShowEmoji, setIsShowEmoji] = useState(false);
+  // const [emojiTimeOutId, setEmojiTimeOutId] = useState<NodeJS.Timeout | null>(
+  //   null
+  // );
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -27,48 +27,48 @@ function ChatForm({
     inputRef.current?.focus();
   }, [message]);
 
-  useEffect(() => {
-    const handleCloseEmojiOnEsc = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsShowEmoji(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleCloseEmojiOnEsc = (event: KeyboardEvent) => {
+  //     if (event.key === 'Escape') {
+  //       setIsShowEmoji(false);
+  //     }
+  //   };
 
-    if (isShowEmoji) {
-      window.addEventListener('keydown', handleCloseEmojiOnEsc);
-    } else {
-      window.removeEventListener('keydown', handleCloseEmojiOnEsc);
-    }
+  //   if (isShowEmoji) {
+  //     window.addEventListener('keydown', handleCloseEmojiOnEsc);
+  //   } else {
+  //     window.removeEventListener('keydown', handleCloseEmojiOnEsc);
+  //   }
 
-    return () => {
-      window.removeEventListener('keydown', handleCloseEmojiOnEsc);
-    };
-  }, [isShowEmoji]);
+  //   return () => {
+  //     window.removeEventListener('keydown', handleCloseEmojiOnEsc);
+  //   };
+  // }, [isShowEmoji]);
 
   const handleCancelEditingMessage = () => {
     resetEditingMessage();
   };
 
-  const handleSelectEmoji = (emojiData: EmojiClickData) => {
-    setMessage((prev: string) => prev + emojiData.emoji);
-  };
+  // const handleSelectEmoji = (emojiData: EmojiClickData) => {
+  //   setMessage((prev: string) => prev + emojiData.emoji);
+  // };
 
-  const handleMouseEnterEmoji = () => {
-    setIsShowEmoji(true);
-    if (emojiTimeOutId) {
-      clearTimeout(emojiTimeOutId);
-      setEmojiTimeOutId(null);
-    }
-  };
+  // const handleMouseEnterEmoji = () => {
+  //   setIsShowEmoji(true);
+  //   if (emojiTimeOutId) {
+  //     clearTimeout(emojiTimeOutId);
+  //     setEmojiTimeOutId(null);
+  //   }
+  // };
 
-  const handleMouseLeaveEmoji = () => {
-    console.log('start Timeout Leave');
-    const timeoutId = setTimeout(() => {
-      setIsShowEmoji(false);
-      console.log('finish Timeout Leave');
-    }, 500);
-    setEmojiTimeOutId(timeoutId);
-  };
+  // const handleMouseLeaveEmoji = () => {
+  //   console.log('start Timeout Leave');
+  //   const timeoutId = setTimeout(() => {
+  //     setIsShowEmoji(false);
+  //     console.log('finish Timeout Leave');
+  //   }, 500);
+  //   setEmojiTimeOutId(timeoutId);
+  // };
 
   // const handleCloseEmojiOnEsc = event => {
   //   console.log(event);
@@ -122,29 +122,7 @@ function ChatForm({
           </button>
         </form>
         <FileInput />
-        <div
-          className={`absolute ${
-            editingMessageInfo ? 'bottom-1' : 'top-7'
-          } left-3`}
-          onMouseEnter={handleMouseEnterEmoji}
-          onMouseLeave={handleMouseLeaveEmoji}
-        >
-          {isShowEmoji && (
-            <div className="absolute bottom-12 left-0">
-              <EmojiPicker
-                height={400}
-                onEmojiClick={handleSelectEmoji}
-                searchDisabled
-                previewConfig={{ showPreview: false }}
-              />
-            </div>
-          )}
-          <div className="flex justify-center items-center w-10 h-10 hover:bg-hoverGray rounded-full cursor-pointer">
-            <svg width={24} height={24}>
-              <use href={sprite + '#icon-emoticon'} fill="rgb(170,170,170)" />
-            </svg>
-          </div>
-        </div>
+        <Emoji setMessage={setMessage} />
       </div>
     </div>
   );
