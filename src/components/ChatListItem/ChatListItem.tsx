@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
+import {
+  DocumentData,
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  where,
+} from 'firebase/firestore';
 import { onValue, ref } from 'firebase/database';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
@@ -9,11 +16,16 @@ import useChatStore from '@zustand/store';
 import truncateLastMessageString from '@utils/truncateLastMessageString';
 import handleSelectChat from '@utils/handleSelectChat';
 import { IChatListItemProps } from '@interfaces/IChatListItemProps';
+import sprite from '@assets/sprite.svg';
 
 const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
   const [userInfo, setUserInfo] = useState<DocumentData | null>(null);
   const [isOnline, setIsOnline] = useState<boolean | null>(null);
+  const [lengthOfMyUnReadMsgs, setLengthOfMyUnReadMsgs] = useState<number>(0);
+  const [isReadMyLastMessage, setIsReadMyLastMessage] = useState(true);
   const location = useLocation();
+
+  const { uid } = useChatStore(state => state.currentUser);
 
   const { chatUID } = useChatStore(state => state.currentChatInfo);
   const updateCurrentChatInfo = useChatStore(
@@ -50,6 +62,49 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
     };
   }, [chatInfo]);
 
+  // console.log(userInfo)
+
+  useEffect(() => {
+    const q = query(
+      collection(db, `chats/${chatInfo[0]}/messages`),
+      where('isRead', '==', false),
+      where('senderUserID', '!=', uid)
+    );
+
+    const unSub = onSnapshot(q, querySnapshot => {
+      if (querySnapshot.docs) {
+        setLengthOfMyUnReadMsgs(querySnapshot.docs.length);
+      }
+    });
+
+    return () => {
+      unSub();
+    };
+  }, [chatInfo, uid]);
+
+  useEffect(() => {
+    if (!chatInfo[0] || !uid) return;
+
+    const q = query(
+      collection(db, `chats/${chatInfo[0]}/messages`),
+      where('isRead', '==', false),
+      where('senderUserID', '==', uid)
+    );
+
+    const unSub = onSnapshot(q, querySnapshot => {
+      if (querySnapshot.docs.length > 0) {
+        // setLengthOfUnReadMsgs(querySnapshot.docs.length);
+        setIsReadMyLastMessage(false);
+      } else {
+        setIsReadMyLastMessage(true);
+      }
+    });
+
+    return () => {
+      unSub();
+    };
+  }, [chatInfo, uid]);
+
   const handleManageSelectChat = () => {
     handleSelectChat(chatInfo, updateCurrentChatInfo);
 
@@ -85,6 +140,37 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
             {truncateLastMessageString(chatInfo[1].lastMessage, 25)}
           </p>
         </div>
+
+        {lengthOfMyUnReadMsgs > 0 && (
+          <p className="flex justify-center items-center p-1 px-3 border border-white text-white rounded-full shadow-mainShadow bg-gray-500">
+            {lengthOfMyUnReadMsgs}
+          </p>
+        )}
+
+        {isReadMyLastMessage ? (
+          <svg width={24} height={24}>
+            <use href={sprite + '#icon-double-check'} fill="#FFFFFF" />
+          </svg>
+        ) : (
+          <svg width={24} height={24}>
+            <use href={sprite + '#icon-single-check'} fill="#FFFFFF" />
+          </svg>
+        )}
+
+        {/* тут треба умова що це не моя смс,
+        бо якшо мені прислали і я прочитав то його не повинно буть видно, 
+        а якшо я шлю смс то має буть видно чи прочитане чи ні */}
+        {/* {chatInfo[1].userUID === uid &&
+          (isReadMyLastMessage ? (
+            <svg width={24} height={24}>
+              <use href={sprite + '#icon-double-check'} fill="#FFFFFF" />
+            </svg>
+          ) : (
+            <svg width={24} height={24}>
+              <use href={sprite + '#icon-single-check'} fill="#FFFFFF" />
+            </svg>
+          ))} */}
+
         <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
           {isOnline ? 'Online' : 'Offline'}
         </div>

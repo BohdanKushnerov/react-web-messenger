@@ -159,9 +159,9 @@ function Chat({ setScreen }: IChat) {
             change.doc.data().senderUserID !== currentUserUID &&
             change.doc.data().isRead === false
           ) {
-            new Notification('new Message', {
-              body: change.doc.data().message,
-            });
+            // new Notification('new Message', {
+            //   body: change.doc.data().message,
+            // });
           }
         }
         if (change.type === 'modified') {
