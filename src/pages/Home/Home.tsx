@@ -76,6 +76,7 @@ const Home = React.memo(() => {
           combinedUsersChatUID,
           {
             lastMessage: res.data()?.[combinedUsersChatUID].lastMessage,
+            senderUserID: res.data()?.[combinedUsersChatUID].senderUserID,
             userUID: res.data()?.[combinedUsersChatUID].userUID,
           },
         ];

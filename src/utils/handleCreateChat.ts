@@ -64,6 +64,7 @@ const handleCreateChat = async (
       combinedUsersChatID,
       {
         lastMessage: newResponse.data()?.[combinedUsersChatID].lastMessage,
+        senderUserID: newResponse.data()?.[combinedUsersChatID].senderUserID,
         userUID: newResponse.data()?.[combinedUsersChatID].userUID,
       },
     ];

@@ -31,12 +31,14 @@ const handleSendMessage = async (
     // здесь надо переписывать последнее сообщение мне и напарнику
     await updateDoc(doc(db, 'userChats', currentUserUID), {
       [chatUID + '.lastMessage']: message,
+      [chatUID + '.senderUserID']: currentUserUID,
       [chatUID + '.date']: serverTimestamp(),
     });
 
     // =====================================================
     await updateDoc(doc(db, 'userChats', userUID), {
       [chatUID + '.lastMessage']: message,
+      [chatUID + '.senderUserID']: currentUserUID,
       [chatUID + '.date']: serverTimestamp(),
     });
   } catch (error) {

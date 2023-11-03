@@ -88,6 +88,7 @@ function FileInput() {
           [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
             filesArr.length
           } file(s) ${fileDescription}`,
+          [chatUID + '.senderUserID']: currentUserUID,
           [chatUID + '.date']: serverTimestamp(),
         });
         // =====================================================
@@ -95,6 +96,7 @@ function FileInput() {
           [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
             filesArr.length
           } file(s) ${fileDescription}`,
+          [chatUID + '.senderUserID']: currentUserUID,
           [chatUID + '.date']: serverTimestamp(),
         });
       }

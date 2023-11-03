@@ -62,7 +62,7 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
     };
   }, [chatInfo]);
 
-  // console.log(userInfo)
+  console.log(chatInfo[1]);
 
   useEffect(() => {
     const q = query(
@@ -147,7 +147,7 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
           </p>
         )}
 
-        {isReadMyLastMessage ? (
+        {/* {isReadMyLastMessage ? (
           <svg width={24} height={24}>
             <use href={sprite + '#icon-double-check'} fill="#FFFFFF" />
           </svg>
@@ -155,21 +155,21 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
           <svg width={24} height={24}>
             <use href={sprite + '#icon-single-check'} fill="#FFFFFF" />
           </svg>
-        )}
+        )} */}
 
         {/* тут треба умова що це не моя смс,
         бо якшо мені прислали і я прочитав то його не повинно буть видно, 
         а якшо я шлю смс то має буть видно чи прочитане чи ні */}
-        {/* {chatInfo[1].userUID === uid &&
+        {chatInfo[1].senderUserID === uid &&
           (isReadMyLastMessage ? (
-            <svg width={24} height={24}>
+            <svg width={48} height={48}>
               <use href={sprite + '#icon-double-check'} fill="#FFFFFF" />
             </svg>
           ) : (
-            <svg width={24} height={24}>
+            <svg width={48} height={48}>
               <use href={sprite + '#icon-single-check'} fill="#FFFFFF" />
             </svg>
-          ))} */}
+          ))}
 
         <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
           {isOnline ? 'Online' : 'Offline'}

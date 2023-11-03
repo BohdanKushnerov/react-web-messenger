@@ -164,31 +164,39 @@ function MessageList({ messages }: iMessageListProps) {
               }`
             : messages[selectedItemIndexForOpenModal - 1].data().message;
 
+            const senderUserIDMessage =
+              messages[selectedItemIndexForOpenModal - 1].data().senderUserID;
+
           const lastDateMessage =
             messages[selectedItemIndexForOpenModal - 1].data().date;
 
           // здесь надо переписывать последнее сообщение мне и напарнику после удаления
           await updateDoc(doc(db, 'userChats', currentUserUID), {
             [chatUID + '.lastMessage']: lastMessage,
+            [chatUID + '.senderUserID']: senderUserIDMessage,
             [chatUID + '.date']: lastDateMessage,
           });
 
           // =====================================================
           await updateDoc(doc(db, 'userChats', userUID), {
             [chatUID + '.lastMessage']: lastMessage,
+            [chatUID + '.senderUserID']: senderUserIDMessage,
             [chatUID + '.date']: lastDateMessage,
           });
         }
       } else {
         // console.log('messages.length < 1');
+        // пустую строку с пробелом чтобы не падала ошибка
         await updateDoc(doc(db, 'userChats', currentUserUID), {
           [chatUID + '.lastMessage']: ' ',
+          [chatUID + '.senderUserID']: ' ',
           [chatUID + '.date']: ' ',
         });
 
         // =====================================================
         await updateDoc(doc(db, 'userChats', userUID), {
           [chatUID + '.lastMessage']: ' ',
+          [chatUID + '.senderUserID']: ' ',
           [chatUID + '.date']: ' ',
         });
       }
