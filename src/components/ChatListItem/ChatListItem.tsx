@@ -62,8 +62,6 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
     };
   }, [chatInfo]);
 
-  console.log(chatInfo[1]);
-
   useEffect(() => {
     const q = query(
       collection(db, `chats/${chatInfo[0]}/messages`),

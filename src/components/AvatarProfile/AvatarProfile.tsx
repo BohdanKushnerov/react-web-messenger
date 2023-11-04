@@ -12,7 +12,12 @@ function AvatarProfile({ photoURL, displayName, size }: IAvatarProfileProps) {
       alt={displayName}
     />
   ) : (
-    <Avatar className="rounded-full" name={`${displayName}`} size={size} />
+    <Avatar
+      className="rounded-full"
+      name={`${displayName}`}
+      size={size}
+      textSizeRatio={0}
+    />
   );
 }
 

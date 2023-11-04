@@ -1,81 +1,121 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import FileInput from '@components/Inputs/FileInput/FileInput';
 import useChatStore from '@zustand/store';
-import { IChatFormProps } from '@interfaces/IChatFormProps';
+// import { IChatFormProps } from '@interfaces/IChatFormProps';
 import sprite from '@assets/sprite.svg';
 import Emoji from '@components/Emoji/Emoji';
+import handleUpdateEditMessage from '@utils/handleUpdateEditMessage';
+import handleSendMessage from '@utils/handleSendMessage';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '@myfirebase/config';
 
-function ChatForm({
-  message,
-  setMessage,
-  handleChangeMessage,
-  handleManageSendMessage,
-}: IChatFormProps) {
-  // const [isShowEmoji, setIsShowEmoji] = useState(false);
-  // const [emojiTimeOutId, setEmojiTimeOutId] = useState<NodeJS.Timeout | null>(
-  //   null
-  // );
+function ChatForm() {
+  const [message, setMessage] = useState('');
+  const [myTyping, setMyTyping] = useState(false);
+  const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const currentUserUID = useChatStore(state => state.currentUser.uid);
+  const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
   const { editingMessageInfo, resetEditingMessage } = useChatStore(
     state => state
   );
+
+  console.log('screen --> ChatForm');
 
   useEffect(() => {
     inputRef.current?.focus();
   }, [message]);
 
-  // useEffect(() => {
-  //   const handleCloseEmojiOnEsc = (event: KeyboardEvent) => {
-  //     if (event.key === 'Escape') {
-  //       setIsShowEmoji(false);
-  //     }
-  //   };
-
-  //   if (isShowEmoji) {
-  //     window.addEventListener('keydown', handleCloseEmojiOnEsc);
-  //   } else {
-  //     window.removeEventListener('keydown', handleCloseEmojiOnEsc);
-  //   }
-
-  //   return () => {
-  //     window.removeEventListener('keydown', handleCloseEmojiOnEsc);
-  //   };
-  // }, [isShowEmoji]);
-
   const handleCancelEditingMessage = () => {
     resetEditingMessage();
   };
 
-  // const handleSelectEmoji = (emojiData: EmojiClickData) => {
-  //   setMessage((prev: string) => prev + emojiData.emoji);
-  // };
+  useEffect(() => {
+    if (editingMessageInfo) {
+      const mes = editingMessageInfo.selectedMessage.data().message;
+      setMessage(mes);
+    } else {
+      setMessage('');
+    }
+  }, [editingMessageInfo]);
 
-  // const handleMouseEnterEmoji = () => {
-  //   setIsShowEmoji(true);
-  //   if (emojiTimeOutId) {
-  //     clearTimeout(emojiTimeOutId);
-  //     setEmojiTimeOutId(null);
-  //   }
-  // };
+  const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage(e.target.value);
+  };
 
-  // const handleMouseLeaveEmoji = () => {
-  //   console.log('start Timeout Leave');
-  //   const timeoutId = setTimeout(() => {
-  //     setIsShowEmoji(false);
-  //     console.log('finish Timeout Leave');
-  //   }, 500);
-  //   setEmojiTimeOutId(timeoutId);
-  // };
+  const handleManageSendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
 
-  // const handleCloseEmojiOnEsc = event => {
-  //   console.log(event);
-  //   if (event.key === 'Escape') {
-  //     setIsShowEmoji(false);
-  //   }
-  // };
+    if (message.trim() === '') {
+      return;
+    }
+
+    if (editingMessageInfo) {
+      handleUpdateEditMessage(
+        editingMessageInfo,
+        chatUID,
+        message,
+        currentUserUID,
+        userUID
+      );
+      resetEditingMessage();
+    } else {
+      handleSendMessage(message, chatUID, currentUserUID, userUID);
+      setMessage('');
+    }
+  };
+
+  // когда печатаю запускаю таймаут
+  useEffect(() => {
+    if (chatUID && currentUserUID && message) {
+      const updateTypingIsTrue = async () => {
+        setMyTyping(true);
+        const chatDocRef = doc(db, 'chats', chatUID);
+
+        const updateTypingTrue = {
+          [currentUserUID]: {
+            isTyping: true,
+          },
+        };
+
+        await updateDoc(chatDocRef, updateTypingTrue);
+      };
+
+      const updateTypingIsFalse = async () => {
+        setMyTyping(false);
+
+        const chatDocRef = doc(db, 'chats', chatUID);
+
+        const updateTypingTrue = {
+          [currentUserUID]: {
+            isTyping: false,
+          },
+        };
+
+        await updateDoc(chatDocRef, updateTypingTrue);
+      };
+
+      updateTypingIsTrue();
+
+      const newTypingTimeout = setTimeout(() => {
+        updateTypingIsFalse();
+      }, 3000);
+
+      setTypingTimeout(newTypingTimeout);
+    }
+  }, [chatUID, currentUserUID, message, userUID]);
+
+  // Устанавливаем обработчик сброса таймаута чтобы закрыть старый и открыть новый
+  useEffect(() => {
+    return () => {
+      if (typingTimeout && myTyping) {
+        clearTimeout(typingTimeout);
+      }
+    };
+  }, [chatUID, currentUserUID, myTyping, typingTimeout]);
 
   return (
     <div className="absolute bottom-0 left-0 z-10 w-full h-24 flex flex-col items-center">

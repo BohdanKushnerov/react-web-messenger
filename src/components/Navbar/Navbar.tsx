@@ -51,8 +51,6 @@ function Navbar() {
         unmountOnExit
       >
         {state => {
-          // console.log('state NavBar', state);
-          // console.log('isModalOpen NavBar', isModalOpen);
           return (
             <div ref={nodeRefNavBar}>
               <ModalWindow
@@ -69,13 +67,11 @@ function Navbar() {
               >
                 <div className="absolute top-14 left-5 z-20 flex flex-col gap-2 p-2 bg-myBlackBcg rounded-md shadow-mainShadow">
                   <div className="flex justify-between items-center gap-1 text-white">
-                    {currentUser?.photoURL && currentUser?.displayName && (
                       <AvatarProfile
                         photoURL={currentUser.photoURL}
                         displayName={currentUser.displayName}
-                        size="50"
+                        size="48"
                       />
-                    )}
                     <p className="flex transf">{currentUser?.displayName}</p>
                     <button
                       className="p-1 border border-gray-600 rounded-full hover:shadow-mainShadow hover:bg-gray-800"

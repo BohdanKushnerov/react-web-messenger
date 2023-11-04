@@ -1,31 +1,85 @@
 import { useEffect, useState, useRef } from 'react';
-import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { DocumentData, collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore';
 import { Scrollbars } from 'react-custom-scrollbars-2';
+// import { Transition } from 'react-transition-group';
+import { deleteObject, ref } from 'firebase/storage';
 
 import MessageItem from '@components/MessageItem/MessageItem';
 import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
 import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import { iMessageListProps } from '@interfaces/iMessageListProps';
 import sprite from '@assets/sprite.svg';
-import { deleteObject, ref } from 'firebase/storage';
 
-function MessageList({ messages }: iMessageListProps) {
+function MessageList() {
+  const [messages, setMessages] = useState<DocumentData[] | null>(null);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [selectedItemIndexForOpenModal, setSelectedItemIndexForOpenModal] =
     useState<number | null>(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
 
   const scrollbarsRef = useRef<Scrollbars>(null);
+  // const nodeRefMessageItem = useRef(null);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
-  // const { isEditMessage, editMessage } = useChatStore(
-  //   state => state.messageEditingFormState
-  // );
   const updateEditingMessage = useChatStore(
     state => state.updateEditingMessage
   );
+
+    useEffect(() => {
+      if (chatUID === null) return;
+
+      localStorage.setItem('currentChatId', chatUID);
+
+      const q = query(
+        collection(db, `chats/${chatUID}/messages`),
+        orderBy('date', 'asc')
+      );
+
+      onSnapshot(q, snapshot => {
+        // if (!snapshot.empty) {
+        //   if(!messages) {
+        //     console.log('1111111111111111111111111111111111111111111111')
+        //     setMessages(snapshot.docs);
+        //   }
+        // }
+        snapshot.docChanges().forEach(change => {
+          if (change.type === 'added') {
+            // console.log('New mes: ', change.doc.data());
+            // if(messages) {
+            //   setMessages([change.doc]);
+            // } else {
+            //   setMessages(prev => [...prev, change.doc]);
+            // }
+            // console.log('change', change.doc.data());
+
+            if (
+              change.doc.data().senderUserID !== currentUserUID &&
+              change.doc.data().isRead === false
+            ) {
+              // new Notification('new Message', {
+              //   body: change.doc.data().message,
+              // });
+            }
+          }
+          if (change.type === 'modified') {
+            // console.log('Modified mes: ', change.doc.data());
+          }
+          if (change.type === 'removed') {
+            // console.log('Removed mes: ', change.doc.data());
+          }
+        });
+      });
+
+      const unSub = onSnapshot(q, querySnapshot => {
+        setMessages(querySnapshot.docs);
+      });
+
+      return () => {
+        unSub();
+        localStorage.removeItem('currentChatId');
+      };
+    }, [chatUID, currentUserUID]);
 
   useEffect(() => {
     handleClickScrollBottom();
@@ -119,7 +173,6 @@ function MessageList({ messages }: iMessageListProps) {
       currentUserUID &&
       userUID
     ) {
-
       const arrayURLsOfFiles =
         messages[selectedItemIndexForOpenModal].data()?.file;
 
@@ -164,8 +217,8 @@ function MessageList({ messages }: iMessageListProps) {
               }`
             : messages[selectedItemIndexForOpenModal - 1].data().message;
 
-            const senderUserIDMessage =
-              messages[selectedItemIndexForOpenModal - 1].data().senderUserID;
+          const senderUserIDMessage =
+            messages[selectedItemIndexForOpenModal - 1].data().senderUserID;
 
           const lastDateMessage =
             messages[selectedItemIndexForOpenModal - 1].data().date;
@@ -239,17 +292,35 @@ function MessageList({ messages }: iMessageListProps) {
                 const currentItem = selectedItemIndexForOpenModal === index;
 
                 return (
-                  <li
-                    key={mes.id}
-                    className={`flex justify-center p-0.5 rounded-xl ${
-                      currentItem && 'bg-currentContextMenuMessage'
-                    }`}
-                    onClick={handleCloseModal}
-                    onContextMenu={e => handleClickRigthButtonMessage(index, e)}
-                  >
-                    <MessageItem mes={mes} />
-                  </li>
-                );
+                  // <Transition
+                  //   nodeRef={nodeRefMessageItem}
+                  //   in={true}
+                  //   timeout={600}
+                  //   unmountOnExit
+                  // >
+                  //   {state => {
+                  //     console.log("state MessageItem", state);
+                  //     return (
+                        <li
+                          // ref={nodeRefMessageItem}
+                          key={mes.id}
+                          className={`flex justify-center p-0.5 rounded-xl ${
+                            currentItem && 'bg-currentContextMenuMessage'
+                          } 
+                          
+                        
+                          `}
+                          onClick={handleCloseModal}
+                          onContextMenu={e =>
+                            handleClickRigthButtonMessage(index, e)
+                          }
+                        >
+                          <MessageItem mes={mes} />
+                        </li>
+                      );
+                    // }}
+                  // </Transition>
+                // );
               })}
           </ul>
         </Scrollbars>
@@ -296,15 +367,6 @@ function MessageList({ messages }: iMessageListProps) {
               </svg>
               <span>EDIT</span>
             </button>
-            {/* {!messages[selectedItemIndexForOpenModal].data().file && (<button
-              className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-              onClick={handleChooseEditMessage}
-            >
-              <svg width={20} height={20}>
-                <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
-              </svg>
-              <span>EDIT</span>
-            </button>)} */}
           </div>
         </MessageContextMenuModal>
       )}

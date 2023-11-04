@@ -7,17 +7,20 @@ import { database, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import { IChatHeader } from '@interfaces/IChatHeader';
 
-function ChatHeader({
+const ChatHeader = ({
   setScreen,
   handleClickBackToSidebarScreen,
-  isOpponentTyping
-}: IChatHeader) {
+}: IChatHeader) => {
   const [currentChatInfo, setCurrentChatInfo] = useState<DocumentData | null>(
     null
   );
   const [isOnline, setIsOnline] = useState<boolean | null>(null);
+  const [isOpponentTyping, setIsOpponentTyping] = useState(false);
 
-  const { userUID } = useChatStore(state => state.currentChatInfo);
+  const currentUserUID = useChatStore(state => state.currentUser.uid);
+  const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
+
+  console.log('screen --> ChatHeader');
 
   useEffect(() => {
     if (!userUID) return;
@@ -46,6 +49,33 @@ function ChatHeader({
       unsubOnlineStatus();
     };
   }, [userUID]);
+
+  // тут слушатель на изменения печатает/не печатает
+  useEffect(() => {
+    if (!chatUID || !userUID) {
+      return;
+    }
+
+    const chatDocRef = doc(db, 'chats', chatUID);
+
+    const unsubscribe = onSnapshot(
+      chatDocRef,
+      docSnapshot => {
+        if (docSnapshot.exists()) {
+          const chatData = docSnapshot.data();
+
+          setIsOpponentTyping(chatData[userUID].isTyping);
+        }
+      },
+      error => {
+        console.error('Ошибка при установлении слушателя:', error);
+      }
+    );
+
+    return () => {
+      unsubscribe();
+    };
+  }, [chatUID, currentUserUID, userUID]);
 
   return (
     <div className="absolute top-0 left-0 z-10 flex gap-4 items-center w-full h-14 px-6 bg-myBlackBcg shadow-bottomShadow">
@@ -93,6 +123,6 @@ function ChatHeader({
       )}
     </div>
   );
-}
+};
 
 export default ChatHeader;
