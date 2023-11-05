@@ -81,6 +81,8 @@ const Home = React.memo(() => {
           },
         ];
 
+        console.log('go ==> redirect')
+
         handleSelectChat(chatItem, updateCurrentChatInfo);
         setScreen('Chat');
         navigate(combinedUsersChatUID);

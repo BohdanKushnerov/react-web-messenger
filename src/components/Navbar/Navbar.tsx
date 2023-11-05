@@ -12,7 +12,7 @@ function Navbar() {
   const [isModalOpen, setIsModelOpen] = useState(false);
   const nodeRefNavBar = useRef(null);
 
-  const { currentUser } = useChatStore(state => state);
+  const currentUser = useChatStore(state => state.currentUser);
   const resetCurrentChatInfo = useChatStore(
     state => state.resetCurrentChatInfo
   );

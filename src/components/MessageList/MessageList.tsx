@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { DocumentData, collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore';
 import { Scrollbars } from 'react-custom-scrollbars-2';
-// import { Transition } from 'react-transition-group';
 import { deleteObject, ref } from 'firebase/storage';
 
 import MessageItem from '@components/MessageItem/MessageItem';
@@ -18,7 +17,6 @@ function MessageList() {
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
 
   const scrollbarsRef = useRef<Scrollbars>(null);
-  // const nodeRefMessageItem = useRef(null);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
@@ -292,17 +290,7 @@ function MessageList() {
                 const currentItem = selectedItemIndexForOpenModal === index;
 
                 return (
-                  // <Transition
-                  //   nodeRef={nodeRefMessageItem}
-                  //   in={true}
-                  //   timeout={600}
-                  //   unmountOnExit
-                  // >
-                  //   {state => {
-                  //     console.log("state MessageItem", state);
-                  //     return (
                         <li
-                          // ref={nodeRefMessageItem}
                           key={mes.id}
                           className={`flex justify-center p-0.5 rounded-xl ${
                             currentItem && 'bg-currentContextMenuMessage'
@@ -317,10 +305,7 @@ function MessageList() {
                         >
                           <MessageItem mes={mes} />
                         </li>
-                      );
-                    // }}
-                  // </Transition>
-                // );
+                );
               })}
           </ul>
         </Scrollbars>

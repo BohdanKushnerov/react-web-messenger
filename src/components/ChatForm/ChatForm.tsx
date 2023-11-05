@@ -1,16 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { doc, updateDoc } from 'firebase/firestore';
 
 import FileInput from '@components/Inputs/FileInput/FileInput';
-import useChatStore from '@zustand/store';
-// import { IChatFormProps } from '@interfaces/IChatFormProps';
-import sprite from '@assets/sprite.svg';
 import Emoji from '@components/Emoji/Emoji';
+import { db } from '@myfirebase/config';
+import useChatStore from '@zustand/store';
 import handleUpdateEditMessage from '@utils/handleUpdateEditMessage';
 import handleSendMessage from '@utils/handleSendMessage';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '@myfirebase/config';
+import sprite from '@assets/sprite.svg';
 
-function ChatForm() {
+const ChatForm = () => {
   const [message, setMessage] = useState('');
   const [myTyping, setMyTyping] = useState(false);
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>();
@@ -19,9 +18,8 @@ function ChatForm() {
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
-  const { editingMessageInfo, resetEditingMessage } = useChatStore(
-    state => state
-  );
+  const editingMessageInfo = useChatStore(state => state.editingMessageInfo);
+  const resetEditingMessage = useChatStore(state => state.resetEditingMessage);
 
   console.log('screen --> ChatForm');
 
@@ -166,6 +164,6 @@ function ChatForm() {
       </div>
     </div>
   );
-}
+};
 
 export default ChatForm;

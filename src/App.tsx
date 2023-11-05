@@ -39,7 +39,7 @@ function App() {
             element: <Sidebar />,
           },
           {
-            path: ':id',
+            path: '/:id',
             element: (
               <PrivateRoute component={Chat} redirectTo="/authentication" />
             ),
