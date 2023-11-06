@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Single Page Apps for GitHub Pages</title>
+    <script type="text/javascript">
+      var pathSegmentsToKeep = 1;
+
+      var l = window.location;
+      var urlSegments = l.pathname.slice(1).split('/');
+
+      // Проверяем, содержит ли URL необходимое количество сегментов пути
+      if (urlSegments.length > pathSegmentsToKeep) {
+        l.replace(
+          l.protocol +
+            '//' +
+            l.hostname +
+            (l.port ? ':' + l.port : '') +
+            '/' + // Указываем базовый путь здесь
+            l.pathname
+              .split('/')
+              .slice(pathSegmentsToKeep)
+              .join('/')
+              .replace(/&/g, '~and~') +
+            (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+            l.hash
+        );
+      }
+    </script>
+  </head>
+  <body></body>
+</html>
