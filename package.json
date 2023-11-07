@@ -19,6 +19,7 @@
     "firebase": "^10.3.1",
     "immer": "^10.0.2",
     "libphonenumber-js": "^1.10.44",
+    "rc-progress": "^3.5.1",
     "react": "^18.2.0",
     "react-auth-code-input": "^3.2.1",
     "react-avatar": "^5.0.3",

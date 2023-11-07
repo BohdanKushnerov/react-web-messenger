@@ -40,7 +40,7 @@ function FileItem({ file }: IMessageFileItemProps) {
         <FileIcon extension={fileType} {...defaultStyles[fileType]} />
       </span>
       <span className="text-white">{file.name}</span>
-      <a href={link}>Link</a>
+      <a target='blank' href={link}>Link</a>
     </p>
   );
 }

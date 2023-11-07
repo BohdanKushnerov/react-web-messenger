@@ -11,8 +11,9 @@ import sprite from '@assets/sprite.svg';
 
 const ChatForm = () => {
   const [message, setMessage] = useState('');
-  const [myTyping, setMyTyping] = useState(false);
-  const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>();
+  // const [myTyping, setMyTyping] = useState(false);
+  const [myTypingTimeout, setMyTTypingTimeout] =
+    useState<NodeJS.Timeout | null>();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -70,7 +71,7 @@ const ChatForm = () => {
   useEffect(() => {
     if (chatUID && currentUserUID && message) {
       const updateTypingIsTrue = async () => {
-        setMyTyping(true);
+        // setMyTyping(true);
         const chatDocRef = doc(db, 'chats', chatUID);
 
         const updateTypingTrue = {
@@ -83,7 +84,7 @@ const ChatForm = () => {
       };
 
       const updateTypingIsFalse = async () => {
-        setMyTyping(false);
+        // setMyTyping(false);
 
         const chatDocRef = doc(db, 'chats', chatUID);
 
@@ -102,18 +103,22 @@ const ChatForm = () => {
         updateTypingIsFalse();
       }, 3000);
 
-      setTypingTimeout(newTypingTimeout);
+      setMyTTypingTimeout(newTypingTimeout);
     }
   }, [chatUID, currentUserUID, message, userUID]);
 
   // Устанавливаем обработчик сброса таймаута чтобы закрыть старый и открыть новый
   useEffect(() => {
+    // if (typingTimeout) {
+    //   clearTimeout(typingTimeout);
+    // }
+
     return () => {
-      if (typingTimeout && myTyping) {
-        clearTimeout(typingTimeout);
+      if (myTypingTimeout) {
+        clearTimeout(myTypingTimeout);
       }
     };
-  }, [chatUID, currentUserUID, myTyping, typingTimeout]);
+  }, [chatUID, currentUserUID, myTypingTimeout]);
 
   return (
     <div className="absolute bottom-0 left-0 z-10 w-full h-24 flex flex-col items-center">

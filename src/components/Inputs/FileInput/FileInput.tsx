@@ -7,21 +7,27 @@ import {
   serverTimestamp,
   updateDoc,
 } from 'firebase/firestore';
-import { DefaultExtensionType, FileIcon, defaultStyles } from 'react-file-icon';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { DefaultExtensionType } from 'react-file-icon';
 import Scrollbars from 'react-custom-scrollbars-2';
 
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import ButtonCloseModal from '@components/Buttons/ButtonCloseModal/ButtonCloseModal';
-import { db } from '@myfirebase/config';
+import UploadPhotoFile from '@components/UploadPhotoFile/UploadPhotoFile';
+import UploadDocumentFile from '@components/UploadDocumentFile/UploadDocumentFile';
+import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import uploadFileToStorage from '@utils/uploadFileToStorage';
+import { TFileStatuses } from 'types/TFileStatuses';
 import sprite from '@assets/sprite.svg';
 
 function FileInput() {
   const [isModalAddFileOpen, setIsModalAddFileOpen] = useState(false);
   const [fileDescription, setFileDescription] = useState('');
+  const [fileStatuses, setFileStatuses] = useState<TFileStatuses>({});
   const hiddenFileInput = useRef<HTMLInputElement>(null);
   const scrollbarsRef = useRef<Scrollbars>(null);
+
+  console.log("fileStatuses", fileStatuses);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
@@ -47,60 +53,95 @@ function FileInput() {
     e.preventDefault();
 
     if (hiddenFileInput.current?.files && currentUserUID) {
-      const promiseArrayURLsOfFiles = Array.from(hiddenFileInput.current.files).map(
-        async file => {
+      try {
+        const promiseArrayURLsOfFiles = Array.from(
+          hiddenFileInput.current.files
+        ).map(async file => {
+          //=========================================================
+          const metadata = {
+            contentType: file.type,
+          };
+
+          const storageRef = ref(
+            storage,
+            `${file.type}/${currentUserUID}/${file.name}`
+          );
           const fileBlob = new Blob([file]);
-          const { name, type } = file;
 
-          console.log(file);
-
-          const fileUrlFromStorage = await uploadFileToStorage(
+          const uploadTask = uploadBytesResumable(
+            storageRef,
             fileBlob,
-            type,
-            name,
-            currentUserUID
+            metadata
           );
 
-          return {
-            type,
-            name,
-            url: fileUrlFromStorage,
-          };
+          return new Promise((resolve, reject)=>{
+            uploadTask.on(
+              'state_changed',
+              snapshot => {
+                const progress =
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+
+                setFileStatuses(prev => ({
+                  ...prev,
+                  [file.name]: progress,
+                }));
+              },
+              error => {
+                console.log('error', error);
+              },
+              async () => {
+                try {
+                  const downloadURL = await getDownloadURL(
+                    uploadTask.snapshot.ref
+                  );
+                  console.log('File available at', downloadURL);
+
+                  resolve({
+                    type: file.type,
+                    name: file.name,
+                    url: downloadURL,
+                  });
+                } catch (error) {
+                  reject(error);
+                }
+              }
+            );
+          })
+        });
+
+        const filesArr = await Promise.all(promiseArrayURLsOfFiles);
+
+        // надо создать сообщение с полем файл и отправить на сохранение
+        await addDoc(collection(db, `chats/${chatUID}/messages`), {
+          file: filesArr,
+          message: fileDescription ? fileDescription : '',
+          senderUserID: currentUserUID,
+          date: Timestamp.now(),
+          isRead: false,
+        });
+
+        if (currentUserUID && userUID) {
+          await updateDoc(doc(db, 'userChats', currentUserUID), {
+            [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
+              filesArr.length
+            } file(s) ${fileDescription}`,
+            [chatUID + '.senderUserID']: currentUserUID,
+            [chatUID + '.date']: serverTimestamp(),
+          });
+          // =====================================================
+          await updateDoc(doc(db, 'userChats', userUID), {
+            [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
+              filesArr.length
+            } file(s) ${fileDescription}`,
+            [chatUID + '.senderUserID']: currentUserUID,
+            [chatUID + '.date']: serverTimestamp(),
+          });
         }
-      );
-
-      const filesArr = await Promise.all(promiseArrayURLsOfFiles);
-
-      // надо создать сообщение с полем файл и отправить на сохранение
-      await addDoc(collection(db, `chats/${chatUID}/messages`), {
-        file: filesArr,
-        message: fileDescription ? fileDescription : '',
-        senderUserID: currentUserUID,
-        date: Timestamp.now(),
-        isRead: false,
-      });
-
-      if (currentUserUID && userUID) {
-        await updateDoc(doc(db, 'userChats', currentUserUID), {
-          // [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
-          //   fileDescription ? fileDescription : `${filesArr.length} file(s)`
-          // }`,
-          [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
-            filesArr.length
-          } file(s) ${fileDescription}`,
-          [chatUID + '.senderUserID']: currentUserUID,
-          [chatUID + '.date']: serverTimestamp(),
-        });
-        // =====================================================
-        await updateDoc(doc(db, 'userChats', userUID), {
-          [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
-            filesArr.length
-          } file(s) ${fileDescription}`,
-          [chatUID + '.senderUserID']: currentUserUID,
-          [chatUID + '.date']: serverTimestamp(),
-        });
+      } catch (error) {
+        console.error('error handleManageSendFile', error);
       }
-
+      setFileStatuses({});
       handleCloseAddFileModal();
     }
   };
@@ -113,7 +154,7 @@ function FileInput() {
 
   const handleClickFileInput = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
-    
+
     if (
       target.nodeName !== 'svg' &&
       target.nodeName !== 'use' &&
@@ -173,7 +214,6 @@ function FileInput() {
                 ref={scrollbarsRef}
                 autoHide
                 style={{
-                  // top: 0,
                   width: '100%',
                   height: '100%',
                 }}
@@ -181,7 +221,7 @@ function FileInput() {
                 <ul className="flex flex-col gap-2">
                   {hiddenFileInput.current?.files &&
                     Array.from(hiddenFileInput.current.files).map(file => {
-                      console.log('file', file);
+                      // console.log('file', file);
                       if (
                         file.type === 'image/jpeg' ||
                         file.type === 'image/png' ||
@@ -189,20 +229,11 @@ function FileInput() {
                         file.type === 'image/webp'
                       ) {
                         return (
-                          <li key={file.name} className="flex gap-2">
-                            <img
-                              src={URL.createObjectURL(file)}
-                              alt={`Image ${file.name}`}
-                              width={48}
-                              height={48}
-                            />
-                            <div className="flex flex-col">
-                              <p className="text-white">{file.name}</p>
-                              <p className="text-gray-500">
-                                {(file.size / 1024).toFixed(2) + ' KB'}
-                              </p>
-                            </div>
-                          </li>
+                          <UploadPhotoFile
+                            key={file.name}
+                            status={fileStatuses[file.name]}
+                            file={file}
+                          />
                         );
                       } else {
                         const fileType: DefaultExtensionType =
@@ -211,23 +242,12 @@ function FileInput() {
                             .pop() as DefaultExtensionType) || 'default';
 
                         return (
-                          <li
+                          <UploadDocumentFile
                             key={file.name}
-                            className="flex items-center gap-4"
-                          >
-                            <span className="w-10 h-10">
-                              <FileIcon
-                                extension={fileType}
-                                {...defaultStyles[fileType]}
-                              />
-                            </span>
-                            <div className="flex flex-col">
-                              <p className="text-white">{file.name}</p>
-                              <p className="text-gray-500">
-                                {(file.size / 1024).toFixed(2) + ' KB'}
-                              </p>
-                            </div>
-                          </li>
+                            file={file}
+                            fileType={fileType}
+                            status={fileStatuses[file.name]}
+                          />
                         );
                       }
                     })}

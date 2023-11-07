@@ -68,7 +68,7 @@ const ChatHeader = ({
         }
       },
       error => {
-        console.error('Ошибка при установлении слушателя:', error);
+        console.error('error listner of isTyping:', error);
       }
     );
 
@@ -115,7 +115,7 @@ const ChatHeader = ({
       <p className="text-textSecondary">{currentChatInfo?.displayName}</p>
 
       {isOpponentTyping ? (
-        <h2 className="text-white">Typing...</h2>
+        <h2 className="text-white">typing...</h2>
       ) : (
         <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
           {isOnline ? 'Online' : 'Offline'}
