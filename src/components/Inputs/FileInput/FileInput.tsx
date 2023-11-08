@@ -10,6 +10,7 @@ import {
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { DefaultExtensionType } from 'react-file-icon';
 import Scrollbars from 'react-custom-scrollbars-2';
+import { v4 as uuidv4 } from 'uuid';
 
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import ButtonCloseModal from '@components/Buttons/ButtonCloseModal/ButtonCloseModal';
@@ -23,11 +24,9 @@ import sprite from '@assets/sprite.svg';
 function FileInput() {
   const [isModalAddFileOpen, setIsModalAddFileOpen] = useState(false);
   const [fileDescription, setFileDescription] = useState('');
-  const [fileStatuses, setFileStatuses] = useState<TFileStatuses>({});
+  const [uploadFilesStatus, setUploadFilesStatus] = useState<TFileStatuses>({});
   const hiddenFileInput = useRef<HTMLInputElement>(null);
   const scrollbarsRef = useRef<Scrollbars>(null);
-
-  console.log("fileStatuses", fileStatuses);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
@@ -64,8 +63,9 @@ function FileInput() {
 
           const storageRef = ref(
             storage,
-            `${file.type}/${currentUserUID}/${file.name}`
+            `${file.type}/${userUID}/${uuidv4()}-${file.name}`
           );
+
           const fileBlob = new Blob([file]);
 
           const uploadTask = uploadBytesResumable(
@@ -74,7 +74,7 @@ function FileInput() {
             metadata
           );
 
-          return new Promise((resolve, reject)=>{
+          return new Promise((resolve, reject) => {
             uploadTask.on(
               'state_changed',
               snapshot => {
@@ -82,7 +82,7 @@ function FileInput() {
                   (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 console.log('Upload is ' + progress + '% done');
 
-                setFileStatuses(prev => ({
+                setUploadFilesStatus(prev => ({
                   ...prev,
                   [file.name]: progress,
                 }));
@@ -107,7 +107,7 @@ function FileInput() {
                 }
               }
             );
-          })
+          });
         });
 
         const filesArr = await Promise.all(promiseArrayURLsOfFiles);
@@ -141,7 +141,7 @@ function FileInput() {
       } catch (error) {
         console.error('error handleManageSendFile', error);
       }
-      setFileStatuses({});
+      setUploadFilesStatus({});
       handleCloseAddFileModal();
     }
   };
@@ -207,8 +207,10 @@ function FileInput() {
       {isModalAddFileOpen && (
         <ModalWindow handleToggleModal={handleToggleModal}>
           <div className="h-full flex justify-center items-center">
-            <div className="relative w-1/3 h-1/2 flex flex-col gap-8 justify-between items-center p-2 bg-myBlackBcg rounded-3xl">
-              <p className="text-white font-extrabold">Send File(s)</p>
+            <div className="relative w-full sm:w-1/2 xl:w-1/3 h-1/2 flex flex-col gap-8 justify-between items-center p-2 bg-myBlackBcg rounded-3xl shadow-mainShadow">
+              <p className="text-white font-extrabold">
+                {`Send ${hiddenFileInput.current?.files?.length} File(s)`}
+              </p>
               <ButtonCloseModal handleCloseModal={handleCloseAddFileModal} />
               <Scrollbars
                 ref={scrollbarsRef}
@@ -231,7 +233,7 @@ function FileInput() {
                         return (
                           <UploadPhotoFile
                             key={file.name}
-                            status={fileStatuses[file.name]}
+                            status={uploadFilesStatus[file.name]}
                             file={file}
                           />
                         );
@@ -246,7 +248,7 @@ function FileInput() {
                             key={file.name}
                             file={file}
                             fileType={fileType}
-                            status={fileStatuses[file.name]}
+                            status={uploadFilesStatus[file.name]}
                           />
                         );
                       }
@@ -267,8 +269,9 @@ function FileInput() {
                   />
                 </div>
                 <button
-                  className="h-10 px-2 border border-gray-600 rounded-full text-white hover:shadow-mainShadow hover:bg-gray-800 cursor-pointer"
+                  className="h-10 px-2 border border-gray-600 rounded-full text-white disabled:text-gray-600 hover:shadow-mainShadow hover:bg-gray-800 cursor-pointer"
                   type="submit"
+                  disabled={Object.keys(uploadFilesStatus).length > 0}
                 >
                   Send
                 </button>

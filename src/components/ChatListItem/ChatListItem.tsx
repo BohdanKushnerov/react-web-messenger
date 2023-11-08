@@ -145,16 +145,6 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
           </p>
         )}
 
-        {/* {isReadMyLastMessage ? (
-          <svg width={24} height={24}>
-            <use href={sprite + '#icon-double-check'} fill="#FFFFFF" />
-          </svg>
-        ) : (
-          <svg width={24} height={24}>
-            <use href={sprite + '#icon-single-check'} fill="#FFFFFF" />
-          </svg>
-        )} */}
-
         {/* тут треба умова що це не моя смс,
         бо якшо мені прислали і я прочитав то його не повинно буть видно, 
         а якшо я шлю смс то має буть видно чи прочитане чи ні */}

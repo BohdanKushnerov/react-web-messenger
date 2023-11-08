@@ -2,20 +2,29 @@ import { useRef, useState } from 'react';
 import Avatar from 'react-avatar';
 import { doc, updateDoc } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
-import { deleteObject, ref } from 'firebase/storage';
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from 'firebase/storage';
+import { v4 as uuidv4 } from 'uuid';
 
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import ButtonCloseModal from '@components/Buttons/ButtonCloseModal/ButtonCloseModal';
 import useChatStore from '@zustand/store';
 import { auth, db, storage } from '@myfirebase/config';
-import uploadFileToStorage from '@utils/uploadFileToStorage';
 import sprite from '@assets/sprite.svg';
+import { Line } from 'rc-progress';
 
 function ProfileSettings() {
   const [newDisplayName, setNewDisplayName] = useState(
     () => auth.currentUser?.displayName
   );
   const [isModalPhotoProfileOpen, setIsModalPhotoProfileOpen] = useState(false);
+  const [profilePhotoUploadStatus, setProfilePhotoUploadStatus] = useState<
+    number | null
+  >(null);
 
   const photoProfileInput = useRef<HTMLInputElement>(null);
 
@@ -24,6 +33,7 @@ function ProfileSettings() {
   );
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
   const updateSidebarScreen = useChatStore(state => state.updateSidebarScreen);
+  const userUID = useChatStore(state => state.currentChatInfo.userUID);
 
   const handleClickTurnBackToDefaultScreen = () => {
     updateSidebarScreen('default');
@@ -56,6 +66,10 @@ function ProfileSettings() {
 
   const handleToggleProfilePhotoModal = () => {
     setIsModalPhotoProfileOpen(prev => !prev);
+
+    if (isModalPhotoProfileOpen && photoProfileInput.current) {
+      photoProfileInput.current.value = '';
+    }
   };
 
   const handleChooseProfilePhoto = (
@@ -72,15 +86,53 @@ function ProfileSettings() {
 
       if (file && photoURL) {
         try {
-          const fileBlob = new Blob([file]);
-          const { name, type } = file;
+          const metadata = {
+            contentType: file.type,
+          };
 
-          const fileUrlFromStorage = await uploadFileToStorage(
-            fileBlob,
-            type,
-            name,
-            uid
+          const storageRef = ref(
+            storage,
+            `${file.type}/${userUID}/${uuidv4()}-${file.name}`
           );
+
+          const fileBlob = new Blob([file]);
+
+          const uploadTask = uploadBytesResumable(
+            storageRef,
+            fileBlob,
+            metadata
+          );
+
+          const profilePhotoUrlFromStorage: string = await new Promise(
+            (resolve, reject) => {
+              uploadTask.on(
+                'state_changed',
+                snapshot => {
+                  const progress =
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                  console.log('Upload is ' + progress + '% done');
+
+                  setProfilePhotoUploadStatus(progress);
+                },
+                error => {
+                  console.log('error', error);
+                },
+                async () => {
+                  try {
+                    const downloadURL = await getDownloadURL(
+                      uploadTask.snapshot.ref
+                    );
+                    console.log('File available at', downloadURL);
+
+                    resolve(downloadURL);
+                  } catch (error) {
+                    reject(error);
+                  }
+                }
+              );
+            }
+          );
+          //========================================================
 
           const desertRef = ref(storage, photoURL);
 
@@ -89,7 +141,7 @@ function ProfileSettings() {
           );
 
           await updateProfile(auth.currentUser, {
-            photoURL: fileUrlFromStorage,
+            photoURL: profilePhotoUrlFromStorage,
           })
             .then(() => {
               console.log('photoURL updated!');
@@ -102,10 +154,11 @@ function ProfileSettings() {
 
           // update doc user чтобы появилась ссылка в photoURL
           await updateDoc(doc(db, 'users', uid), {
-            photoURL: fileUrlFromStorage,
+            photoURL: profilePhotoUrlFromStorage,
           });
 
           handleToggleProfilePhotoModal();
+          setProfilePhotoUploadStatus(null);
         } catch (error) {
           console.log('handleUpdateProfilePhoto error', error);
         }
@@ -198,7 +251,7 @@ function ProfileSettings() {
       {isModalPhotoProfileOpen && (
         <ModalWindow handleToggleModal={handleToggleProfilePhotoModal}>
           <div className="h-full flex justify-center items-center">
-            <div className="relative w-1/3 h-1/2 flex flex-col gap-8 justify-center items-center bg-myBlackBcg rounded-3xl">
+            <div className="relative w-full sm:w-1/2 xl:w-1/3 h-1/2 flex flex-col gap-6 justify-center items-center bg-myBlackBcg rounded-3xl shadow-mainShadow">
               <ButtonCloseModal
                 handleCloseModal={handleToggleProfilePhotoModal}
               />
@@ -211,12 +264,30 @@ function ProfileSettings() {
                   height={200}
                 />
               )}
+              <p className="w-80 text-center text-white text-xs">
+                if you're happy with it click the button "Change photo profile" or close the window and try new photo
+              </p>
               <button
-                className="w-48 border-2 rounded-3xl text-white hover:shadow-mainShadow hover:bg-gray-800 cursor-pointer"
+                className="w-48 border-2 rounded-3xl text-white hover:shadow-mainShadow disabled:text-gray-600 hover:bg-gray-800 cursor-pointer"
                 onClick={handleUpdateProfilePhoto}
+                disabled={typeof profilePhotoUploadStatus === 'number'}
               >
                 Change profile photo
               </button>
+
+              <div className="flex gap-4 items-center h-4">
+                {typeof profilePhotoUploadStatus === 'number' && (
+                  <>
+                    <p className="text-white">Loading:</p>
+                    <Line
+                      style={{ width: 150 }}
+                      percent={profilePhotoUploadStatus}
+                      strokeWidth={6}
+                      strokeColor="#5ee987"
+                    />
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </ModalWindow>
