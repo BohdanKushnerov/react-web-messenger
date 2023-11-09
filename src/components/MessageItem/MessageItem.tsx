@@ -46,38 +46,52 @@ export default function MessageItem({ mes }: IMessageItemProps) {
       }`}
     >
       <div
-        className={`flex flex-col gap-2 py-2 px-4 rounded-xl ${
+        className={`flex flex-col py-2 px-4 rounded-xl ${
           myUID ? 'bg-cyan-600 rounded-br-none' : 'bg-green-600 rounded-bl-none'
         }`}
       >
-        {mes.data().file &&
-          mes
-            .data()
-            .file.map(
-              (
-                file: { url: string; name: string; type: string },
-                index: number
-              ) => {
-                return (
-                  <div key={index}>
-                    {file.type === 'image/png' ||
-                    file.type === 'image/jpeg' ||
-                    file.type === 'image/webp' ? (
-                      <img
-                        src={file.url}
-                        alt={file.type}
-                        width={400}
-                        height={400}
-                      />
-                    ) : (
-                      <MessageFileItem file={file} />
-                    )}
-                  </div>
-                );
-              }
-            )}
-        <p className="break-all text-white">{mes.data().message}</p>
-        <div className="flex justify-end items-center gap-2">
+        <div className="flex flex-wrap gap-1 w-min">
+          {mes.data().file &&
+            mes
+              .data()
+              .file.map(
+                (
+                  file: { url: string; name: string; type: string },
+                  index: number
+                ) => {
+                  // console.log('file', file);
+                  return (
+                    <div
+                      key={index}
+                      className={`flex ${index === 0 ? 'w-max' : 'w-fit'} `}
+                      style={{
+                        height: index >= 1 ? '150px' : '304px',
+                        // width: 'auto',
+                        // width: '100%',
+                      }}
+                    >
+                      {file.type === 'image/png' ||
+                      file.type === 'image/jpeg' ||
+                      file.type === 'image/webp' ? (
+                        <img
+                          key={index}
+                          src={file.url}
+                          alt={file.type}
+                          style={{
+                            height: '100%',
+                            width: 'auto',
+                          }}
+                        />
+                      ) : (
+                        <MessageFileItem file={file} />
+                      )}
+                    </div>
+                  );
+                }
+              )}
+        </div>
+        <p className="w-full break-all text-white">{mes.data().message}</p>
+        <div className="w-full flex justify-end items-center gap-2">
           <p className="text-white ">
             {mes.data().date && formatTime(mes.data().date.toDate().toString())}
           </p>
