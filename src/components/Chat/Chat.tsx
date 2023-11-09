@@ -14,7 +14,7 @@ function Chat({ setScreen }: IChat) {
     state => state.resetCurrentChatInfo
   );
 
-  console.log('screen --> Chat');
+  // console.log('screen --> Chat');
 
   const handleClickBackToSidebarScreen = () => {
     if (setScreen) {

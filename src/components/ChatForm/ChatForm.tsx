@@ -11,7 +11,6 @@ import sprite from '@assets/sprite.svg';
 
 const ChatForm = () => {
   const [message, setMessage] = useState('');
-  // const [myTyping, setMyTyping] = useState(false);
   const [myTypingTimeout, setMyTTypingTimeout] =
     useState<NodeJS.Timeout | null>();
 
@@ -22,7 +21,7 @@ const ChatForm = () => {
   const editingMessageInfo = useChatStore(state => state.editingMessageInfo);
   const resetEditingMessage = useChatStore(state => state.resetEditingMessage);
 
-  console.log('screen --> ChatForm');
+  // console.log('screen --> ChatForm');
 
   useEffect(() => {
     inputRef.current?.focus();

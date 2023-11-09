@@ -50,7 +50,7 @@ export default function MessageItem({ mes }: IMessageItemProps) {
           myUID ? 'bg-cyan-600 rounded-br-none' : 'bg-green-600 rounded-bl-none'
         }`}
       >
-        <div className="flex flex-wrap gap-1 w-min">
+        <div className="flex flex-wrap gap-0.5 w-min">
           {mes.data().file &&
             mes
               .data()
@@ -63,12 +63,9 @@ export default function MessageItem({ mes }: IMessageItemProps) {
                   return (
                     <div
                       key={index}
-                      className={`flex ${index === 0 ? 'w-max' : 'w-fit'} `}
-                      style={{
-                        height: index >= 1 ? '150px' : '304px',
-                        // width: 'auto',
-                        // width: '100%',
-                      }}
+                      className={`flex  ${
+                        index === 0 ? 'h-max w-184px lg:w-504px' : 'h-fit w-90px lg:w-250px'
+                      } `}
                     >
                       {file.type === 'image/png' ||
                       file.type === 'image/jpeg' ||

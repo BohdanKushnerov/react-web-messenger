@@ -20,7 +20,7 @@ const ChatHeader = ({
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
 
-  console.log('screen --> ChatHeader');
+  // console.log('screen --> ChatHeader');
 
   useEffect(() => {
     if (!userUID) return;

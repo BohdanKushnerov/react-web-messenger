@@ -15,7 +15,7 @@ function Sidebar({ setScreen }: ISidebarProps) {
   const nodeRefProfileSettings = useRef(null);
   const sidebarScreen = useChatStore(state => state.sidebarScreen);
 
-  console.log('screen --> Sidebar');
+  // console.log('screen --> Sidebar');
 
   return (
     <div className="relative w-full h-full bg-myBlackBcg sm:min-w-400px sm:w-1/4 border-r">

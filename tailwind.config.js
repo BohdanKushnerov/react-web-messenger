@@ -6,6 +6,12 @@ export default {
       height: {
         '72px': '72px',
       },
+      width: {
+        '90px': '90px',
+        '184px': '184px',
+        '250px': '250px',
+        '504px': '504px',
+      },
       minWidth: {
         '240px': '240px',
         '300px': '300px',

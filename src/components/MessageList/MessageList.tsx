@@ -24,9 +24,9 @@ function MessageList() {
   const [selectedItemIndexForOpenModal, setSelectedItemIndexForOpenModal] =
     useState<number | null>(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
-  const [currentScrollHeight, setCurrentScrollHeight] = useState(0);
 
   const scrollbarsRef = useRef<Scrollbars>(null);
+  const msgListRef = useRef(null);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
@@ -89,17 +89,21 @@ function MessageList() {
     };
   }, [chatUID, currentUserUID]);
 
+  // Измерение высоты элемента при его изменении
   useEffect(() => {
-    const scrollHeight = scrollbarsRef.current?.getScrollHeight();
+    const observer = new ResizeObserver(handleClickScrollBottom);
+    const currentRef = msgListRef.current;
 
-    if (scrollHeight) {
-      setCurrentScrollHeight(scrollHeight);
+    if (currentRef) {
+      observer.observe(currentRef);
     }
-  }, [messages]);
 
-  useEffect(() => {
-    handleClickScrollBottom();
-  }, [currentScrollHeight]);
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [msgListRef]);
 
   const handleClickScrollBottom = () => {
     if (scrollbarsRef.current) {
@@ -139,11 +143,6 @@ function MessageList() {
           e.clientX - containerLeft + menuWidth > chatContainerEl.clientWidth
             ? e.clientX - containerLeft - menuWidth
             : e.clientX - containerLeft;
-
-        // console.log(e.clientX);
-        // console.log(containerLeft);
-        // console.log(menuWidth);
-        // console.log(chatContainerEl.clientWidth);
 
         const top =
           e.clientY - containerTop + menuHeight > chatContainerEl.clientHeight
@@ -298,9 +297,8 @@ function MessageList() {
             height: 'calc(100% - 56px - 96px)',
           }}
           onScroll={handleScroll}
-          
         >
-          <ul className="flex flex-col px-6">
+          <ul ref={msgListRef} className="flex flex-col px-6">
             {messages &&
               messages.map((mes, index) => {
                 // console.log(mes)
@@ -346,15 +344,15 @@ function MessageList() {
           modalPosition={modalPosition}
         >
           <div className="w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto">
-              <button
-                className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-                onClick={handleDeleteMessage}
-              >
-                <svg width={20} height={20}>
-                  <use href={sprite + '#icon-delete-button'} fill="#FFFFFF" />
-                </svg>
-                <span>DELETE</span>
-              </button>
+            <button
+              className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
+              onClick={handleDeleteMessage}
+            >
+              <svg width={20} height={20}>
+                <use href={sprite + '#icon-delete-button'} fill="#FFFFFF" />
+              </svg>
+              <span>DELETE</span>
+            </button>
             {messages[selectedItemIndexForOpenModal]?.data()?.senderUserID ===
               currentUserUID && (
               <button

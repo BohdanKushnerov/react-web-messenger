@@ -28,7 +28,7 @@ const Home = React.memo(() => {
     state => state.updateCurrentChatInfo
   );
 
-  console.log('screen --> Home');
+  // console.log('screen --> Home');
 
   useEffect(() => {
     if (screen === 'Sidebar') {
@@ -42,11 +42,11 @@ const Home = React.memo(() => {
 
   useEffect(() => {
     const requestPermission = async () => {
-      console.log('Requesting permission...');
+      // console.log('Requesting permission...');
       try {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
-          console.log('Notification permission granted.');
+          // console.log('Notification permission granted.');
         }
       } catch (error) {
         console.error('Failed to request notification permission:', error);
@@ -80,8 +80,6 @@ const Home = React.memo(() => {
             userUID: res.data()?.[combinedUsersChatUID].userUID,
           },
         ];
-
-        console.log('go ==> redirect')
 
         handleSelectChat(chatItem, updateCurrentChatInfo);
         setScreen('Chat');
