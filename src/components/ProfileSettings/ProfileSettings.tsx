@@ -33,7 +33,7 @@ function ProfileSettings() {
   );
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
   const updateSidebarScreen = useChatStore(state => state.updateSidebarScreen);
-  const userUID = useChatStore(state => state.currentChatInfo.userUID);
+  // const userUID = useChatStore(state => state.curr);
 
   const handleClickTurnBackToDefaultScreen = () => {
     updateSidebarScreen('default');
@@ -84,7 +84,7 @@ function ProfileSettings() {
     if (photoProfileInput.current?.files && auth.currentUser && uid) {
       const file = photoProfileInput.current.files[0];
 
-      if (file && photoURL) {
+      if (file) {
         try {
           const metadata = {
             contentType: file.type,
@@ -92,7 +92,12 @@ function ProfileSettings() {
 
           const storageRef = ref(
             storage,
-            `${file.type}/${userUID}/${uuidv4()}-${file.name}`
+            `${file.type}/${uid}/${uuidv4()}-${file.name}`
+          );
+
+          console.log(
+            'storageRef',
+            `${file.type}/${uid}/${uuidv4()}-${file.name}`
           );
 
           const fileBlob = new Blob([file]);
@@ -132,13 +137,14 @@ function ProfileSettings() {
               );
             }
           );
-          //========================================================
 
-          const desertRef = ref(storage, photoURL);
+          if (photoURL) {
+            const desertRef = ref(storage, photoURL);
 
-          await deleteObject(desertRef).then(() =>
-            console.log('delete old photoURL success')
-          );
+            await deleteObject(desertRef).then(() =>
+              console.log('delete old photoURL success')
+            );
+          }
 
           await updateProfile(auth.currentUser, {
             photoURL: profilePhotoUrlFromStorage,
@@ -190,30 +196,41 @@ function ProfileSettings() {
           ref={photoProfileInput}
           onChange={handleChooseProfilePhoto}
         />
-        {auth.currentUser?.photoURL && auth.currentUser.displayName ? (
-          <div className="relative cursor-pointer" onClick={handleImageClick}>
-            <img
-              className="rounded-full hover:shadow-mainShadow"
-              width={200}
-              height={200}
-              src={auth.currentUser?.photoURL}
-              alt={auth.currentUser?.displayName}
-            />
-            <svg
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hover:scale-105"
-              width={48}
-              height={48}
-            >
-              <use href={sprite + '#icon-photo-focus'} fill="#FFFFFF" />
-            </svg>
-          </div>
-        ) : (
-          <Avatar
-            className="rounded-full"
-            name={`${auth.currentUser?.displayName}`}
-            size="200"
-          />
-        )}
+        <div className="relative cursor-pointer" onClick={handleImageClick}>
+          {auth.currentUser?.photoURL && auth.currentUser.displayName ? (
+            <>
+              <img
+                className="rounded-full hover:shadow-mainShadow"
+                width={200}
+                height={200}
+                src={auth.currentUser?.photoURL}
+                alt={auth.currentUser?.displayName}
+              />
+              <svg
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hover:scale-105"
+                width={48}
+                height={48}
+              >
+                <use href={sprite + '#icon-photo-focus'} fill="#FFFFFF" />
+              </svg>
+            </>
+          ) : (
+            <>
+              <Avatar
+                className="rounded-full"
+                name={`${auth.currentUser?.displayName}`}
+                size="200"
+              />
+              <svg
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hover:scale-105"
+                width={48}
+                height={48}
+              >
+                <use href={sprite + '#icon-photo-focus'} fill="#000000" />
+              </svg>
+            </>
+          )}
+        </div>
         <div className="flex gap-2 justify-center items-center text-white">
           <p className="">Phone:</p>
           <p className="py-2 px-4 h-10 rounded-3xl bg-mySeacrhBcg text-white text-center cursor-default">
@@ -251,7 +268,7 @@ function ProfileSettings() {
       {isModalPhotoProfileOpen && (
         <ModalWindow handleToggleModal={handleToggleProfilePhotoModal}>
           <div className="h-full flex justify-center items-center">
-            <div className="relative w-full sm:w-1/2 xl:w-1/3 h-1/2 flex flex-col gap-6 justify-center items-center bg-myBlackBcg rounded-3xl shadow-mainShadow">
+            <div className="relative w-full sm:w-1/2 xl:w-1/3 h-2/3 flex flex-col gap-6 justify-center items-center bg-myBlackBcg rounded-3xl shadow-mainShadow">
               <ButtonCloseModal
                 handleCloseModal={handleToggleProfilePhotoModal}
               />
@@ -265,7 +282,8 @@ function ProfileSettings() {
                 />
               )}
               <p className="w-80 text-center text-white text-xs">
-                if you're happy with it click the button "Change photo profile" or close the window and try new photo
+                if you're happy with it click the button "Change photo profile"
+                or close the window and try new photo
               </p>
               <button
                 className="w-48 border-2 rounded-3xl text-white hover:shadow-mainShadow disabled:text-gray-600 hover:bg-gray-800 cursor-pointer"
