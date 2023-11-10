@@ -16,9 +16,9 @@ function Sidebar({ setScreen }: ISidebarProps) {
   const sidebarScreen = useChatStore(state => state.sidebarScreen);
 
   // console.log('screen --> Sidebar');
-
+// bg-myBlackBcg;
   return (
-    <div className="relative w-full h-full bg-myBlackBcg sm:min-w-400px sm:w-1/4 border-r">
+    <div className="relative w-full h-full bg-red-500 dark:bg-yellow-600 sm:min-w-400px sm:w-1/4 border-r">
       <Transition
         nodeRef={nodeRefSidebarDefault}
         in={sidebarScreen === 'default'}

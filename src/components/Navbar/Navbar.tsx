@@ -7,6 +7,7 @@ import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import sprite from '@assets/sprite.svg';
 import { Transition } from 'react-transition-group';
+import Theme from '@components/Theme/Theme';
 
 function Navbar() {
   const [isModalOpen, setIsModelOpen] = useState(false);
@@ -86,6 +87,7 @@ function Navbar() {
                   >
                     Profile Settings
                   </button>
+                  <Theme />
                 </div>
               </ModalWindow>
             </div>
