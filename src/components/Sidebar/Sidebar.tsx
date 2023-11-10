@@ -3,7 +3,7 @@ import { Transition } from 'react-transition-group';
 
 import ChatList from '@components/ChatList/ChatList';
 import Navbar from '@components/Navbar/Navbar';
-import Search from '@components/Search/Search';
+import SearchInput from '@components/Inputs/SearchInput/SearchInput';
 import SearchChatList from '@components/SearchChatList/SearchChatList';
 import ProfileSettings from '@components/ProfileSettings/ProfileSettings';
 import useChatStore from '@zustand/store';
@@ -16,9 +16,8 @@ function Sidebar({ setScreen }: ISidebarProps) {
   const sidebarScreen = useChatStore(state => state.sidebarScreen);
 
   // console.log('screen --> Sidebar');
-// bg-myBlackBcg;
   return (
-    <div className="relative w-full h-full bg-red-500 dark:bg-yellow-600 sm:min-w-400px sm:w-1/4 border-r">
+    <div className="relative w-full h-full bg-gray-200 dark:bg-myBlackBcg sm:min-w-400px sm:w-1/4 border-r border-r-zinc-800">
       <Transition
         nodeRef={nodeRefSidebarDefault}
         in={sidebarScreen === 'default'}
@@ -26,11 +25,9 @@ function Sidebar({ setScreen }: ISidebarProps) {
         unmountOnExit
       >
         {state => {
-          // console.log('state SidebarDefault Transition', state);
           return (
             <div
               ref={nodeRefSidebarDefault}
-              // className="w-full h-full"
               className={`w-full h-full transform origin-top-left transition-transform 
                   ${state === 'exited' ? 'hidden' : ''}
                   ${
@@ -40,16 +37,15 @@ function Sidebar({ setScreen }: ISidebarProps) {
                   }
                   `}
             >
-              <div className="flex gap-2 px-3 py-2 bg-myBlackBcg">
+              <div className="flex gap-2 px-3 py-2">
                 <Navbar />
-                <Search />
+                <SearchInput />
               </div>
               <Scrollbars
                 autoHide
                 style={{
                   width: '100%',
                   height: 'calc(100% - 48px)',
-                  // scrollbarWidth: 'none'
                 }}
               >
                 <SearchChatList setScreen={setScreen} />

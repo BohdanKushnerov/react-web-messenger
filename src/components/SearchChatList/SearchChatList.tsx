@@ -72,7 +72,7 @@ function SearchChatList({ setScreen }: IChatListProps) {
 
   return (
     <div>
-      <ul className="bg-myBlackBcg">
+      <ul className="">
         {/* тут список юзеров в поиске */}
         {searchChatList &&
           searchChatList.docs.map(doc => {
@@ -93,7 +93,9 @@ function SearchChatList({ setScreen }: IChatListProps) {
                   displayName={doc.data()?.displayName}
                   size="50"
                 />
-                <p className="text-white">{doc.data().displayName}</p>
+                <p className="text-zinc-600 dark:text-textSecondary">
+                  {doc.data().displayName}
+                </p>
               </li>
             );
           })}

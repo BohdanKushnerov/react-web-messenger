@@ -48,7 +48,7 @@ const ChatList = React.memo(({ setScreen }: IChatListProps) => {
   return (
     <div>
       {/* тут список твоих чатов */}
-      <ul className="bg-myBlackBcg">
+      <ul className="p-0 m-0">
         {userChatList &&
           userChatList.map((chatInfo: TChatListItem) => (
             <ChatListItem

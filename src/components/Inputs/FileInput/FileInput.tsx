@@ -97,11 +97,34 @@ function FileInput() {
                   );
                   console.log('File available at', downloadURL);
 
-                  resolve({
-                    type: file.type,
-                    name: file.name,
-                    url: downloadURL,
-                  });
+                  if (
+                    file.type === 'image/png' ||
+                    file.type === 'image/jpeg' ||
+                    file.type === 'image/webp'
+                  ) {
+                    const image = new Image();
+                    image.src = URL.createObjectURL(fileBlob);
+
+                    image.onload = () => {
+                      const width = image.width;
+                      const height = image.height;
+                      console.log('Ширина:', width, 'Высота:', height);
+
+                      resolve({
+                        type: file.type,
+                        name: file.name,
+                        url: downloadURL,
+                        width,
+                        height,
+                      });
+                    };
+                  } else {
+                    resolve({
+                      type: file.type,
+                      name: file.name,
+                      url: downloadURL,
+                    });
+                  }
                 } catch (error) {
                   reject(error);
                 }
@@ -111,6 +134,8 @@ function FileInput() {
         });
 
         const filesArr = await Promise.all(promiseArrayURLsOfFiles);
+
+        console.log('filesArr', filesArr);
 
         // надо создать сообщение с полем файл и отправить на сохранение
         await addDoc(collection(db, `chats/${chatUID}/messages`), {
@@ -176,9 +201,10 @@ function FileInput() {
 
     if (event.target.files) {
       const fileUploaded = event.target.files[0];
+      console.log('fileUploaded', fileUploaded);
       const { type, name } = fileUploaded;
 
-      console.log(`fileUploaded: ${name}`);
+      console.log(`name: ${name}`);
       console.log(`Тип файла: ${type}`);
 
       handleToggleModal();
@@ -190,11 +216,15 @@ function FileInput() {
       <button
         className={`absolute ${
           editingMessageInfo ? 'bottom-1' : 'top-7'
-        } right-16 w-10 h-10 flex justify-center items-center bg-transparent hover:bg-hoverGray rounded-full cursor-pointer`}
+        } right-16 w-10 h-10 flex justify-center items-center bg-transparent hover:bg-zinc-400 hover:dark:bg-hoverGray rounded-full cursor-pointer`}
         onClick={handleClickFileInput}
       >
-        <svg width={24} height={24}>
-          <use href={sprite + '#icon-paper-clip'} fill="rgb(170,170,170)" />
+        <svg
+          width={24}
+          height={24}
+          className="fill-zinc-800 dark:fill-zinc-400"
+        >
+          <use href={sprite + '#icon-paper-clip'} />
         </svg>
         <input
           style={{ display: 'none' }}

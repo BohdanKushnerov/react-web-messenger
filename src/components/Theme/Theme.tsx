@@ -1,20 +1,13 @@
 import { useEffect, useState } from 'react';
 
 const Theme = () => {
-  const [currentTheme, setCurrentTheme] = useState('dark');
-  useEffect(() => {
-    if (
-      localStorage.theme === 'dark' ||
-      (!('theme' in localStorage) &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      document.documentElement.classList.add('dark');
-      localStorage.theme = 'dark';
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.theme = 'ligth';
-    }
+  const [isLightTheme, setIsLightTheme] = useState(() => {
+    console.log(localStorage.getItem('theme'));
+    console.log(localStorage.getItem('theme') === 'light');
+    return localStorage.getItem('theme') === 'light';
+  });
 
+  useEffect(() => {
     function setDarkTheme() {
       document.documentElement.classList.add('dark');
       localStorage.theme = 'dark';
@@ -25,35 +18,32 @@ const Theme = () => {
       localStorage.theme = 'light';
     }
 
-    const ligthThemeEl = document.querySelector('#ligth-theme-switcher')!;
+    const lightThemeEl = document.querySelector('#light-theme-switcher')!;
     const darkThemeEl = document.querySelector('#dark-theme-switcher')!;
 
-    ligthThemeEl.addEventListener('click', setLightTheme);
+    lightThemeEl.addEventListener('click', setLightTheme);
     darkThemeEl.addEventListener('click', setDarkTheme);
 
     return () => {
-      ligthThemeEl.removeEventListener('click', setLightTheme);
+      lightThemeEl.removeEventListener('click', setLightTheme);
       darkThemeEl.removeEventListener('click', setDarkTheme);
     };
   }, []);
 
-  useEffect(() => {
-    const currentTheme = localStorage.theme;
-
-    if (currentTheme === 'dark') {
-      setCurrentTheme('dark');
-    } else {
-      setCurrentTheme('ligth');
-    }
-  }, [currentTheme]);
+  const handleChangeTheme = () => {
+    setIsLightTheme(prev => !prev);
+  };
 
   return (
     <div className="flex">
-      <a
-        id="ligth-theme-switcher"
-        className="block w-full whitespace-nowrap bg-transparent px-3 py-2 text-sm font-normal text-gray-700 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none active:text-zinc-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-gray-400 dark:text-gray-100 dark:hover:bg-gray-600 focus:dark:bg-gray-600"
-        href="#"
+      <button
+        id="light-theme-switcher"
+        className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-gray-800 ${
+          isLightTheme && 'bg-gray-600'
+        } disabled:pointer-events-none hover:bg-gray-200 rounded-md`}
         data-theme="light"
+        disabled={isLightTheme}
+        onClick={handleChangeTheme}
       >
         <div className="pointer-events-none">
           <div
@@ -71,13 +61,15 @@ const Theme = () => {
           </div>
           <span data-theme-name="light">Light</span>
         </div>
-      </a>
-      <a
+      </button>
+      <button
         id="dark-theme-switcher"
-        className="block w-full whitespace-nowrap bg-transparent px-3 py-2 text-sm font-normal text-gray-700 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none active:text-zinc-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-gray-400 dark:text-gray-100 dark:hover:bg-gray-600 focus:dark:bg-gray-600"
-        href="#"
+        className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-gray-700 ${
+          !isLightTheme && 'bg-gray-300'
+        } disabled:pointer-events-none hover:bg-gray-500 rounded-md`}
         data-theme="dark"
-        data-te-dropdown-item-ref
+        disabled={!isLightTheme}
+        onClick={handleChangeTheme}
       >
         <div className="pointer-events-none">
           <div
@@ -99,7 +91,7 @@ const Theme = () => {
           </div>
           <span data-theme-name="dark">Dark</span>
         </div>
-      </a>
+      </button>
     </div>
   );
 };

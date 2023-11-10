@@ -13,6 +13,20 @@ function App() {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
 
   useEffect(() => {
+    if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.documentElement.classList.add('dark');
+      localStorage.theme = 'dark';
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.theme = 'light';
+    }
+  }, []);
+
+  useEffect(() => {
     const unsub = auth.onAuthStateChanged(authUser => {
       if (authUser) {
         updateCurrentUser(authUser);

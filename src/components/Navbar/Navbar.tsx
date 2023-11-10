@@ -38,11 +38,11 @@ function Navbar() {
   return (
     <div>
       <div
-        className="w-12 h-10 flex justify-center items-center bg-transparent hover:bg-hoverGray rounded-full cursor-pointer"
+        className="w-12 h-10 flex justify-center items-center bg-transparent hover:bg-zinc-300 hover:dark:bg-hoverGray rounded-full cursor-pointer"
         onClick={handleToggleModal}
       >
-        <svg width={32} height={32}>
-          <use href={sprite + '#icon-menu'} fill="rgb(170,170,170)" />
+        <svg width={32} height={32} className='fill-zinc-600 dark:fill-zinc-400'>
+          <use href={sprite + '#icon-menu'}  />
         </svg>
       </div>
       <Transition
@@ -66,23 +66,23 @@ function Navbar() {
                 }
                 `}
               >
-                <div className="absolute top-14 left-5 z-20 flex flex-col gap-2 p-2 bg-myBlackBcg rounded-md shadow-mainShadow">
-                  <div className="flex justify-between items-center gap-1 text-white">
-                      <AvatarProfile
-                        photoURL={currentUser.photoURL}
-                        displayName={currentUser.displayName}
-                        size="48"
-                      />
+                <div className="absolute top-14 left-5 z-20 flex flex-col gap-2 p-2 bg-gray-200 dark:bg-myBlackBcg rounded-md shadow-mainShadow">
+                  <div className="flex justify-between items-center gap-1 text-black dark:text-white">
+                    <AvatarProfile
+                      photoURL={currentUser.photoURL}
+                      displayName={currentUser.displayName}
+                      size="48"
+                    />
                     <p className="flex transf">{currentUser?.displayName}</p>
                     <button
-                      className="p-1 border border-gray-600 rounded-full hover:shadow-mainShadow hover:bg-gray-800"
+                      className="p-1 border border-gray-600 rounded-full hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
                       onClick={handleSignOut}
                     >
                       Sign Out
                     </button>
                   </div>
                   <button
-                    className="p-1 border border-gray-600 rounded-full text-white hover:shadow-mainShadow hover:bg-gray-800"
+                    className="p-1 border border-gray-600 rounded-full text-black dark:text-white hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
                     onClick={handleSettingsClick}
                   >
                     Profile Settings

@@ -77,8 +77,10 @@ const ChatHeader = ({
     };
   }, [chatUID, currentUserUID, userUID]);
 
+  // border border-transparent border-l-zinc-800
+
   return (
-    <div className="absolute top-0 left-0 z-10 flex gap-4 items-center w-full h-14 px-6 bg-myBlackBcg shadow-bottomShadow">
+    <div className="absolute top-0 left-0 z-10 flex gap-4 items-center w-full h-14 px-6 bg-gray-200 dark:bg-myBlackBcg shadow-bottomShadow">
       {setScreen && (
         <button
           className="flex justify-center items-center w-12 h-12 text-white hover:bg-hoverGray rounded-full cursor-pointer"
@@ -112,7 +114,9 @@ const ChatHeader = ({
         displayName={currentChatInfo?.displayName}
         size="40"
       />
-      <p className="text-textSecondary">{currentChatInfo?.displayName}</p>
+      <p className="font-bold text-zinc-800 dark:text-textSecondary">
+        {currentChatInfo?.displayName}
+      </p>
 
       {isOpponentTyping ? (
         <h2 className="text-white">typing...</h2>
