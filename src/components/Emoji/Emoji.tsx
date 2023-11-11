@@ -66,7 +66,7 @@ const Emoji = ({ setMessage }: IEmoji) => {
       <Transition
         nodeRef={nodeRefEmoji}
         in={isShowEmoji}
-        timeout={300}
+        timeout={100}
         unmountOnExit
       >
         {state => (
@@ -90,9 +90,13 @@ const Emoji = ({ setMessage }: IEmoji) => {
           </div>
         )}
       </Transition>
-      <div className="flex justify-center items-center w-10 h-10 hover:bg-hoverGray rounded-full">
-        <svg width={24} height={24}>
-          <use href={sprite + '#icon-emoticon'} fill="rgb(170,170,170)" />
+      <div className="flex justify-center items-center w-10 h-10 hover:bg-zinc-400 hover:dark:bg-hoverGray rounded-full">
+        <svg
+          width={24}
+          height={24}
+          className="fill-zinc-800 dark:fill-zinc-400"
+        >
+          <use href={sprite + '#icon-emoticon'} />
         </svg>
       </div>
     </div>

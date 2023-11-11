@@ -147,7 +147,7 @@ const ChatForm = () => {
         >
           <input
             autoFocus
-            className="w-full h-10 py-1 pl-10 pr-14 rounded-3xl bg-mySeacrhBcg text-white border-2 border-transparent outline-none focus:border-solid focus:border-cyan-500"
+            className="w-full h-10 py-1 pl-10 pr-14 rounded-3xl bg-zinc-300 dark:bg-mySeacrhBcg text-black dark:text-white placeholder:text-zinc-900 placeholder:dark:text-zinc-400 border-2 border-transparent outline-none focus:border-solid focus:dark:border-cyan-500"
             type="text"
             placeholder="Write your message..."
             ref={inputRef}
@@ -155,10 +155,13 @@ const ChatForm = () => {
             onChange={handleChangeMessage}
           />
           <button className="flex justify-center items-center h-12 w-12 bg-transparent hover:bg-hoverGray rounded-full cursor-pointer">
-            <svg width={24} height={24}>
+            <svg
+              width={24}
+              height={24}
+              className="fill-zinc-200 dark:fill-zinc-400"
+            >
               <use
                 href={sprite + '#icon-send-message'}
-                fill="rgb(170,170,170)"
               />
             </svg>
           </button>

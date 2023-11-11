@@ -35,12 +35,15 @@ function FileItem({ file }: IMessageFileItemProps) {
   }, [file]);
 
   return (
-    <p className="flex gap-8 items-center h-12 ">
+    // <p className="w-124px lg:w-304px flex gap-8 items-center h-12 ">
+    <p className="flex gap-8 items-center h-12">
       <span className="w-10 h-10">
         <FileIcon extension={fileType} {...defaultStyles[fileType]} />
       </span>
-      <span className="text-white">{file.name}</span>
-      <a target='blank' href={link}>Link</a>
+      <span className="text-black dark:text-white w-40">{file.name}</span>
+      <a target="blank" href={link}>
+        Link
+      </a>
     </p>
   );
 }

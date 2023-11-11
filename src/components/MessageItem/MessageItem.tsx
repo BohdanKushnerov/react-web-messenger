@@ -46,82 +46,129 @@ export default function MessageItem({ mes }: IMessageItemProps) {
       }`}
     >
       <div
-        className={`flex flex-col py-2 px-4 rounded-xl ${
-          myUID ? 'bg-cyan-600 rounded-br-none' : 'bg-green-600 rounded-bl-none'
-        }`}
+        className={`flex flex-col py-2 px-4 rounded-xl max-w-sm ${
+          myUID
+            ? 'bg-emerald-400 dark:bg-cyan-600 rounded-br-none'
+            : 'bg-zinc-100 dark:bg-green-600 rounded-bl-none'
+        } shadow-secondaryShadow`}
       >
-        <div className="flex flex-wrap gap-0.5 w-min">
+        <div className="flex flex-wrap gap-0.5 max-w-xs">
           {mes.data().file &&
-            mes
-              .data()
-              .file.map(
-                (
-                  file: { url: string; name: string; type: string },
-                  index: number
-                ) => {
-                  // console.log('file', file);
-                  return (
-                    <div
-                      key={index}
-                      className={`flex  ${
-                        index === 0 ? 'h-max w-184px lg:w-504px' : 'h-fit w-90px lg:w-250px'
-                      } `}
-                    >
-                      {file.type === 'image/png' ||
-                      file.type === 'image/jpeg' ||
-                      file.type === 'image/webp' ? (
-                        <img
-                          key={index}
-                          src={file.url}
-                          alt={file.type}
-                          style={{
-                            height: '100%',
-                            width: 'auto',
-                          }}
-                        />
-                      ) : (
-                        <MessageFileItem file={file} />
-                      )}
-                    </div>
-                  );
-                }
-              )}
+            mes.data().file.map(
+              (
+                file: {
+                  url: string;
+                  name: string;
+                  type: string;
+                  width?: number;
+                  height?: number;
+                },
+                index: number
+              ) => {
+                return file.type === 'image/png' ||
+                  file.type === 'image/jpeg' ||
+                  file.type === 'image/webp' ? (
+                  <img
+                    key={index}
+                    src={file.url}
+                    alt={file.type}
+                    style={{
+                      width: index === 0 ? 320 : 159,
+                      height: 'auto',
+                      maxHeight: index === 0 ? 320 : 159,
+                      objectFit: 'cover',
+                      borderRadius: 6,
+                    }}
+                    loading="lazy"
+                  />
+                ) : (
+                  <MessageFileItem key={index} file={file} />
+                );
+              }
+            )}
         </div>
-        <p className="w-full break-all text-white">{mes.data().message}</p>
+        {/* <div className="flex flex-wrap justify-start gap-0.5">
+          {mes.data().file &&
+            mes.data().file.map(
+              (
+                file: {
+                  url: string;
+                  name: string;
+                  type: string;
+                  width?: number;
+                  height?: number;
+                },
+                index: number
+              ) => {
+                // console.log(file.width/ file.height);
+                return file.type === 'image/png' ||
+                  file.type === 'image/jpeg' ||
+                  file.type === 'image/webp' ? (
+                  <img
+                    key={index}
+                    src={file.url}
+                    alt={file.type}
+                    style={{
+                      width: '100%',
+                      // maxWidth: index === 0 ? 304 : 150,
+                      maxHeight: index === 0 ? 304 : 150,
+                      // marginRight: index === 0 ? 'auto' : '0',
+                      height: 'auto',
+                      // maxHeight: 400,
+                      objectFit: 'cover',
+                    }}
+                    loading="lazy"
+                  />
+                ) : (
+                  <MessageFileItem key={index} file={file} />
+                );
+              }
+            )}
+        </div> */}
+        <p className="w-full break-all text-black dark:text-white">
+          {mes.data().message}
+        </p>
         <div className="w-full flex justify-end items-center gap-2">
-          <p className="text-white ">
+          <p className="text-zinc-600 dark:text-white">
             {mes.data().date && formatTime(mes.data().date.toDate().toString())}
           </p>
           <p>
             {mes.data().isRead ? (
-              <svg width={24} height={24}>
-                <use href={sprite + '#icon-double-check'} fill="#FFFFFF" />
+              <svg
+                width={24}
+                height={24}
+                className="fill-zinc-800 dark:fill-white"
+              >
+                <use href={sprite + '#icon-double-check'} />
               </svg>
             ) : (
-              <svg width={24} height={24}>
-                <use href={sprite + '#icon-single-check'} fill="#FFFFFF" />
+              <svg
+                width={24}
+                height={24}
+                className="fill-zinc-800 dark:fill-white"
+              >
+                <use href={sprite + '#icon-single-check'} />
               </svg>
             )}
           </p>
         </div>
       </div>
       <svg
-        className={`absolute ${myUID ? '-right-3.5' : '-left-1.5'}`}
+        className={`absolute ${
+          myUID
+            ? '-right-3.5 fill-emerald-400 dark:fill-cyan-600'
+            : '-left-1.5 fill-zinc-100 dark:fill-green-600'
+        }`}
         width="16px"
         height="16px"
         viewBox="0 0 16 16"
         xmlns="http://www.w3.org/2000/svg"
-        fill="none"
       >
         {myUID ? (
-          <path
-            d="M6 17H0V0c.193 2.84.876 5.767 2.05 8.782.904 2.325 2.446 4.485 4.625 6.48A1 1 0 016 17z"
-            fill="rgb(8 145 178)"
-          ></path>
+          <path d="M6 17H0V0c.193 2.84.876 5.767 2.05 8.782.904 2.325 2.446 4.485 4.625 6.48A1 1 0 016 17z"></path>
         ) : (
           <path
             d="M3 17h6V0c-.193 2.84-.876 5.767-2.05 8.782-.904 2.325-2.446 4.485-4.625 6.48A1 1 0 003 17z"
-            fill="rgb(22 163 74)"
             filter="url(#messageAppendix)"
           ></path>
         )}

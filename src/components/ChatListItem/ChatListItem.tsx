@@ -113,13 +113,15 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
 
   return (
     <li
-      className="border border-inputChar p-2"
+      className="block w-full border border-inputChar border-l-transparent border-r-transparent p-2"
       onClick={handleManageSelectChat}
     >
       <Link
         className={`flex items-center content-center gap-3 h-72px p-1 rounded-md ${
-          chatUID === chatInfo[0] && 'bg-orange-900'
-        } ${chatUID !== chatInfo[0] && 'hover:bg-hoverGray'} `}
+          chatUID === chatInfo[0] && 'bg-zinc-700 dark:bg-orange-900'
+        } ${
+          chatUID !== chatInfo[0] && 'hover:bg-zinc-400 hover:dark:bg-zinc-800'
+        } `}
         to={chatInfo[0]}
         state={{ from: location }}
       >
@@ -129,10 +131,20 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
           size="50"
         />
         <div className="w-full">
-          <p className="font-bold text-white">{userInfo?.displayName}</p>
+          <p
+            className={`font-bold ${
+              chatUID === chatInfo[0]
+                ? 'text-white'
+                : 'text-zinc-900 dark:text-white'
+            }`}
+          >
+            {userInfo?.displayName}
+          </p>
           <p
             className={`${
-              chatUID === chatInfo[0] ? 'text-white' : 'text-textSecondary'
+              chatUID === chatInfo[0]
+                ? 'text-white'
+                : 'text-zinc-600 dark:text-textSecondary'
             }`}
           >
             {truncateLastMessageString(chatInfo[1].lastMessage, 25)}
@@ -145,17 +157,36 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
           </p>
         )}
 
-        {/* тут треба умова що це не моя смс,
-        бо якшо мені прислали і я прочитав то його не повинно буть видно, 
-        а якшо я шлю смс то має буть видно чи прочитане чи ні */}
         {chatInfo[1].senderUserID === uid &&
           (isReadMyLastMessage ? (
-            <svg width={48} height={48}>
-              <use href={sprite + '#icon-double-check'} fill="#FFFFFF" />
+            <svg
+              width={48}
+              height={48}
+              className={`${
+                chatUID === chatInfo[0]
+                  ? 'fill-white'
+                  : 'fill-zinc-800 dark:fill-white'
+              }`}
+            >
+              <use
+                href={sprite + '#icon-double-check'}
+                className="shadow-avatarShadow"
+              />
             </svg>
           ) : (
-            <svg width={48} height={48}>
-              <use href={sprite + '#icon-single-check'} fill="#FFFFFF" />
+            <svg
+              width={48}
+              height={48}
+              className={`${
+                chatUID === chatInfo[0]
+                  ? 'fill-white'
+                  : 'fill-zinc-800 dark:fill-white'
+              } drop-shadow-2xl`}
+            >
+              <use
+                href={sprite + '#icon-single-check'}
+                className="drop-shadow-2xl"
+              />
             </svg>
           ))}
 
