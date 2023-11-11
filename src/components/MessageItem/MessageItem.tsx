@@ -46,13 +46,13 @@ export default function MessageItem({ mes }: IMessageItemProps) {
       }`}
     >
       <div
-        className={`flex flex-col py-2 px-4 rounded-xl ${
+        className={`flex flex-col py-2 px-4 rounded-xl max-w-sm ${
           myUID
             ? 'bg-emerald-400 dark:bg-cyan-600 rounded-br-none'
             : 'bg-zinc-100 dark:bg-green-600 rounded-bl-none'
         } shadow-secondaryShadow`}
       >
-        <div className="flex flex-wrap gap-0.5 w-min">
+        <div className="flex flex-wrap gap-0.5 max-w-xs">
           {mes.data().file &&
             mes.data().file.map(
               (
@@ -68,94 +68,62 @@ export default function MessageItem({ mes }: IMessageItemProps) {
                 return file.type === 'image/png' ||
                   file.type === 'image/jpeg' ||
                   file.type === 'image/webp' ? (
-                  <div
+                  <img
                     key={index}
-                    className={`flex ${
-                      index === 0 ? 'h-min w-304px' : 'h-min w-150px'
-                      // ? 'h-min w-124px lg:w-304px'
-                      // : 'h-min w-60px lg:w-150px'
-                    }`}
-                  >
-                    <img
-                      src={file.url}
-                      alt={file.type}
-                      style={{
-                        width: '100%',
-                        height: 'auto',
-                        // width: 304,
-                        // height: 'auto',
-                      }}
-                    />
-                  </div>
+                    src={file.url}
+                    alt={file.type}
+                    style={{
+                      width: index === 0 ? 320 : 159,
+                      height: 'auto',
+                      maxHeight: index === 0 ? 320 : 159,
+                      objectFit: 'cover',
+                      borderRadius: 6,
+                    }}
+                    loading="lazy"
+                  />
                 ) : (
                   <MessageFileItem key={index} file={file} />
                 );
               }
             )}
         </div>
-        {/*  */}
-        {/* <div className="flex flex-wrap gap-0.5 w-min">
+        {/* <div className="flex flex-wrap justify-start gap-0.5">
           {mes.data().file &&
-            mes
-              .data()
-              .file.map(
-                (
-                  file: {
-                    url: string;
-                    name: string;
-                    type: string;
-                    width: number;
-                    height: number;
-                  },
-                  index: number
-                ) => {
-                  console.log("file", file);
-                  const aspectRatio = file.width / file.height;
-                  let imageWidth = 'auto';
-                  let imageHeight = '100%';
-
-                  if (
-                    file.type === 'image/png' ||
-                    file.type === 'image/jpeg' ||
-                    file.type === 'image/webp'
-                  ) {
-                    if (aspectRatio > 1) {
-                      imageWidth = '100%';
-                      imageHeight = 'auto';
-                    } else {
-                      imageWidth = 'auto';
-                      imageHeight = '100%';
-                    }
-                  }
-
-                  return (
-                    <div
-                      key={index}
-                      className={`flex ${
-                        index === 0
-                          ? 'h-min w-124px lg:w-304px'
-                          : 'h-min w-60px lg:w-150px'
-                      }`}
-                    >
-                      {file.type === 'image/png' ||
-                      file.type === 'image/jpeg' ||
-                      file.type === 'image/webp' ? (
-                        <img
-                          key={index}
-                          src={file.url}
-                          alt={file.type}
-                          style={{
-                            width: imageWidth,
-                            height: imageHeight,
-                          }}
-                        />
-                      ) : (
-                        <MessageFileItem file={file} />
-                      )}
-                    </div>
-                  );
-                }
-              )}
+            mes.data().file.map(
+              (
+                file: {
+                  url: string;
+                  name: string;
+                  type: string;
+                  width?: number;
+                  height?: number;
+                },
+                index: number
+              ) => {
+                // console.log(file.width/ file.height);
+                return file.type === 'image/png' ||
+                  file.type === 'image/jpeg' ||
+                  file.type === 'image/webp' ? (
+                  <img
+                    key={index}
+                    src={file.url}
+                    alt={file.type}
+                    style={{
+                      width: '100%',
+                      // maxWidth: index === 0 ? 304 : 150,
+                      maxHeight: index === 0 ? 304 : 150,
+                      // marginRight: index === 0 ? 'auto' : '0',
+                      height: 'auto',
+                      // maxHeight: 400,
+                      objectFit: 'cover',
+                    }}
+                    loading="lazy"
+                  />
+                ) : (
+                  <MessageFileItem key={index} file={file} />
+                );
+              }
+            )}
         </div> */}
         <p className="w-full break-all text-black dark:text-white">
           {mes.data().message}
