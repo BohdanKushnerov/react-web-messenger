@@ -11,12 +11,14 @@ import {
 } from 'firebase/firestore';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { deleteObject, ref } from 'firebase/storage';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import MessageItem from '@components/MessageItem/MessageItem';
 import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
 import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import sprite from '@assets/sprite.svg';
+import { toast } from 'react-toastify';
 
 function MessageList() {
   const [messages, setMessages] = useState<DocumentData[] | null>(null);
@@ -286,6 +288,11 @@ function MessageList() {
     }
   };
 
+  const handleSuccessClickCopyTextMsg = () => {
+    toast.success('Copied to Clipboard!');
+    handleCloseModal();
+  };
+
   return (
     <>
       <div className="h-full w-full py-1">
@@ -344,15 +351,6 @@ function MessageList() {
           modalPosition={modalPosition}
         >
           <div className="w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto">
-            <button
-              className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-              onClick={handleDeleteMessage}
-            >
-              <svg width={20} height={20}>
-                <use href={sprite + '#icon-delete-button'} fill="#FFFFFF" />
-              </svg>
-              <span>DELETE</span>
-            </button>
             {messages[selectedItemIndexForOpenModal]?.data()?.senderUserID ===
               currentUserUID && (
               <button
@@ -365,6 +363,30 @@ function MessageList() {
                 <span>EDIT</span>
               </button>
             )}
+
+            {messages[selectedItemIndexForOpenModal]?.data()?.message && (
+              <CopyToClipboard
+                text={messages[selectedItemIndexForOpenModal]?.data()?.message}
+                onCopy={handleSuccessClickCopyTextMsg}
+              >
+                <button className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md">
+                  <svg width={20} height={20}>
+                    <use href={sprite + '#icon-copy'} fill="#FFFFFF" />
+                  </svg>
+                  <span>COPY TEXT</span>
+                </button>
+              </CopyToClipboard>
+            )}
+
+            <button
+              className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
+              onClick={handleDeleteMessage}
+            >
+              <svg width={20} height={20}>
+                <use href={sprite + '#icon-delete-button'} fill="#FFFFFF" />
+              </svg>
+              <span>DELETE</span>
+            </button>
           </div>
         </MessageContextMenuModal>
       )}
