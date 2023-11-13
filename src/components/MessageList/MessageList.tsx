@@ -36,6 +36,8 @@ function MessageList() {
     state => state.updateEditingMessage
   );
 
+  console.log('screen --> MessageList');
+
   useEffect(() => {
     if (chatUID === null) return;
 
@@ -330,7 +332,7 @@ function MessageList() {
         {isButtonVisible && (
           <button
             onClick={handleClickScrollBottom}
-            className="fixed bottom-32 right-10 bg-white p-2 rounded-full"
+            className="absolute bottom-32 right-10 bg-white p-2 rounded-full"
           >
             <svg
               className="rotate-180"

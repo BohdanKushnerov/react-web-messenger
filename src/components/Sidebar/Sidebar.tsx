@@ -1,14 +1,14 @@
+import { useRef } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { Transition } from 'react-transition-group';
 
 import ChatList from '@components/ChatList/ChatList';
 import Navbar from '@components/Navbar/Navbar';
-import SearchInput from '@components/Inputs/SearchInput/SearchInput';
+import SearchUsers from '@components/Inputs/SearchUsers/SearchUsers';
 import SearchChatList from '@components/SearchChatList/SearchChatList';
 import ProfileSettings from '@components/ProfileSettings/ProfileSettings';
 import useChatStore from '@zustand/store';
 import { ISidebarProps } from '@interfaces/ISidebarProps';
-import { useRef } from 'react';
 
 function Sidebar({ setScreen }: ISidebarProps) {
   const nodeRefSidebarDefault = useRef(null);
@@ -39,7 +39,7 @@ function Sidebar({ setScreen }: ISidebarProps) {
             >
               <div className="flex gap-2 px-3 py-2">
                 <Navbar />
-                <SearchInput />
+                <SearchUsers />
               </div>
               <Scrollbars
                 autoHide

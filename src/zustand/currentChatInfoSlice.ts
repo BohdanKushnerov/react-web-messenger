@@ -30,7 +30,7 @@ const createCurrentChatInfoState: StateCreator<
         };
       })
     );
-  }
+  },
 });
 
 export default createCurrentChatInfoState;

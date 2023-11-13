@@ -13,7 +13,7 @@ function AvatarProfile({ photoURL, displayName, size }: IAvatarProfileProps) {
     />
   ) : (
     <Avatar
-      className="rounded-full"
+      className="rounded-full shadow-secondaryShadow"
       name={`${displayName}`}
       size={size}
       textSizeRatio={0}

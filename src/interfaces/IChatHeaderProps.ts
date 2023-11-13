@@ -1,6 +1,7 @@
 import { TScreen } from "types/TScreen";
 
-export interface IChatHeader {
+export interface IChatHeaderProps {
   handleClickBackToSidebarScreen: () => void;
   setScreen?: (value: TScreen) => void;
+  setIsShowSearchMessages: (value: boolean) => void;
 }
