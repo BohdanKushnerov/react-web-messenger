@@ -12,15 +12,15 @@ import {
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { deleteObject, ref } from 'firebase/storage';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { toast } from 'react-toastify';
 
 import MessageItem from '@components/MessageItem/MessageItem';
 import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
 import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import sprite from '@assets/sprite.svg';
-import { toast } from 'react-toastify';
 
-function MessageList() {
+const MessageList = () => {
   const [messages, setMessages] = useState<DocumentData[] | null>(null);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [selectedItemIndexForOpenModal, setSelectedItemIndexForOpenModal] =
@@ -36,7 +36,7 @@ function MessageList() {
     state => state.updateEditingMessage
   );
 
-  console.log('screen --> MessageList');
+  // console.log('screen --> MessageList');
 
   useEffect(() => {
     if (chatUID === null) return;
@@ -83,28 +83,28 @@ function MessageList() {
       });
     });
 
-    const unSub = onSnapshot(q, querySnapshot => {
+    const unsubChatMessages = onSnapshot(q, querySnapshot => {
       setMessages(querySnapshot.docs);
     });
 
     return () => {
-      unSub();
+      unsubChatMessages();
       localStorage.removeItem('currentChatId');
     };
   }, [chatUID, currentUserUID]);
 
-  // Измерение высоты элемента при его изменении
+  // Измерение высоты ul - чата(размер ul с сообщениями) при его изменении
   useEffect(() => {
     const observer = new ResizeObserver(handleClickScrollBottom);
-    const currentRef = msgListRef.current;
+    const currentMsgListRef = msgListRef.current;
 
-    if (currentRef) {
-      observer.observe(currentRef);
+    if (currentMsgListRef) {
+      observer.observe(currentMsgListRef);
     }
 
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
+      if (currentMsgListRef) {
+        observer.unobserve(currentMsgListRef);
       }
     };
   }, [msgListRef]);
@@ -309,20 +309,20 @@ function MessageList() {
         >
           <ul ref={msgListRef} className="flex flex-col px-6">
             {messages &&
-              messages.map((mes, index) => {
-                // console.log(mes)
+              messages.map((msg, index) => {
+                // console.log(msg)
                 const currentItem = selectedItemIndexForOpenModal === index;
 
                 return (
                   <li
-                    key={mes.id}
+                    key={msg.id}
                     className={`flex justify-center p-0.5 rounded-xl ${
                       currentItem && 'bg-currentContextMenuMessage'
                     }`}
                     onClick={handleCloseModal}
                     onContextMenu={e => handleClickRigthButtonMessage(index, e)}
                   >
-                    <MessageItem mes={mes} />
+                    <MessageItem msg={msg} />
                   </li>
                 );
               })}

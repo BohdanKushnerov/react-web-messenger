@@ -1,8 +1,6 @@
 import useCloseModal from '@hooks/useCloseModal';
 import { IModalMessageContextMenuProps } from '@interfaces/IModalMessageContextMenuProps';
 
-
-
 const MessageContextMenuModal = ({
   closeModal,
   modalPosition,

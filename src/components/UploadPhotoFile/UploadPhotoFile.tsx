@@ -1,9 +1,6 @@
 import { Line } from 'rc-progress';
 
-interface IUploadPhotoFileProps {
-  file: File;
-  status: number;
-}
+import { IUploadPhotoFileProps } from '@interfaces/IUploadPhotoFileProps';
 
 const UploadPhotoFile = ({ file, status }: IUploadPhotoFileProps) => {
 

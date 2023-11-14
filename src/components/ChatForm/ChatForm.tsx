@@ -11,8 +11,9 @@ import sprite from '@assets/sprite.svg';
 
 const ChatForm = () => {
   const [message, setMessage] = useState('');
-  const [myTypingTimeout, setMyTTypingTimeout] =
-    useState<NodeJS.Timeout | null>();
+  const [myTypingTimeout, setMyTypingTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  );
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -23,13 +24,10 @@ const ChatForm = () => {
 
   // console.log('screen --> ChatForm');
 
+  // юзеффект держит в фокусе инпут ввода сообщений
   useEffect(() => {
     inputRef.current?.focus();
   }, [message]);
-
-  const handleCancelEditingMessage = () => {
-    resetEditingMessage();
-  };
 
   useEffect(() => {
     if (editingMessageInfo) {
@@ -40,31 +38,74 @@ const ChatForm = () => {
     }
   }, [editingMessageInfo]);
 
-  const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMessage(e.target.value);
-  };
+  // // когда печатаю запускаю таймаут, при размонтировании делаю false
+  // useEffect(() => {
+  //   if (chatUID && currentUserUID && message) {
+  //     const updateTypingIsTrue = async () => {
+  //       const chatDocRef = doc(db, 'chats', chatUID);
 
-  const handleManageSendMessage = (e: React.FormEvent) => {
-    e.preventDefault();
+  //       const updateTypingTrue = {
+  //         [currentUserUID]: {
+  //           isTyping: true,
+  //         },
+  //       };
 
-    if (message.trim() === '') {
-      return;
-    }
+  //       await updateDoc(chatDocRef, updateTypingTrue);
+  //     };
 
-    if (editingMessageInfo) {
-      handleUpdateEditMessage(
-        editingMessageInfo,
-        chatUID,
-        message,
-        currentUserUID,
-        userUID
-      );
-      resetEditingMessage();
-    } else {
-      handleSendMessage(message, chatUID, currentUserUID, userUID);
-      setMessage('');
-    }
-  };
+  //     const updateTypingIsFalse = async () => {
+  //       const chatDocRef = doc(db, 'chats', chatUID);
+
+  //       const updateTypingTrue = {
+  //         [currentUserUID]: {
+  //           isTyping: false,
+  //         },
+  //       };
+
+  //       await updateDoc(chatDocRef, updateTypingTrue);
+  //     };
+
+  //     updateTypingIsTrue();
+
+  //     const newTypingTimeout = setTimeout(() => {
+  //       updateTypingIsFalse();
+  //     }, 3000);
+
+  //     setMyTypingTimeout(newTypingTimeout);
+  //   }
+
+  //   return () => {
+  //     const updateTypingIsFalse = async () => {
+  //       const chatDocRef = doc(db, 'chats', chatUID);
+
+  //       const updateTypingTrue = {
+  //         [currentUserUID]: {
+  //           isTyping: false,
+  //         },
+  //       };
+
+  //       await updateDoc(chatDocRef, updateTypingTrue);
+  //     };
+
+  //     updateTypingIsFalse();
+  //   };
+  // }, [chatUID, currentUserUID, message, userUID]);
+
+  // // Устанавливаем сброса таймаута при размонтировании
+  // useEffect(() => {
+  //   // if (myTypingTimeout) {
+  //   //   clearTimeout(myTypingTimeout);
+  //   // }
+  //   // if (newTypingTimeout !== myTypingTimeout && myTypingTimeout) {
+  //   //   clearTimeout(myTypingTimeout);
+  //   // }
+
+  //   return () => {
+  //     if (myTypingTimeout) {
+  //       clearTimeout(myTypingTimeout);
+  //     }
+  //   };
+  // }, [chatUID, currentUserUID, myTypingTimeout]);
 
   // когда печатаю запускаю таймаут
   useEffect(() => {
@@ -102,7 +143,7 @@ const ChatForm = () => {
         updateTypingIsFalse();
       }, 3000);
 
-      setMyTTypingTimeout(newTypingTimeout);
+      setMyTypingTimeout(newTypingTimeout);
     }
   }, [chatUID, currentUserUID, message, userUID]);
 
@@ -118,6 +159,36 @@ const ChatForm = () => {
       }
     };
   }, [chatUID, currentUserUID, myTypingTimeout]);
+
+  const handleCancelEditingMessage = () => {
+    resetEditingMessage();
+  };
+
+  const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage(e.target.value);
+  };
+
+  const handleManageSendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (message.trim() === '') {
+      return;
+    }
+
+    if (editingMessageInfo) {
+      handleUpdateEditMessage(
+        editingMessageInfo,
+        chatUID,
+        message,
+        currentUserUID,
+        userUID
+      );
+      resetEditingMessage();
+    } else {
+      handleSendMessage(message, chatUID, currentUserUID, userUID);
+      setMessage('');
+    }
+  };
 
   return (
     <div className="absolute bottom-0 left-0 z-10 w-full h-24 flex flex-col items-center">
@@ -160,9 +231,7 @@ const ChatForm = () => {
               height={24}
               className="fill-zinc-200 dark:fill-zinc-400"
             >
-              <use
-                href={sprite + '#icon-send-message'}
-              />
+              <use href={sprite + '#icon-send-message'} />
             </svg>
           </button>
         </form>

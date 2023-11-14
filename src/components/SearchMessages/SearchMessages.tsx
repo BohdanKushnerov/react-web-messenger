@@ -9,14 +9,12 @@ import {
 } from 'firebase/firestore';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
+import { Search } from '@components/Inputs/Search/Search';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import formatTime from '@utils/formatTime';
+import { ISearchMessagesProps } from '@interfaces/ISearchMessagesProps';
 import sprite from '@assets/sprite.svg';
-
-interface ISearchMessagesProps {
-  setIsShowSearchMessages: (value: boolean) => void;
-}
 
 const SearchMessages = ({ setIsShowSearchMessages }: ISearchMessagesProps) => {
   const [searchValue, setSearchValue] = useState('');
@@ -42,12 +40,12 @@ const SearchMessages = ({ setIsShowSearchMessages }: ISearchMessagesProps) => {
       where('message', '<=', searchValue + '\uf8ff')
     );
 
-    const unSub = onSnapshot(q, querySnapshot => {
+    const unsubSearchMessages = onSnapshot(q, querySnapshot => {
       setSearchMessages(querySnapshot.docs);
     });
 
     return () => {
-      unSub();
+      unsubSearchMessages();
     };
   }, [chatUID, searchValue]);
 
@@ -74,13 +72,13 @@ const SearchMessages = ({ setIsShowSearchMessages }: ISearchMessagesProps) => {
     setIsShowSearchMessages(false);
   };
 
-  const handleClickSearchMessage = () => {
-  // 
-  };
+  // const handleClickSearchMessage = () => {
+  // // 
+  // };
 
   return (
     <div>
-      <div className="flex justify-around">
+      <div className="flex justify-around items-center">
         <button
           className="flex justify-center items-center h-12 w-12 bg-transparent hover:bg-hoverGray rounded-full cursor-pointer"
           onClick={handleClickCloseSearchMessage}
@@ -94,23 +92,7 @@ const SearchMessages = ({ setIsShowSearchMessages }: ISearchMessagesProps) => {
           </svg>
         </button>
 
-        <div className="relative">
-          <input
-            className="py-2 px-8 h-10 w-full rounded-3xl bg-mySeacrhBcg text-white outline-none border-2 border-transparent focus:border-solid focus:border-cyan-500"
-            type="text"
-            placeholder="Search"
-            value={searchValue}
-            onChange={handleChangeSearchMessage}
-          />
-
-          <svg
-            className="absolute top-2 left-2 fill-zinc-600 dark:fill-zinc-400"
-            width={24}
-            height={24}
-          >
-            <use href={sprite + '#icon-search'} />
-          </svg>
-        </div>
+        <Search value={searchValue} handleChange={handleChangeSearchMessage} />
       </div>
       {searchMessages && (
         <ul className="flex flex-col justify-center gap-2">
@@ -125,7 +107,7 @@ const SearchMessages = ({ setIsShowSearchMessages }: ISearchMessagesProps) => {
               <li
                 key={msg.id}
                 className="flex gap-2 justify-start items-center"
-                onClick={handleClickSearchMessage}
+                // onClick={handleClickSearchMessage}
               >
                 <div>
                   <AvatarProfile
@@ -143,7 +125,9 @@ const SearchMessages = ({ setIsShowSearchMessages }: ISearchMessagesProps) => {
                   />
                 </div>
                 <div>
-                  <p className="max-w-xs break-all">{msg.data().message}</p>
+                  <p className="max-w-xs break-all text-zinc-600 dark:text-zinc-300">
+                    {msg.data().message}
+                  </p>
                   <p className="text-zinc-600 dark:text-white">
                     {msg.data().date &&
                       formatTime(msg.data().date.toDate().toString())}

@@ -24,30 +24,37 @@ const ChatHeader = ({
 
   // console.log('screen --> ChatHeader');
 
+  // обновляет инфо о текущем юзере при монтировании нового чата
   useEffect(() => {
     if (!userUID) return;
-    const unsubUserInfoData = onSnapshot(doc(db, 'users', userUID), doc => {
+    const unsubCurrentChatData = onSnapshot(doc(db, 'users', userUID), doc => {
       const data = doc.data();
       if (data) {
-        // console.log('data 111111111111111111111', data);
         setCurrentChatInfo(data);
       }
     });
 
+    return () => {
+      unsubCurrentChatData();
+    };
+  }, [userUID]);
+
+  // следим за состоянием онлайн/офлайн
+  useEffect(() => {
+    if (!userUID) return;
     const dbRef = ref(database, 'status/' + userUID);
 
     // Устанавливаем слушатель для данных
     const unsubOnlineStatus = onValue(dbRef, snapshot => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        setIsOnline(data); // Здесь data будет true, если пользователь онлайн, и false, если офлайн
+        setIsOnline(data);
       } else {
-        setIsOnline(false); // Если данных нет, считаем пользователя офлайн
+        setIsOnline(false);
       }
     });
 
     return () => {
-      unsubUserInfoData();
       unsubOnlineStatus();
     };
   }, [userUID]);
@@ -60,22 +67,29 @@ const ChatHeader = ({
 
     const chatDocRef = doc(db, 'chats', chatUID);
 
-    const unsubscribe = onSnapshot(
+    const unsubOponentTypingStatus = onSnapshot(
       chatDocRef,
       docSnapshot => {
         if (docSnapshot.exists()) {
           const chatData = docSnapshot.data();
 
-          setIsOpponentTyping(chatData[userUID].isTyping);
+          // тут проверка, потому что когда создал чат ты первый то у тебя еще нету его обьекта,
+          // он появиться когда он начнет перчатать
+          if (
+            chatData[userUID]?.isTyping === false ||
+            chatData[userUID]?.isTyping === true
+          ) {
+            setIsOpponentTyping(chatData[userUID].isTyping);
+          }
         }
       },
       error => {
-        console.error('error listner of isTyping:', error);
+        console.error('error listener of isTyping:', error);
       }
     );
 
     return () => {
-      unsubscribe();
+      unsubOponentTypingStatus();
     };
   }, [chatUID, currentUserUID, userUID]);
 
@@ -83,13 +97,11 @@ const ChatHeader = ({
     setIsShowSearchMessages(true);
   };
 
-  // border border-transparent border-l-zinc-800
-
   return (
     <div className="absolute top-0 left-0 z-10 flex gap-4 items-center w-full h-14 px-6 bg-gray-200 dark:bg-myBlackBcg shadow-bottomShadow">
       {setScreen && (
         <button
-          className="flex justify-center items-center w-12 h-12 text-white hover:bg-hoverGray rounded-full cursor-pointer"
+          className="flex justify-center items-center w-12 h-12 hover:bg-hoverGray rounded-full cursor-pointer"
           onClick={handleClickBackToSidebarScreen}
         >
           <svg
@@ -111,14 +123,14 @@ const ChatHeader = ({
       </p>
 
       {isOpponentTyping ? (
-        <h2 className="text-white">typing...</h2>
+        <h2 className="text-black dark:text-white">typing...</h2>
       ) : (
         <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
           {isOnline ? 'Online' : 'Offline'}
         </div>
       )}
 
-      <button className='ml-auto' onClick={handleClickShowSearchMessages}>
+      <button className="ml-auto" onClick={handleClickShowSearchMessages}>
         <svg
           className="fill-zinc-600 dark:fill-zinc-400"
           width={24}

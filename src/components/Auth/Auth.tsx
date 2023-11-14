@@ -11,7 +11,7 @@ import handleSubmitVerifyCode from './utils/handleSubmitVerifyCodeVerifyCode';
 import setUpRecaptcha from './utils/setUpRecaptcha';
 import { TAuthSteps } from 'types/TAuthSteps';
 
-function Auth() {
+const Auth = () => {
   const [step, setStep] = useState<TAuthSteps>('Step 1/3');
   const [phone, setPhone] = useState<E164Number | string>('16505553435');
   const [code, setCode] = useState('');

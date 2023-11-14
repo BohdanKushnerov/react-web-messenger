@@ -3,7 +3,7 @@ import 'react-phone-input-2/lib/style.css';
 
 import { IMyPhoneInputProps } from '@interfaces/IMyPhoneInputProps';
 
-function MyPhoneInput({ phone, setPhone }: IMyPhoneInputProps) {
+const MyPhoneInput = ({ phone, setPhone }: IMyPhoneInputProps) => {
   const handleChangePhone = (value: string) => {
     setPhone(value);
   };

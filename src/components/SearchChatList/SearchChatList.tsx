@@ -16,7 +16,7 @@ import capitalizeName from '@utils/capitalizeFirstLetterName';
 import handleCreateChat from '@utils/handleCreateChat';
 import { IChatListProps } from '@interfaces/IChatListProps';
 
-function SearchChatList({ setScreen }: IChatListProps) {
+const SearchChatList = ({ setScreen }: IChatListProps) => {
   const [searchChatList, setSearchChatList] = useState<QuerySnapshot<
     DocumentData,
     DocumentData

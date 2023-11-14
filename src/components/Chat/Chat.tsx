@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import MessageList from '@components/MessageList/MessageList';
-import SearchMessages from '@components/Inputs/SearchMessages/SearchMessages';
+import SearchMessages from '@components/SearchMessages/SearchMessages';
 import ChatForm from '../ChatForm/ChatForm';
 import ChatHeader from '../ChatHeader/ChatHeader';
 import useChatStore from '@zustand/store';
 import { IChat } from '@interfaces/IChat';
 
-function Chat({ setScreen }: IChat) {
+const Chat = ({ setScreen }: IChat) => {
   const [isShowSearchMessages, setIsShowSearchMessages] = useState(false);
   const navigate = useNavigate();
 

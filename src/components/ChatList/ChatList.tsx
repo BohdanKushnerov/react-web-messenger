@@ -12,16 +12,17 @@ import { IChatListProps } from '@interfaces/IChatListProps';
 import { TChatListItem } from 'types/TChatListItem';
 
 const ChatList = React.memo(({ setScreen }: IChatListProps) => {
-  // console.log('ChatList');
   const [userChatList, setUserChatList] = useState<DocumentData | []>([]);
-
+  
   const { chatUID } = useChatStore(state => state.currentChatInfo);
-
+  
+  // console.log('ChatList');
+  
   // юзефект для загрузки твоих переписок
   useEffect(() => {
     if (!auth?.currentUser?.uid) return;
     // ==========================================
-    const unSub = onSnapshot(
+    const unsubMyUserChats = onSnapshot(
       doc(db, 'userChats', auth?.currentUser?.uid),
       doc => {
         const data = doc.data();
@@ -41,13 +42,12 @@ const ChatList = React.memo(({ setScreen }: IChatListProps) => {
     );
 
     return () => {
-      unSub();
+      unsubMyUserChats();
     };
   }, [chatUID]);
 
   return (
     <div>
-      {/* тут список твоих чатов */}
       <ul className="p-0 m-0">
         {userChatList &&
           userChatList.map((chatInfo: TChatListItem) => (

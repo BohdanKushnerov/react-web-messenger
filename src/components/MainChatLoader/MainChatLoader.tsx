@@ -1,7 +1,7 @@
 import RingLoader from 'react-spinners/RingLoader';
 import useChatStore from '@zustand/store';
 
-function MainChatLoader() {
+const MainChatLoader = () => {
   const isLoggedIn = useChatStore(state => state.isLoggedIn);
 
   return (
