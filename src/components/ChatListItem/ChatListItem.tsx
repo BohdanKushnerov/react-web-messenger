@@ -21,7 +21,7 @@ import sprite from '@assets/sprite.svg';
 const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
   const [userInfo, setUserInfo] = useState<DocumentData | null>(null);
   const [isOnline, setIsOnline] = useState<boolean | null>(null);
-  const [lengthOfMyUnReadMsgs, setLengthOfMyUnReadMsgs] = useState<number>(0);
+  const [lengthOfMyUnreadMsgs, setLengthOfMyUnreadMsgs] = useState<number>(0);
   const [isReadMyLastMessage, setIsReadMyLastMessage] = useState(true);
   const location = useLocation();
 
@@ -32,6 +32,7 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
     state => state.updateCurrentChatInfo
   );
 
+  // обновляет инфо о текущем юзере в списке чата
   useEffect(() => {
     const unsubUserInfoData = onSnapshot(
       doc(db, 'users', chatInfo[1].userUID),
@@ -44,24 +45,31 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
       }
     );
 
+    return () => {
+      unsubUserInfoData();
+    };
+  }, [chatInfo]);
+
+  // следим за состоянием онлайн/офлайн
+  useEffect(() => {
     const dbRef = ref(database, 'status/' + chatInfo[1].userUID);
 
     // Устанавливаем слушатель для данных
     const unsubOnlineStatus = onValue(dbRef, snapshot => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        setIsOnline(data); // Здесь data будет true, если пользователь онлайн, и false, если офлайн
+        setIsOnline(data);
       } else {
-        setIsOnline(false); // Если данных нет, считаем пользователя офлайн
+        setIsOnline(false);
       }
     });
 
     return () => {
-      unsubUserInfoData();
       unsubOnlineStatus();
     };
   }, [chatInfo]);
 
+  // следим за количеством непрочитаных сообщений в ChatItem
   useEffect(() => {
     const q = query(
       collection(db, `chats/${chatInfo[0]}/messages`),
@@ -69,14 +77,14 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
       where('senderUserID', '!=', uid)
     );
 
-    const unSub = onSnapshot(q, querySnapshot => {
+    const unsubMyUnreadMsgs = onSnapshot(q, querySnapshot => {
       if (querySnapshot.docs) {
-        setLengthOfMyUnReadMsgs(querySnapshot.docs.length);
+        setLengthOfMyUnreadMsgs(querySnapshot.docs.length);
       }
     });
 
     return () => {
-      unSub();
+      unsubMyUnreadMsgs();
     };
   }, [chatInfo, uid]);
 
@@ -151,9 +159,9 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
           </p>
         </div>
 
-        {lengthOfMyUnReadMsgs > 0 && (
+        {lengthOfMyUnreadMsgs > 0 && (
           <p className="flex justify-center items-center p-1 px-3 border border-white text-white rounded-full shadow-mainShadow bg-gray-500">
-            {lengthOfMyUnReadMsgs}
+            {lengthOfMyUnreadMsgs}
           </p>
         )}
 

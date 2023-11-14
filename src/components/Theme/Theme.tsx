@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 const Theme = () => {
   const [isLightTheme, setIsLightTheme] = useState(() => {
-    console.log(localStorage.getItem('theme'));
-    console.log(localStorage.getItem('theme') === 'light');
+    // console.log(localStorage.getItem('theme'));
+    // console.log(localStorage.getItem('theme') === 'light');
     return localStorage.getItem('theme') === 'light';
   });
 
@@ -38,9 +38,9 @@ const Theme = () => {
     <div className="flex">
       <button
         id="light-theme-switcher"
-        className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-gray-800 ${
+        className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-gray-800 dark:text-gray-300 ${
           isLightTheme && 'bg-gray-600'
-        } disabled:pointer-events-none hover:bg-gray-200 rounded-md`}
+        } disabled:pointer-events-none hover:dark:text-gray-800 hover:bg-gray-200 rounded-md`}
         data-theme="light"
         disabled={isLightTheme}
         onClick={handleChangeTheme}

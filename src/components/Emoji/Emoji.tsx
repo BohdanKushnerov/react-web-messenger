@@ -15,6 +15,7 @@ const Emoji = ({ setMessage }: IEmoji) => {
 
   const editingMessageInfo = useChatStore(state => state.editingMessageInfo);
 
+  // устанавливаем слушателя на открытие емодзи на кнопку esc
   useEffect(() => {
     const handleCloseEmojiOnEsc = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -47,10 +48,10 @@ const Emoji = ({ setMessage }: IEmoji) => {
   };
 
   const handleMouseLeaveEmoji = () => {
-    console.log('start Timeout Leave');
+    // console.log('start Timeout Leave');
     const timeoutId = setTimeout(() => {
       setIsShowEmoji(false);
-      console.log('finish Timeout Leave');
+      // console.log('finish Timeout Leave');
     }, 500);
     setEmojiTimeOutId(timeoutId);
   };

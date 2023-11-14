@@ -7,37 +7,36 @@ import formatTime from '@utils/formatTime';
 import sprite from '@assets/sprite.svg';
 
 interface IMessageItemProps {
-  mes: DocumentData;
+  msg: DocumentData;
 }
 
-export default function MessageItem({ mes }: IMessageItemProps) {
+const MessageItem = ({ msg }: IMessageItemProps) => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID } = useChatStore(state => state.currentChatInfo);
 
   const makeReadMes = async (
     db: Firestore,
     chatUID: string,
-    mes: DocumentData
+    msg: DocumentData
   ) => {
     if (chatUID === null) {
-      // Обработка случая, когда chatUID равен null
       return;
     }
 
-    updateDoc(doc(db, 'chats', chatUID, 'messages', `${mes}`), {
+    updateDoc(doc(db, 'chats', chatUID, 'messages', `${msg}`), {
       ['isRead']: true,
     });
   };
 
   if (
-    mes.data().senderUserID !== currentUserUID &&
-    !mes.data().isRead &&
+    msg.data().senderUserID !== currentUserUID &&
+    !msg.data().isRead &&
     chatUID
   ) {
-    makeReadMes(db, chatUID, mes.id);
+    makeReadMes(db, chatUID, msg.id);
   }
 
-  const myUID = currentUserUID === mes.data().senderUserID;
+  const myUID = currentUserUID === msg.data().senderUserID;
 
   return (
     <div
@@ -53,8 +52,8 @@ export default function MessageItem({ mes }: IMessageItemProps) {
         } shadow-secondaryShadow`}
       >
         <div className="flex flex-wrap gap-0.5 max-w-xs">
-          {mes.data().file &&
-            mes.data().file.map(
+          {msg.data().file &&
+            msg.data().file.map(
               (
                 file: {
                   url: string;
@@ -87,53 +86,15 @@ export default function MessageItem({ mes }: IMessageItemProps) {
               }
             )}
         </div>
-        {/* <div className="flex flex-wrap justify-start gap-0.5">
-          {mes.data().file &&
-            mes.data().file.map(
-              (
-                file: {
-                  url: string;
-                  name: string;
-                  type: string;
-                  width?: number;
-                  height?: number;
-                },
-                index: number
-              ) => {
-                // console.log(file.width/ file.height);
-                return file.type === 'image/png' ||
-                  file.type === 'image/jpeg' ||
-                  file.type === 'image/webp' ? (
-                  <img
-                    key={index}
-                    src={file.url}
-                    alt={file.type}
-                    style={{
-                      width: '100%',
-                      // maxWidth: index === 0 ? 304 : 150,
-                      maxHeight: index === 0 ? 304 : 150,
-                      // marginRight: index === 0 ? 'auto' : '0',
-                      height: 'auto',
-                      // maxHeight: 400,
-                      objectFit: 'cover',
-                    }}
-                    loading="lazy"
-                  />
-                ) : (
-                  <MessageFileItem key={index} file={file} />
-                );
-              }
-            )}
-        </div> */}
         <p className="w-full break-all text-black dark:text-white">
-          {mes.data().message}
+          {msg.data().message}
         </p>
         <div className="w-full flex justify-end items-center gap-2">
           <p className="text-zinc-600 dark:text-white">
-            {mes.data().date && formatTime(mes.data().date.toDate().toString())}
+            {msg.data().date && formatTime(msg.data().date.toDate().toString())}
           </p>
           <p>
-            {mes.data().isRead ? (
+            {msg.data().isRead ? (
               <svg
                 width={24}
                 height={24}
@@ -175,4 +136,6 @@ export default function MessageItem({ mes }: IMessageItemProps) {
       </svg>
     </div>
   );
-}
+};
+
+export default MessageItem;

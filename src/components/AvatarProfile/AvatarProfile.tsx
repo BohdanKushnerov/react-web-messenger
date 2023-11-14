@@ -2,7 +2,7 @@ import Avatar from 'react-avatar';
 
 import { IAvatarProfileProps } from '@interfaces/IAvatarProfileProps';
 
-function AvatarProfile({ photoURL, displayName, size }: IAvatarProfileProps) {
+const AvatarProfile = ({ photoURL, displayName, size }: IAvatarProfileProps) => {
   return photoURL ? (
     <img
       className="rounded-full shadow-secondaryShadow"

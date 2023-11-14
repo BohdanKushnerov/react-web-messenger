@@ -5,12 +5,13 @@ import { DefaultExtensionType, FileIcon, defaultStyles } from 'react-file-icon';
 import { storage } from '@myfirebase/config';
 import { IMessageFileItemProps } from '@interfaces/IMessageFileItemProps';
 
-function FileItem({ file }: IMessageFileItemProps) {
+const FileItem = ({ file }: IMessageFileItemProps) => {
   const [link, setLink] = useState('');
 
   const fileType: DefaultExtensionType =
     (file.name.split('.').pop() as DefaultExtensionType) || 'default';
 
+  // еффект получения ссилки на файл
   useEffect(() => {
     const downloadFileFromStorage = async (url: string) => {
       const httpsReference = ref(storage, url);
@@ -35,7 +36,6 @@ function FileItem({ file }: IMessageFileItemProps) {
   }, [file]);
 
   return (
-    // <p className="w-124px lg:w-304px flex gap-8 items-center h-12 ">
     <p className="flex gap-8 items-center h-12">
       <span className="w-10 h-10">
         <FileIcon extension={fileType} {...defaultStyles[fileType]} />

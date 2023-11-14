@@ -4,13 +4,13 @@ import { Transition } from 'react-transition-group';
 
 import ChatList from '@components/ChatList/ChatList';
 import Navbar from '@components/Navbar/Navbar';
-import SearchUsers from '@components/Inputs/SearchUsers/SearchUsers';
+import SearchUsers from '@components/SearchUsers/SearchUsers';
 import SearchChatList from '@components/SearchChatList/SearchChatList';
 import ProfileSettings from '@components/ProfileSettings/ProfileSettings';
 import useChatStore from '@zustand/store';
 import { ISidebarProps } from '@interfaces/ISidebarProps';
 
-function Sidebar({ setScreen }: ISidebarProps) {
+const Sidebar = ({ setScreen }: ISidebarProps) => {
   const nodeRefSidebarDefault = useRef(null);
   const nodeRefProfileSettings = useRef(null);
   const sidebarScreen = useChatStore(state => state.sidebarScreen);
