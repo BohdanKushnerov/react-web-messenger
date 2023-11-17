@@ -5,7 +5,8 @@ import createSearchUsersState from './searchUsersSlice';
 import createAuthSliceState from './authSlice';
 import createCurrentChatInfoState from './currentChatInfoSlice';
 import createSidebarScreenState from './sidebarScreenSlice';
-import createMessageEditingFormState from './messageEditingFormSlice';
+import createMessageEditingFormState from './messageEditingFormState';
+import createMessageChatForm from './messageChatForm';
 
 // import { IAuthSliceState } from '@interfaces/zustand/IAuthSliceState';
 // import { ISearchUsersState } from '@interfaces/zustand/ISearchUsersState';
@@ -35,6 +36,7 @@ const useChatStore = create()(
     ...createCurrentChatInfoState(...a),
     ...createSidebarScreenState(...a),
     ...createMessageEditingFormState(...a),
+    ...createMessageChatForm(...a),
   }))
 );
 

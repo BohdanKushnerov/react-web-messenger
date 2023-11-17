@@ -29,8 +29,12 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
   const updateCurrentChatInfo = useChatStore(
     state => state.updateCurrentChatInfo
   );
+  const resetMessage = useChatStore(state => state.resetMessage);
+
   const isOnline = useIsOnlineStatus(chatInfo[1].userUID); // следим за состоянием онлайн/офлайн
   const userInfo = useChatInfo(chatInfo[1].userUID); // обновляет инфо о текущем юзере в списке чата
+
+  // console.log('screen --> ChatListItem');
 
   // следим за количеством непрочитаных сообщений в ChatItem
   useEffect(() => {
@@ -76,6 +80,8 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
 
   const handleManageSelectChat = () => {
     handleSelectChat(chatInfo, updateCurrentChatInfo);
+    // при выборе нового чата сброс сообщения в ChatForm
+    resetMessage();
 
     if (setScreen) {
       setScreen('Chat');

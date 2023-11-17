@@ -1,13 +1,14 @@
+import { useEffect } from 'react';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
 import Home from '@pages/Home/Home';
 import Auth from '@components/Auth/Auth';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Sidebar from '@components/Sidebar/Sidebar';
+import Chat from '@components/Chat/Chat';
 import RestrictedRoute from '@routes/RestrictedRoute';
 import PrivateRoute from '@routes/PrivateRoute';
-import { useEffect } from 'react';
-import useChatStore from '@zustand/store';
 import { auth } from '@myfirebase/config';
-import Chat from '@components/Chat/Chat';
-import Sidebar from '@components/Sidebar/Sidebar';
+import useChatStore from '@zustand/store';
 
 function App() {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);

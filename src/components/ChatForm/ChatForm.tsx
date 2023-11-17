@@ -1,164 +1,96 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
+import React, { useEffect, useRef } from 'react';
+// import { doc, updateDoc } from 'firebase/firestore';
 
 import FileInput from '@components/Inputs/FileInput/FileInput';
 import Emoji from '@components/Emoji/Emoji';
-import { db } from '@myfirebase/config';
+// import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleUpdateEditMessage from '@utils/handleUpdateEditMessage';
 import handleSendMessage from '@utils/handleSendMessage';
 import sprite from '@assets/sprite.svg';
+import { updateTypingIsFalse } from '@api/firestore/updateTypingIsFalse';
+import { updateTypingIsTrue } from '@api/firestore/updateTypingIsTrue';
 
 const ChatForm = () => {
-  const [message, setMessage] = useState('');
-  const [myTypingTimeout, setMyTypingTimeout] = useState<NodeJS.Timeout | null>(
-    null
-  );
+  const message = useChatStore(state => state.message);
+  const setMessage = useChatStore(state => state.setMessage);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const myTypingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
   const editingMessageInfo = useChatStore(state => state.editingMessageInfo);
   const resetEditingMessage = useChatStore(state => state.resetEditingMessage);
 
-  // console.log('screen --> ChatForm');
+  console.log('screen --> ChatForm');
 
   // юзеффект держит в фокусе инпут ввода сообщений
   useEffect(() => {
     inputRef.current?.focus();
   }, [message]);
 
+  // юзеффект изменения месседжа
   useEffect(() => {
     if (editingMessageInfo) {
-      const mes = editingMessageInfo.selectedMessage.data().message;
-      setMessage(mes);
+      const msg = editingMessageInfo.selectedMessage.data().message;
+      setMessage(msg);
     } else {
       setMessage('');
     }
-  }, [editingMessageInfo]);
+  }, [editingMessageInfo, setMessage]);
 
-  // // когда печатаю запускаю таймаут, при размонтировании делаю false
-  // useEffect(() => {
-  //   if (chatUID && currentUserUID && message) {
-  //     const updateTypingIsTrue = async () => {
-  //       const chatDocRef = doc(db, 'chats', chatUID);
-
-  //       const updateTypingTrue = {
-  //         [currentUserUID]: {
-  //           isTyping: true,
-  //         },
-  //       };
-
-  //       await updateDoc(chatDocRef, updateTypingTrue);
-  //     };
-
-  //     const updateTypingIsFalse = async () => {
-  //       const chatDocRef = doc(db, 'chats', chatUID);
-
-  //       const updateTypingTrue = {
-  //         [currentUserUID]: {
-  //           isTyping: false,
-  //         },
-  //       };
-
-  //       await updateDoc(chatDocRef, updateTypingTrue);
-  //     };
-
-  //     updateTypingIsTrue();
-
-  //     const newTypingTimeout = setTimeout(() => {
-  //       updateTypingIsFalse();
-  //     }, 3000);
-
-  //     setMyTypingTimeout(newTypingTimeout);
-  //   }
-
-  //   return () => {
-  //     const updateTypingIsFalse = async () => {
-  //       const chatDocRef = doc(db, 'chats', chatUID);
-
-  //       const updateTypingTrue = {
-  //         [currentUserUID]: {
-  //           isTyping: false,
-  //         },
-  //       };
-
-  //       await updateDoc(chatDocRef, updateTypingTrue);
-  //     };
-
-  //     updateTypingIsFalse();
-  //   };
-  // }, [chatUID, currentUserUID, message, userUID]);
-
-  // // Устанавливаем сброса таймаута при размонтировании
-  // useEffect(() => {
-  //   // if (myTypingTimeout) {
-  //   //   clearTimeout(myTypingTimeout);
-  //   // }
-  //   // if (newTypingTimeout !== myTypingTimeout && myTypingTimeout) {
-  //   //   clearTimeout(myTypingTimeout);
-  //   // }
-
-  //   return () => {
-  //     if (myTypingTimeout) {
-  //       clearTimeout(myTypingTimeout);
-  //     }
-  //   };
-  // }, [chatUID, currentUserUID, myTypingTimeout]);
-
-  // когда печатаю запускаю таймаут
   useEffect(() => {
-    if (chatUID && currentUserUID && message) {
-      const updateTypingIsTrue = async () => {
-        // setMyTyping(true);
-        const chatDocRef = doc(db, 'chats', chatUID);
-
-        const updateTypingTrue = {
-          [currentUserUID]: {
-            isTyping: true,
-          },
-        };
-
-        await updateDoc(chatDocRef, updateTypingTrue);
-      };
-
-      const updateTypingIsFalse = async () => {
-        // setMyTyping(false);
-
-        const chatDocRef = doc(db, 'chats', chatUID);
-
-        const updateTypingTrue = {
-          [currentUserUID]: {
-            isTyping: false,
-          },
-        };
-
-        await updateDoc(chatDocRef, updateTypingTrue);
-      };
-
-      updateTypingIsTrue();
-
-      const newTypingTimeout = setTimeout(() => {
-        updateTypingIsFalse();
-      }, 3000);
-
-      setMyTypingTimeout(newTypingTimeout);
-    }
-  }, [chatUID, currentUserUID, message, userUID]);
-
-  // Устанавливаем обработчик сброса таймаута чтобы закрыть старый и открыть новый
-  useEffect(() => {
-    // if (typingTimeout) {
-    //   clearTimeout(typingTimeout);
-    // }
-
     return () => {
-      if (myTypingTimeout) {
-        clearTimeout(myTypingTimeout);
+      if (myTypingTimeoutRef.current) {
+        console.log('cleanup', myTypingTimeoutRef.current);
+        clearTimeout(myTypingTimeoutRef.current);
+        myTypingTimeoutRef.current = null;
       }
     };
-  }, [chatUID, currentUserUID, myTypingTimeout]);
+  }, [chatUID]);
+
+  // еффект beforeunload чтобы прекратить состояние печати
+  useEffect(() => {
+    const handleWindowBeforeUnload = async (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = '';
+
+      await updateTypingIsFalse(chatUID, currentUserUID);
+    };
+
+    window.addEventListener('beforeunload', handleWindowBeforeUnload);
+
+    return () => {
+      const handleWindowUnmountBeforeUnload = async () => {
+        await updateTypingIsFalse(chatUID, currentUserUID);
+        window.removeEventListener('beforeunload', handleWindowBeforeUnload);
+      };
+
+      handleWindowUnmountBeforeUnload();
+    };
+  }, [chatUID, currentUserUID]);
+
+  useEffect(() => {
+    if (chatUID && currentUserUID && message) {
+      console.log('in useEffect timeout');
+      console.log('message', message);
+      updateTypingIsTrue(chatUID, currentUserUID);
+
+      const newTypingTimeout = setTimeout(() => {
+        console.log('new');
+        updateTypingIsFalse(chatUID, currentUserUID);
+        myTypingTimeoutRef.current = null;
+      }, 3000);
+
+      if (myTypingTimeoutRef.current) {
+        console.log('clear', myTypingTimeoutRef.current);
+        clearTimeout(myTypingTimeoutRef.current);
+      }
+
+      myTypingTimeoutRef.current = newTypingTimeout;
+    }
+  }, [chatUID, currentUserUID, message, userUID]);
 
   const handleCancelEditingMessage = () => {
     resetEditingMessage();

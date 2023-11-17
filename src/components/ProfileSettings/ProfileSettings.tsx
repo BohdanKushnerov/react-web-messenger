@@ -195,7 +195,10 @@ const ProfileSettings = () => {
           ref={photoProfileInputRef}
           onChange={handleChooseProfilePhoto}
         />
-        <div className="relative cursor-pointer" onClick={handleImageClick}>
+        <div
+          className="relative group rounded-full cursor-pointer"
+          onClick={handleImageClick}
+        >
           {auth.currentUser?.photoURL && auth.currentUser.displayName ? (
             <>
               <img
@@ -206,7 +209,7 @@ const ProfileSettings = () => {
                 alt={auth.currentUser?.displayName}
               />
               <svg
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hover:scale-105 fill-white"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-105 fill-white"
                 width={48}
                 height={48}
               >
