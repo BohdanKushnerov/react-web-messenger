@@ -1,73 +1,36 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
-  DocumentData,
+  // DocumentData,
   collection,
-  doc,
+  // doc,
   onSnapshot,
   query,
   where,
 } from 'firebase/firestore';
-import { onValue, ref } from 'firebase/database';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import { database, db } from '@myfirebase/config';
+import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
 import truncateLastMessageString from '@utils/truncateLastMessageString';
 import handleSelectChat from '@utils/handleSelectChat';
 import { IChatListItemProps } from '@interfaces/IChatListItemProps';
 import sprite from '@assets/sprite.svg';
+import useChatInfo from '@hooks/useChatInfo';
 
 const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
-  const [userInfo, setUserInfo] = useState<DocumentData | null>(null);
-  const [isOnline, setIsOnline] = useState<boolean | null>(null);
   const [lengthOfMyUnreadMsgs, setLengthOfMyUnreadMsgs] = useState<number>(0);
   const [isReadMyLastMessage, setIsReadMyLastMessage] = useState(true);
   const location = useLocation();
 
   const { uid } = useChatStore(state => state.currentUser);
-
   const { chatUID } = useChatStore(state => state.currentChatInfo);
   const updateCurrentChatInfo = useChatStore(
     state => state.updateCurrentChatInfo
   );
-
-  // обновляет инфо о текущем юзере в списке чата
-  useEffect(() => {
-    const unsubUserInfoData = onSnapshot(
-      doc(db, 'users', chatInfo[1].userUID),
-      doc => {
-        const data = doc.data();
-        if (data) {
-          // console.log(data);
-          setUserInfo(data);
-        }
-      }
-    );
-
-    return () => {
-      unsubUserInfoData();
-    };
-  }, [chatInfo]);
-
-  // следим за состоянием онлайн/офлайн
-  useEffect(() => {
-    const dbRef = ref(database, 'status/' + chatInfo[1].userUID);
-
-    // Устанавливаем слушатель для данных
-    const unsubOnlineStatus = onValue(dbRef, snapshot => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        setIsOnline(data);
-      } else {
-        setIsOnline(false);
-      }
-    });
-
-    return () => {
-      unsubOnlineStatus();
-    };
-  }, [chatInfo]);
+  const isOnline = useIsOnlineStatus(chatInfo[1].userUID); // следим за состоянием онлайн/офлайн
+  const userInfo = useChatInfo(chatInfo[1].userUID); // обновляет инфо о текущем юзере в списке чата
 
   // следим за количеством непрочитаных сообщений в ChatItem
   useEffect(() => {

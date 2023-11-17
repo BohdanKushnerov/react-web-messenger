@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-function useCloseModal(callback: () => void) {
+const useCloseModal = (callback: () => void) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.code === 'Escape') {

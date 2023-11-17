@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
-import { onValue, ref } from 'firebase/database';
+import { doc, onSnapshot } from 'firebase/firestore';
+// import { onValue, ref } from 'firebase/database';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import { database, db } from '@myfirebase/config';
+import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
+import useChatInfo from '@hooks/useChatInfo';
 import { IChatHeaderProps } from '@interfaces/IChatHeaderProps';
 import sprite from '@assets/sprite.svg';
 
@@ -13,51 +15,14 @@ const ChatHeader = ({
   handleClickBackToSidebarScreen,
   setIsShowSearchMessages,
 }: IChatHeaderProps) => {
-  const [currentChatInfo, setCurrentChatInfo] = useState<DocumentData | null>(
-    null
-  );
-  const [isOnline, setIsOnline] = useState<boolean | null>(null);
   const [isOpponentTyping, setIsOpponentTyping] = useState(false);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
+  const isOnline = useIsOnlineStatus(userUID); // следим за состоянием онлайн/офлайн
+  const currentChatInfo = useChatInfo(userUID); // обновляет инфо о текущем юзере при монтировании нового чата
 
   // console.log('screen --> ChatHeader');
-
-  // обновляет инфо о текущем юзере при монтировании нового чата
-  useEffect(() => {
-    if (!userUID) return;
-    const unsubCurrentChatData = onSnapshot(doc(db, 'users', userUID), doc => {
-      const data = doc.data();
-      if (data) {
-        setCurrentChatInfo(data);
-      }
-    });
-
-    return () => {
-      unsubCurrentChatData();
-    };
-  }, [userUID]);
-
-  // следим за состоянием онлайн/офлайн
-  useEffect(() => {
-    if (!userUID) return;
-    const dbRef = ref(database, 'status/' + userUID);
-
-    // Устанавливаем слушатель для данных
-    const unsubOnlineStatus = onValue(dbRef, snapshot => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        setIsOnline(data);
-      } else {
-        setIsOnline(false);
-      }
-    });
-
-    return () => {
-      unsubOnlineStatus();
-    };
-  }, [userUID]);
 
   // тут слушатель на изменения печатает/не печатает
   useEffect(() => {
