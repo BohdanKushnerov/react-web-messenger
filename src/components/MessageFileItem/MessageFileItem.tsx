@@ -36,12 +36,12 @@ const FileItem = ({ file }: IMessageFileItemProps) => {
   }, [file]);
 
   return (
-    <p className="flex gap-8 items-center h-12">
+    <p className="flex gap-1 items-center h-auto w-full sm:w-40 md:w-full">
       <span className="w-10 h-10">
         <FileIcon extension={fileType} {...defaultStyles[fileType]} />
       </span>
-      <span className="text-black dark:text-white w-40">{file.name}</span>
-      <a target="blank" href={link}>
+      <span className="text-black dark:text-white w-full">{file.name}</span>
+      <a className="w-10" target="blank" href={link}>
         Link
       </a>
     </p>

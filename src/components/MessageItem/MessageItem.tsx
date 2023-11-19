@@ -4,11 +4,8 @@ import MessageFileItem from '@components/MessageFileItem/MessageFileItem';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import formatTime from '@utils/formatTime';
+import { IMessageItemProps } from '@interfaces/IMessageItemProps';
 import sprite from '@assets/sprite.svg';
-
-interface IMessageItemProps {
-  msg: DocumentData;
-}
 
 const MessageItem = ({ msg }: IMessageItemProps) => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
@@ -45,13 +42,19 @@ const MessageItem = ({ msg }: IMessageItemProps) => {
       }`}
     >
       <div
-        className={`flex flex-col py-2 px-4 rounded-xl max-w-sm ${
+        className={`flex flex-col py-2 px-4 rounded-xl ${
+          msg.data().file?.length === 1 ? 'max-w-md' : 'max-w-sm'
+        }  ${
           myUID
             ? 'bg-emerald-400 dark:bg-cyan-600 rounded-br-none'
             : 'bg-zinc-100 dark:bg-green-600 rounded-bl-none'
         } shadow-secondaryShadow`}
       >
-        <div className="flex flex-wrap gap-0.5 max-w-xs">
+        <div
+          className={`flex flex-wrap sm:justify-center md:justify-normal gap-0.5 ${
+            msg.data().file?.length === 1 ? 'max-w-md' : 'max-w-xs'
+          }`}
+        >
           {msg.data().file &&
             msg.data().file.map(
               (
@@ -59,40 +62,66 @@ const MessageItem = ({ msg }: IMessageItemProps) => {
                   url: string;
                   name: string;
                   type: string;
-                  width?: number;
-                  height?: number;
+                  // уже есть ширина и высота на сервере
+                  // width?: number;
+                  // height?: number;
                 },
                 index: number
               ) => {
-                return file.type === 'image/png' ||
+                if (
+                  file.type === 'image/png' ||
                   file.type === 'image/jpeg' ||
-                  file.type === 'image/webp' ? (
-                  <img
-                    key={index}
-                    src={file.url}
-                    alt={file.type}
-                    style={{
-                      width: index === 0 ? 320 : 159,
-                      height: 'auto',
-                      maxHeight: index === 0 ? 320 : 159,
-                      objectFit: 'cover',
-                      borderRadius: 6,
-                    }}
-                    loading="lazy"
-                  />
-                ) : (
-                  <MessageFileItem key={index} file={file} />
-                );
+                  file.type === 'image/webp'
+                ) {
+                  if (msg.data().file.length === 1) {
+                    return (
+                      <img
+                        key={index}
+                        src={file.url}
+                        alt={file.type}
+                        style={{
+                          width: 448,
+                          height: 'auto',
+                          maxHeight: 400,
+                          objectFit: 'cover',
+                          borderRadius: 6,
+                        }}
+                        loading="lazy"
+                      />
+                    );
+                  } else {
+                    return (
+                      <img
+                        key={index}
+                        src={file.url}
+                        alt={file.type}
+                        style={{
+                          width: index === 0 ? 320 : 159,
+                          height: 'auto',
+                          maxHeight: index === 0 ? 320 : 159,
+                          objectFit: 'cover',
+                          borderRadius: 6,
+                        }}
+                        loading="lazy"
+                      />
+                    );
+                  }
+                } else {
+                  return <MessageFileItem key={index} file={file} />;
+                }
               }
             )}
         </div>
+        {/* message */}
         <p className="w-full break-all text-black dark:text-white">
           {msg.data().message}
         </p>
+        {/* date + read/unread */}
         <div className="w-full flex justify-end items-center gap-2">
           <p className="text-zinc-600 dark:text-white">
             {msg.data().date && formatTime(msg.data().date.toDate().toString())}
           </p>
+          {/* read/unread */}
           <p>
             {msg.data().isRead ? (
               <svg
@@ -114,6 +143,7 @@ const MessageItem = ({ msg }: IMessageItemProps) => {
           </p>
         </div>
       </div>
+      {/* triangle */}
       <svg
         className={`absolute ${
           myUID
