@@ -1,5 +1,5 @@
-import useChatStore from '@zustand/store';
 import { Search } from '../Inputs/Search/Search';
+import useChatStore from '@zustand/store';
 
 const SearchUsers = () => {
   const searchValue = useChatStore(state => state.searchValue);

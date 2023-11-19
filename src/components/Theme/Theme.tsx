@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 
 const Theme = () => {
   const [isLightTheme, setIsLightTheme] = useState(() => {
-    // console.log(localStorage.getItem('theme'));
-    // console.log(localStorage.getItem('theme') === 'light');
     return localStorage.getItem('theme') === 'light';
   });
 

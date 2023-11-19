@@ -1,0 +1,1 @@
+export type FileFromStorage = { url: string; name: string; type: string }

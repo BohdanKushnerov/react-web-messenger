@@ -13,8 +13,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import ButtonCloseModal from '@components/Buttons/ButtonCloseModal/ButtonCloseModal';
-import useChatStore from '@zustand/store';
 import { auth, db, storage } from '@myfirebase/config';
+import useChatStore from '@zustand/store';
 import sprite from '@assets/sprite.svg';
 
 const ProfileSettings = () => {
@@ -91,11 +91,6 @@ const ProfileSettings = () => {
 
           const storageRef = ref(
             storage,
-            `${file.type}/${uid}/${uuidv4()}-${file.name}`
-          );
-
-          console.log(
-            'storageRef',
             `${file.type}/${uid}/${uuidv4()}-${file.name}`
           );
 

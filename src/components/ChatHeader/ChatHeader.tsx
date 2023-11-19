@@ -1,12 +1,8 @@
-import { useEffect, useState } from 'react';
-import { doc, onSnapshot } from 'firebase/firestore';
-// import { onValue, ref } from 'firebase/database';
-
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
 import useChatInfo from '@hooks/useChatInfo';
+import useShowTyping from '@hooks/useShowTyping';
 import { IChatHeaderProps } from '@interfaces/IChatHeaderProps';
 import sprite from '@assets/sprite.svg';
 
@@ -15,48 +11,13 @@ const ChatHeader = ({
   handleClickBackToSidebarScreen,
   setIsShowSearchMessages,
 }: IChatHeaderProps) => {
-  const [isOpponentTyping, setIsOpponentTyping] = useState(false);
+  const userUID = useChatStore(state => state.currentChatInfo.userUID);
 
-  const currentUserUID = useChatStore(state => state.currentUser.uid);
-  const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
-  const isOnline = useIsOnlineStatus(userUID); // следим за состоянием онлайн/офлайн
+  const isOpponentTyping = useShowTyping(); // тут слушатель на изменения печатает/не печатает
   const currentChatInfo = useChatInfo(userUID); // обновляет инфо о текущем юзере при монтировании нового чата
+  const isOnline = useIsOnlineStatus(userUID); // следим за состоянием онлайн/офлайн
 
   // console.log('screen --> ChatHeader');
-
-  // тут слушатель на изменения печатает/не печатает
-  useEffect(() => {
-    if (!chatUID || !userUID) {
-      return;
-    }
-
-    const chatDocRef = doc(db, 'chats', chatUID);
-
-    const unsubOponentTypingStatus = onSnapshot(
-      chatDocRef,
-      docSnapshot => {
-        if (docSnapshot.exists()) {
-          const chatData = docSnapshot.data();
-
-          // тут проверка, потому что когда создал чат ты первый то у тебя еще нету его обьекта,
-          // он появиться когда он начнет перчатать
-          if (
-            chatData[userUID]?.isTyping === false ||
-            chatData[userUID]?.isTyping === true
-          ) {
-            setIsOpponentTyping(chatData[userUID].isTyping);
-          }
-        }
-      },
-      error => {
-        console.error('error listener of isTyping:', error);
-      }
-    );
-
-    return () => {
-      unsubOponentTypingStatus();
-    };
-  }, [chatUID, currentUserUID, userUID]);
 
   const handleClickShowSearchMessages = () => {
     setIsShowSearchMessages(true);

@@ -9,8 +9,8 @@ import {
   query,
   updateDoc,
 } from 'firebase/firestore';
-import { Scrollbars } from 'react-custom-scrollbars-2';
 import { deleteObject, ref } from 'firebase/storage';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
 

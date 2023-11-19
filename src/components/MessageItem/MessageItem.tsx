@@ -1,37 +1,14 @@
-import { DocumentData, Firestore, doc, updateDoc } from 'firebase/firestore';
-
 import MessageFileItem from '@components/MessageFileItem/MessageFileItem';
-import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import useMakeReadMsg from '@hooks/useMakeReadMsg';
 import formatTime from '@utils/formatTime';
 import { IMessageItemProps } from '@interfaces/IMessageItemProps';
 import sprite from '@assets/sprite.svg';
 
 const MessageItem = ({ msg }: IMessageItemProps) => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
-  const { chatUID } = useChatStore(state => state.currentChatInfo);
 
-  const makeReadMes = async (
-    db: Firestore,
-    chatUID: string,
-    msg: DocumentData
-  ) => {
-    if (chatUID === null) {
-      return;
-    }
-
-    updateDoc(doc(db, 'chats', chatUID, 'messages', `${msg}`), {
-      ['isRead']: true,
-    });
-  };
-
-  if (
-    msg.data().senderUserID !== currentUserUID &&
-    !msg.data().isRead &&
-    chatUID
-  ) {
-    makeReadMes(db, chatUID, msg.id);
-  }
+  useMakeReadMsg(msg); // делает при монтировании чата прочитаные мои сообщения
 
   const myUID = currentUserUID === msg.data().senderUserID;
 

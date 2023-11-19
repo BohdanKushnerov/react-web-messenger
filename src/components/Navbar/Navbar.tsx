@@ -4,10 +4,10 @@ import { Transition } from 'react-transition-group';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
+import Theme from '@components/Theme/Theme';
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import sprite from '@assets/sprite.svg';
-import Theme from '@components/Theme/Theme';
 
 const Navbar = () => {
   const [isModalOpen, setIsModelOpen] = useState(false);
@@ -22,8 +22,7 @@ const Navbar = () => {
   const handleSignOut = async () => {
     resetCurrentChatInfo();
 
-    const exit = await signOut(auth);
-    console.log('exit', exit);
+    await signOut(auth);
   };
 
   const handleToggleModal = () => {

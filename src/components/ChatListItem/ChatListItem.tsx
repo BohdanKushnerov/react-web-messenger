@@ -1,29 +1,20 @@
-import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import {
-  // DocumentData,
-  collection,
-  // doc,
-  onSnapshot,
-  query,
-  where,
-} from 'firebase/firestore';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import useChatInfo from '@hooks/useChatInfo';
 import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
+import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
+import useIsReadMyLastMessage from '@hooks/useIsReadMyLastMessage';
 import truncateLastMessageString from '@utils/truncateLastMessageString';
 import handleSelectChat from '@utils/handleSelectChat';
 import { IChatListItemProps } from '@interfaces/IChatListItemProps';
 import sprite from '@assets/sprite.svg';
-import useChatInfo from '@hooks/useChatInfo';
 
 const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
-  const [lengthOfMyUnreadMsgs, setLengthOfMyUnreadMsgs] = useState<number>(0);
-  const [isReadMyLastMessage, setIsReadMyLastMessage] = useState(true);
   const location = useLocation();
 
+  // zustand
   const { uid } = useChatStore(state => state.currentUser);
   const { chatUID } = useChatStore(state => state.currentChatInfo);
   const updateCurrentChatInfo = useChatStore(
@@ -33,50 +24,10 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
 
   const isOnline = useIsOnlineStatus(chatInfo[1].userUID); // следим за состоянием онлайн/офлайн
   const userInfo = useChatInfo(chatInfo[1].userUID); // обновляет инфо о текущем юзере в списке чата
-
+  const lengthOfMyUnreadMsgs = useLengthOfMyUnreadMsgs(chatInfo); // следим за количеством моих непрочитаных сообщений в ChatItem
+  const isReadMyLastMessage = useIsReadMyLastMessage(chatInfo); // прочитаное мое последнее сообщение или нет
+  
   // console.log('screen --> ChatListItem');
-
-  // следим за количеством непрочитаных сообщений в ChatItem
-  useEffect(() => {
-    const q = query(
-      collection(db, `chats/${chatInfo[0]}/messages`),
-      where('isRead', '==', false),
-      where('senderUserID', '!=', uid)
-    );
-
-    const unsubMyUnreadMsgs = onSnapshot(q, querySnapshot => {
-      if (querySnapshot.docs) {
-        setLengthOfMyUnreadMsgs(querySnapshot.docs.length);
-      }
-    });
-
-    return () => {
-      unsubMyUnreadMsgs();
-    };
-  }, [chatInfo, uid]);
-
-  useEffect(() => {
-    if (!chatInfo[0] || !uid) return;
-
-    const q = query(
-      collection(db, `chats/${chatInfo[0]}/messages`),
-      where('isRead', '==', false),
-      where('senderUserID', '==', uid)
-    );
-
-    const unSub = onSnapshot(q, querySnapshot => {
-      if (querySnapshot.docs.length > 0) {
-        // setLengthOfUnReadMsgs(querySnapshot.docs.length);
-        setIsReadMyLastMessage(false);
-      } else {
-        setIsReadMyLastMessage(true);
-      }
-    });
-
-    return () => {
-      unSub();
-    };
-  }, [chatInfo, uid]);
 
   const handleManageSelectChat = () => {
     handleSelectChat(chatInfo, updateCurrentChatInfo);
