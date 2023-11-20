@@ -1,32 +1,12 @@
-import { useEffect, useState } from 'react';
+import useTheme from '@hooks/useTheme';
+import {  useState } from 'react';
 
 const Theme = () => {
   const [isLightTheme, setIsLightTheme] = useState(() => {
     return localStorage.getItem('theme') === 'light';
   });
-
-  useEffect(() => {
-    function setDarkTheme() {
-      document.documentElement.classList.add('dark');
-      localStorage.theme = 'dark';
-    }
-
-    function setLightTheme() {
-      document.documentElement.classList.remove('dark');
-      localStorage.theme = 'light';
-    }
-
-    const lightThemeEl = document.querySelector('#light-theme-switcher')!;
-    const darkThemeEl = document.querySelector('#dark-theme-switcher')!;
-
-    lightThemeEl.addEventListener('click', setLightTheme);
-    darkThemeEl.addEventListener('click', setDarkTheme);
-
-    return () => {
-      lightThemeEl.removeEventListener('click', setLightTheme);
-      darkThemeEl.removeEventListener('click', setDarkTheme);
-    };
-  }, []);
+  
+  useTheme(); // хук следик за кликом на темы
 
   const handleChangeTheme = () => {
     setIsLightTheme(prev => !prev);

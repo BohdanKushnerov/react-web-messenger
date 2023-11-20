@@ -16,6 +16,7 @@ import ButtonCloseModal from '@components/Buttons/ButtonCloseModal/ButtonCloseMo
 import { auth, db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import sprite from '@assets/sprite.svg';
+import handleClickChangeDisplayName from '@utils/handleClickChangeDisplayName';
 
 const ProfileSettings = () => {
   const [newDisplayName, setNewDisplayName] = useState(
@@ -32,7 +33,8 @@ const ProfileSettings = () => {
   );
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
   const updateSidebarScreen = useChatStore(state => state.updateSidebarScreen);
-  // const userUID = useChatStore(state => state.curr);
+
+  console.log('screen --> ProfileSettings');
 
   const handleClickTurnBackToDefaultScreen = () => {
     updateSidebarScreen('default');
@@ -40,27 +42,6 @@ const ProfileSettings = () => {
 
   const handleChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewDisplayName(e.target.value);
-  };
-
-  const handleClickChangeDisplayName = async (name: string) => {
-    if (auth.currentUser && uid) {
-      await updateProfile(auth.currentUser, {
-        displayName: name,
-      })
-        .then(() => {
-          console.log('Profile updated!');
-          updateCurrentUser(auth.currentUser);
-        })
-        .catch(error => {
-          // An error occurred
-          console.log('handleClickChangeDisplayName error', error);
-        });
-
-      // обновить имя в клауде
-      await updateDoc(doc(db, 'users', uid), {
-        displayName: name,
-      });
-    }
   };
 
   const handleToggleProfilePhotoModal = () => {
@@ -254,7 +235,7 @@ const ProfileSettings = () => {
                   ? 'bg-transparent border-zinc-400 text-zinc-400'
                   : 'text-black bg-transparent border-black'
               } hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800 cursor-pointer`}
-              onClick={() => handleClickChangeDisplayName(newDisplayName)}
+              onClick={() => handleClickChangeDisplayName(newDisplayName, uid)}
               disabled={displayName === newDisplayName}
             >
               Change your name

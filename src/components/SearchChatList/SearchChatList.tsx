@@ -1,63 +1,32 @@
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 import {
   DocumentData,
-  QuerySnapshot,
-  collection,
-  getDocs,
-  query,
-  where,
+  // QuerySnapshot,
+  // collection,
+  // getDocs,
+  // query,
+  // where,
 } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import { db } from '@myfirebase/config';
+// import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import capitalizeName from '@utils/capitalizeFirstLetterName';
+import useSearchUsers from '@hooks/useSearchUsers';
+// import capitalizeName from '@utils/capitalizeFirstLetterName';
 import handleCreateChat from '@utils/handleCreateChat';
 import { IChatListProps } from '@interfaces/IChatListProps';
 
 const SearchChatList = ({ setScreen }: IChatListProps) => {
-  const [searchChatList, setSearchChatList] = useState<QuerySnapshot<
-    DocumentData,
-    DocumentData
-  > | null>(null);
   const navigate = useNavigate();
 
-  const searchValue = useChatStore(state => state.searchValue);
   const updateSearchValue = useChatStore(state => state.updateSearchValue);
   const currentUser = useChatStore(state => state.currentUser);
   const updateCurrentChatInfo = useChatStore(
     state => state.updateCurrentChatInfo
   );
 
-  // юзефект для поиска контактов(юзеров) в поисковой строке
-  useEffect(() => {
-    const fetchSearchUsers = async () => {
-      if (searchValue.trim() === '') {
-        setSearchChatList(null);
-        return;
-      }
-
-      const queryName = capitalizeName(searchValue).trim();
-
-      const usersRef = collection(db, 'users');
-      const q = query(
-        usersRef,
-        where('displayName', '>=', queryName),
-        where('displayName', '<=', queryName + '\uf8ff')
-      );
-
-      try {
-        const querySnapshot = await getDocs(q);
-
-        setSearchChatList(querySnapshot);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchSearchUsers();
-  }, [searchValue]);
+  const { searchChatList, setSearchChatList } = useSearchUsers(); // поиск контактов(юзеров) в поисковой строке
 
   const handleManageCreateChat = (docData: DocumentData) => {
     handleCreateChat(docData, updateCurrentChatInfo, navigate);
@@ -76,7 +45,7 @@ const SearchChatList = ({ setScreen }: IChatListProps) => {
         {/* тут список юзеров в поиске */}
         {searchChatList &&
           searchChatList.docs.map(doc => {
-            console.log('chatList search doc', doc.data());
+            // console.log('chatList search doc', doc.data());
             // фильтруем себя
             if (doc.data().uid === currentUser.uid) return;
 
@@ -102,6 +71,6 @@ const SearchChatList = ({ setScreen }: IChatListProps) => {
       </ul>
     </div>
   );
-}
+};
 
 export default SearchChatList;
