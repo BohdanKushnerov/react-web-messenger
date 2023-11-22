@@ -1,9 +1,9 @@
+import { FC } from 'react';
 import { Line } from 'rc-progress';
 
 import { IUploadPhotoFileProps } from '@interfaces/IUploadPhotoFileProps';
 
-const UploadPhotoFile = ({ file, status }: IUploadPhotoFileProps) => {
-
+const UploadPhotoFile: FC<IUploadPhotoFileProps> = ({ file, status }) => {
   return (
     <li key={file.name} className="flex justify-between items-center gap-4">
       <div className="flex items-center gap-4">

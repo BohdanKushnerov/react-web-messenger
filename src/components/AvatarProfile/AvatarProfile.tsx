@@ -1,8 +1,13 @@
+import { FC } from 'react';
 import Avatar from 'react-avatar';
 
 import { IAvatarProfileProps } from '@interfaces/IAvatarProfileProps';
 
-const AvatarProfile = ({ photoURL, displayName, size }: IAvatarProfileProps) => {
+const AvatarProfile: FC<IAvatarProfileProps> = ({
+  photoURL,
+  displayName,
+  size,
+}) => {
   return photoURL ? (
     <img
       className="rounded-full shadow-secondaryShadow"
@@ -19,6 +24,6 @@ const AvatarProfile = ({ photoURL, displayName, size }: IAvatarProfileProps) => 
       textSizeRatio={0}
     />
   );
-}
+};
 
 export default AvatarProfile;

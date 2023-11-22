@@ -1,18 +1,22 @@
-import React from 'react';
+import { FC } from 'react';
 
 import ChatListItem from '@components/ChatListItem/ChatListItem';
 import useMyUserChatList from '@hooks/useMyUserChatList';
 import { IChatListProps } from '@interfaces/IChatListProps';
-import { TChatListItem } from 'types/TChatListItem';
+import { ChatListItemType } from 'types/ChatListItemType';
 
-const ChatList = React.memo(({ setScreen }: IChatListProps) => {
+const ChatList: FC<IChatListProps> = ({ setScreen }) => {
   const myUserChatList = useMyUserChatList(); // загрузка списка моих чатов
+
+  console.log('screen --> ChatList');
+
+  console.log(myUserChatList);
 
   return (
     <div>
       <ul className="p-0 m-0">
         {myUserChatList &&
-          myUserChatList.map((chatInfo: TChatListItem) => (
+          myUserChatList.map((chatInfo: ChatListItemType) => (
             <ChatListItem
               key={chatInfo[0]}
               chatInfo={chatInfo}
@@ -22,6 +26,6 @@ const ChatList = React.memo(({ setScreen }: IChatListProps) => {
       </ul>
     </div>
   );
-});
+};
 
 export default ChatList;

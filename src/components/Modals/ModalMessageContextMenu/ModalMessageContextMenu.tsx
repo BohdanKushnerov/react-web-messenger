@@ -1,11 +1,13 @@
+import { FC } from 'react';
+
 import useCloseModal from '@hooks/useCloseModal';
 import { IModalMessageContextMenuProps } from '@interfaces/IModalMessageContextMenuProps';
 
-const MessageContextMenuModal = ({
+const MessageContextMenuModal: FC<IModalMessageContextMenuProps> = ({
   closeModal,
   modalPosition,
   children,
-}: IModalMessageContextMenuProps) => {
+}) => {
   useCloseModal(closeModal);
 
   return (

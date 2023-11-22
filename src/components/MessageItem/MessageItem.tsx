@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import MessageFileItem from '@components/MessageFileItem/MessageFileItem';
 import useChatStore from '@zustand/store';
 import useMakeReadMsg from '@hooks/useMakeReadMsg';
@@ -5,7 +7,7 @@ import formatTime from '@utils/formatTime';
 import { IMessageItemProps } from '@interfaces/IMessageItemProps';
 import sprite from '@assets/sprite.svg';
 
-const MessageItem = ({ msg }: IMessageItemProps) => {
+const MessageItem: FC<IMessageItemProps> = ({ msg }) => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 
   useMakeReadMsg(msg); // делает при монтировании чата прочитаные мои сообщения

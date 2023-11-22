@@ -1,7 +1,9 @@
-import { Search } from '../Inputs/Search/Search';
+import { FC } from 'react';
+
+import Search from '../Inputs/Search/Search';
 import useChatStore from '@zustand/store';
 
-const SearchUsers = () => {
+const SearchUsers: FC = () => {
   const searchValue = useChatStore(state => state.searchValue);
   const updateSearchValue = useChatStore(state => state.updateSearchValue);
 
@@ -10,6 +12,6 @@ const SearchUsers = () => {
   };
 
   return <Search value={searchValue} handleChange={handleChangeSearchValue} />;
-}
+};
 
 export default SearchUsers;

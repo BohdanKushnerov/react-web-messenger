@@ -1,11 +1,12 @@
-import useTheme from '@hooks/useTheme';
-import {  useState } from 'react';
+import { FC, useState } from 'react';
 
-const Theme = () => {
+import useTheme from '@hooks/useTheme';
+
+const Theme: FC = () => {
   const [isLightTheme, setIsLightTheme] = useState(() => {
     return localStorage.getItem('theme') === 'light';
   });
-  
+
   useTheme(); // хук следик за кликом на темы
 
   const handleChangeTheme = () => {

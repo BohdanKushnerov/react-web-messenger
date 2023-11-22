@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { ConfirmationResult, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { E164Number } from 'libphonenumber-js';
@@ -9,10 +9,10 @@ import { auth, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleSubmitVerifyCode from './utils/handleSubmitVerifyCodeVerifyCode';
 import setUpRecaptcha from './utils/setUpRecaptcha';
-import { TAuthSteps } from 'types/TAuthSteps';
+import { AuthSteps } from 'types/AuthSteps';
 
-const Auth = () => {
-  const [step, setStep] = useState<TAuthSteps>('Step 1/3');
+const Auth: FC = () => {
+  const [step, setStep] = useState<AuthSteps>('Step 1/3');
   const [phone, setPhone] = useState<E164Number | string>('16505553435');
   const [code, setCode] = useState('');
   const [name, setName] = useState('');

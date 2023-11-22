@@ -1,6 +1,5 @@
 import {
   DocumentData,
-  // QuerySnapshot,
   doc,
   getDoc,
   serverTimestamp,
@@ -11,14 +10,13 @@ import { NavigateFunction } from 'react-router-dom';
 
 import { auth, db } from '@myfirebase/config';
 import handleSelectChat from '@utils/handleSelectChat';
-import { TChatListItem } from 'types/TChatListItem';
-// import { TScreen } from 'types/TScreen';
+import { ChatListItemType } from 'types/ChatListItemType';
 
 // создаем общий ИД для общего чата + обновляем списки чатов у 2их юзеров(1. я как текущий и 2. тот которого выбрал)
 const handleCreateChat = async (
   user: DocumentData,
-  updateCurrentChatInfo: (chat: TChatListItem) => void,
-  navigate: NavigateFunction,
+  updateCurrentChatInfo: (chat: ChatListItemType) => void,
+  navigate: NavigateFunction
 ) => {
   // выйдем если не авторизирован
   if (!auth?.currentUser?.uid) return;
@@ -60,7 +58,7 @@ const handleCreateChat = async (
     // делаем селект чат чтобы он открылся сразу
     const newResponse = await getDoc(doc(db, 'userChats', currentUserUID));
 
-    const chatItem: TChatListItem = [
+    const chatItem: ChatListItemType = [
       combinedUsersChatID,
       {
         lastMessage: newResponse.data()?.[combinedUsersChatID].lastMessage,
@@ -71,7 +69,6 @@ const handleCreateChat = async (
 
     handleSelectChat(chatItem, updateCurrentChatInfo);
     navigate(combinedUsersChatID);
-
   } catch (error) {
     console.log('error handleCreateChat', error);
   }

@@ -1,9 +1,10 @@
+import { FC } from 'react';
 import { DefaultExtensionType, FileIcon, defaultStyles } from 'react-file-icon';
 
 import { IMessageFileItemProps } from '@interfaces/IMessageFileItemProps';
 import { useFileLinkFromStorage } from '@hooks/useFileLinkFromStorage';
 
-const FileItem = ({ file }: IMessageFileItemProps) => {
+const FileItem: FC<IMessageFileItemProps> = ({ file }) => {
   const storageLink = useFileLinkFromStorage(file); // получения ссилки на файл
 
   const fileType: DefaultExtensionType =

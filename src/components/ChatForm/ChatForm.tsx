@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 
 import FileInput from '@components/Inputs/FileInput/FileInput';
 import Emoji from '@components/Emoji/Emoji';
@@ -9,7 +9,7 @@ import handleUpdateEditMessage from '@utils/handleUpdateEditMessage';
 import handleSendMessage from '@utils/handleSendMessage';
 import sprite from '@assets/sprite.svg';
 
-const ChatForm = () => {
+const ChatForm: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const myTypingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 

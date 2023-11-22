@@ -1,9 +1,8 @@
-import { TChatListItem } from "types/TChatListItem";
-// import { TScreen } from "types/TScreen";
+import { ChatListItemType } from 'types/ChatListItemType';
 
 const handleSelectChat = (
-  chat: TChatListItem,
-  updateCurrentChatInfo: (chat: TChatListItem) => void,
+  chat: ChatListItemType,
+  updateCurrentChatInfo: (chat: ChatListItemType) => void
 ) => {
   updateCurrentChatInfo(chat);
 };

@@ -1,12 +1,12 @@
 import { ConfirmationResult } from 'firebase/auth';
 
-import { TStepsAuth } from 'types/TStepsAuth';
+import { StepsAuth } from 'types/StepsAuth';
 
 const handleSubmitVerifyCode = async (
   e: React.FormEvent,
   confirmationResult: ConfirmationResult | null,
   code: string,
-  setStep: React.Dispatch<React.SetStateAction<TStepsAuth>>
+  setStep: React.Dispatch<React.SetStateAction<StepsAuth>>
 ) => {
   e.preventDefault();
 

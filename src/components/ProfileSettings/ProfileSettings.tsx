@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import Avatar from 'react-avatar';
 import { doc, updateDoc } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
@@ -18,7 +18,7 @@ import useChatStore from '@zustand/store';
 import sprite from '@assets/sprite.svg';
 import handleClickChangeDisplayName from '@utils/handleClickChangeDisplayName';
 
-const ProfileSettings = () => {
+const ProfileSettings: FC = () => {
   const [newDisplayName, setNewDisplayName] = useState(
     () => auth.currentUser?.displayName
   );

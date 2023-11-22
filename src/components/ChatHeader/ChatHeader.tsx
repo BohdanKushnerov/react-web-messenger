@@ -1,23 +1,14 @@
-import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import useChatStore from '@zustand/store';
-import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
-import useChatInfo from '@hooks/useChatInfo';
-import useShowTyping from '@hooks/useShowTyping';
+import { FC } from 'react';
+import ChatHeaderOponentInfo from '@components/ChatHeaderOponentInfo/ChatHeaderOponentInfo';
 import { IChatHeaderProps } from '@interfaces/IChatHeaderProps';
 import sprite from '@assets/sprite.svg';
 
-const ChatHeader = ({
+const ChatHeader: FC<IChatHeaderProps> = ({
   setScreen,
   handleClickBackToSidebarScreen,
   setIsShowSearchMessages,
-}: IChatHeaderProps) => {
-  const userUID = useChatStore(state => state.currentChatInfo.userUID);
-
-  const isOpponentTyping = useShowTyping(); // тут слушатель на изменения печатает/не печатает
-  const currentChatInfo = useChatInfo(userUID); // обновляет инфо о текущем юзере при монтировании нового чата
-  const isOnline = useIsOnlineStatus(userUID); // следим за состоянием онлайн/офлайн
-
-  // console.log('screen --> ChatHeader');
+}) => {
+  console.log('screen --> ChatHeader');
 
   const handleClickShowSearchMessages = () => {
     setIsShowSearchMessages(true);
@@ -39,22 +30,8 @@ const ChatHeader = ({
           </svg>
         </button>
       )}
-      <AvatarProfile
-        photoURL={currentChatInfo?.photoURL}
-        displayName={currentChatInfo?.displayName}
-        size="40"
-      />
-      <p className="font-bold text-zinc-800 dark:text-textSecondary">
-        {currentChatInfo?.displayName}
-      </p>
 
-      {isOpponentTyping ? (
-        <h2 className="text-black dark:text-white">typing...</h2>
-      ) : (
-        <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
-          {isOnline ? 'Online' : 'Offline'}
-        </div>
-      )}
+      <ChatHeaderOponentInfo />
 
       <button className="ml-auto" onClick={handleClickShowSearchMessages}>
         <svg

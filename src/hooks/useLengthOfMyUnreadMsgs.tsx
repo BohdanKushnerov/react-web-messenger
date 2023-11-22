@@ -3,9 +3,9 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import { TChatListItem } from 'types/TChatListItem';
+import { ChatListItemType } from 'types/ChatListItemType';
 
-const useLengthOfMyUnreadMsgs = (chatInfo: TChatListItem) => {
+const useLengthOfMyUnreadMsgs = (chatInfo: ChatListItemType) => {
   const [lengthOfMyUnreadMsgs, setLengthOfMyUnreadMsgs] = useState<number>(0);
 
   const { uid } = useChatStore(state => state.currentUser);

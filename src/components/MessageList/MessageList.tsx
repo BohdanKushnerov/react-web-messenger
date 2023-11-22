@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, FC } from 'react';
 import {
   DocumentData,
   collection,
@@ -20,7 +20,7 @@ import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import sprite from '@assets/sprite.svg';
 
-const MessageList = () => {
+const MessageList: FC = () => {
   const [messages, setMessages] = useState<DocumentData[] | null>(null);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [selectedItemIndexForOpenModal, setSelectedItemIndexForOpenModal] =

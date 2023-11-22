@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { Transition } from 'react-transition-group';
 
@@ -6,7 +6,7 @@ import useChatStore from '@zustand/store';
 import { IEmoji } from '@interfaces/IEmoji';
 import sprite from '@assets/sprite.svg';
 
-const Emoji = ({ setMessage }: IEmoji) => {
+const Emoji: FC<IEmoji> = ({ setMessage }) => {
   const [isShowEmoji, setIsShowEmoji] = useState(false);
   const [emojiTimeOutId, setEmojiTimeOutId] = useState<NodeJS.Timeout | null>(
     null

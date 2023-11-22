@@ -1,7 +1,9 @@
+import { FC } from 'react';
+
 import { ISearch } from '@interfaces/ISearch';
 import sprite from '@assets/sprite.svg';
 
-export const Search = ({value, handleChange}: ISearch) => {
+const Search: FC<ISearch> = ({ value, handleChange }) => {
   return (
     <div className="relative w-full">
       <input
@@ -21,4 +23,6 @@ export const Search = ({value, handleChange}: ISearch) => {
       </svg>
     </div>
   );
-}
+};
+
+export default Search;

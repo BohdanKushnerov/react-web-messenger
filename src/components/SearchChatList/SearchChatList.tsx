@@ -1,23 +1,14 @@
-// import { useState, useEffect } from 'react';
-import {
-  DocumentData,
-  // QuerySnapshot,
-  // collection,
-  // getDocs,
-  // query,
-  // where,
-} from 'firebase/firestore';
+import { FC } from 'react';
+import { DocumentData } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-// import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import useSearchUsers from '@hooks/useSearchUsers';
-// import capitalizeName from '@utils/capitalizeFirstLetterName';
 import handleCreateChat from '@utils/handleCreateChat';
 import { IChatListProps } from '@interfaces/IChatListProps';
 
-const SearchChatList = ({ setScreen }: IChatListProps) => {
+const SearchChatList: FC<IChatListProps> = ({ setScreen }) => {
   const navigate = useNavigate();
 
   const updateSearchValue = useChatStore(state => state.updateSearchValue);

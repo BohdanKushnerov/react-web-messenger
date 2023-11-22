@@ -1,13 +1,14 @@
-import {  FileIcon, defaultStyles } from 'react-file-icon';
+import { FC } from 'react';
+import { FileIcon, defaultStyles } from 'react-file-icon';
 import { Line } from 'rc-progress';
 
 import { IUploadDocumentFileProps } from '@interfaces/IUploadDocumentFileProps';
 
-const UploadDocumentFile = ({
+const UploadDocumentFile: FC<IUploadDocumentFileProps> = ({
   fileType,
   file,
   status,
-}: IUploadDocumentFileProps) => {
+}) => {
   return (
     <li key={file.name} className="flex justify-between items-center gap-4">
       <div className="flex items-center gap-4">

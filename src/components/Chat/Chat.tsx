@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import MessageList from '@components/MessageList/MessageList';
@@ -8,7 +8,7 @@ import ChatHeader from '../ChatHeader/ChatHeader';
 import useChatStore from '@zustand/store';
 import { IChat } from '@interfaces/IChat';
 
-const Chat = ({ setScreen }: IChat) => {
+const Chat: FC<IChat> = ({ setScreen }) => {
   const [isShowSearchMessages, setIsShowSearchMessages] = useState(false);
   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ const Chat = ({ setScreen }: IChat) => {
     state => state.resetCurrentChatInfo
   );
 
-  // console.log('screen --> Chat');
+  console.log('screen --> Chat');
 
   const handleClickBackToSidebarScreen = () => {
     if (setScreen) {
@@ -55,6 +55,6 @@ const Chat = ({ setScreen }: IChat) => {
       )}
     </>
   );
-}
+};
 
 export default Chat;

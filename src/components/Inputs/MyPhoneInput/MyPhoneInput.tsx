@@ -1,9 +1,10 @@
+import { FC } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
 import { IMyPhoneInputProps } from '@interfaces/IMyPhoneInputProps';
 
-const MyPhoneInput = ({ phone, setPhone }: IMyPhoneInputProps) => {
+const MyPhoneInput: FC<IMyPhoneInputProps> = ({ phone, setPhone }) => {
   const handleChangePhone = (value: string) => {
     setPhone(value);
   };
@@ -30,6 +31,6 @@ const MyPhoneInput = ({ phone, setPhone }: IMyPhoneInputProps) => {
       onChange={handleChangePhone}
     />
   );
-}
+};
 
 export default MyPhoneInput;

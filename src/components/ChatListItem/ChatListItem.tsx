@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
@@ -11,7 +12,7 @@ import handleSelectChat from '@utils/handleSelectChat';
 import { IChatListItemProps } from '@interfaces/IChatListItemProps';
 import sprite from '@assets/sprite.svg';
 
-const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
+const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
   const location = useLocation();
 
   // zustand
@@ -26,7 +27,7 @@ const ChatListItem = ({ chatInfo, setScreen }: IChatListItemProps) => {
   const userInfo = useChatInfo(chatInfo[1].userUID); // обновляет инфо о текущем юзере в списке чата
   const lengthOfMyUnreadMsgs = useLengthOfMyUnreadMsgs(chatInfo); // следим за количеством моих непрочитаных сообщений в ChatItem
   const isReadMyLastMessage = useIsReadMyLastMessage(chatInfo); // прочитаное мое последнее сообщение или нет
-  
+
   // console.log('screen --> ChatListItem');
 
   const handleManageSelectChat = () => {

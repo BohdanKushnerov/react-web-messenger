@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { onDisconnect, ref, set } from 'firebase/database';
@@ -9,14 +9,14 @@ import Sidebar from '@components/Sidebar/Sidebar';
 import { database, db } from '@myfirebase/config';
 import handleSelectChat from '@utils/handleSelectChat';
 import useChatStore from '@zustand/store';
-import { TChatListItem } from 'types/TChatListItem';
-import { TCurrentChatInfo } from 'types/TCurrentChatInfo';
-import { TScreen } from 'types/TScreen';
+import { ChatListItemType } from 'types/ChatListItemType';
+import { CurrentChatInfo } from 'types/CurrentChatInfo';
+import { AppScreenType } from 'types/AppScreenType';
 
-const Home = React.memo(() => {
+const Home = memo(() => {
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [isMobileScreen, setIsMobileScreen] = useState(false);
-  const [screen, setScreen] = useState<TScreen>('Sidebar');
+  const [screen, setScreen] = useState<AppScreenType>('Sidebar');
   const [showSidebar, setShowSidebar] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const Home = React.memo(() => {
     state => state.updateCurrentChatInfo
   );
 
-  // console.log('screen --> Home');
+  console.log('screen --> Home');
 
   useEffect(() => {
     if (screen === 'Sidebar') {
@@ -61,18 +61,18 @@ const Home = React.memo(() => {
     async function isRedirectToCurrentChat(
       currentUserUID: string | null,
       handleSelectChat: (
-        chat: TChatListItem,
-        updateCurrentChatInfo: (chat: TChatListItem) => void
+        chat: ChatListItemType,
+        updateCurrentChatInfo: (chat: ChatListItemType) => void
       ) => void,
-      updateCurrentChatInfo: (chat: TCurrentChatInfo) => void,
-      setScreen: React.Dispatch<React.SetStateAction<TScreen>>
+      updateCurrentChatInfo: (chat: CurrentChatInfo) => void,
+      setScreen: React.Dispatch<React.SetStateAction<AppScreenType>>
     ) {
       const combinedUsersChatUID = localStorage.getItem('currentChatId');
 
       if (combinedUsersChatUID && currentUserUID) {
         const res = await getDoc(doc(db, 'userChats', currentUserUID));
 
-        const chatItem: TChatListItem = [
+        const chatItem: ChatListItemType = [
           combinedUsersChatUID,
           {
             lastMessage: res.data()?.[combinedUsersChatUID].lastMessage,
@@ -178,9 +178,7 @@ const Home = React.memo(() => {
                 <div
                   ref={nodeRefChat}
                   className={`w-full transform transition-transform 
-                  ${
-                    state === 'exited' ? 'hidden' : ''
-                  }
+                  ${state === 'exited' ? 'hidden' : ''}
                   ${
                     state === 'entered'
                       ? 'translate-x-0 scale-100'

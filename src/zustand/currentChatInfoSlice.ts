@@ -2,7 +2,7 @@ import { StateCreator } from 'zustand';
 import { produce } from 'immer';
 
 import { ICurrentChatInfoState } from '@interfaces/zustand/ICurrentChatInfoState';
-import { TCurrentChatInfo } from 'types/TCurrentChatInfo';
+import { CurrentChatInfo } from 'types/CurrentChatInfo';
 
 const createCurrentChatInfoState: StateCreator<
   ICurrentChatInfoState
@@ -11,7 +11,7 @@ const createCurrentChatInfoState: StateCreator<
     chatUID: null,
     userUID: null,
   },
-  updateCurrentChatInfo: (chat: TCurrentChatInfo) => {
+  updateCurrentChatInfo: (chat: CurrentChatInfo) => {
     set(
       produce(state => {
         state.currentChatInfo = {

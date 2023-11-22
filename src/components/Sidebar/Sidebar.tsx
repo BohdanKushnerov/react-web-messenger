@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { FC, useRef } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { Transition } from 'react-transition-group';
 
@@ -10,12 +10,13 @@ import ProfileSettings from '@components/ProfileSettings/ProfileSettings';
 import useChatStore from '@zustand/store';
 import { ISidebarProps } from '@interfaces/ISidebarProps';
 
-const Sidebar = ({ setScreen }: ISidebarProps) => {
+const Sidebar: FC<ISidebarProps> = ({ setScreen }) => {
   const nodeRefSidebarDefault = useRef(null);
   const nodeRefProfileSettings = useRef(null);
   const sidebarScreen = useChatStore(state => state.sidebarScreen);
 
-  // console.log('screen --> Sidebar');
+  console.log('screen --> Sidebar');
+  
   return (
     <div className="relative w-full h-full bg-gray-200 dark:bg-myBlackBcg sm:min-w-400px sm:w-1/4 border-r border-r-zinc-800">
       <Transition
@@ -83,6 +84,6 @@ const Sidebar = ({ setScreen }: ISidebarProps) => {
       </Transition>
     </div>
   );
-}
+};
 
 export default Sidebar;

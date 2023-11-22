@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
   DocumentData,
   collection,
@@ -9,14 +9,16 @@ import {
 } from 'firebase/firestore';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import { Search } from '@components/Inputs/Search/Search';
+import Search from '@components/Inputs/Search/Search';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import formatTime from '@utils/formatTime';
 import { ISearchMessagesProps } from '@interfaces/ISearchMessagesProps';
 import sprite from '@assets/sprite.svg';
 
-const SearchMessages = ({ setIsShowSearchMessages }: ISearchMessagesProps) => {
+const SearchMessages: FC<ISearchMessagesProps> = ({
+  setIsShowSearchMessages,
+}) => {
   const [searchValue, setSearchValue] = useState('');
   const [searchMessages, setSearchMessages] = useState<DocumentData[] | null>(
     null
@@ -30,7 +32,7 @@ const SearchMessages = ({ setIsShowSearchMessages }: ISearchMessagesProps) => {
 
   useEffect(() => {
     if (!searchValue) {
-      setSearchMessages(null)
+      setSearchMessages(null);
       return;
     }
 
@@ -73,7 +75,7 @@ const SearchMessages = ({ setIsShowSearchMessages }: ISearchMessagesProps) => {
   };
 
   // const handleClickSearchMessage = () => {
-  // // 
+  // //
   // };
 
   return (

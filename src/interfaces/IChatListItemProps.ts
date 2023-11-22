@@ -1,7 +1,7 @@
-import { TChatListItem } from "types/TChatListItem";
-import { TScreen } from "types/TScreen";
+import { ChatListItemType } from 'types/ChatListItemType';
+import { AppScreenType } from 'types/AppScreenType';
 
 export interface IChatListItemProps {
-  chatInfo: TChatListItem;
-  setScreen?: (value: TScreen) => void;
+  chatInfo: ChatListItemType;
+  setScreen?: (value: AppScreenType) => void;
 }

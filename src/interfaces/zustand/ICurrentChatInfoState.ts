@@ -1,10 +1,10 @@
-import { TCurrentChatInfo } from "types/TCurrentChatInfo";
+import { CurrentChatInfo } from 'types/CurrentChatInfo';
 
 export interface ICurrentChatInfoState {
   currentChatInfo: {
     chatUID: string | null;
     userUID: string | null;
   };
-  updateCurrentChatInfo: (chat: TCurrentChatInfo) => void;
+  updateCurrentChatInfo: (chat: CurrentChatInfo) => void;
   resetCurrentChatInfo: () => void;
 }

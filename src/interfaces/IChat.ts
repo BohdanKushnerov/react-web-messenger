@@ -1,5 +1,5 @@
-import { TScreen } from "types/TScreen";
+import { AppScreenType } from 'types/AppScreenType';
 
 export interface IChat {
-  setScreen?: (value: TScreen) => void;
+  setScreen?: (value: AppScreenType) => void;
 }

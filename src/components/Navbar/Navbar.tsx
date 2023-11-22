@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { Transition } from 'react-transition-group';
 
@@ -9,7 +9,7 @@ import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import sprite from '@assets/sprite.svg';
 
-const Navbar = () => {
+const Navbar: FC = () => {
   const [isModalOpen, setIsModelOpen] = useState(false);
   const nodeRefNavBar = useRef(null);
 

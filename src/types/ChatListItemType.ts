@@ -1,4 +1,4 @@
-export type TChatListItem = [
+export type ChatListItemType = [
   string,
   {
     lastMessage: string;

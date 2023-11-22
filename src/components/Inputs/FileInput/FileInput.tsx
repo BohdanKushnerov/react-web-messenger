@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import {
   Timestamp,
   addDoc,
@@ -18,13 +18,14 @@ import UploadPhotoFile from '@components/UploadPhotoFile/UploadPhotoFile';
 import UploadDocumentFile from '@components/UploadDocumentFile/UploadDocumentFile';
 import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import { TFileStatuses } from 'types/TFileStatuses';
+import { FilesUploadStatuses } from 'types/FilesUploadStatuses';
 import sprite from '@assets/sprite.svg';
 
-function FileInput() {
+const FileInput: FC = () => {
   const [isModalAddFileOpen, setIsModalAddFileOpen] = useState(false);
   const [fileDescription, setFileDescription] = useState('');
-  const [uploadFilesStatus, setUploadFilesStatus] = useState<TFileStatuses>({});
+  const [uploadFilesStatus, setUploadFilesStatus] =
+    useState<FilesUploadStatuses>({});
   const hiddenFileInput = useRef<HTMLInputElement>(null);
   const scrollbarsRef = useRef<Scrollbars>(null);
 
@@ -312,6 +313,6 @@ function FileInput() {
       )}
     </>
   );
-}
+};
 
 export default FileInput;

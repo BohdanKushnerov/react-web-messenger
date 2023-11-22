@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { createPortal } from 'react-dom';
 
 import useCloseModal from '@hooks/useCloseModal';
@@ -6,11 +6,11 @@ import { IModalWindowProps } from '@interfaces/IModalWindowProps';
 
 const modalRoot = document.querySelector('#modal-root')!;
 
-const ModalWindow = ({
+const ModalWindow: FC<IModalWindowProps> = ({
   handleToggleModal,
   children,
   contentClasses,
-}: IModalWindowProps) => {
+}) => {
   useCloseModal(handleToggleModal);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {

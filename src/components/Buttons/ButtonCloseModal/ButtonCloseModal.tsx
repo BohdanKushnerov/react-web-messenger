@@ -1,7 +1,9 @@
-import { IButtonCloseModalProps } from "@interfaces/IButtonCloseModalProps";
+import { FC } from 'react';
+
+import { IButtonCloseModalProps } from '@interfaces/IButtonCloseModalProps';
 import sprite from '@assets/sprite.svg';
 
-const ButtonCloseModal = ({ handleCloseModal }: IButtonCloseModalProps) => {
+const ButtonCloseModal: FC<IButtonCloseModalProps> = ({ handleCloseModal }) => {
   return (
     <>
       <button
@@ -14,6 +16,6 @@ const ButtonCloseModal = ({ handleCloseModal }: IButtonCloseModalProps) => {
       </button>
     </>
   );
-}
+};
 
 export default ButtonCloseModal;
