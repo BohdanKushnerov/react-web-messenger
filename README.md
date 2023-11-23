@@ -1,27 +1,39 @@
-# React + TypeScript + Vite
+# React Web Messenger
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple web messenger implemented with React.
 
-Currently, two official plugins are available:
+## Overview
+React Web Messenger is a lightweight tool for real-time messaging built on the React library, with Firebase used as the backend (free version). The chat provides a convenient interface for user interaction and includes basic messenger functionalities.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Main Features
+- **Real-time interaction:** Engage with other users in real-time.
+- **Simple and intuitive interface:** User-friendly and easy-to-use interface.
+- **React:** Implemented using the React library for efficient state management of components.
 
-## Expanding the ESLint configuration
+## Requirements
+Before getting started, make sure you have:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Node.js
+- npm or Yarn
 
-- Configure the top-level `parserOptions` property like this:
+## Installation
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+### Messenger Features:
+- Registration using a phone number.
+- Interaction with other users in real-time.
+- Convenient and intuitive user interface.
+- Search for already registered users to create a chat.
+- User status (online/offline, typing status in the current chat).
+- Message sending (also indicating whether a message has been read or unread, both in the sidebar and in the chat).
+- Unread message count displayed in the sidebar.
+- Ability to send files and photos in the chat.
+- Editing the text content of your message and deleting your own messages from the chat.
+- Search for messages in the chat.
+- Emoji support for text messages in the chat.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Running Instructions:
+
+1. Clone the project repository.
+2. Run the command `npm install` to install the necessary dependencies.
+3. Execute `npm run dev` to start the project.
+4. Open a web browser and go to http://localhost:5173/react-web-messenger to view the application.
