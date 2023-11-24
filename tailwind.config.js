@@ -38,6 +38,9 @@ export default {
         mySeacrhBcg: 'rgb(44,44,44)',
         currentContextMenuMessage: 'rgba( 24, 24, 24 , 0.9)',
         hoverGray: 'rgba( 170,170,170 , 0.08)',
+        //=====================
+        // chatFormHover: 'rgb(244 244 245 / 0.2)',
+        // chatFormHoverDark: 'rgb(244 244 245 / 0.1)',
       },
       colors: {
         textSecondary: 'rgb(170,170,170)',

@@ -217,7 +217,7 @@ const FileInput: FC = () => {
       <button
         className={`absolute ${
           editingMessageInfo ? 'bottom-1' : 'top-7'
-        } right-16 w-10 h-10 flex justify-center items-center bg-transparent hover:bg-zinc-400 hover:dark:bg-hoverGray rounded-full cursor-pointer`}
+        } right-16 w-10 h-10 flex justify-center items-center bg-transparent transition-all duration-300 hover:bg-zinc-400 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer`}
         onClick={handleClickFileInput}
       >
         <svg
@@ -238,8 +238,8 @@ const FileInput: FC = () => {
       {isModalAddFileOpen && (
         <ModalWindow handleToggleModal={handleToggleModal}>
           <div className="h-full flex justify-center items-center">
-            <div className="relative w-full sm:w-1/2 xl:w-1/3 h-1/2 flex flex-col gap-8 justify-between items-center p-2 bg-myBlackBcg rounded-3xl shadow-mainShadow">
-              <p className="text-white font-extrabold">
+            <div className="relative w-full sm:w-1/2 xl:w-1/3 h-1/2 flex flex-col gap-8 justify-between items-center p-2 bg-gray-200 dark:bg-myBlackBcg rounded-3xl shadow-mainShadow">
+              <p className="text-black dark:text-white font-extrabold">
                 {`Send ${hiddenFileInput.current?.files?.length} File(s)`}
               </p>
               <ButtonCloseModal handleCloseModal={handleCloseAddFileModal} />
@@ -292,7 +292,7 @@ const FileInput: FC = () => {
               >
                 <div className="relative w-full h-10 sm:w-8/12 ">
                   <input
-                    className="w-full h-full py-1 px-10 rounded-3xl bg-mySeacrhBcg text-white outline-none border-2 border-transparent focus:border-cyan-500"
+                    className="w-full h-full py-1 px-10 rounded-3xl bg-zinc-500 dark:bg-mySeacrhBcg text-white outline-none border-2 border-transparent focus:border-cyan-500"
                     type="text"
                     placeholder="Add a caption..."
                     value={fileDescription}
@@ -300,7 +300,7 @@ const FileInput: FC = () => {
                   />
                 </div>
                 <button
-                  className="h-10 px-2 border border-gray-600 rounded-full text-white disabled:text-gray-600 hover:shadow-mainShadow hover:bg-gray-800 cursor-pointer"
+                  className="px-2 py-1 border border-gray-600 rounded-full text-black dark:text-white transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
                   type="submit"
                   disabled={Object.keys(uploadFilesStatus).length > 0}
                 >

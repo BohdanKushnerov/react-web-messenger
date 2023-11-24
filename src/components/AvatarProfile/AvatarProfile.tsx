@@ -10,7 +10,7 @@ const AvatarProfile: FC<IAvatarProfileProps> = ({
 }) => {
   return photoURL ? (
     <img
-      className="rounded-full shadow-secondaryShadow"
+      className="rounded-full shadow-secondaryShadow transition-all duration-150 group-hover:scale-105"
       width={size}
       height={size}
       src={photoURL}
@@ -18,7 +18,7 @@ const AvatarProfile: FC<IAvatarProfileProps> = ({
     />
   ) : (
     <Avatar
-      className="rounded-full shadow-secondaryShadow"
+      className="rounded-full shadow-secondaryShadow transition-all duration-150 group-hover:scale-105"
       name={`${displayName}`}
       size={size}
       textSizeRatio={0}

@@ -14,7 +14,9 @@ const UploadPhotoFile: FC<IUploadPhotoFileProps> = ({ file, status }) => {
           height={48}
         />
         <div className="flex flex-col">
-          <p className="text-white w-24 2xl:w-64">{file.name}</p>
+          <p className="text-black dark:text-white w-24 2xl:w-64">
+            {file.name}
+          </p>
           <p className="text-gray-500">
             {(file.size / 1024).toFixed(2) + ' KB'}
           </p>

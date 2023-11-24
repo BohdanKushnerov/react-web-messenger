@@ -91,7 +91,7 @@ const Emoji: FC<IEmoji> = ({ setMessage }) => {
           </div>
         )}
       </Transition>
-      <div className="flex justify-center items-center w-10 h-10 hover:bg-zinc-400 hover:dark:bg-hoverGray rounded-full">
+      <div className="flex justify-center items-center w-10 h-10 transition-all duration-300 hover:bg-zinc-400 hover:dark:bg-zinc-100/10 rounded-full">
         <svg
           width={24}
           height={24}

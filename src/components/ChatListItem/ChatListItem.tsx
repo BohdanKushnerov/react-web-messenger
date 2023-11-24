@@ -46,10 +46,11 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
       onClick={handleManageSelectChat}
     >
       <Link
-        className={`flex items-center content-center gap-3 h-72px p-1 rounded-md ${
-          chatUID === chatInfo[0] && 'bg-zinc-700 dark:bg-orange-900'
+        className={`flex items-center content-center gap-3 h-72px p-1 rounded-md transition-all duration-300 group ${
+          chatUID === chatInfo[0] &&
+          'bg-zinc-700 hover:bg-zinc-600 dark:bg-orange-900 hover:dark:bg-orange-800'
         } ${
-          chatUID !== chatInfo[0] && 'hover:bg-zinc-400 hover:dark:bg-zinc-800'
+          chatUID !== chatInfo[0] && 'hover:bg-zinc-400 hover:dark:bg-zinc-700'
         } `}
         to={chatInfo[0]}
         state={{ from: location }}

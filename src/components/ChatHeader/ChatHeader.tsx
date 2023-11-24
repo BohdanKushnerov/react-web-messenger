@@ -33,7 +33,10 @@ const ChatHeader: FC<IChatHeaderProps> = ({
 
       <ChatHeaderOponentInfo />
 
-      <button className="ml-auto" onClick={handleClickShowSearchMessages}>
+      <button
+        className="ml-auto flex justify-center items-center w-10 h-10 transition-all duration-300 hover:bg-zinc-400 hover:dark:bg-zinc-100/10 rounded-full"
+        onClick={handleClickShowSearchMessages}
+      >
         <svg
           className="fill-zinc-600 dark:fill-zinc-400"
           width={24}

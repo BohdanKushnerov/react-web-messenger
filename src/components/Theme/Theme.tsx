@@ -19,7 +19,7 @@ const Theme: FC = () => {
         id="light-theme-switcher"
         className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-gray-800 dark:text-gray-300 ${
           isLightTheme && 'bg-gray-600'
-        } disabled:pointer-events-none hover:dark:text-gray-800 hover:bg-gray-200 rounded-md`}
+        } disabled:pointer-events-none transition-all duration-300 hover:dark:text-gray-800 hover:bg-gray-200 rounded-md`}
         data-theme="light"
         disabled={isLightTheme}
         onClick={handleChangeTheme}
@@ -45,7 +45,7 @@ const Theme: FC = () => {
         id="dark-theme-switcher"
         className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-gray-700 ${
           !isLightTheme && 'bg-gray-300'
-        } disabled:pointer-events-none hover:bg-gray-500 rounded-md`}
+        } disabled:pointer-events-none transition-all duration-300 hover:bg-gray-500 rounded-md`}
         data-theme="dark"
         disabled={!isLightTheme}
         onClick={handleChangeTheme}
