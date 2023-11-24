@@ -221,7 +221,7 @@ const MessageList: FC = () => {
           messages[selectedItemIndexForOpenModal].id
         )
       ).then(() => {
-        setSelectedItemIndexForOpenModal(null);
+        handleCloseModal();
       });
 
       // если последнее сообщение то ставим последнее сообщение messages[selectedItemIndexForOpenModal - 1]
@@ -297,7 +297,7 @@ const MessageList: FC = () => {
 
   return (
     <>
-      <div className="h-full w-full py-1">
+      <div className="h-full w-full py-1" onClick={handleCloseModal}>
         <Scrollbars
           ref={scrollbarsRef}
           autoHide
@@ -319,7 +319,6 @@ const MessageList: FC = () => {
                     className={`flex justify-center p-0.5 rounded-xl ${
                       currentItem && 'bg-currentContextMenuMessage'
                     }`}
-                    onClick={handleCloseModal}
                     onContextMenu={e => handleClickRigthButtonMessage(index, e)}
                   >
                     <MessageItem msg={msg} />
@@ -394,6 +393,6 @@ const MessageList: FC = () => {
       )}
     </>
   );
-}
+};
 
 export default MessageList;
