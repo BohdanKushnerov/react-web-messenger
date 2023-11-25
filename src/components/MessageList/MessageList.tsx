@@ -43,12 +43,12 @@ const MessageList: FC = () => {
 
     localStorage.setItem('currentChatId', chatUID);
 
-    const q = query(
+    const queryParams = query(
       collection(db, `chats/${chatUID}/messages`),
       orderBy('date', 'asc')
     );
 
-    onSnapshot(q, snapshot => {
+    onSnapshot(queryParams, snapshot => {
       // if (!snapshot.empty) {
       //   if(!messages) {
       //     console.log('1111111111111111111111111111111111111111111111')
@@ -83,7 +83,7 @@ const MessageList: FC = () => {
       });
     });
 
-    const unsubChatMessages = onSnapshot(q, querySnapshot => {
+    const unsubChatMessages = onSnapshot(queryParams, querySnapshot => {
       setMessages(querySnapshot.docs);
     });
 

@@ -30,14 +30,14 @@ const useSearchUsers = () => {
       const queryName = capitalizeName(searchValue).trim();
 
       const usersRef = collection(db, 'users');
-      const q = query(
+      const queryParams = query(
         usersRef,
         where('displayName', '>=', queryName),
         where('displayName', '<=', queryName + '\uf8ff')
       );
 
       try {
-        const querySnapshot = await getDocs(q);
+        const querySnapshot = await getDocs(queryParams);
 
         setSearchChatList(querySnapshot);
       } catch (error) {

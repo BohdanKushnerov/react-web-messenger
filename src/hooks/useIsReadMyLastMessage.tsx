@@ -14,13 +14,13 @@ const useIsReadMyLastMessage = (chatInfo: ChatListItemType) => {
   useEffect(() => {
     if (!chatInfo[0] || !uid) return;
 
-    const q = query(
+    const queryParams = query(
       collection(db, `chats/${chatInfo[0]}/messages`),
       where('isRead', '==', false),
       where('senderUserID', '==', uid)
     );
 
-    const unSub = onSnapshot(q, querySnapshot => {
+    const unSub = onSnapshot(queryParams, querySnapshot => {
       if (querySnapshot.docs.length > 0) {
         // setLengthOfUnReadMsgs(querySnapshot.docs.length);
         setIsReadMyLastMessage(false);

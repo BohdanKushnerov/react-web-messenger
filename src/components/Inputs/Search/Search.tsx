@@ -3,13 +3,13 @@ import { FC } from 'react';
 import { ISearch } from '@interfaces/ISearch';
 import sprite from '@assets/sprite.svg';
 
-const Search: FC<ISearch> = ({ value, handleChange }) => {
+const Search: FC<ISearch> = ({ value, handleChange, placeholderText }) => {
   return (
     <div className="relative w-full">
       <input
         className="py-2 px-10 h-10 w-full rounded-3xl bg-zinc-500 dark:bg-mySeacrhBcg text-white outline-none border-2 border-transparent focus:border-solid focus:border-cyan-500"
         type="text"
-        placeholder="Search"
+        placeholder={placeholderText}
         value={value}
         onChange={handleChange}
       />

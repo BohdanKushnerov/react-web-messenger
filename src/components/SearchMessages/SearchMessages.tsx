@@ -36,13 +36,13 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
       return;
     }
 
-    const q = query(
+    const queryParams = query(
       collection(db, `chats/${chatUID}/messages`),
       where('message', '>=', searchValue),
       where('message', '<=', searchValue + '\uf8ff')
     );
 
-    const unsubSearchMessages = onSnapshot(q, querySnapshot => {
+    const unsubSearchMessages = onSnapshot(queryParams, querySnapshot => {
       setSearchMessages(querySnapshot.docs);
     });
 
@@ -94,7 +94,11 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
           </svg>
         </button>
 
-        <Search value={searchValue} handleChange={handleChangeSearchMessage} />
+        <Search
+          value={searchValue}
+          handleChange={handleChangeSearchMessage}
+          placeholderText="Enter text (case-sensitive)"
+        />
       </div>
       {searchMessages && (
         <ul className="flex flex-col justify-center gap-2">

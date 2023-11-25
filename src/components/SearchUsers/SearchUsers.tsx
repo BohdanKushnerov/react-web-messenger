@@ -11,7 +11,7 @@ const SearchUsers: FC = () => {
     updateSearchValue(e.target.value);
   };
 
-  return <Search value={searchValue} handleChange={handleChangeSearchValue} />;
+  return <Search value={searchValue} handleChange={handleChangeSearchValue} placeholderText='Search' />;
 };
 
 export default SearchUsers;

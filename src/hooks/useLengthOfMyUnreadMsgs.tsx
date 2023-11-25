@@ -11,12 +11,12 @@ const useLengthOfMyUnreadMsgs = (chatInfo: ChatListItemType) => {
   const { uid } = useChatStore(state => state.currentUser);
 
   useEffect(() => {
-    const q = query(
+    const queryParams = query(
       collection(db, `chats/${chatInfo[0]}/messages`),
       where('isRead', '==', false),
       where('senderUserID', '!=', uid)
     );
-    const unsubMyUnreadMsgs = onSnapshot(q, querySnapshot => {
+    const unsubMyUnreadMsgs = onSnapshot(queryParams, querySnapshot => {
       if (querySnapshot.docs) {
         setLengthOfMyUnreadMsgs(querySnapshot.docs.length);
       }
