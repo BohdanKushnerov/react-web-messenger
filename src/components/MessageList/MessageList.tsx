@@ -22,6 +22,9 @@ import sprite from '@assets/sprite.svg';
 
 const MessageList: FC = () => {
   const [messages, setMessages] = useState<DocumentData[] | null>(null);
+  const [groupedMessages, setGroupedMessages] = useState<DocumentData | null>(
+    null
+  );
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [selectedItemIndexForOpenModal, setSelectedItemIndexForOpenModal] =
     useState<number | null>(null);
@@ -37,6 +40,33 @@ const MessageList: FC = () => {
   );
 
   // console.log('screen --> MessageList');
+
+  console.log('groupedMessages', groupedMessages);
+
+  useEffect(() => {
+    // Группировка сообщений по дате
+    if (messages) {
+      // console.log('messages', messages);
+      const grouped = messages.reduce((acc, message) => {
+        // Проверка на существование timestamp
+        const messageData = message.data();
+        // console.log('111', messageData);
+        if (messageData && messageData.date) {
+          const date = messageData.date.toDate(); // Преобразуем _Timestamp в объект Date
+          const dateString = date.toISOString().split('T')[0]; // Получаем строку в формате 'YYYY-MM-DD'
+
+          acc[dateString] = acc[dateString] || [];
+          // acc[dateString].push(messageData);
+          acc[dateString].push(message);
+        }
+
+        return acc;
+      }, {});
+
+      // console.log('grouped', grouped);
+      setGroupedMessages(grouped);
+    }
+  }, [messages]);
 
   useEffect(() => {
     if (chatUID === null) return;
@@ -308,7 +338,32 @@ const MessageList: FC = () => {
           onScroll={handleScroll}
         >
           <ul ref={msgListRef} className="flex flex-col px-6">
-            {messages &&
+            {groupedMessages &&
+              Object.keys(groupedMessages).map(date => (
+                <li
+                  key={date}
+                  
+                >
+                  <div className="date-header">{date}</div>
+                  {groupedMessages[date].map((message: DocumentData, index: number) => {
+                    console.log('message', message);
+                    return (
+                      // <div key={message.uid} className="message">
+                      //   <div className="text-white">{message.message}</div>
+                      // </div>
+                      <div
+                        onContextMenu={e =>
+                          handleClickRigthButtonMessage(index, e)
+                        }
+                      >
+                        <MessageItem msg={message} />
+                      </div>
+                    );
+                  })}
+                </li>
+              ))}
+
+            {/* {messages &&
               messages.map((msg, index) => {
                 // console.log(msg)
                 const currentItem = selectedItemIndexForOpenModal === index;
@@ -324,7 +379,7 @@ const MessageList: FC = () => {
                     <MessageItem msg={msg} />
                   </li>
                 );
-              })}
+              })} */}
           </ul>
         </Scrollbars>
 
