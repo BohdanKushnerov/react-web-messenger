@@ -26,8 +26,11 @@ const MessageList: FC = () => {
     null
   );
   const [isButtonVisible, setIsButtonVisible] = useState(false);
-  const [selectedItemIndexForOpenModal, setSelectedItemIndexForOpenModal] =
-    useState<number | null>(null);
+  const [selectedItemIdForOpenModal, setSelectedItemIdForOpenModal] = useState<
+    string | null
+  >(null);
+  // const [selectedItemIndexForOpenModal, setSelectedItemIndexForOpenModal] =
+  //   useState<number | null>(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
 
   const scrollbarsRef = useRef<Scrollbars>(null);
@@ -42,6 +45,10 @@ const MessageList: FC = () => {
   // console.log('screen --> MessageList');
 
   console.log('groupedMessages', groupedMessages);
+
+  const selectedDocDataMessage = messages?.find(
+    message => message.id === selectedItemIdForOpenModal
+  );
 
   useEffect(() => {
     // Группировка сообщений по дате
@@ -157,13 +164,16 @@ const MessageList: FC = () => {
   };
 
   const handleClickRigthButtonMessage = (
-    index: number,
+    // index: number,
+    id: string,
     e?: React.MouseEvent
   ) => {
     if (e) {
       e.preventDefault();
 
-      const chatContainerEl = e.currentTarget.parentElement?.parentElement;
+      // const chatContainerEl = e.currentTarget.parentElement?.parentElement;
+      const chatContainerEl =
+        e.currentTarget.parentElement?.parentElement?.parentElement;
       const rect = chatContainerEl?.getBoundingClientRect();
       const containerTop = rect?.top;
       const containerLeft = rect?.left;
@@ -202,28 +212,40 @@ const MessageList: FC = () => {
       }
     }
 
-    if (selectedItemIndexForOpenModal === index) {
-      setSelectedItemIndexForOpenModal(null);
+    // if (selectedItemIndexForOpenModal === index) {
+    //   setSelectedItemIndexForOpenModal(null);
+    // } else {
+    //   setSelectedItemIndexForOpenModal(index);
+    // }
+    if (selectedItemIdForOpenModal === id) {
+      setSelectedItemIdForOpenModal(null);
     } else {
-      setSelectedItemIndexForOpenModal(index);
+      setSelectedItemIdForOpenModal(id);
     }
   };
 
   const handleCloseModal = () => {
-    if (selectedItemIndexForOpenModal !== null)
-      setSelectedItemIndexForOpenModal(null);
+    if (selectedItemIdForOpenModal !== null)
+      setSelectedItemIdForOpenModal(null);
   };
 
   const handleDeleteMessage = async () => {
     if (
       chatUID &&
       messages &&
-      selectedItemIndexForOpenModal !== null &&
+      selectedItemIdForOpenModal !== null &&
       currentUserUID &&
-      userUID
+      userUID &&
+      selectedDocDataMessage
     ) {
-      const arrayURLsOfFiles =
-        messages[selectedItemIndexForOpenModal].data()?.file;
+      // const selectedDocDataMessage = messages.find(
+      //   message => message.id === selectedItemIdForOpenModal
+      // );
+
+      const arrayURLsOfFiles = selectedDocDataMessage?.data()?.file;
+
+      // const arrayURLsOfFiles =
+      //   messages[selectedItemIndexForOpenModal].data()?.file;
 
       if (arrayURLsOfFiles) {
         const promisesArrOfURLs = arrayURLsOfFiles.map(
@@ -248,7 +270,8 @@ const MessageList: FC = () => {
           'chats',
           chatUID,
           'messages',
-          messages[selectedItemIndexForOpenModal].id
+          // messages[selectedItemIndexForOpenModal].id
+          selectedDocDataMessage.id
         )
       ).then(() => {
         handleCloseModal();
@@ -256,21 +279,41 @@ const MessageList: FC = () => {
 
       // если последнее сообщение то ставим последнее сообщение messages[selectedItemIndexForOpenModal - 1]
       if (messages.length > 1) {
-        if (selectedItemIndexForOpenModal === messages.length - 1) {
+        console.log('messages.length > 1');
+        // тут в ифе по идее условие если последнее сообщение здесь
+        // if (selectedItemIndexForOpenModal === messages.length - 1) {
+        console.log(
+          'selectedDocDataMessage.data().id',
+          selectedDocDataMessage.id
+        );
+        console.log(
+          'messages[messages.length - 1].data().id',
+          messages[messages.length - 1].id
+        );
+        if (selectedDocDataMessage.id === messages[messages.length - 1].id) {
+          console.log(
+            'selectedDocDataMessage.data().id === messages[messages.length - 1].data().id'
+          );
+          // return;
           const lastFiles =
-            messages[selectedItemIndexForOpenModal - 1].data()?.file;
+            // messages[selectedItemIndexForOpenModal - 1].data()?.file;
+            messages[messages.length - 2].data()?.file;
 
           const lastMessage = lastFiles
             ? `${String.fromCodePoint(128206)} ${lastFiles.length} file(s) ${
-                messages[selectedItemIndexForOpenModal - 1].data().message
+                // messages[selectedItemIndexForOpenModal - 1].data().message
+                messages[messages.length - 2].data().message
               }`
-            : messages[selectedItemIndexForOpenModal - 1].data().message;
+            : // : messages[selectedItemIndexForOpenModal - 1].data().message;
+              messages[messages.length - 2].data().message;
 
           const senderUserIDMessage =
-            messages[selectedItemIndexForOpenModal - 1].data().senderUserID;
+            // messages[selectedItemIndexForOpenModal - 1].data().senderUserID;
+            messages[messages.length - 2].data().senderUserID;
 
           const lastDateMessage =
-            messages[selectedItemIndexForOpenModal - 1].data().date;
+            // messages[selectedItemIndexForOpenModal - 1].data().date;
+            messages[messages.length - 2].data().date;
 
           // здесь надо переписывать последнее сообщение мне и напарнику после удаления
           await updateDoc(doc(db, 'userChats', currentUserUID), {
@@ -287,7 +330,7 @@ const MessageList: FC = () => {
           });
         }
       } else {
-        // console.log('messages.length < 1');
+        console.log('messages.length < 1');
         // пустую строку с пробелом чтобы не падала ошибка
         await updateDoc(doc(db, 'userChats', currentUserUID), {
           [chatUID + '.lastMessage']: ' ',
@@ -306,13 +349,20 @@ const MessageList: FC = () => {
   };
 
   const handleChooseEditMessage = () => {
-    if (chatUID && messages && selectedItemIndexForOpenModal !== null) {
-      const selectedMessage = messages[selectedItemIndexForOpenModal];
+    if (chatUID && messages && selectedItemIdForOpenModal !== null) {
+      // const selectedMessage = messages[selectedItemIndexForOpenModal];
+      const selectedMessage: DocumentData | undefined = messages.find(
+        message => message.id === selectedItemIdForOpenModal
+      );
 
+      // console.log(selectedMessage.id === messages[messages.length - 1].id);
       const editingMessageInfo = {
         selectedMessage,
         isLastMessage:
-          selectedItemIndexForOpenModal === messages.length - 1 ? true : false,
+          // selectedItemIndexForOpenModal === messages.length - 1 ? true : false,
+          selectedMessage?.id === messages[messages.length - 1].id
+            ? true
+            : false,
       };
 
       updateEditingMessage(editingMessageInfo);
@@ -340,20 +390,24 @@ const MessageList: FC = () => {
           <ul ref={msgListRef} className="flex flex-col px-6">
             {groupedMessages &&
               Object.keys(groupedMessages).map(date => (
-                <li
-                  key={date}
-                  
-                >
-                  <div className="date-header">{date}</div>
-                  {groupedMessages[date].map((message: DocumentData, index: number) => {
-                    console.log('message', message);
+                <li key={date}>
+                  <div className="text-green-100">{date}</div>
+                  {groupedMessages[date].map((message: DocumentData) => {
+                    // console.log('message', message.id);
+                    const currentItem =
+                      selectedItemIdForOpenModal === message.id;
+
                     return (
                       // <div key={message.uid} className="message">
                       //   <div className="text-white">{message.message}</div>
                       // </div>
                       <div
+                        className={`flex justify-center p-0.5 rounded-xl ${
+                          currentItem && 'bg-currentContextMenuMessage'
+                        }`}
                         onContextMenu={e =>
-                          handleClickRigthButtonMessage(index, e)
+                          // handleClickRigthButtonMessage(index, e)
+                          handleClickRigthButtonMessage(message.id, e)
                         }
                       >
                         <MessageItem msg={message} />
@@ -401,13 +455,15 @@ const MessageList: FC = () => {
           </button>
         )}
       </div>
-      {messages && selectedItemIndexForOpenModal !== null && (
+      {messages && selectedItemIdForOpenModal !== null && (
         <MessageContextMenuModal
           closeModal={handleCloseModal}
           modalPosition={modalPosition}
         >
           <div className="w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto">
-            {messages[selectedItemIndexForOpenModal]?.data()?.senderUserID ===
+            {/* {messages[selectedItemIndexForOpenModal]?.data()?.senderUserID ===
+              currentUserUID && ( */}
+            {selectedDocDataMessage?.data()?.senderUserID ===
               currentUserUID && (
               <button
                 className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
@@ -420,9 +476,10 @@ const MessageList: FC = () => {
               </button>
             )}
 
-            {messages[selectedItemIndexForOpenModal]?.data()?.message && (
+            {/* {messages[selectedItemIndexForOpenModal]?.data()?.message && ( */}
+            {selectedDocDataMessage?.data()?.message && (
               <CopyToClipboard
-                text={messages[selectedItemIndexForOpenModal]?.data()?.message}
+                text={selectedDocDataMessage?.data()?.message}
                 onCopy={handleSuccessClickCopyTextMsg}
               >
                 <button className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md">
