@@ -18,15 +18,19 @@ import MessageItem from '@components/MessageItem/MessageItem';
 import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
 import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import sprite from '@assets/sprite.svg';
 
 const MessageList: FC = () => {
   const [messages, setMessages] = useState<DocumentData[] | null>(null);
+  const [groupedMessages, setGroupedMessages] = useState<DocumentData | null>(
+    null
+  );
   const [isButtonVisible, setIsButtonVisible] = useState(false);
-  const [selectedItemIndexForOpenModal, setSelectedItemIndexForOpenModal] =
-    useState<number | null>(null);
+  const [selectedItemIdForOpenModal, setSelectedItemIdForOpenModal] = useState<
+    string | null
+  >(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
-
   const scrollbarsRef = useRef<Scrollbars>(null);
   const msgListRef = useRef(null);
 
@@ -37,6 +41,37 @@ const MessageList: FC = () => {
   );
 
   // console.log('screen --> MessageList');
+
+  console.log('groupedMessages', groupedMessages);
+
+  const selectedDocDataMessage = messages?.find(
+    message => message.id === selectedItemIdForOpenModal
+  );
+
+  useEffect(() => {
+    // Группировка сообщений по дате
+    if (messages) {
+      // console.log('messages', messages);
+      const grouped = messages.reduce((acc, message) => {
+        // Проверка на существование timestamp
+        const messageData = message.data();
+        // console.log('111', messageData);
+        if (messageData && messageData.date) {
+          const date = messageData.date.toDate(); // Преобразуем _Timestamp в объект Date
+          const dateString = date.toISOString().split('T')[0]; // Получаем строку в формате 'YYYY-MM-DD'
+
+          acc[dateString] = acc[dateString] || [];
+          // acc[dateString].push(messageData);
+          acc[dateString].push(message);
+        }
+
+        return acc;
+      }, {});
+
+      // console.log('grouped', grouped);
+      setGroupedMessages(grouped);
+    }
+  }, [messages]);
 
   useEffect(() => {
     if (chatUID === null) return;
@@ -127,13 +162,14 @@ const MessageList: FC = () => {
   };
 
   const handleClickRigthButtonMessage = (
-    index: number,
+    id: string,
     e?: React.MouseEvent
   ) => {
     if (e) {
       e.preventDefault();
 
-      const chatContainerEl = e.currentTarget.parentElement?.parentElement;
+      const chatContainerEl =
+        e.currentTarget.parentElement?.parentElement?.parentElement;
       const rect = chatContainerEl?.getBoundingClientRect();
       const containerTop = rect?.top;
       const containerLeft = rect?.left;
@@ -172,28 +208,28 @@ const MessageList: FC = () => {
       }
     }
 
-    if (selectedItemIndexForOpenModal === index) {
-      setSelectedItemIndexForOpenModal(null);
+    if (selectedItemIdForOpenModal === id) {
+      setSelectedItemIdForOpenModal(null);
     } else {
-      setSelectedItemIndexForOpenModal(index);
+      setSelectedItemIdForOpenModal(id);
     }
   };
 
   const handleCloseModal = () => {
-    if (selectedItemIndexForOpenModal !== null)
-      setSelectedItemIndexForOpenModal(null);
+    if (selectedItemIdForOpenModal !== null)
+      setSelectedItemIdForOpenModal(null);
   };
 
   const handleDeleteMessage = async () => {
     if (
       chatUID &&
       messages &&
-      selectedItemIndexForOpenModal !== null &&
+      selectedItemIdForOpenModal !== null &&
       currentUserUID &&
-      userUID
+      userUID &&
+      selectedDocDataMessage
     ) {
-      const arrayURLsOfFiles =
-        messages[selectedItemIndexForOpenModal].data()?.file;
+      const arrayURLsOfFiles = selectedDocDataMessage?.data()?.file;
 
       if (arrayURLsOfFiles) {
         const promisesArrOfURLs = arrayURLsOfFiles.map(
@@ -213,34 +249,28 @@ const MessageList: FC = () => {
       }
 
       await deleteDoc(
-        doc(
-          db,
-          'chats',
-          chatUID,
-          'messages',
-          messages[selectedItemIndexForOpenModal].id
-        )
+        doc(db, 'chats', chatUID, 'messages', selectedDocDataMessage.id)
       ).then(() => {
         handleCloseModal();
       });
 
       // если последнее сообщение то ставим последнее сообщение messages[selectedItemIndexForOpenModal - 1]
       if (messages.length > 1) {
-        if (selectedItemIndexForOpenModal === messages.length - 1) {
+        // тут в ифе по идее условие если последнее сообщение здесь
+        if (selectedDocDataMessage.id === messages[messages.length - 1].id) {
           const lastFiles =
-            messages[selectedItemIndexForOpenModal - 1].data()?.file;
+            messages[messages.length - 2].data()?.file;
 
           const lastMessage = lastFiles
             ? `${String.fromCodePoint(128206)} ${lastFiles.length} file(s) ${
-                messages[selectedItemIndexForOpenModal - 1].data().message
+                messages[messages.length - 2].data().message
               }`
-            : messages[selectedItemIndexForOpenModal - 1].data().message;
+            : messages[messages.length - 2].data().message;
 
           const senderUserIDMessage =
-            messages[selectedItemIndexForOpenModal - 1].data().senderUserID;
+            messages[messages.length - 2].data().senderUserID;
 
-          const lastDateMessage =
-            messages[selectedItemIndexForOpenModal - 1].data().date;
+          const lastDateMessage = messages[messages.length - 2].data().date;
 
           // здесь надо переписывать последнее сообщение мне и напарнику после удаления
           await updateDoc(doc(db, 'userChats', currentUserUID), {
@@ -257,7 +287,6 @@ const MessageList: FC = () => {
           });
         }
       } else {
-        // console.log('messages.length < 1');
         // пустую строку с пробелом чтобы не падала ошибка
         await updateDoc(doc(db, 'userChats', currentUserUID), {
           [chatUID + '.lastMessage']: ' ',
@@ -272,21 +301,29 @@ const MessageList: FC = () => {
           [chatUID + '.date']: ' ',
         });
       }
+
+      toast.success('Message successfully deleted!')
     }
   };
 
   const handleChooseEditMessage = () => {
-    if (chatUID && messages && selectedItemIndexForOpenModal !== null) {
-      const selectedMessage = messages[selectedItemIndexForOpenModal];
+    if (chatUID && messages && selectedItemIdForOpenModal !== null) {
+      const selectedMessage: DocumentData | undefined = messages.find(
+        message => message.id === selectedItemIdForOpenModal
+      );
 
-      const editingMessageInfo = {
-        selectedMessage,
-        isLastMessage:
-          selectedItemIndexForOpenModal === messages.length - 1 ? true : false,
-      };
+      if (selectedMessage) {
+        const editingMessageInfo = {
+          selectedMessage,
+          isLastMessage:
+            selectedMessage.id === messages[messages.length - 1].id
+              ? true
+              : false,
+        };
 
-      updateEditingMessage(editingMessageInfo);
-      handleCloseModal();
+        updateEditingMessage(editingMessageInfo);
+        handleCloseModal();
+      }
     }
   };
 
@@ -307,24 +344,34 @@ const MessageList: FC = () => {
           }}
           onScroll={handleScroll}
         >
-          <ul ref={msgListRef} className="flex flex-col px-6">
-            {messages &&
-              messages.map((msg, index) => {
-                // console.log(msg)
-                const currentItem = selectedItemIndexForOpenModal === index;
+          <ul ref={msgListRef} className="flex flex-col px-6 gap-2">
+            {groupedMessages &&
+              Object.keys(groupedMessages).map(date => (
+                <li className="relative flex flex-col gap-2" key={date}>
+                  <div className="flex justify-center sticky top-1 z-10 ">
+                    <p className="px-2 py-0.5 w-min-0 whitespace-no-wrap rounded-xl bg-zinc-200/40 text-green-100 text-center">
+                      {formatDateForGroupMessages(date)}
+                    </p>
+                  </div>
+                  {groupedMessages[date].map((message: DocumentData) => {
+                    const currentItem =
+                      selectedItemIdForOpenModal === message.id;
 
-                return (
-                  <li
-                    key={msg.id}
-                    className={`flex justify-center p-0.5 rounded-xl ${
-                      currentItem && 'bg-currentContextMenuMessage'
-                    }`}
-                    onContextMenu={e => handleClickRigthButtonMessage(index, e)}
-                  >
-                    <MessageItem msg={msg} />
-                  </li>
-                );
-              })}
+                    return (
+                      <div
+                        className={`flex justify-center p-0.5 rounded-xl ${
+                          currentItem && 'bg-currentContextMenuMessage'
+                        }`}
+                        onContextMenu={e =>
+                          handleClickRigthButtonMessage(message.id, e)
+                        }
+                      >
+                        <MessageItem msg={message} />
+                      </div>
+                    );
+                  })}
+                </li>
+              ))}
           </ul>
         </Scrollbars>
 
@@ -346,13 +393,13 @@ const MessageList: FC = () => {
           </button>
         )}
       </div>
-      {messages && selectedItemIndexForOpenModal !== null && (
+      {messages && selectedItemIdForOpenModal !== null && (
         <MessageContextMenuModal
           closeModal={handleCloseModal}
           modalPosition={modalPosition}
         >
           <div className="w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto">
-            {messages[selectedItemIndexForOpenModal]?.data()?.senderUserID ===
+            {selectedDocDataMessage?.data()?.senderUserID ===
               currentUserUID && (
               <button
                 className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
@@ -365,9 +412,9 @@ const MessageList: FC = () => {
               </button>
             )}
 
-            {messages[selectedItemIndexForOpenModal]?.data()?.message && (
+            {selectedDocDataMessage?.data()?.message && (
               <CopyToClipboard
-                text={messages[selectedItemIndexForOpenModal]?.data()?.message}
+                text={selectedDocDataMessage?.data()?.message}
                 onCopy={handleSuccessClickCopyTextMsg}
               >
                 <button className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md">

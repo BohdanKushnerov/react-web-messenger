@@ -1,5 +1,7 @@
-import { db } from '@myfirebase/config';
 import { DocumentData, doc, updateDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
+
+import { db } from '@myfirebase/config';
 
 const handleUpdateEditMessage = async (
   editingMessageInfo: {
@@ -71,23 +73,8 @@ const handleUpdateEditMessage = async (
       } file(s) ${newMessage}`,
     });
   }
+
+  toast.success('Message successfully edited!');
 };
 
 export default handleUpdateEditMessage;
-
-// if (editingMessageInfo?.selectedMessage.data().file) {
-//   console.log('editingMessageInfo?.selectedMessage.data().file');
-
-// await updateDoc(doc(db, 'userChats', currentUserUID), {
-//   [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
-//     editingMessageInfo?.selectedMessage.data().file.length
-//   } file(s) ${newMessage}`,
-// });
-
-// // =====================================================
-// await updateDoc(doc(db, 'userChats', userUID), {
-//   [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
-//     editingMessageInfo?.selectedMessage.data().file.length
-//   } file(s) ${newMessage}`,
-// });
-// }

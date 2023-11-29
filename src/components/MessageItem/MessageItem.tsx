@@ -10,6 +10,8 @@ import sprite from '@assets/sprite.svg';
 const MessageItem: FC<IMessageItemProps> = ({ msg }) => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 
+  // console.log(msg.data());
+
   useMakeReadMsg(msg); // делает при монтировании чата прочитаные мои сообщения
 
   const myUID = currentUserUID === msg.data().senderUserID;
