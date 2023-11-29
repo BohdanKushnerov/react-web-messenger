@@ -18,6 +18,7 @@ import MessageItem from '@components/MessageItem/MessageItem';
 import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
 import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import sprite from '@assets/sprite.svg';
 
 const MessageList: FC = () => {
@@ -29,10 +30,7 @@ const MessageList: FC = () => {
   const [selectedItemIdForOpenModal, setSelectedItemIdForOpenModal] = useState<
     string | null
   >(null);
-  // const [selectedItemIndexForOpenModal, setSelectedItemIndexForOpenModal] =
-  //   useState<number | null>(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
-
   const scrollbarsRef = useRef<Scrollbars>(null);
   const msgListRef = useRef(null);
 
@@ -164,14 +162,12 @@ const MessageList: FC = () => {
   };
 
   const handleClickRigthButtonMessage = (
-    // index: number,
     id: string,
     e?: React.MouseEvent
   ) => {
     if (e) {
       e.preventDefault();
 
-      // const chatContainerEl = e.currentTarget.parentElement?.parentElement;
       const chatContainerEl =
         e.currentTarget.parentElement?.parentElement?.parentElement;
       const rect = chatContainerEl?.getBoundingClientRect();
@@ -212,11 +208,6 @@ const MessageList: FC = () => {
       }
     }
 
-    // if (selectedItemIndexForOpenModal === index) {
-    //   setSelectedItemIndexForOpenModal(null);
-    // } else {
-    //   setSelectedItemIndexForOpenModal(index);
-    // }
     if (selectedItemIdForOpenModal === id) {
       setSelectedItemIdForOpenModal(null);
     } else {
@@ -238,14 +229,7 @@ const MessageList: FC = () => {
       userUID &&
       selectedDocDataMessage
     ) {
-      // const selectedDocDataMessage = messages.find(
-      //   message => message.id === selectedItemIdForOpenModal
-      // );
-
       const arrayURLsOfFiles = selectedDocDataMessage?.data()?.file;
-
-      // const arrayURLsOfFiles =
-      //   messages[selectedItemIndexForOpenModal].data()?.file;
 
       if (arrayURLsOfFiles) {
         const promisesArrOfURLs = arrayURLsOfFiles.map(
@@ -265,55 +249,28 @@ const MessageList: FC = () => {
       }
 
       await deleteDoc(
-        doc(
-          db,
-          'chats',
-          chatUID,
-          'messages',
-          // messages[selectedItemIndexForOpenModal].id
-          selectedDocDataMessage.id
-        )
+        doc(db, 'chats', chatUID, 'messages', selectedDocDataMessage.id)
       ).then(() => {
         handleCloseModal();
       });
 
       // если последнее сообщение то ставим последнее сообщение messages[selectedItemIndexForOpenModal - 1]
       if (messages.length > 1) {
-        console.log('messages.length > 1');
         // тут в ифе по идее условие если последнее сообщение здесь
-        // if (selectedItemIndexForOpenModal === messages.length - 1) {
-        console.log(
-          'selectedDocDataMessage.data().id',
-          selectedDocDataMessage.id
-        );
-        console.log(
-          'messages[messages.length - 1].data().id',
-          messages[messages.length - 1].id
-        );
         if (selectedDocDataMessage.id === messages[messages.length - 1].id) {
-          console.log(
-            'selectedDocDataMessage.data().id === messages[messages.length - 1].data().id'
-          );
-          // return;
           const lastFiles =
-            // messages[selectedItemIndexForOpenModal - 1].data()?.file;
             messages[messages.length - 2].data()?.file;
 
           const lastMessage = lastFiles
             ? `${String.fromCodePoint(128206)} ${lastFiles.length} file(s) ${
-                // messages[selectedItemIndexForOpenModal - 1].data().message
                 messages[messages.length - 2].data().message
               }`
-            : // : messages[selectedItemIndexForOpenModal - 1].data().message;
-              messages[messages.length - 2].data().message;
+            : messages[messages.length - 2].data().message;
 
           const senderUserIDMessage =
-            // messages[selectedItemIndexForOpenModal - 1].data().senderUserID;
             messages[messages.length - 2].data().senderUserID;
 
-          const lastDateMessage =
-            // messages[selectedItemIndexForOpenModal - 1].data().date;
-            messages[messages.length - 2].data().date;
+          const lastDateMessage = messages[messages.length - 2].data().date;
 
           // здесь надо переписывать последнее сообщение мне и напарнику после удаления
           await updateDoc(doc(db, 'userChats', currentUserUID), {
@@ -330,7 +287,6 @@ const MessageList: FC = () => {
           });
         }
       } else {
-        console.log('messages.length < 1');
         // пустую строку с пробелом чтобы не падала ошибка
         await updateDoc(doc(db, 'userChats', currentUserUID), {
           [chatUID + '.lastMessage']: ' ',
@@ -345,28 +301,29 @@ const MessageList: FC = () => {
           [chatUID + '.date']: ' ',
         });
       }
+
+      toast.success('Message successfully deleted!')
     }
   };
 
   const handleChooseEditMessage = () => {
     if (chatUID && messages && selectedItemIdForOpenModal !== null) {
-      // const selectedMessage = messages[selectedItemIndexForOpenModal];
       const selectedMessage: DocumentData | undefined = messages.find(
         message => message.id === selectedItemIdForOpenModal
       );
 
-      // console.log(selectedMessage.id === messages[messages.length - 1].id);
-      const editingMessageInfo = {
-        selectedMessage,
-        isLastMessage:
-          // selectedItemIndexForOpenModal === messages.length - 1 ? true : false,
-          selectedMessage?.id === messages[messages.length - 1].id
-            ? true
-            : false,
-      };
+      if (selectedMessage) {
+        const editingMessageInfo = {
+          selectedMessage,
+          isLastMessage:
+            selectedMessage.id === messages[messages.length - 1].id
+              ? true
+              : false,
+        };
 
-      updateEditingMessage(editingMessageInfo);
-      handleCloseModal();
+        updateEditingMessage(editingMessageInfo);
+        handleCloseModal();
+      }
     }
   };
 
@@ -387,26 +344,25 @@ const MessageList: FC = () => {
           }}
           onScroll={handleScroll}
         >
-          <ul ref={msgListRef} className="flex flex-col px-6">
+          <ul ref={msgListRef} className="flex flex-col px-6 gap-2">
             {groupedMessages &&
               Object.keys(groupedMessages).map(date => (
-                <li key={date}>
-                  <div className="text-green-100">{date}</div>
+                <li className="relative flex flex-col gap-2" key={date}>
+                  <div className="flex justify-center sticky top-1 z-10 ">
+                    <p className="px-2 py-0.5 w-min-0 whitespace-no-wrap rounded-xl bg-zinc-100/20 text-green-100 text-center">
+                      {formatDateForGroupMessages(date)}
+                    </p>
+                  </div>
                   {groupedMessages[date].map((message: DocumentData) => {
-                    // console.log('message', message.id);
                     const currentItem =
                       selectedItemIdForOpenModal === message.id;
 
                     return (
-                      // <div key={message.uid} className="message">
-                      //   <div className="text-white">{message.message}</div>
-                      // </div>
                       <div
                         className={`flex justify-center p-0.5 rounded-xl ${
                           currentItem && 'bg-currentContextMenuMessage'
                         }`}
                         onContextMenu={e =>
-                          // handleClickRigthButtonMessage(index, e)
                           handleClickRigthButtonMessage(message.id, e)
                         }
                       >
@@ -416,24 +372,6 @@ const MessageList: FC = () => {
                   })}
                 </li>
               ))}
-
-            {/* {messages &&
-              messages.map((msg, index) => {
-                // console.log(msg)
-                const currentItem = selectedItemIndexForOpenModal === index;
-
-                return (
-                  <li
-                    key={msg.id}
-                    className={`flex justify-center p-0.5 rounded-xl ${
-                      currentItem && 'bg-currentContextMenuMessage'
-                    }`}
-                    onContextMenu={e => handleClickRigthButtonMessage(index, e)}
-                  >
-                    <MessageItem msg={msg} />
-                  </li>
-                );
-              })} */}
           </ul>
         </Scrollbars>
 
@@ -461,8 +399,6 @@ const MessageList: FC = () => {
           modalPosition={modalPosition}
         >
           <div className="w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto">
-            {/* {messages[selectedItemIndexForOpenModal]?.data()?.senderUserID ===
-              currentUserUID && ( */}
             {selectedDocDataMessage?.data()?.senderUserID ===
               currentUserUID && (
               <button
@@ -476,7 +412,6 @@ const MessageList: FC = () => {
               </button>
             )}
 
-            {/* {messages[selectedItemIndexForOpenModal]?.data()?.message && ( */}
             {selectedDocDataMessage?.data()?.message && (
               <CopyToClipboard
                 text={selectedDocDataMessage?.data()?.message}
