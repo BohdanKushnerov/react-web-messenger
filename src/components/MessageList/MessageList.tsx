@@ -42,26 +42,24 @@ const MessageList: FC = () => {
 
   // console.log('screen --> MessageList');
 
-  console.log('groupedMessages', groupedMessages);
+  // console.log('groupedMessages', groupedMessages);
 
   const selectedDocDataMessage = messages?.find(
     message => message.id === selectedItemIdForOpenModal
   );
 
+  // Группировка сообщений по дате (та что sticky)
   useEffect(() => {
-    // Группировка сообщений по дате
     if (messages) {
       // console.log('messages', messages);
       const grouped = messages.reduce((acc, message) => {
         // Проверка на существование timestamp
         const messageData = message.data();
-        // console.log('111', messageData);
         if (messageData && messageData.date) {
           const date = messageData.date.toDate(); // Преобразуем _Timestamp в объект Date
           const dateString = date.toISOString().split('T')[0]; // Получаем строку в формате 'YYYY-MM-DD'
 
           acc[dateString] = acc[dateString] || [];
-          // acc[dateString].push(messageData);
           acc[dateString].push(message);
         }
 
@@ -73,10 +71,17 @@ const MessageList: FC = () => {
     }
   }, [messages]);
 
+  // Добавляет currentChatId в локалСторидж, чтобы при перезагрузке врнуться на текущий чат
+  useEffect(() => {
+    localStorage.setItem('currentChatId', chatUID);
+
+    return () => {
+      localStorage.removeItem('currentChatId');
+    };
+  }, [chatUID]);
+
   useEffect(() => {
     if (chatUID === null) return;
-
-    localStorage.setItem('currentChatId', chatUID);
 
     const queryParams = query(
       collection(db, `chats/${chatUID}/messages`),
@@ -124,7 +129,6 @@ const MessageList: FC = () => {
 
     return () => {
       unsubChatMessages();
-      localStorage.removeItem('currentChatId');
     };
   }, [chatUID, currentUserUID]);
 
@@ -161,10 +165,7 @@ const MessageList: FC = () => {
     setIsButtonVisible(isNearBottom);
   };
 
-  const handleClickRigthButtonMessage = (
-    id: string,
-    e?: React.MouseEvent
-  ) => {
+  const handleClickRigthButtonMessage = (id: string, e?: React.MouseEvent) => {
     if (e) {
       e.preventDefault();
 
@@ -258,8 +259,7 @@ const MessageList: FC = () => {
       if (messages.length > 1) {
         // тут в ифе по идее условие если последнее сообщение здесь
         if (selectedDocDataMessage.id === messages[messages.length - 1].id) {
-          const lastFiles =
-            messages[messages.length - 2].data()?.file;
+          const lastFiles = messages[messages.length - 2].data()?.file;
 
           const lastMessage = lastFiles
             ? `${String.fromCodePoint(128206)} ${lastFiles.length} file(s) ${
@@ -302,7 +302,7 @@ const MessageList: FC = () => {
         });
       }
 
-      toast.success('Message successfully deleted!')
+      toast.success('Message successfully deleted!');
     }
   };
 
@@ -362,6 +362,7 @@ const MessageList: FC = () => {
                         className={`flex justify-center p-0.5 rounded-xl ${
                           currentItem && 'bg-currentContextMenuMessage'
                         }`}
+                        key={message.id}
                         onContextMenu={e =>
                           handleClickRigthButtonMessage(message.id, e)
                         }

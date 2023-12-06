@@ -10,7 +10,7 @@ const ChatList: FC<IChatListProps> = ({ setScreen }) => {
 
   console.log('screen --> ChatList');
 
-  console.log(myUserChatList);
+  // console.log(myUserChatList);
 
   return (
     <div>
