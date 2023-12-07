@@ -10,6 +10,9 @@ import useChatStore from '@zustand/store';
 import handleSubmitVerifyCode from './utils/handleSubmitVerifyCodeVerifyCode';
 import setUpRecaptcha from './utils/setUpRecaptcha';
 import { AuthSteps } from 'types/AuthSteps';
+// import ButtonLoader from '@components/Buttons/ButtonLoader/ButtonLoader';
+import AuthConfirmButton from '@components/Buttons/AuthConfirmButton/AuthConfirmButton';
+import { toast } from 'react-toastify';
 
 const Auth: FC = () => {
   const [step, setStep] = useState<AuthSteps>('Step 1/3');
@@ -19,6 +22,7 @@ const Auth: FC = () => {
   const [surname, setSurname] = useState('');
   const [confirmationResult, setConfirmationResult] =
     useState<ConfirmationResult | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
 
@@ -27,6 +31,7 @@ const Auth: FC = () => {
 
     if (phone) {
       try {
+        setIsLoading(true);
         const response = await setUpRecaptcha(phone, auth);
         console.log('response setUpRecaptcha', response);
         setStep('Step 2/3');
@@ -35,40 +40,73 @@ const Auth: FC = () => {
         setConfirmationResult(response);
       } catch (error) {
         console.log('handleSubmitPhone error', error);
+        toast.error(String(error));
+      } finally {
+        setIsLoading(false);
       }
     } else {
       console.error('Номер телефона не определен');
     }
   };
 
+  const handleMannageVerifyCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      setIsLoading(true);
+
+      const userCredential = await handleSubmitVerifyCode(
+        confirmationResult,
+        code,
+      );
+
+      if (userCredential) {
+        if (userCredential.user.displayName) {
+          return;
+        } else {
+          setStep('Step 3/3');
+        }
+      }
+    } catch (error) {
+      console.log('handleMannageVerifyCode error', error);
+      toast.error(String(error))
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const user = auth.currentUser;
+    try {
+      setIsLoading(true);
+      const user = auth.currentUser;
 
-    if (user) {
-      await updateProfile(user, {
-        displayName: `${name} ${surname}`,
-        // photoURL: "https://example.com/jane-q-user/profile.jpg"
-      });
+      if (user) {
+        await updateProfile(user, {
+          displayName: `${name} ${surname}`,
+        });
 
-      console.log('user handleUpdateProfile', user);
-      // =================обновим юзеру имя в стейте============================
-      await updateCurrentUser(user);
-      // =================создаем юзера для поиска пользователей=======================
+        console.log('user handleUpdateProfile', user);
 
-      await setDoc(doc(db, 'users', user.uid), {
-        displayName: user.displayName,
-        uid: user.uid,
-        // photoURL:
-        //   'https://cdn.iconscout.com/icon/free/png-256/free-profile-1439375-1214445.png?f=avif&w=128',
-        photoURL: null,
-      });
+        // =================обновим юзеру имя в стейте============================
+        await updateCurrentUser(user);
 
-      // =================создаем обьект чаты нашего юзера которого мы только создали=======================
-      await setDoc(doc(db, 'userChats', user.uid), {});
-    } else {
-      console.error('Пользователь не вошел в систему');
+        // =================создаем юзера для поиска пользователей=======================
+        await setDoc(doc(db, 'users', user.uid), {
+          displayName: user.displayName,
+          uid: user.uid,
+          photoURL: null,
+        });
+
+        // =================создаем обьект чаты нашего юзера которого мы только создали=======================
+        await setDoc(doc(db, 'userChats', user.uid), {});
+      } 
+    } catch (error) {
+      console.log('handleUpdateProfile error', error);
+      toast.error(String(error));
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -100,13 +138,7 @@ const Auth: FC = () => {
 
             <form onSubmit={handleSubmitPhone} className="flex flex-col gap-1">
               <MyPhoneInput phone={phone} setPhone={setPhone} />
-              <button
-                className="w-full p-2 rounded-md bg-myblue text-white font-bold"
-                id="sign-in-button"
-                type="submit"
-              >
-                Continue
-              </button>
+              <AuthConfirmButton isLoading={isLoading} />
             </form>
           </>
         )}
@@ -125,18 +157,11 @@ const Auth: FC = () => {
             </p>
 
             <form
-              onSubmit={e =>
-                handleSubmitVerifyCode(e, confirmationResult, code, setStep)
-              }
+              onSubmit={handleMannageVerifyCode}
               className="flex flex-col gap-1"
             >
               <CodeInput setCode={setCode} />
-              <button
-                className="w-full p-2 rounded-md bg-myblue text-white font-bold"
-                type="submit"
-              >
-                Continue
-              </button>
+              <AuthConfirmButton isLoading={isLoading} />
             </form>
           </>
         )}
@@ -173,18 +198,13 @@ const Auth: FC = () => {
                   onChange={handleChangeSurname}
                 />
               </label>
-              <button
-                className="w-full p-2 rounded-md bg-myblue text-white font-bold"
-                type="submit"
-              >
-                Continue
-              </button>
+              <AuthConfirmButton isLoading={isLoading} />
             </form>
           </>
         )}
       </div>
     </div>
   );
-}
+};
 
 export default Auth;

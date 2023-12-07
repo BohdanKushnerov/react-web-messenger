@@ -1,10 +1,11 @@
 import { auth, db } from '@myfirebase/config';
-import { updateCurrentUser, updateProfile } from 'firebase/auth';
+import { User, updateProfile } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 
 const handleClickChangeDisplayName = async (
   newDisplayName: string,
-  userUid: string
+  userUid: string,
+  updateCurrentUser: (user: User) => void
 ) => {
   if (auth.currentUser && userUid) {
     try {
@@ -12,8 +13,10 @@ const handleClickChangeDisplayName = async (
         displayName: newDisplayName,
       })
         .then(() => {
-          console.log('Profile updated!');
-          updateCurrentUser(auth, auth.currentUser);
+          if (auth.currentUser) {
+            console.log('Profile updated!');
+            updateCurrentUser(auth.currentUser);
+          }
         })
         .catch(error => {
           // An error occurred

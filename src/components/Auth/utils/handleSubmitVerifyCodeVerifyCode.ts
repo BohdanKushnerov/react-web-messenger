@@ -1,32 +1,34 @@
 import { ConfirmationResult } from 'firebase/auth';
 
-import { StepsAuth } from 'types/StepsAuth';
+// import { StepsAuth } from 'types/StepsAuth';
 
-const handleSubmitVerifyCode = async (
-  e: React.FormEvent,
+const handleSubmitVerifyCode =  (
+  // e: React.FormEvent,
   confirmationResult: ConfirmationResult | null,
   code: string,
-  setStep: React.Dispatch<React.SetStateAction<StepsAuth>>
+  // setStep: React.Dispatch<React.SetStateAction<StepsAuth>>
 ) => {
-  e.preventDefault();
+  // e.preventDefault();
 
   if (confirmationResult) {
-    try {
+  //   try {
       // console.log('confirmationResult', confirmationResult);
       // console.log('code', code);
-      const userCredential = await confirmationResult.confirm(code);
-      console.log('userCredential', userCredential);
-      if (userCredential) {
-        if (userCredential.user.displayName) {
-          return;
-        } else {
-          setStep('Step 3/3');
-        }
-      }
-    } catch (error) {
-      console.log('setVerifyCode error', error);
-    }
-  }
+      return confirmationResult.confirm(code);
+
+      // console.log('userCredential', userCredential);
+      // if (userCredential) {
+      //   if (userCredential.user.displayName) {
+      //     return;
+      //   } else {
+      //     setStep('Step 3/3');
+      //   }
+      // }
+    } 
+    // catch (error) {
+    //   console.log('setVerifyCode error', error);
+    // }
+  // }
 };
 
 export default handleSubmitVerifyCode;

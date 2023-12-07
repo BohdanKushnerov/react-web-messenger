@@ -235,7 +235,13 @@ const ProfileSettings: FC = () => {
                   ? 'bg-transparent border-zinc-400 text-zinc-400'
                   : 'text-black bg-transparent border-black'
               } hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800 cursor-pointer`}
-              onClick={() => handleClickChangeDisplayName(newDisplayName, uid)}
+              onClick={() =>
+                handleClickChangeDisplayName(
+                  newDisplayName,
+                  uid,
+                  updateCurrentUser
+                )
+              }
               disabled={displayName === newDisplayName}
             >
               Change your name
