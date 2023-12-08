@@ -75,13 +75,17 @@ const ChatForm: FC = () => {
     <div className="absolute bottom-0 left-0 z-10 w-full h-24 flex flex-col items-center">
       <div className="relative flex flex-col justify-center w-full h-full shadow-whiteTopShadow xl:w-8/12">
         {editingMessageInfo && (
-          <div className="relative flex items-center gap-5 ml-3 mr-16 px-10 rounded-3xl bg-mySeacrhBcg">
-            <svg width={20} height={20}>
-              <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
+          <div className="relative flex items-center gap-3 ml-3 mr-16 px-5 rounded-3xl bg-zinc-300 dark:bg-mySeacrhBcg">
+            <svg
+              width={20}
+              height={20}
+              className="fill-zinc-600 dark:fill-white"
+            >
+              <use href={sprite + '#icon-pencil'} />
             </svg>
             <div>
               <p className="flex text-violet-500">Edit message</p>
-              <p className="text-white">
+              <p className="text-black dark:text-white">
                 {editingMessageInfo.selectedMessage.data().message ||
                   'empty message... =)'}
               </p>

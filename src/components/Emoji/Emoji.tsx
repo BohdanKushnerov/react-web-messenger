@@ -35,7 +35,7 @@ const Emoji: FC<IEmoji> = ({ setMessage }) => {
   }, [isShowEmoji]);
 
   const handleSelectEmoji = (emojiData: EmojiClickData) => {
-    setMessage((prev: string) => prev + emojiData.emoji);
+    setMessage(prevState => prevState + emojiData.emoji);
   };
 
   const handleMouseEnterEmoji = () => {
