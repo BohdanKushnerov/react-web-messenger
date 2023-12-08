@@ -12,11 +12,12 @@ import { Line } from 'rc-progress';
 import { v4 as uuidv4 } from 'uuid';
 
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
-import ButtonCloseModal from '@components/Buttons/ButtonCloseModal/ButtonCloseModal';
+import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
+import ButtonArrow from '@components/Buttons/ButtonArrow/ButtonArrow';
 import { auth, db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import sprite from '@assets/sprite.svg';
 import handleClickChangeDisplayName from '@utils/handleClickChangeDisplayName';
+import sprite from '@assets/sprite.svg';
 
 const ProfileSettings: FC = () => {
   const [newDisplayName, setNewDisplayName] = useState(
@@ -155,14 +156,9 @@ const ProfileSettings: FC = () => {
 
   return (
     <>
-      <button
-        className="flex justify-center items-center w-12 h-12 text-white hover:bg-hoverGray rounded-full cursor-pointer"
-        onClick={handleClickTurnBackToDefaultScreen}
-      >
-        <svg className="rotate-180 fill-zinc-600" width={24} height={24}>
-          <use href={sprite + '#icon-right-arrow'} />
-        </svg>
-      </button>
+      <ButtonArrow
+        handleClickButtonArrow={handleClickTurnBackToDefaultScreen}
+      />
       <div className="flex flex-col justify-center items-center gap-4">
         <input
           style={{ display: 'none' }}
@@ -253,8 +249,8 @@ const ProfileSettings: FC = () => {
         <ModalWindow handleToggleModal={handleToggleProfilePhotoModal}>
           <div className="h-full flex justify-center items-center">
             <div className="relative w-full sm:w-1/2 xl:w-1/3 h-2/3 flex flex-col gap-6 justify-center items-center bg-gray-200 dark:bg-myBlackBcg rounded-3xl shadow-mainShadow">
-              <ButtonCloseModal
-                handleCloseModal={handleToggleProfilePhotoModal}
+              <ButtonClose
+                handleClickButtonClose={handleToggleProfilePhotoModal}
               />
               {photoProfileInputRef.current?.files && (
                 <img

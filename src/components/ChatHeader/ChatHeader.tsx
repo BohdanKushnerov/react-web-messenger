@@ -1,5 +1,7 @@
 import { FC } from 'react';
+
 import ChatHeaderOponentInfo from '@components/ChatHeaderOponentInfo/ChatHeaderOponentInfo';
+import ButtonArrow from '@components/Buttons/ButtonArrow/ButtonArrow';
 import { IChatHeaderProps } from '@interfaces/IChatHeaderProps';
 import sprite from '@assets/sprite.svg';
 
@@ -17,18 +19,7 @@ const ChatHeader: FC<IChatHeaderProps> = ({
   return (
     <div className="absolute top-0 left-0 z-10 flex gap-4 items-center w-full h-14 px-6 bg-gray-200 dark:bg-myBlackBcg shadow-bottomShadow">
       {setScreen && (
-        <button
-          className="flex justify-center items-center w-12 h-12 hover:bg-hoverGray rounded-full cursor-pointer"
-          onClick={handleClickBackToSidebarScreen}
-        >
-          <svg
-            className="fill-zinc-600 dark:fill-zinc-400 rotate-180"
-            width={24}
-            height={24}
-          >
-            <use href={sprite + '#icon-right-arrow'} />
-          </svg>
-        </button>
+        <ButtonArrow handleClickButtonArrow={handleClickBackToSidebarScreen} />
       )}
 
       <ChatHeaderOponentInfo />

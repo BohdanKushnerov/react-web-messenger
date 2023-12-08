@@ -8,6 +8,7 @@ import useTyping from '@hooks/useTyping';
 import handleUpdateEditMessage from '@utils/handleUpdateEditMessage';
 import handleSendMessage from '@utils/handleSendMessage';
 import sprite from '@assets/sprite.svg';
+import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
 
 const ChatForm: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -74,7 +75,7 @@ const ChatForm: FC = () => {
     <div className="absolute bottom-0 left-0 z-10 w-full h-24 flex flex-col items-center">
       <div className="relative flex flex-col justify-center w-full h-full shadow-whiteTopShadow xl:w-8/12">
         {editingMessageInfo && (
-          <div className="relative flex items-center gap-3 ml-3 mr-16 px-10 rounded-3xl bg-mySeacrhBcg">
+          <div className="relative flex items-center gap-5 ml-3 mr-16 px-10 rounded-3xl bg-mySeacrhBcg">
             <svg width={20} height={20}>
               <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
             </svg>
@@ -85,11 +86,16 @@ const ChatForm: FC = () => {
                   'empty message... =)'}
               </p>
             </div>
-            <button onClick={handleCancelEditingMessage}>
+            {/* <button onClick={handleCancelEditingMessage}>
               <svg className="absolute top-3.5 right-4" width={20} height={20}>
                 <use href={sprite + '#icon-cross-close'} fill="#FFFFFF" />
               </svg>
-            </button>
+            </button> */}
+            <div className="absolute top-0 right-12">
+              <ButtonClose
+                handleClickButtonClose={handleCancelEditingMessage}
+              />
+            </div>
           </div>
         )}
         <form

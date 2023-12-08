@@ -13,7 +13,7 @@ import Scrollbars from 'react-custom-scrollbars-2';
 import { v4 as uuidv4 } from 'uuid';
 
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
-import ButtonCloseModal from '@components/Buttons/ButtonCloseModal/ButtonCloseModal';
+import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
 import UploadPhotoFile from '@components/UploadPhotoFile/UploadPhotoFile';
 import UploadDocumentFile from '@components/UploadDocumentFile/UploadDocumentFile';
 import { db, storage } from '@myfirebase/config';
@@ -242,7 +242,7 @@ const FileInput: FC = () => {
               <p className="text-black dark:text-white font-extrabold">
                 {`Send ${hiddenFileInput.current?.files?.length} File(s)`}
               </p>
-              <ButtonCloseModal handleCloseModal={handleCloseAddFileModal} />
+              <ButtonClose handleClickButtonClose={handleCloseAddFileModal} />
               <Scrollbars
                 ref={scrollbarsRef}
                 autoHide
