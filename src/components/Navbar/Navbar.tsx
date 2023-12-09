@@ -72,8 +72,8 @@ const Navbar: FC = () => {
                 <div className="absolute top-14 left-5 z-20 flex flex-col gap-2 p-2 bg-gray-200 dark:bg-myBlackBcg rounded-md shadow-mainShadow">
                   <div className="flex justify-between items-center gap-1 text-black dark:text-white">
                     <AvatarProfile
-                      photoURL={currentUser.photoURL}
-                      displayName={currentUser.displayName}
+                      photoURL={currentUser?.photoURL as string}
+                      displayName={currentUser.displayName as string}
                       size="48"
                     />
                     <p className="flex transf">{currentUser?.displayName}</p>
@@ -99,6 +99,6 @@ const Navbar: FC = () => {
       </Transition>
     </div>
   );
-}
+};
 
 export default Navbar;

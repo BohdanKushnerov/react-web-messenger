@@ -3,7 +3,7 @@ import { onValue, ref } from 'firebase/database';
 
 import { database } from '@myfirebase/config';
 
-const useIsOnlineStatus = (userUID: string) => {
+const useIsOnlineStatus = (userUID: string | null) => {
   const [isOnline, setIsOnline] = useState<boolean | null>(null);
 
   // следим за состоянием онлайн/офлайн

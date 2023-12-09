@@ -52,6 +52,8 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
   }, [chatUID, searchValue]);
 
   useEffect(() => {
+    if (!userUID) return;
+
     const unsubUserInfoData = onSnapshot(doc(db, 'users', userUID), doc => {
       const data = doc.data();
       if (data) {

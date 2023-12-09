@@ -232,6 +232,7 @@ const ProfileSettings: FC = () => {
                   : 'text-black bg-transparent border-black'
               } hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800 cursor-pointer`}
               onClick={() =>
+                uid !== null &&
                 handleClickChangeDisplayName(
                   newDisplayName,
                   uid,

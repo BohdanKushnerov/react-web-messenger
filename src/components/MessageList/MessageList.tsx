@@ -73,7 +73,9 @@ const MessageList: FC = () => {
 
   // Добавляет currentChatId в локалСторидж, чтобы при перезагрузке врнуться на текущий чат
   useEffect(() => {
-    localStorage.setItem('currentChatId', chatUID);
+    if (chatUID) {
+      localStorage.setItem('currentChatId', chatUID);
+    }
 
     return () => {
       localStorage.removeItem('currentChatId');

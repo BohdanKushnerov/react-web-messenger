@@ -3,7 +3,7 @@ import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 
-const useChatInfo = (userUID: string) => {
+const useChatInfo = (userUID: string | null) => {
   const [currentChatInfo, setCurrentChatInfo] = useState<DocumentData | null>(
     null
   );
