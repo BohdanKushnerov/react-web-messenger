@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import useChatStore from '@zustand/store';
@@ -11,9 +12,11 @@ import truncateLastMessageString from '@utils/truncateLastMessageString';
 import handleSelectChat from '@utils/handleSelectChat';
 import { IChatListItemProps } from '@interfaces/IChatListItemProps';
 import sprite from '@assets/sprite.svg';
+import '@i18n';
 
 const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
   const location = useLocation();
+  const { t } = useTranslation();
 
   // zustand
   const { uid } = useChatStore(state => state.currentUser);
@@ -121,7 +124,7 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
           ))}
 
         <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
-          {isOnline ? 'Online' : 'Offline'}
+          {isOnline ? t('Online') : t('Offline')}
         </div>
       </Link>
     </li>

@@ -13,6 +13,7 @@ import { deleteObject, ref } from 'firebase/storage';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 import MessageItem from '@components/MessageItem/MessageItem';
 import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
@@ -20,6 +21,7 @@ import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import sprite from '@assets/sprite.svg';
+import '@i18n';
 
 const MessageList: FC = () => {
   const [messages, setMessages] = useState<DocumentData[] | null>(null);
@@ -33,6 +35,7 @@ const MessageList: FC = () => {
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const scrollbarsRef = useRef<Scrollbars>(null);
   const msgListRef = useRef(null);
+  const { t } = useTranslation();
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
@@ -336,66 +339,66 @@ const MessageList: FC = () => {
 
   return (
     <>
-        <div className="h-full w-full py-1" onClick={handleCloseModal}>
-          <Scrollbars
-            ref={scrollbarsRef}
-            autoHide
-            style={{
-              top: 56,
-              height: 'calc(100% - 56px - 96px)',
-            }}
-            onScroll={handleScroll}
+      <div className="h-full w-full py-1" onClick={handleCloseModal}>
+        <Scrollbars
+          ref={scrollbarsRef}
+          autoHide
+          style={{
+            top: 56,
+            height: 'calc(100% - 56px - 96px)',
+          }}
+          onScroll={handleScroll}
+        >
+          <ul ref={msgListRef} className="flex flex-col px-6 gap-2">
+            {groupedMessages &&
+              Object.keys(groupedMessages).map(date => (
+                <li className="relative flex flex-col gap-2" key={date}>
+                  <div className="flex justify-center sticky top-1 z-10 ">
+                    <p className="px-2 py-0.5 w-min-0 whitespace-no-wrap rounded-xl bg-zinc-200/40 text-green-100 text-center">
+                      {formatDateForGroupMessages(date)}
+                    </p>
+                  </div>
+                  {groupedMessages[date].map((message: DocumentData) => {
+                    const currentItem =
+                      selectedItemIdForOpenModal === message.id;
+
+                    return (
+                      <div
+                        className={`flex justify-center p-0.5 rounded-xl ${
+                          currentItem && 'bg-currentContextMenuMessage'
+                        }`}
+                        key={message.id}
+                        onContextMenu={e =>
+                          handleClickRigthButtonMessage(message.id, e)
+                        }
+                      >
+                        <MessageItem msg={message} />
+                      </div>
+                    );
+                  })}
+                </li>
+              ))}
+          </ul>
+        </Scrollbars>
+
+        {isButtonVisible && (
+          <button
+            onClick={handleClickScrollBottom}
+            className="absolute bottom-32 right-10 bg-white p-2 rounded-full"
           >
-            <ul ref={msgListRef} className="flex flex-col px-6 gap-2">
-              {groupedMessages &&
-                Object.keys(groupedMessages).map(date => (
-                  <li className="relative flex flex-col gap-2" key={date}>
-                    <div className="flex justify-center sticky top-1 z-10 ">
-                      <p className="px-2 py-0.5 w-min-0 whitespace-no-wrap rounded-xl bg-zinc-200/40 text-green-100 text-center">
-                        {formatDateForGroupMessages(date)}
-                      </p>
-                    </div>
-                    {groupedMessages[date].map((message: DocumentData) => {
-                      const currentItem =
-                        selectedItemIdForOpenModal === message.id;
-
-                      return (
-                        <div
-                          className={`flex justify-center p-0.5 rounded-xl ${
-                            currentItem && 'bg-currentContextMenuMessage'
-                          }`}
-                          key={message.id}
-                          onContextMenu={e =>
-                            handleClickRigthButtonMessage(message.id, e)
-                          }
-                        >
-                          <MessageItem msg={message} />
-                        </div>
-                      );
-                    })}
-                  </li>
-                ))}
-            </ul>
-          </Scrollbars>
-
-          {isButtonVisible && (
-            <button
-              onClick={handleClickScrollBottom}
-              className="absolute bottom-32 right-10 bg-white p-2 rounded-full"
+            <svg
+              className="rotate-180"
+              strokeWidth="0"
+              viewBox="0 0 320 512"
+              height="24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                className="rotate-180"
-                strokeWidth="0"
-                viewBox="0 0 320 512"
-                height="24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"></path>
-              </svg>
-            </button>
-          )}
-        </div>
+              <path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"></path>
+            </svg>
+          </button>
+        )}
+      </div>
       {messages && selectedItemIdForOpenModal !== null && (
         <MessageContextMenuModal
           closeModal={handleCloseModal}
@@ -411,7 +414,7 @@ const MessageList: FC = () => {
                 <svg width={20} height={20}>
                   <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
                 </svg>
-                <span>EDIT</span>
+                <span>{t('Edit')}</span>
               </button>
             )}
 
@@ -424,7 +427,7 @@ const MessageList: FC = () => {
                   <svg width={20} height={20}>
                     <use href={sprite + '#icon-copy'} fill="#FFFFFF" />
                   </svg>
-                  <span>COPY TEXT</span>
+                  <span>{t('Copy')}</span>
                 </button>
               </CopyToClipboard>
             )}
@@ -436,7 +439,7 @@ const MessageList: FC = () => {
               <svg width={20} height={20}>
                 <use href={sprite + '#icon-delete-button'} fill="#FFFFFF" />
               </svg>
-              <span>DELETE</span>
+              <span>{t('Delete')}</span>
             </button>
           </div>
         </MessageContextMenuModal>

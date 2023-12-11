@@ -1,11 +1,16 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import useChatInfo from '@hooks/useChatInfo';
 import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
 import useShowTyping from '@hooks/useShowTyping';
 import useChatStore from '@zustand/store';
+import '@i18n';
 
 const ChatHeaderOponentInfo: FC = () => {
+  const { t } = useTranslation();
+
   const userUID = useChatStore(state => state.currentChatInfo.userUID);
 
   const isOpponentTyping = useShowTyping(); // тут слушатель на изменения печатает/не печатает
@@ -28,7 +33,7 @@ const ChatHeaderOponentInfo: FC = () => {
         <h2 className="text-black dark:text-white">typing...</h2>
       ) : (
         <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
-          {isOnline ? 'Online' : 'Offline'}
+          {isOnline ? t('Online') : t('Offline')}
         </div>
       )}
     </>

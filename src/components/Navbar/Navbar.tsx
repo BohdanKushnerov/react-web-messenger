@@ -1,17 +1,21 @@
 import { FC, useRef, useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { Transition } from 'react-transition-group';
+import { useTranslation } from 'react-i18next';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import Theme from '@components/Theme/Theme';
+import LanguageSwitcher from '@components/LanguageSwitcher/LanguageSwitcher';
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import sprite from '@assets/sprite.svg';
+import '@i18n';
 
 const Navbar: FC = () => {
   const [isModalOpen, setIsModelOpen] = useState(false);
   const nodeRefNavBar = useRef(null);
+  const { t } = useTranslation();
 
   const currentUser = useChatStore(state => state.currentUser);
   const resetCurrentChatInfo = useChatStore(
@@ -81,16 +85,17 @@ const Navbar: FC = () => {
                       className="px-2 py-1 border border-gray-600 rounded-full transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
                       onClick={handleSignOut}
                     >
-                      Sign Out
+                      {t('SignOut')}
                     </button>
                   </div>
                   <button
                     className="px-2 py-1 border border-gray-600 rounded-full text-black dark:text-white transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
                     onClick={handleSettingsClick}
                   >
-                    Profile Settings
+                    {t('ProfileSettings')}
                   </button>
                   <Theme />
+                  <LanguageSwitcher />
                 </div>
               </ModalWindow>
             </div>

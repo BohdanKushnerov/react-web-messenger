@@ -7,6 +7,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
+import { useTranslation } from 'react-i18next';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import Search from '@components/Inputs/Search/Search';
@@ -15,6 +16,7 @@ import useChatStore from '@zustand/store';
 import formatTime from '@utils/formatTime';
 import { ISearchMessagesProps } from '@interfaces/ISearchMessagesProps';
 import sprite from '@assets/sprite.svg';
+import '@i18n';
 
 const SearchMessages: FC<ISearchMessagesProps> = ({
   setIsShowSearchMessages,
@@ -26,6 +28,7 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
   const [currentChatInfo, setCurrentChatInfo] = useState<DocumentData | null>(
     null
   );
+  const { t } = useTranslation();
 
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
   const { photoURL, displayName } = useChatStore(state => state.currentUser);
@@ -99,7 +102,7 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
         <Search
           value={searchValue}
           handleChange={handleChangeSearchMessage}
-          placeholderText="Enter text (case-sensitive)"
+          placeholderText={t('SearchMsgPlaceholder')}
         />
       </div>
       {searchMessages && (

@@ -10,6 +10,7 @@ import {
 } from 'firebase/storage';
 import { Line } from 'rc-progress';
 import { v4 as uuidv4 } from 'uuid';
+import { useTranslation } from 'react-i18next';
 
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
@@ -18,6 +19,7 @@ import { auth, db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleClickChangeDisplayName from '@utils/handleClickChangeDisplayName';
 import sprite from '@assets/sprite.svg';
+import '@i18n';
 
 const ProfileSettings: FC = () => {
   const [newDisplayName, setNewDisplayName] = useState(
@@ -28,6 +30,7 @@ const ProfileSettings: FC = () => {
     number | null
   >(null);
   const photoProfileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
   const { uid, displayName, photoURL } = useChatStore(
     state => state.currentUser
@@ -206,7 +209,7 @@ const ProfileSettings: FC = () => {
           )}
         </div>
         <div className="flex gap-2 justify-center items-center text-white">
-          <p className="text-black dark:text-white">Phone:</p>
+          <p className="text-black dark:text-white">{t('Phone')}</p>
           <p className="py-2 px-4 h-10 rounded-3xl bg-mySeacrhBcg text-white text-center cursor-default">
             {auth?.currentUser?.phoneNumber}
           </p>
@@ -221,7 +224,7 @@ const ProfileSettings: FC = () => {
                 onChange={handleChangeDisplayName}
               />
               <p className="text-center text-xs text-black dark:text-white">
-                &#x2BB4; start change username and button will be enable
+                &#x2BB4; {t('ChangeNameNotify')}
                 &#x2BB5;
               </p>
             </div>

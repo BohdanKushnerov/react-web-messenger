@@ -12,7 +12,8 @@
       "@utils/*": ["utils/*"],
       // "@types/*": ["types/*"],
       "@interfaces/*": ["interfaces/*"],
-      "@hooks/*": ["hooks/*"]
+      "@hooks/*": ["hooks/*"],
+      "@i18n": ["/i18n"],
     },
     "target": "ES2020",
     "useDefineForClassFields": true,

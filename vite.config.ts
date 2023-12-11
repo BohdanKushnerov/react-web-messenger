@@ -15,6 +15,7 @@ export default defineConfig({
       // '@types': '/src/types',
       '@interfaces': '/src/interfaces',
       '@hooks': '/src/hooks',
+      '@i18n': '/i18n',
     },
   },
   plugins: [react()],
