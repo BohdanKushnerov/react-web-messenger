@@ -14,17 +14,35 @@ function App() {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
 
   useEffect(() => {
-    if (
-      localStorage.theme === 'dark' ||
-      (!('theme' in localStorage) &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      document.documentElement.classList.add('dark');
-      localStorage.theme = 'dark';
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.theme = 'light';
+    if (localStorage.language) {
+      return;
     }
+
+    const userLanguage = navigator.language;
+
+    if (userLanguage === 'en-US') {
+      localStorage.setItem('language', 'en');
+    } else if (userLanguage === 'uk-UA') {
+      localStorage.setItem('language', 'ua');
+    } else if (userLanguage === 'ru-RU') {
+      localStorage.setItem('language', 'ru');
+    } else {
+      localStorage.setItem('language', 'en');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!localStorage.theme) {
+      const prefersDarkMode = window.matchMedia(
+        '(prefers-color-scheme: dark)'
+      ).matches;
+      localStorage.theme = prefersDarkMode ? 'dark' : 'light';
+    }
+
+    document.documentElement.classList.toggle(
+      'dark',
+      localStorage.theme === 'dark'
+    );
   }, []);
 
   useEffect(() => {

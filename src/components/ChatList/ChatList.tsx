@@ -9,8 +9,7 @@ const ChatList: FC<IChatListProps> = ({ setScreen }) => {
   const myUserChatList = useMyUserChatList(); // загрузка списка моих чатов
 
   console.log('screen --> ChatList');
-
-  // console.log(myUserChatList);
+  // console.log("myUserChatList", myUserChatList);
 
   return (
     <div>

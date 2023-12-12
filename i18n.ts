@@ -1,62 +1,201 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-// Ресурсы с переводами
+const currentLanguage = localStorage.getItem('language');
+
 const resources = {
   en: {
     translation: {
+      MonthNames: {
+        January: 'January',
+        February: 'February',
+        March: 'March',
+        April: 'April',
+        May: 'May',
+        June: 'June',
+        July: 'July',
+        August: 'August',
+        September: 'September',
+        October: 'October',
+        November: 'November',
+        December: 'December',
+      },
+      NavBar: {
+        SignOut: 'Sign Out',
+        ProfileSettings: 'Profile Settings',
+        Theme: 'Theme',
+        Light: 'Light',
+        Dark: 'Dark',
+        Language: 'Language',
+        English: 'English',
+        Ukrainian: 'Ukrainian',
+        Russian: 'Russian',
+      },
+      ProfileSettings: {
+        Phone: 'Phone:',
+        ChangeName: 'Change Name',
+        ChangeNameNotify: 'Start change username and button will be enable',
+        Modal: {
+          ChangeProfilePhotoPrompt:
+            "If you're satisfied, click the 'Change Profile Photo' button, or close the window and try a new photo",
+          ChangeProfilePhoto: 'Change profile photo',
+        },
+      },
+      ChatForm: {
+        ChatInputPlaceholder: 'Write your message...',
+        EditMessage: 'Edit message',
+        EmptyMessage: 'Empty message... =)',
+      },
+      ContextMenu: {
+        Edit: 'EDIT',
+        Copy: 'COPY',
+        Delete: 'DELETE',
+      },
+      FileInput: {
+        Files: 'file(s)',
+        ImageCaptionPlaceholder: 'Add a caption...',
+        Send: 'Send',
+      },
       Search: 'Search...',
       EmptyChatNofify: 'Select or search user who you would to start messaging',
-      ChatInputPlaceholder: 'Write your message...',
       SearchMsgPlaceholder: 'Enter text (case-sensitive)',
-      EditMessage: 'Edit message',
-      EmptyMessage: 'Empty message... =)',
-      Edit: 'EDIT',
-      Copy: 'COPY',
-      Delete: 'Delete',
+      NotFoundMsg: 'Not found messages, change search value',
       Offline: 'Offline',
       Online: 'Online',
-      SignOut: 'Sign Out',
-      ProfileSettings: 'Profile Settings',
-      Light: 'Light',
-      Dark: 'Dark',
-      Phone: 'Phone:',
-      ChangeNameNotify: 'Start change username and button will be enable',
     },
   },
   ua: {
     translation: {
+      MonthNames: {
+        January: 'Січень',
+        February: 'Лютий',
+        March: 'Березень',
+        April: 'Квітень',
+        May: 'Травень',
+        June: 'Червень',
+        July: 'Липень',
+        August: 'Серпень',
+        September: 'Вересень',
+        October: 'Жовтень',
+        November: 'Листопад',
+        December: 'Грудень',
+      },
+      NavBar: {
+        SignOut: 'Вийти з аккаунта',
+        ProfileSettings: 'Налаштування профілю',
+        Theme: 'Тема',
+        Light: 'Світла',
+        Dark: 'Темна',
+        Language: 'Мова',
+        English: 'Англійська',
+        Ukrainian: 'Українська',
+        Russian: 'Російська',
+      },
+      ProfileSettings: {
+        Phone: 'Телефон:',
+        ChangeName: "Змінити ім'я",
+        ChangeNameNotify:
+          "Почніть змінювати ім'я користувача, і кнопка буде увімкнена",
+        Modal: {
+          ChangeProfilePhotoPrompt:
+            "Якщо ви задоволені, натисніть кнопку 'Змінити фото профілю' або закрийте вікно і спробуйте нове фото",
+          ChangeProfilePhoto: 'Змінити фото профілю',
+        },
+      },
+      ChatForm: {
+        ChatInputPlaceholder: 'Напиши своє повідомлення...',
+        EditMessage: 'Редагувати повідомлення',
+        EmptyMessage: 'Порожнє повідомлення... =)',
+      },
+      ContextMenu: {
+        Edit: 'РЕДАГУВАТИ',
+        Copy: 'КОПІЮВАТИ',
+        Delete: 'ВИДАЛИТИ',
+      },
+      FileInput: {
+        Files: 'файл(и)',
+        ImageCaptionPlaceholder: 'Додати підпис...',
+        Send: 'Відправити',
+      },
       Search: 'Пошук...',
       EmptyChatNofify:
         'Виберіть або знайдіть користувача, з яким ви хочете почати обмін повідомленнями',
-      ChatInputPlaceholder: 'Напиши своє повідомлення...',
       SearchMsgPlaceholder: 'Введіть текст (з урахуванням регістру)',
-      EditMessage: 'Редагувати повідомлення',
-      EmptyMessage: 'Порожнє повідомлення... =)',
-      Edit: 'Редагувати',
-      Copy: 'Копіювати',
-      Delete: 'Видалити',
+      NotFoundMsg: 'Повідомлення не знайдено, змініть значення пошуку',
       Offline: 'Офлайн',
       Online: 'Онлайн',
-      SignOut: 'Вийти з аккаунта',
-      ProfileSettings: 'Налаштування профілю',
-      Light: 'Світла',
-      Dark: 'Темна',
-      Phone: 'Телефон:',
-      ChangeNameNotify:
-        "Почніть змінювати ім'я користувача, і кнопка буде увімкнена",
+    },
+  },
+  ru: {
+    translation: {
+      MonthNames: {
+        January: 'Январь',
+        February: 'Февраль',
+        March: 'Март',
+        April: 'Апрель',
+        May: 'Май',
+        June: 'Июнь',
+        July: 'Июль',
+        August: 'Август',
+        September: 'Сентябрь',
+        October: 'Октябрь',
+        November: 'Ноябрь',
+        December: 'Декабрь',
+      },
+      NavBar: {
+        SignOut: 'Выйти из аккаунта',
+        ProfileSettings: 'Настройки профиля',
+        Theme: 'Тема',
+        Light: 'Светлая',
+        Dark: 'Темная',
+        Language: 'Язык',
+        English: 'Английский',
+        Ukrainian: 'Украинский',
+        Russian: 'Русский',
+      },
+      ProfileSettings: {
+        Phone: 'Телефон:',
+        ChangeName: 'Изменить имя',
+        ChangeNameNotify:
+          'Начните изменять имя пользователя, и кнопка будет включена',
+        Modal: {
+          ChangeProfilePhotoPrompt:
+            "Если вы удовлетворены, нажмите кнопку 'Изменить фото профиля' или закройте окно и попробуйте новое фото",
+          ChangeProfilePhoto: 'Изменить фото профиля',
+        },
+      },
+      ChatForm: {
+        ChatInputPlaceholder: 'Напишите своё сообщение...',
+        EditMessage: 'Редактировать сообщение',
+        EmptyMessage: 'Пустое сообщение... =)',
+      },
+      ContextMenu: {
+        Edit: 'РЕДАКТИРОВАТЬ',
+        Copy: 'КОПИРОВАТЬ',
+        Delete: 'УДАЛИТЬ',
+      },
+      FileInput: {
+        Files: 'файл(ы)',
+        ImageCaptionPlaceholder: 'Добавить подпись...',
+        Send: 'Отправить',
+      },
+      Search: 'Поиск...',
+      EmptyChatNofify:
+        'Выберите или найдите пользователя, с которым вы хотите начать обмен сообщениями',
+      SearchMsgPlaceholder: 'Введите текст (с учетом регистра)',
+      NotFoundMsg: 'Сообщения не найдены, измените значение поиска',
+      Offline: 'Офлайн',
+      Online: 'Онлайн',
     },
   },
 };
 
-i18n
-  .use(initReactI18next) // используем react-i18next
-  .init({
-    resources,
-    lng: 'ua', // язык по умолчанию
-    interpolation: {
-      escapeValue: false, // не экранировать строки
-    },
-  });
+i18n.use(initReactI18next).init({
+  resources,
+  lng: currentLanguage || 'en',
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 export default i18n;

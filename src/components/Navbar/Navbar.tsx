@@ -15,7 +15,9 @@ import '@i18n';
 const Navbar: FC = () => {
   const [isModalOpen, setIsModelOpen] = useState(false);
   const nodeRefNavBar = useRef(null);
-  const { t } = useTranslation();
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'NavBar',
+  });
 
   const currentUser = useChatStore(state => state.currentUser);
   const resetCurrentChatInfo = useChatStore(
@@ -82,14 +84,14 @@ const Navbar: FC = () => {
                     />
                     <p className="flex transf">{currentUser?.displayName}</p>
                     <button
-                      className="px-2 py-1 border border-gray-600 rounded-full transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
+                      className="px-2 py-1 border border-zinc-600 dark:border-zinc-500 rounded-full transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
                       onClick={handleSignOut}
                     >
                       {t('SignOut')}
                     </button>
                   </div>
                   <button
-                    className="px-2 py-1 border border-gray-600 rounded-full text-black dark:text-white transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
+                    className="px-2 py-1 border border-zinc-600 dark:border-zinc-500 rounded-full text-black dark:text-white transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
                     onClick={handleSettingsClick}
                   >
                     {t('ProfileSettings')}

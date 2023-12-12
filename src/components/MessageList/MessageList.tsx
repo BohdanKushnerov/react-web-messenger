@@ -45,8 +45,6 @@ const MessageList: FC = () => {
 
   // console.log('screen --> MessageList');
 
-  // console.log('groupedMessages', groupedMessages);
-
   const selectedDocDataMessage = messages?.find(
     message => message.id === selectedItemIdForOpenModal
   );
@@ -355,7 +353,7 @@ const MessageList: FC = () => {
                 <li className="relative flex flex-col gap-2" key={date}>
                   <div className="flex justify-center sticky top-1 z-10 ">
                     <p className="px-2 py-0.5 w-min-0 whitespace-no-wrap rounded-xl bg-zinc-200/40 text-green-100 text-center">
-                      {formatDateForGroupMessages(date)}
+                      {formatDateForGroupMessages(date, t)}
                     </p>
                   </div>
                   {groupedMessages[date].map((message: DocumentData) => {
@@ -414,7 +412,7 @@ const MessageList: FC = () => {
                 <svg width={20} height={20}>
                   <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
                 </svg>
-                <span>{t('Edit')}</span>
+                <span>{t('ContextMenu.Edit')}</span>
               </button>
             )}
 
@@ -427,7 +425,7 @@ const MessageList: FC = () => {
                   <svg width={20} height={20}>
                     <use href={sprite + '#icon-copy'} fill="#FFFFFF" />
                   </svg>
-                  <span>{t('Copy')}</span>
+                  <span>{t('ContextMenu.Copy')}</span>
                 </button>
               </CopyToClipboard>
             )}
@@ -439,7 +437,7 @@ const MessageList: FC = () => {
               <svg width={20} height={20}>
                 <use href={sprite + '#icon-delete-button'} fill="#FFFFFF" />
               </svg>
-              <span>{t('Delete')}</span>
+              <span>{t('ContextMenu.Delete')}</span>
             </button>
           </div>
         </MessageContextMenuModal>
