@@ -13,7 +13,7 @@ import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import Search from '@components/Inputs/Search/Search';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import formatTime from '@utils/formatTime';
+import formatTimeSearchMsg from '@utils/formatTimeSearchMsg';
 import { ISearchMessagesProps } from '@interfaces/ISearchMessagesProps';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
@@ -108,9 +108,7 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
       {searchMessages && (
         <ul className="flex flex-col justify-center gap-2">
           {searchMessages.length === 0 && (
-            <p className="text-zinc-600 dark:text-white">
-              Not found messages, change search value
-            </p>
+            <p className="text-zinc-600 dark:text-white">{t('NotFoundMsg')}</p>
           )}
           {searchMessages.map(msg => {
             console.log(msg.data().senderUserID);
@@ -141,7 +139,7 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
                   </p>
                   <p className="text-zinc-600 dark:text-white">
                     {msg.data().date &&
-                      formatTime(msg.data().date.toDate().toString())}
+                      formatTimeSearchMsg(msg.data().date.toDate().toString())}
                   </p>
                 </div>
               </li>

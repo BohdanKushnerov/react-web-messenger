@@ -30,7 +30,7 @@ const ProfileSettings: FC = () => {
     number | null
   >(null);
   const photoProfileInputRef = useRef<HTMLInputElement>(null);
-  const { t } = useTranslation();
+  const { t } = useTranslation('translation', { keyPrefix: 'ProfileSettings' });
 
   const { uid, displayName, photoURL } = useChatStore(
     state => state.currentUser
@@ -244,7 +244,7 @@ const ProfileSettings: FC = () => {
               }
               disabled={displayName === newDisplayName}
             >
-              Change your name
+              {t('ChangeName')}
             </button>
           </div>
         )}
@@ -268,15 +268,14 @@ const ProfileSettings: FC = () => {
                 />
               )}
               <p className="w-80 text-center text-black dark:text-white text-xs">
-                if you're happy with it click the button "Change photo profile"
-                or close the window and try new photo
+                {t('Modal.ChangeProfilePhotoPrompt')}
               </p>
               <button
-                className="w-48 border-2 rounded-3xl text-black dark:text-white border-black dark:border-white hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800 disabled:text-zinc-600"
+                className="w-48 border-2 rounded-3xl text-black dark:text-white border-black dark:border-white transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800 disabled:text-zinc-600"
                 onClick={handleUpdateProfilePhoto}
                 disabled={typeof profilePhotoUploadStatus === 'number'}
               >
-                Change profile photo
+                {t('Modal.ChangeProfilePhoto')}
               </button>
 
               <div className="flex gap-4 items-center h-4">

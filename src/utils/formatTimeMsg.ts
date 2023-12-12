@@ -1,4 +1,4 @@
-function formatTime(dateString: string) {
+function formatTimeMsg(dateString: string) {
   const date = new Date(dateString);
   const hours = date.getHours();
   const minutes = date.getMinutes();
@@ -6,4 +6,4 @@ function formatTime(dateString: string) {
   return formattedTime;
 }
 
-export default formatTime;
+export default formatTimeMsg;

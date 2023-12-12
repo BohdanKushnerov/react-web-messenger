@@ -11,6 +11,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { DefaultExtensionType } from 'react-file-icon';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { v4 as uuidv4 } from 'uuid';
+import { useTranslation } from 'react-i18next';
 
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
@@ -20,6 +21,7 @@ import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import { FilesUploadStatuses } from 'types/FilesUploadStatuses';
 import sprite from '@assets/sprite.svg';
+import '@i18n';
 
 const FileInput: FC = () => {
   const [isModalAddFileOpen, setIsModalAddFileOpen] = useState(false);
@@ -28,6 +30,7 @@ const FileInput: FC = () => {
     useState<FilesUploadStatuses>({});
   const hiddenFileInput = useRef<HTMLInputElement>(null);
   const scrollbarsRef = useRef<Scrollbars>(null);
+  const { t } = useTranslation('translation', { keyPrefix: 'FileInput' });
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
@@ -240,7 +243,9 @@ const FileInput: FC = () => {
           <div className="h-full flex justify-center items-center">
             <div className="relative w-full sm:w-1/2 xl:w-1/3 h-1/2 flex flex-col gap-8 justify-between items-center p-2 bg-gray-200 dark:bg-myBlackBcg rounded-3xl shadow-mainShadow">
               <p className="text-black dark:text-white font-extrabold">
-                {`Send ${hiddenFileInput.current?.files?.length} File(s)`}
+                {`${t('Send')} ${hiddenFileInput.current?.files?.length} ${t(
+                  'Files'
+                )}`}
               </p>
               <ButtonClose handleClickButtonClose={handleCloseAddFileModal} />
               <Scrollbars
@@ -294,7 +299,7 @@ const FileInput: FC = () => {
                   <input
                     className="w-full h-full py-1 px-10 rounded-3xl bg-zinc-500 dark:bg-mySeacrhBcg text-white outline-none border-2 border-transparent focus:border-cyan-500"
                     type="text"
-                    placeholder="Add a caption..."
+                    placeholder={t('ImageCaptionPlaceholder')}
                     value={fileDescription}
                     onChange={handleChangeFileDescription}
                   />
@@ -304,7 +309,7 @@ const FileInput: FC = () => {
                   type="submit"
                   disabled={Object.keys(uploadFilesStatus).length > 0}
                 >
-                  Send
+                  {t('Send')}
                 </button>
               </form>
             </div>
