@@ -55,7 +55,8 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
         } ${
           chatUID !== chatInfo[0] && 'hover:bg-zinc-400 hover:dark:bg-zinc-700'
         } `}
-        to={chatInfo[0]}
+        // to={chatInfo[0]}
+        to={`/${chatInfo[0]}`}
         state={{ from: location }}
       >
         <AvatarProfile

@@ -8,10 +8,12 @@ import MainChatLoader from '@components/MainChatLoader/MainChatLoader.jsx';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <>
     <App />
     <ToastContainer />
 
     <MainChatLoader />
-  </React.StrictMode>
+  </>
+  // </React.StrictMode>
 );
