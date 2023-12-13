@@ -13,7 +13,7 @@ import { ChatListItemType } from 'types/ChatListItemType';
 import { CurrentChatInfo } from 'types/CurrentChatInfo';
 import { AppScreenType } from 'types/AppScreenType';
 
-const Home = memo(() => {
+const HomePage = memo(() => {
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [isMobileScreen, setIsMobileScreen] = useState(false);
   const [screen, setScreen] = useState<AppScreenType>('Sidebar');
@@ -29,6 +29,7 @@ const Home = memo(() => {
   );
 
   console.log('screen --> Home');
+  console.log('Home screen -->', screen);
 
   useEffect(() => {
     if (screen === 'Sidebar') {
@@ -207,4 +208,4 @@ const Home = memo(() => {
   );
 });
 
-export default Home;
+export default HomePage;

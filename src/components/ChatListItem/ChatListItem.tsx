@@ -55,7 +55,8 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
         } ${
           chatUID !== chatInfo[0] && 'hover:bg-zinc-400 hover:dark:bg-zinc-700'
         } `}
-        to={chatInfo[0]}
+        // to={chatInfo[0]}
+        to={`/${chatInfo[0]}`}
         state={{ from: location }}
       >
         <AvatarProfile
@@ -77,7 +78,8 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
             className={`${
               chatUID === chatInfo[0]
                 ? 'text-white'
-                : 'text-zinc-600 dark:text-textSecondary'
+                // : 'text-zinc-600 dark:text-textSecondary'
+                : 'text-zinc-600 dark:text-zinc-100'
             }`}
           >
             {truncateLastMessageString(chatInfo[1].lastMessage, 25)}

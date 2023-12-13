@@ -1,16 +1,20 @@
 import { useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import Home from '@pages/Home/Home';
-import Auth from '@components/Auth/Auth';
-import Sidebar from '@components/Sidebar/Sidebar';
-import Chat from '@components/Chat/Chat';
+// import HomePage from '@pages/HomePage/HomePage';
+// import Auth from '@components/Auth/Auth';
+// import Chat from '@components/Chat/Chat';
+// import Sidebar from '@components/Sidebar/Sidebar';
+import AuthPage from '@pages/Auth/Auth';
+import SidebarPage from '@pages/SidebarPage/SidebarPage';
+import ChatPage from '@pages/ChatPage/ChatPage';
 import RestrictedRoute from '@routes/RestrictedRoute';
 import PrivateRoute from '@routes/PrivateRoute';
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import Layout from '@pages/Layout/Layout';
 
-function App() {
+const App = () => {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
 
   useEffect(() => {
@@ -61,20 +65,24 @@ function App() {
     [
       {
         path: '/authentication',
-        element: <RestrictedRoute component={Auth} redirectTo="/" />,
+        element: <RestrictedRoute component={AuthPage} redirectTo="/" />,
       },
       {
-        path: '/',
-        element: <PrivateRoute component={Home} redirectTo="/authentication" />,
+        element: <Layout />,
         children: [
           {
             path: '/',
-            element: <Sidebar />,
+            element: (
+              <PrivateRoute
+                component={SidebarPage}
+                redirectTo="/authentication"
+              />
+            ),
           },
           {
-            path: '/:id',
+            path: '/:dynamicParam',
             element: (
-              <PrivateRoute component={Chat} redirectTo="/authentication" />
+              <PrivateRoute component={ChatPage} redirectTo="/authentication" />
             ),
           },
         ],
@@ -85,7 +93,43 @@ function App() {
     }
   );
 
-  return <RouterProvider router={router} />;
-}
+  return (
+    // <Layout>
+    <RouterProvider router={router} />
+    // </Layout>
+  );
+};
+
+// const routeElement = useRoutes(router);
+
+// return <Layout>{routeElement}</Layout>;
+
+// return <RouterProvider router={router} />;
 
 export default App;
+
+// const router = createBrowserRouter(
+//   [
+//     {
+//       path: '/authentication',
+//       element: <RestrictedRoute component={AuthPage} redirectTo="/" />,
+//     },
+//     {
+//       path: '/',
+//       element: (
+//         <PrivateRoute component={SidebarPage} redirectTo="/authentication" />
+//       ),
+//       children: [
+//         {
+//           path: '/:id',
+//           element: (
+//             <PrivateRoute component={ChatPage} redirectTo="/authentication" />
+//           ),
+//         },
+//       ],
+//     },
+//   ],
+//   {
+//     basename: '/react-web-messenger',
+//   }
+// );
