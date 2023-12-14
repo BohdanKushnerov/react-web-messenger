@@ -15,7 +15,7 @@ import '@i18n';
 const ChatForm: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const myTypingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const { t } = useTranslation("translation", {keyPrefix: 'ChatForm'});
+  const { t } = useTranslation('translation', { keyPrefix: 'ChatForm' });
 
   const message = useChatStore(state => state.message);
   const setMessage = useChatStore(state => state.setMessage);
@@ -118,6 +118,7 @@ const ChatForm: FC = () => {
               width={24}
               height={24}
               className="fill-zinc-200 dark:fill-zinc-400"
+              aria-label="Send message"
             >
               <use href={sprite + '#icon-send-message'} />
             </svg>
