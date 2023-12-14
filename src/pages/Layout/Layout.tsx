@@ -1,24 +1,25 @@
-import { FC, Suspense, useEffect, useRef, useState } from 'react';
+import { FC, Suspense, memo, useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
 
 import Sidebar from '@components/Sidebar/Sidebar';
 import useChatStore from '@zustand/store';
-// import { AppScreenType } from 'types/AppScreenType';
 import { onDisconnect, ref, set } from 'firebase/database';
 import { database, db } from '@myfirebase/config';
 import { ChatListItemType } from 'types/ChatListItemType';
 import { CurrentChatInfo } from 'types/CurrentChatInfo';
-// import { AppScreenType } from 'types/AppScreenType';
 import { doc, getDoc } from 'firebase/firestore';
 import handleSelectChat from '@utils/handleSelectChat';
 
-// const Layout: FC<{ children: ReactNode }> = ({ children }) => {
-const Layout: FC = () => {
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-  const [isMobileScreen, setIsMobileScreen] = useState(false);
-  const [showChat, setShowChat] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(false);
+const Layout: FC = memo(() => {
+  const [windowHeight, setWindowHeight] = useState(() => window.innerHeight);
+  const [isMobileScreen, setIsMobileScreen] = useState(
+    () => window.innerWidth <= 640
+  );
+  const [screen, setScreen] = useState<'Sidebar' | 'Chat' | 'FullScreen'>(() =>
+    window.innerWidth <= 640 ? 'Sidebar' : 'FullScreen'
+  );
+
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const nodeRefSidebar = useRef(null);
@@ -28,6 +29,14 @@ const Layout: FC = () => {
   const updateCurrentChatInfo = useChatStore(
     state => state.updateCurrentChatInfo
   );
+
+  console.log('screen --> =====Layout-Layout=====');
+
+  console.log('windowHeight', windowHeight);
+  console.log('isMobileScreen', isMobileScreen);
+  console.log('screen', screen);
+  console.log('currentUserUID', currentUserUID);
+  // console.log('screen', screen);
 
   // requestPermission
   useEffect(() => {
@@ -70,8 +79,7 @@ const Layout: FC = () => {
         chat: ChatListItemType,
         updateCurrentChatInfo: (chat: ChatListItemType) => void
       ) => void,
-      updateCurrentChatInfo: (chat: CurrentChatInfo) => void,
-      // setScreen: React.Dispatch<React.SetStateAction<AppScreenType>>
+      updateCurrentChatInfo: (chat: CurrentChatInfo) => void
     ) {
       const combinedUsersChatUID = localStorage.getItem('currentChatId');
 
@@ -88,7 +96,6 @@ const Layout: FC = () => {
         ];
 
         handleSelectChat(chatItem, updateCurrentChatInfo);
-        // setScreen('Chat');
         navigate(combinedUsersChatUID);
       }
     }
@@ -96,8 +103,7 @@ const Layout: FC = () => {
     isRedirectToCurrentChat(
       currentUserUID,
       handleSelectChat,
-      updateCurrentChatInfo,
-      // setScreen
+      updateCurrentChatInfo
     );
   }, [currentUserUID, navigate, updateCurrentChatInfo]);
 
@@ -126,11 +132,13 @@ const Layout: FC = () => {
 
   useEffect(() => {
     if (pathname === '/') {
-      setShowSidebar(true);
-      setShowChat(false);
+      // setShowSidebar(true);
+      // setShowChat(false);
+      setScreen('Sidebar');
     } else {
-      setShowSidebar(false);
-      setShowChat(true);
+      // setShowSidebar(false);
+      // setShowChat(true);
+      setScreen('Chat');
     }
   }, [pathname]);
 
@@ -147,10 +155,10 @@ const Layout: FC = () => {
         pathname === '/' ? (
           <Transition
             nodeRef={nodeRefSidebar}
-            in={showSidebar}
+            // in={showSidebar}
+            in={screen === 'Sidebar'}
             timeout={500}
             unmountOnExit
-            // mountOnEnter
           >
             {state => (
               <div
@@ -168,15 +176,12 @@ const Layout: FC = () => {
             )}
           </Transition>
         ) : (
-          // <Suspense fallback={<div>Loading...</div>}>
-          //   <Outlet />
-          // </Suspense>
           <Transition
             nodeRef={nodeRefChat}
-            in={showChat}
+            // in={showChat}
+            in={screen === 'Chat'}
             timeout={500}
             unmountOnExit
-            // mountOnEnter
           >
             {state => (
               <div
@@ -206,54 +211,6 @@ const Layout: FC = () => {
       )}
     </div>
   );
-};
+});
 
 export default Layout;
-
-{
-  /* <Transition
-        nodeRef={nodeRefSidebar}
-        in={showSidebar}
-        timeout={300}
-        unmountOnExit
-      >
-        {state => (
-          <div
-            ref={nodeRefSidebar}
-            className={`w-full ${
-              state === 'exited' ? 'hidden' : ''
-            } transform transition-transform ${
-              state === 'entered'
-                ? 'translate-x-0 scale-100'
-                : '-translate-x-full scale-0'
-            }`}
-          >
-            <Sidebar />
-          </div>
-        )}
-      </Transition> */
-}
-
-{
-  /* <Transition
-          nodeRef={nodeRefSidebar}
-          in={showSidebar}
-          timeout={300}
-          unmountOnExit
-        >
-          {state => (
-            <div
-              ref={nodeRefSidebar}
-              className={`w-full ${
-                state === 'exited' ? 'hidden' : ''
-              } transform transition-transform ${
-                state === 'entered'
-                  ? 'translate-x-0 scale-100'
-                  : '-translate-x-full scale-0'
-              }`}
-            >
-              <Sidebar />
-            </div>
-          )}
-        </Transition> */
-}

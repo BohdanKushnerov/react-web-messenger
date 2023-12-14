@@ -6,9 +6,8 @@ import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import useChatStore from '@zustand/store';
 import useSearchUsers from '@hooks/useSearchUsers';
 import handleCreateChat from '@utils/handleCreateChat';
-import { IChatListProps } from '@interfaces/IChatListProps';
 
-const SearchChatList: FC<IChatListProps> = ({ setScreen }) => {
+const SearchChatList: FC = () => {
   const navigate = useNavigate();
 
   const updateSearchValue = useChatStore(state => state.updateSearchValue);
@@ -24,10 +23,6 @@ const SearchChatList: FC<IChatListProps> = ({ setScreen }) => {
 
     setSearchChatList(null);
     updateSearchValue('');
-
-    if (setScreen) {
-      setScreen('Chat');
-    }
   };
 
   return (

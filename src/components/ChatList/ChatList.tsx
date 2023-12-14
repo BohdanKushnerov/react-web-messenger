@@ -2,10 +2,9 @@ import { FC } from 'react';
 
 import ChatListItem from '@components/ChatListItem/ChatListItem';
 import useMyUserChatList from '@hooks/useMyUserChatList';
-import { IChatListProps } from '@interfaces/IChatListProps';
 import { ChatListItemType } from 'types/ChatListItemType';
 
-const ChatList: FC<IChatListProps> = ({ setScreen }) => {
+const ChatList: FC = () => {
   const myUserChatList = useMyUserChatList(); // загрузка списка моих чатов
 
   console.log('screen --> ChatList');
@@ -19,7 +18,6 @@ const ChatList: FC<IChatListProps> = ({ setScreen }) => {
             <ChatListItem
               key={chatInfo[0]}
               chatInfo={chatInfo}
-              setScreen={setScreen}
             />
           ))}
       </ul>

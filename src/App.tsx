@@ -17,6 +17,8 @@ import Layout from '@pages/Layout/Layout';
 const App = () => {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
 
+  console.log("---------------APP-----------------");
+
   useEffect(() => {
     if (localStorage.language) {
       return;
@@ -93,43 +95,7 @@ const App = () => {
     }
   );
 
-  return (
-    // <Layout>
-    <RouterProvider router={router} />
-    // </Layout>
-  );
+  return <RouterProvider router={router} />;
 };
 
-// const routeElement = useRoutes(router);
-
-// return <Layout>{routeElement}</Layout>;
-
-// return <RouterProvider router={router} />;
-
 export default App;
-
-// const router = createBrowserRouter(
-//   [
-//     {
-//       path: '/authentication',
-//       element: <RestrictedRoute component={AuthPage} redirectTo="/" />,
-//     },
-//     {
-//       path: '/',
-//       element: (
-//         <PrivateRoute component={SidebarPage} redirectTo="/authentication" />
-//       ),
-//       children: [
-//         {
-//           path: '/:id',
-//           element: (
-//             <PrivateRoute component={ChatPage} redirectTo="/authentication" />
-//           ),
-//         },
-//       ],
-//     },
-//   ],
-//   {
-//     basename: '/react-web-messenger',
-//   }
-// );

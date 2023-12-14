@@ -5,10 +5,9 @@ import SearchMessages from '@components/SearchMessages/SearchMessages';
 import ChatForm from '../ChatForm/ChatForm';
 import ChatHeader from '../ChatHeader/ChatHeader';
 import useChatStore from '@zustand/store';
-import { IChat } from '@interfaces/IChat';
 import '@i18n';
 
-const Chat: FC<IChat> = () => {
+const Chat: FC = () => {
   const [isShowSearchMessages, setIsShowSearchMessages] = useState(false);
 
   const { chatUID } = useChatStore(state => state.currentChatInfo);

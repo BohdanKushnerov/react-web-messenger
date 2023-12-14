@@ -14,7 +14,7 @@ import { IChatListItemProps } from '@interfaces/IChatListItemProps';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
 
-const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
+const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
   const location = useLocation();
   const { t } = useTranslation();
 
@@ -37,10 +37,6 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
     handleSelectChat(chatInfo, updateCurrentChatInfo);
     // при выборе нового чата сброс сообщения в ChatForm
     resetMessage();
-
-    if (setScreen) {
-      setScreen('Chat');
-    }
   };
 
   return (
@@ -78,8 +74,8 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
             className={`${
               chatUID === chatInfo[0]
                 ? 'text-white'
-                // : 'text-zinc-600 dark:text-textSecondary'
-                : 'text-zinc-600 dark:text-zinc-100'
+                : // : 'text-zinc-600 dark:text-textSecondary'
+                  'text-zinc-600 dark:text-zinc-100'
             }`}
           >
             {truncateLastMessageString(chatInfo[1].lastMessage, 25)}
