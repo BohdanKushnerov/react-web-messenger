@@ -92,7 +92,8 @@ const MessageItem: FC<IMessageItemProps> = ({ msg }) => {
         </p>
         {/* date + read/unread */}
         <div className="w-full flex justify-end items-center gap-2">
-          <p className="text-zinc-600 dark:text-white">
+          {/* <p className="text-zinc-600 dark:text-white"> */}
+          <p className="text-green-950 dark:text-zinc-100">
             {msg.data().date &&
               formatTimeMsg(msg.data().date.toDate().toString())}
           </p>

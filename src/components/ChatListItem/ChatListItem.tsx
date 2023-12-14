@@ -14,7 +14,7 @@ import { IChatListItemProps } from '@interfaces/IChatListItemProps';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
 
-const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
+const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
   const location = useLocation();
   const { t } = useTranslation();
 
@@ -37,10 +37,6 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
     handleSelectChat(chatInfo, updateCurrentChatInfo);
     // при выборе нового чата сброс сообщения в ChatForm
     resetMessage();
-
-    if (setScreen) {
-      setScreen('Chat');
-    }
   };
 
   return (
@@ -51,11 +47,13 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
       <Link
         className={`flex items-center content-center gap-3 h-72px p-1 rounded-md transition-all duration-300 group ${
           chatUID === chatInfo[0] &&
-          'bg-zinc-700 hover:bg-zinc-600 dark:bg-orange-900 hover:dark:bg-orange-800'
+          // 'bg-zinc-700 hover:bg-zinc-600 dark:bg-orange-900 hover:dark:bg-orange-800'
+          'bg-zinc-700 hover:bg-zinc-600 dark:bg-cyan-600 hover:dark:bg-cyan-700'
         } ${
           chatUID !== chatInfo[0] && 'hover:bg-zinc-400 hover:dark:bg-zinc-700'
         } `}
-        to={chatInfo[0]}
+        // to={chatInfo[0]}
+        to={`/${chatInfo[0]}`}
         state={{ from: location }}
       >
         <AvatarProfile
@@ -77,7 +75,8 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
             className={`${
               chatUID === chatInfo[0]
                 ? 'text-white'
-                : 'text-zinc-600 dark:text-textSecondary'
+                : // : 'text-zinc-600 dark:text-textSecondary'
+                  'text-zinc-600 dark:text-zinc-100'
             }`}
           >
             {truncateLastMessageString(chatInfo[1].lastMessage, 25)}
@@ -123,7 +122,7 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo, setScreen }) => {
             </svg>
           ))}
 
-        <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
+        <div className={`${isOnline ? 'text-green-700' : 'text-red-700'}`}>
           {isOnline ? t('Online') : t('Offline')}
         </div>
       </Link>
