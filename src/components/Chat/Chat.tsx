@@ -1,5 +1,4 @@
 import { FC, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import MessageList from '@components/MessageList/MessageList';
@@ -7,39 +6,22 @@ import SearchMessages from '@components/SearchMessages/SearchMessages';
 import ChatForm from '../ChatForm/ChatForm';
 import ChatHeader from '../ChatHeader/ChatHeader';
 import useChatStore from '@zustand/store';
-import { IChat } from '@interfaces/IChat';
 import '@i18n';
 
-const Chat: FC<IChat> = ({ setScreen }) => {
+const Chat: FC = () => {
   const [isShowSearchMessages, setIsShowSearchMessages] = useState(false);
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const { chatUID } = useChatStore(state => state.currentChatInfo);
-  const resetCurrentChatInfo = useChatStore(
-    state => state.resetCurrentChatInfo
-  );
 
   console.log('screen --> Chat');
-
-  const handleClickBackToSidebarScreen = () => {
-    if (setScreen) {
-      setScreen('Sidebar');
-      resetCurrentChatInfo();
-      navigate('/');
-    }
-  };
 
   return (
     <>
       <div className="relative h-full w-screen xl:flex xl:flex-col xl:items-center bg-transparent overflow-hidden">
         {chatUID ? (
           <>
-            <ChatHeader
-              setScreen={setScreen}
-              handleClickBackToSidebarScreen={handleClickBackToSidebarScreen}
-              setIsShowSearchMessages={setIsShowSearchMessages}
-            />
+            <ChatHeader setIsShowSearchMessages={setIsShowSearchMessages} />
 
             <MessageList />
 

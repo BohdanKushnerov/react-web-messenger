@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, memo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef, memo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { onDisconnect, ref, set } from 'firebase/database';
 import { Transition } from 'react-transition-group';
@@ -11,14 +11,17 @@ import handleSelectChat from '@utils/handleSelectChat';
 import useChatStore from '@zustand/store';
 import { ChatListItemType } from 'types/ChatListItemType';
 import { CurrentChatInfo } from 'types/CurrentChatInfo';
-import { AppScreenType } from 'types/AppScreenType';
 
 const Home = memo(() => {
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-  const [isMobileScreen, setIsMobileScreen] = useState(false);
-  const [screen, setScreen] = useState<AppScreenType>('Sidebar');
-  const [showSidebar, setShowSidebar] = useState(false);
-  const [showChat, setShowChat] = useState(false);
+  const [isMobileScreen, setIsMobileScreen] = useState(
+    () => window.innerWidth <= 640
+  );
+  const [screen, setScreen] = useState<'Sidebar' | 'Chat' | 'FullScreen'>(() =>
+    window.innerWidth <= 640 ? 'Chat' : 'FullScreen'
+  );
+
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const nodeRefSidebar = useRef(null);
   const nodeRefChat = useRef(null);
@@ -31,15 +34,14 @@ const Home = memo(() => {
   console.log('screen --> Home');
 
   useEffect(() => {
-    if (screen === 'Sidebar') {
-      setShowSidebar(true);
-      setShowChat(false);
+    if (pathname === '/') {
+      setScreen('Sidebar');
     } else {
-      setShowSidebar(false);
-      setShowChat(true);
+      setScreen('Chat');
     }
-  }, [screen]);
+  }, [pathname]);
 
+  // Requesting permission
   useEffect(() => {
     const requestPermission = async () => {
       // console.log('Requesting permission...');
@@ -64,8 +66,7 @@ const Home = memo(() => {
         chat: ChatListItemType,
         updateCurrentChatInfo: (chat: ChatListItemType) => void
       ) => void,
-      updateCurrentChatInfo: (chat: CurrentChatInfo) => void,
-      setScreen: React.Dispatch<React.SetStateAction<AppScreenType>>
+      updateCurrentChatInfo: (chat: CurrentChatInfo) => void
     ) {
       const combinedUsersChatUID = localStorage.getItem('currentChatId');
 
@@ -82,7 +83,6 @@ const Home = memo(() => {
         ];
 
         handleSelectChat(chatItem, updateCurrentChatInfo);
-        setScreen('Chat');
         navigate(combinedUsersChatUID);
       }
     }
@@ -90,8 +90,7 @@ const Home = memo(() => {
     isRedirectToCurrentChat(
       currentUserUID,
       handleSelectChat,
-      updateCurrentChatInfo,
-      setScreen
+      updateCurrentChatInfo
     );
   }, [currentUserUID, navigate, updateCurrentChatInfo]);
 
@@ -104,7 +103,7 @@ const Home = memo(() => {
 
     window.addEventListener('resize', handleResize);
 
-    setIsMobileScreen(window.innerWidth <= 640);
+    // setIsMobileScreen(window.innerWidth <= 640);
 
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -147,7 +146,7 @@ const Home = memo(() => {
         <>
           <Transition
             nodeRef={nodeRefSidebar}
-            in={showSidebar}
+            in={screen === 'Sidebar'}
             timeout={300}
             unmountOnExit
           >
@@ -162,13 +161,13 @@ const Home = memo(() => {
                     : '-translate-x-full scale-0'
                 }`}
               >
-                <Sidebar setScreen={setScreen} />
+                <Sidebar />
               </div>
             )}
           </Transition>
           <Transition
             nodeRef={nodeRefChat}
-            in={showChat}
+            in={screen === 'Chat'}
             timeout={300}
             unmountOnExit
           >
@@ -185,7 +184,7 @@ const Home = memo(() => {
                       : 'translate-x-full scale-0'
                   }`}
                 >
-                  <Chat setScreen={setScreen} />
+                  <Chat />
                 </div>
               );
             }}
@@ -199,7 +198,7 @@ const Home = memo(() => {
             overflow: 'hidden',
           }}
         >
-          <Sidebar setScreen={setScreen} />
+          <Sidebar />
           <Chat />
         </div>
       )}
