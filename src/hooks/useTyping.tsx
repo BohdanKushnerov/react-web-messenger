@@ -35,7 +35,6 @@ const useTyping: IUseTyping = (message, myTypingTimeoutRef) => {
 
       myTypingTimeoutRef.current = newTypingTimeout;
     }
-    // }, [chatUID, currentUserUID, message, userUID]);
   }, [chatUID, currentUserUID, message, myTypingTimeoutRef, userUID]);
 
   // очистка таймаута при смене чата

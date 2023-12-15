@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
 
 import { auth, db } from '@myfirebase/config';
@@ -26,8 +26,6 @@ const useMyUserChatList = () => {
           const entries = Object.entries(data).sort(
             (a, b) => b[1].date - a[1].date
           );
-
-          console.log('entries', entries);
 
           setMyUserChatList(entries);
         }

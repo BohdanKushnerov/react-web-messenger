@@ -32,9 +32,10 @@ const ChatForm: FC = () => {
   // юзеффект держит в фокусе инпут ввода сообщений
   useEffect(() => {
     inputRef.current?.focus();
-  }, [message]);
+  }, [chatUID]);
 
   // юзеффект изменения месседжа
+  // + чистит при смене юзера сообщение
   useEffect(() => {
     if (editingMessageInfo) {
       const msg = editingMessageInfo.selectedMessage.data().message;
@@ -42,7 +43,7 @@ const ChatForm: FC = () => {
     } else {
       setMessage('');
     }
-  }, [editingMessageInfo, setMessage]);
+  }, [chatUID, editingMessageInfo, setMessage]);
 
   const handleCancelEditingMessage = () => {
     resetEditingMessage();
@@ -105,7 +106,7 @@ const ChatForm: FC = () => {
           onSubmit={handleManageSendMessage}
         >
           <input
-            autoFocus
+            autoFocus={true}
             className="w-full h-10 py-1 pl-10 pr-14 rounded-3xl bg-zinc-300 dark:bg-mySeacrhBcg text-black dark:text-white placeholder:text-zinc-900 placeholder:dark:text-zinc-400 border-2 border-transparent outline-none focus:border-solid focus:dark:border-cyan-500"
             type="text"
             placeholder={t('ChatInputPlaceholder')}

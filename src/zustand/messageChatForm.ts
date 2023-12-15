@@ -15,13 +15,6 @@ const createMessageChatForm: StateCreator<IMessageChatForm> = set => ({
       })
     );
   },
-  resetMessage: () => {
-    set(
-      produce(state => {
-        state.message = '';
-      })
-    );
-  },
 });
 
 export default createMessageChatForm;

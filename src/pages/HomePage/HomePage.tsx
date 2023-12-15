@@ -11,15 +11,19 @@ import handleSelectChat from '@utils/handleSelectChat';
 import useChatStore from '@zustand/store';
 import { ChatListItemType } from 'types/ChatListItemType';
 import { CurrentChatInfo } from 'types/CurrentChatInfo';
+import { AppScreenType } from 'types/AppScreenType';
 
-const Home = memo(() => {
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-  const [isMobileScreen, setIsMobileScreen] = useState(
-    () => window.innerWidth <= 640
-  );
-  const [screen, setScreen] = useState<'Sidebar' | 'Chat' | 'FullScreen'>(() =>
-    window.innerWidth <= 640 ? 'Chat' : 'FullScreen'
-  );
+const HomePage = memo(() => {
+  const [windowHeight, setWindowHeight] = useState(() => window.innerHeight);
+  const [screen, setScreen] = useState<AppScreenType>(() => {
+    if (window.innerWidth <= 640) {
+      return window.location.pathname === '/react-web-messenger'
+        ? 'Sidebar'
+        : 'Chat';
+    } else {
+      return 'FullScreen';
+    }
+  });
 
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -31,13 +35,15 @@ const Home = memo(() => {
     state => state.updateCurrentChatInfo
   );
 
-  console.log('screen --> Home');
+  console.log('screen --> HomePage');
 
   useEffect(() => {
-    if (pathname === '/') {
-      setScreen('Sidebar');
-    } else {
-      setScreen('Chat');
+    if (window.innerWidth <= 640) {
+      if (pathname === '/') {
+        setScreen('Sidebar');
+      } else {
+        setScreen('Chat');
+      }
     }
   }, [pathname]);
 
@@ -58,7 +64,7 @@ const Home = memo(() => {
     requestPermission();
   }, []);
 
-  // isRedirectToCurrentChat
+  // // isRedirectToCurrentChat
   useEffect(() => {
     async function isRedirectToCurrentChat(
       currentUserUID: string | null,
@@ -98,7 +104,7 @@ const Home = memo(() => {
   useEffect(() => {
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
-      setIsMobileScreen(window.innerWidth <= 640);
+      // setIsMobileScreen(window.innerWidth <= 640);
     };
 
     window.addEventListener('resize', handleResize);
@@ -133,77 +139,70 @@ const Home = memo(() => {
     }
   }, [currentUserUID]);
 
+  // h-[${windowHeight.toString()}px]
+
   return (
     <div
-      className="bg-main-bcg2 bg-no-repeat bg-cover bg-center"
+      className={`flex overflow-hidden bg-main-bcg2 bg-no-repeat bg-cover bg-center`}
       style={{
-        display: 'flex',
         height: `${windowHeight}px`,
-        overflow: 'hidden',
       }}
     >
-      {isMobileScreen ? (
-        <>
-          <Transition
-            nodeRef={nodeRefSidebar}
-            in={screen === 'Sidebar'}
-            timeout={300}
-            unmountOnExit
-          >
-            {state => (
-              <div
-                ref={nodeRefSidebar}
-                className={`w-full ${
-                  state === 'exited' ? 'hidden' : ''
-                } transform transition-transform ${
-                  state === 'entered'
-                    ? 'translate-x-0 scale-100'
-                    : '-translate-x-full scale-0'
-                }`}
-              >
-                <Sidebar />
-              </div>
-            )}
-          </Transition>
-          <Transition
-            nodeRef={nodeRefChat}
-            in={screen === 'Chat'}
-            timeout={300}
-            unmountOnExit
-          >
-            {state => {
-              // console.log('state', state);
-              return (
-                <div
-                  ref={nodeRefChat}
-                  className={`w-full transform transition-transform 
+      <div className="w-full h-full flex sm:hidden">
+        <Transition
+          nodeRef={nodeRefSidebar}
+          in={screen === 'Sidebar'}
+          timeout={300}
+          unmountOnExit
+        >
+          {state => (
+            <div
+              ref={nodeRefSidebar}
+              className={`w-full ${
+                state === 'exited' ? 'hidden' : ''
+              } transform transition-transform ${
+                state === 'entered'
+                  ? 'translate-x-0 scale-100'
+                  : '-translate-x-full scale-0'
+              }`}
+            >
+              <Sidebar />
+            </div>
+          )}
+        </Transition>
+        <Transition
+          nodeRef={nodeRefChat}
+          in={screen === 'Chat'}
+          timeout={300}
+          unmountOnExit
+        >
+          {state => (
+            <div
+              ref={nodeRefChat}
+              className={`w-full transform transition-transform 
                   ${state === 'exited' ? 'hidden' : ''}
                   ${
                     state === 'entered'
                       ? 'translate-x-0 scale-100'
                       : 'translate-x-full scale-0'
                   }`}
-                >
-                  <Chat />
-                </div>
-              );
-            }}
-          </Transition>
-        </>
-      ) : (
-        <div
-          style={{
-            display: 'flex',
-            height: `${windowHeight}px`,
-            overflow: 'hidden',
-          }}
-        >
-          <Sidebar />
-          <Chat />
-        </div>
-      )}
+            >
+              <Chat />
+            </div>
+          )}
+        </Transition>
+      </div>
+      <div
+        className="hidden sm:flex overflow-hidden"
+        style={{
+          height: `${windowHeight}px`,
+        }}
+      >
+        <Sidebar />
+        <Chat />
+      </div>
     </div>
   );
 });
 
-export default Home;
+export default HomePage;

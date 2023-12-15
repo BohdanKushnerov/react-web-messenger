@@ -1,1 +1,1 @@
-export type AppScreenType = 'Sidebar' | 'Chat';
+export type AppScreenType = 'Sidebar' | 'Chat' | 'FullScreen';

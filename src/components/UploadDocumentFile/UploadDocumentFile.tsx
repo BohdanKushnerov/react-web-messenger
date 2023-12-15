@@ -23,15 +23,12 @@ const UploadDocumentFile: FC<IUploadDocumentFileProps> = ({
         </div>
       </div>
       {status >= 0 && (
-        // <div className="w-8 md:w-10 xl:w-32 ">
         <Line
-          // style={{ width: '100%' }}
           style={{ width: 150 }}
           percent={status}
           strokeWidth={6}
           strokeColor="#5ee987"
         />
-        // </div>
       )}
     </li>
   );

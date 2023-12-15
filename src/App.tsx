@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import Home from '@pages/Home/Home';
+import HomePage from '@pages/HomePage/HomePage';
 import Auth from '@components/Auth/Auth';
 import Sidebar from '@components/Sidebar/Sidebar';
 import Chat from '@components/Chat/Chat';
@@ -12,6 +12,8 @@ import useChatStore from '@zustand/store';
 
 function App() {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
+
+  console.log("===================APP===================")
 
   useEffect(() => {
     if (localStorage.language) {
@@ -65,7 +67,9 @@ function App() {
       },
       {
         path: '/',
-        element: <PrivateRoute component={Home} redirectTo="/authentication" />,
+        element: (
+          <PrivateRoute component={HomePage} redirectTo="/authentication" />
+        ),
         children: [
           {
             path: '/',

@@ -4,7 +4,6 @@ import { produce } from 'immer';
 import { IAuthSliceState } from '@interfaces/zustand/IAuthSliceState';
 
 const createAuthSliceState: StateCreator<IAuthSliceState> = set => ({
-  // isLoggedIn: false,
   isLoggedIn: null,
   currentUser: {
     uid: null,

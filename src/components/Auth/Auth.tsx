@@ -10,7 +10,6 @@ import useChatStore from '@zustand/store';
 import handleSubmitVerifyCode from './utils/handleSubmitVerifyCodeVerifyCode';
 import setUpRecaptcha from './utils/setUpRecaptcha';
 import { AuthSteps } from 'types/AuthSteps';
-// import ButtonLoader from '@components/Buttons/ButtonLoader/ButtonLoader';
 import AuthConfirmButton from '@components/Buttons/AuthConfirmButton/AuthConfirmButton';
 import { toast } from 'react-toastify';
 

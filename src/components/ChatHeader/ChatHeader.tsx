@@ -27,8 +27,6 @@ const ChatHeader: FC<IChatHeaderProps> = ({ setIsShowSearchMessages }) => {
 
     window.addEventListener('resize', handleResize);
 
-    setIsMobileScreen(window.innerWidth <= 640);
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };

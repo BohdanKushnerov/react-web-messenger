@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  // darkMode: ['class', '[data-mode="dark"]'],
   darkMode: 'class',
   theme: {
     extend: {
@@ -25,7 +24,6 @@ export default {
       },
       fontFamily: {
         body: ['"Open Sans"', 'sans'],
-        // mono: ['"Roboto Mono"', 'monospace'],
       },
       backgroundImage: {
         'main-bcg': "url('/src/assets/bcg.jpg')",
@@ -38,9 +36,6 @@ export default {
         mySeacrhBcg: 'rgb(44,44,44)',
         currentContextMenuMessage: 'rgba( 24, 24, 24 , 0.9)',
         hoverGray: 'rgba( 170,170,170 , 0.08)',
-        //=====================
-        // chatFormHover: 'rgb(244 244 245 / 0.2)',
-        // chatFormHoverDark: 'rgb(244 244 245 / 0.1)',
       },
       colors: {
         textSecondary: 'rgb(170,170,170)',

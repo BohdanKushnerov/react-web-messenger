@@ -42,7 +42,6 @@ const FileInput: FC = () => {
 
   const handleCloseAddFileModal = () => {
     setIsModalAddFileOpen(false);
-    // setUploadFile('');
     if (fileDescription) {
       setFileDescription('');
     }

@@ -79,10 +79,6 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
     setIsShowSearchMessages(false);
   };
 
-  // const handleClickSearchMessage = () => {
-  // //
-  // };
-
   return (
     <div>
       <div className="flex justify-around items-center gap-1">

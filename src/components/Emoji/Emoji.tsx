@@ -48,10 +48,8 @@ const Emoji: FC<IEmoji> = ({ setMessage }) => {
   };
 
   const handleMouseLeaveEmoji = () => {
-    // console.log('start Timeout Leave');
     const timeoutId = setTimeout(() => {
       setIsShowEmoji(false);
-      // console.log('finish Timeout Leave');
     }, 500);
     setEmojiTimeOutId(timeoutId);
   };

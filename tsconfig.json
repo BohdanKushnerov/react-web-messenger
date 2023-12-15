@@ -10,7 +10,6 @@
       "@myfirebase/*": ["myfirebase/*"],
       "@zustand/*": ["zustand/*"],
       "@utils/*": ["utils/*"],
-      // "@types/*": ["types/*"],
       "@interfaces/*": ["interfaces/*"],
       "@hooks/*": ["hooks/*"],
       "@i18n": ["/i18n"],
