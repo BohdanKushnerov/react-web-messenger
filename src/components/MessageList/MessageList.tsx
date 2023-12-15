@@ -52,7 +52,6 @@ const MessageList: FC = () => {
   // Группировка сообщений по дате (та что sticky)
   useEffect(() => {
     if (messages) {
-      // console.log('messages', messages);
       const grouped = messages.reduce((acc, message) => {
         // Проверка на существование timestamp
         const messageData = message.data();
@@ -94,7 +93,6 @@ const MessageList: FC = () => {
     onSnapshot(queryParams, snapshot => {
       // if (!snapshot.empty) {
       //   if(!messages) {
-      //     console.log('1111111111111111111111111111111111111111111111')
       //     setMessages(snapshot.docs);
       //   }
       // }
@@ -238,18 +236,13 @@ const MessageList: FC = () => {
       if (arrayURLsOfFiles) {
         const promisesArrOfURLs = arrayURLsOfFiles.map(
           (el: { url: string }) => {
-            console.log(el.url);
             const desertRef = ref(storage, el.url);
 
-            return deleteObject(desertRef).then(() =>
-              console.log('delete URL success')
-            );
+            return deleteObject(desertRef)
           }
         );
 
-        await Promise.all(promisesArrOfURLs).then(() =>
-          console.log('delete All URLs success')
-        );
+        await Promise.all(promisesArrOfURLs);
       }
 
       await deleteDoc(

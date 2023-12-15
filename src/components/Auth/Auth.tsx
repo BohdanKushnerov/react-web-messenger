@@ -32,9 +32,7 @@ const Auth: FC = () => {
       try {
         setIsLoading(true);
         const response = await setUpRecaptcha(phone, auth);
-        console.log('response setUpRecaptcha', response);
         setStep('Step 2/3');
-        console.log(step);
 
         setConfirmationResult(response);
       } catch (error) {
@@ -85,8 +83,6 @@ const Auth: FC = () => {
         await updateProfile(user, {
           displayName: `${name} ${surname}`,
         });
-
-        console.log('user handleUpdateProfile', user);
 
         // =================обновим юзеру имя в стейте============================
         await updateCurrentUser(user);

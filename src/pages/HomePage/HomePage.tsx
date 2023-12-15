@@ -50,7 +50,6 @@ const HomePage = memo(() => {
   // Requesting permission
   useEffect(() => {
     const requestPermission = async () => {
-      // console.log('Requesting permission...');
       try {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {

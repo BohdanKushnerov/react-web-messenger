@@ -24,11 +24,10 @@ const Sidebar: FC = () => {
         timeout={300}
         unmountOnExit
       >
-        {state => {
-          return (
-            <div
-              ref={nodeRefSidebarDefault}
-              className={`w-full h-full transform origin-top-left transition-transform 
+        {state => (
+          <div
+            ref={nodeRefSidebarDefault}
+            className={`w-full h-full transform origin-top-left transition-transform 
                   ${state === 'exited' ? 'hidden' : ''}
                   ${
                     state === 'entered'
@@ -36,24 +35,23 @@ const Sidebar: FC = () => {
                       : 'rotate-180 -translate-x-1/2 duration-300'
                   }
                   `}
-            >
-              <div className="flex gap-2 px-3 py-2">
-                <Navbar />
-                <SearchUsers />
-              </div>
-              <Scrollbars
-                autoHide
-                style={{
-                  width: '100%',
-                  height: 'calc(100% - 48px)',
-                }}
-              >
-                <SearchChatList />
-                <ChatList />
-              </Scrollbars>
+          >
+            <div className="flex gap-2 px-3 py-2">
+              <Navbar />
+              <SearchUsers />
             </div>
-          );
-        }}
+            <Scrollbars
+              autoHide
+              style={{
+                width: '100%',
+                height: 'calc(100% - 48px)',
+              }}
+            >
+              <SearchChatList />
+              <ChatList />
+            </Scrollbars>
+          </div>
+        )}
       </Transition>
 
       <Transition
@@ -62,12 +60,10 @@ const Sidebar: FC = () => {
         timeout={300}
         unmountOnExit
       >
-        {state => {
-          // console.log('state ProfileSettings Transition', state);
-          return (
-            <div
-              ref={nodeRefProfileSettings}
-              className={`absolute top-0 left-0 w-full transform origin-top-left transition-transform 
+        {state => (
+          <div
+            ref={nodeRefProfileSettings}
+            className={`absolute top-0 left-0 w-full transform origin-top-left transition-transform 
                   ${state === 'exited' ? 'hidden' : ''}
                   ${
                     state === 'entered'
@@ -75,11 +71,10 @@ const Sidebar: FC = () => {
                       : 'rotate-180 -translate-x-1/2 duration-300'
                   }
                   `}
-            >
-              <ProfileSettings />
-            </div>
-          );
-        }}
+          >
+            <ProfileSettings />
+          </div>
+        )}
       </Transition>
     </div>
   );

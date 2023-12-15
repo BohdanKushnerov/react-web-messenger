@@ -47,7 +47,6 @@ const MessageItem: FC<IMessageItemProps> = ({ msg }) => {
                 },
                 index: number
               ) => {
-                // console.log("file", file);
                 if (
                   file.type === 'image/png' ||
                   file.type === 'image/jpeg' ||

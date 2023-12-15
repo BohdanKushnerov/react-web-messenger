@@ -21,8 +21,6 @@ const handleCreateChat = async (
   // выйдем если не авторизирован
   if (!auth?.currentUser?.uid) return;
 
-  // console.log('user in handleCreateChat', user);
-
   const currentUserUID = auth?.currentUser?.uid;
   const selectionUserUID = user.uid;
 

@@ -83,7 +83,6 @@ const FileInput: FC = () => {
               snapshot => {
                 const progress =
                   (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log('Upload is ' + progress + '% done');
 
                 setUploadFilesStatus(prev => ({
                   ...prev,
@@ -98,7 +97,6 @@ const FileInput: FC = () => {
                   const downloadURL = await getDownloadURL(
                     uploadTask.snapshot.ref
                   );
-                  console.log('File available at', downloadURL);
 
                   if (
                     file.type === 'image/png' ||
@@ -111,7 +109,6 @@ const FileInput: FC = () => {
                     image.onload = () => {
                       const width = image.width;
                       const height = image.height;
-                      console.log('Ширина:', width, 'Высота:', height);
 
                       resolve({
                         type: file.type,
@@ -137,8 +134,6 @@ const FileInput: FC = () => {
         });
 
         const filesArr = await Promise.all(promiseArrayURLsOfFiles);
-
-        console.log('filesArr', filesArr);
 
         // надо создать сообщение с полем файл и отправить на сохранение
         await addDoc(collection(db, `chats/${chatUID}/messages`), {
@@ -193,23 +188,13 @@ const FileInput: FC = () => {
 
     if (hiddenFileInput.current) {
       hiddenFileInput.current.click();
-      console.log('click input');
     }
   };
 
   const handleChangeFileInput = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log('event', event);
-
     if (event.target.files) {
-      const fileUploaded = event.target.files[0];
-      console.log('fileUploaded', fileUploaded);
-      const { type, name } = fileUploaded;
-
-      console.log(`name: ${name}`);
-      console.log(`Тип файла: ${type}`);
-
       handleToggleModal();
     }
   };

@@ -14,12 +14,10 @@ const handleClickChangeDisplayName = async (
       })
         .then(() => {
           if (auth.currentUser) {
-            console.log('Profile updated!');
             updateCurrentUser(auth.currentUser);
           }
         })
         .catch(error => {
-          // An error occurred
           console.log('handleClickChangeDisplayName error', error);
         });
 

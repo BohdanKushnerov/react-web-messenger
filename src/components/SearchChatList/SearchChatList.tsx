@@ -31,7 +31,6 @@ const SearchChatList: FC = () => {
         {/* тут список юзеров в поиске */}
         {searchChatList &&
           searchChatList.docs.map(doc => {
-            // console.log('chatList search doc', doc.data());
             // фильтруем себя
             if (doc.data().uid === currentUser.uid) return;
 

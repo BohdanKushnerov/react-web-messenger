@@ -94,7 +94,6 @@ const ProfileSettings: FC = () => {
                 snapshot => {
                   const progress =
                     (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  console.log('Upload is ' + progress + '% done');
 
                   setProfilePhotoUploadStatus(progress);
                 },
@@ -106,10 +105,13 @@ const ProfileSettings: FC = () => {
                     const downloadURL = await getDownloadURL(
                       uploadTask.snapshot.ref
                     );
-                    console.log('File available at', downloadURL);
 
                     resolve(downloadURL);
                   } catch (error) {
+                    console.log(
+                      'profilePhotoUrlFromStorage',
+                      profilePhotoUrlFromStorage
+                    );
                     reject(error);
                   }
                 }
@@ -120,16 +122,13 @@ const ProfileSettings: FC = () => {
           if (photoURL) {
             const desertRef = ref(storage, photoURL);
 
-            await deleteObject(desertRef).then(() =>
-              console.log('delete old photoURL success')
-            );
+            await deleteObject(desertRef);
           }
 
           await updateProfile(auth.currentUser, {
             photoURL: profilePhotoUrlFromStorage,
           })
             .then(() => {
-              console.log('photoURL updated!');
               updateCurrentUser(auth.currentUser);
             })
             .catch(error => {

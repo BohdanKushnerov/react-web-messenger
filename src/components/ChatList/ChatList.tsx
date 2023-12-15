@@ -8,7 +8,6 @@ const ChatList: FC = () => {
   const myUserChatList = useMyUserChatList(); // загрузка списка моих чатов
 
   console.log('screen --> ChatList');
-  // console.log("myUserChatList", myUserChatList);
 
   return (
     <div>

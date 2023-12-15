@@ -14,7 +14,6 @@ import '@i18n';
 
 const ChatForm: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const myTypingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { t } = useTranslation('translation', { keyPrefix: 'ChatForm' });
 
   const message = useChatStore(state => state.message);
@@ -25,7 +24,7 @@ const ChatForm: FC = () => {
   const resetEditingMessage = useChatStore(state => state.resetEditingMessage);
 
   useBeforeUnloadToStopTyping(); // еффект beforeunload чтобы прекратить состояние печати
-  useTyping(message, myTypingTimeoutRef); // запуск таймаута при печатании + сброс при смене чата
+  useTyping(message); // запуск таймаута при печатании + сброс при смене чата
 
   console.log('screen --> ChatForm');
 
