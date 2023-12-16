@@ -1,17 +1,17 @@
-import { FC, useEffect, useRef, useState } from 'react';
-import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
-import { Transition } from 'react-transition-group';
+import { FC, Suspense, lazy, useEffect, useState } from 'react';
 
+const EmojiPickerWindow = lazy(
+  () => import('@components/EmojiPickerWindow/EmojiPickerWindow')
+);
 import useChatStore from '@zustand/store';
-import { IEmoji } from '@interfaces/IEmoji';
 import sprite from '@assets/sprite.svg';
 
-const Emoji: FC<IEmoji> = ({ setMessage }) => {
+const Emoji: FC = () => {
   const [isShowEmoji, setIsShowEmoji] = useState(false);
+
   const [emojiTimeOutId, setEmojiTimeOutId] = useState<NodeJS.Timeout | null>(
     null
   );
-  const nodeRefEmoji = useRef(null);
 
   const editingMessageInfo = useChatStore(state => state.editingMessageInfo);
 
@@ -34,9 +34,9 @@ const Emoji: FC<IEmoji> = ({ setMessage }) => {
     };
   }, [isShowEmoji]);
 
-  const handleSelectEmoji = (emojiData: EmojiClickData) => {
-    setMessage(prevState => prevState + emojiData.emoji);
-  };
+  // const handleSelectEmoji = (emojiData: EmojiClickData) => {
+  //   setMessage(prevState => prevState + emojiData.emoji);
+  // };
 
   const handleMouseEnterEmoji = () => {
     setIsShowEmoji(true);
@@ -62,7 +62,29 @@ const Emoji: FC<IEmoji> = ({ setMessage }) => {
       onMouseEnter={handleMouseEnterEmoji}
       onMouseLeave={handleMouseLeaveEmoji}
     >
-      <Transition
+      {isShowEmoji && (
+        <Suspense>
+          <EmojiPickerWindow />
+        </Suspense>
+      )}
+
+      <div className="flex justify-center items-center w-10 h-10 transition-all duration-300 hover:bg-zinc-400 hover:dark:bg-zinc-100/10 rounded-full">
+        <svg
+          width={24}
+          height={24}
+          className="fill-zinc-800 dark:fill-zinc-400"
+        >
+          <use href={sprite + '#icon-emoticon'} />
+        </svg>
+      </div>
+    </div>
+  );
+};
+
+export default Emoji;
+
+{
+  /* <Transition
         nodeRef={nodeRefEmoji}
         in={isShowEmoji}
         timeout={100}
@@ -88,18 +110,5 @@ const Emoji: FC<IEmoji> = ({ setMessage }) => {
             />
           </div>
         )}
-      </Transition>
-      <div className="flex justify-center items-center w-10 h-10 transition-all duration-300 hover:bg-zinc-400 hover:dark:bg-zinc-100/10 rounded-full">
-        <svg
-          width={24}
-          height={24}
-          className="fill-zinc-800 dark:fill-zinc-400"
-        >
-          <use href={sprite + '#icon-emoticon'} />
-        </svg>
-      </div>
-    </div>
-  );
-};
-
-export default Emoji;
+      </Transition> */
+}

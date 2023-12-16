@@ -127,7 +127,7 @@ const ChatForm: FC = () => {
           </button>
         </form>
         <FileInput />
-        <Emoji setMessage={setMessage} />
+        <Emoji/>
       </div>
     </div>
   );

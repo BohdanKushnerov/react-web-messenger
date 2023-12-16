@@ -1,6 +1,6 @@
-import React, { FC, Suspense, useRef, useState } from 'react';
+import { FC, Suspense, lazy, useRef, useState } from 'react';
 
-const FileInputModal = React.lazy(
+const FileInputModal = lazy(
   () => import('@components/Modals/FileInputModal/FileInputModal')
 );
 import useChatStore from '@zustand/store';

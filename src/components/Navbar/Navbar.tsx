@@ -1,6 +1,6 @@
-import React, { FC, Suspense, useState } from 'react';
+import { FC, Suspense, lazy, useState } from 'react';
 
-const NavbarModal = React.lazy(
+const NavbarModal = lazy(
   () => import('@components/Modals/NavbarModal/NavbarModal')
 );
 import sprite from '@assets/sprite.svg';

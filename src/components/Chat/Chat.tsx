@@ -1,10 +1,10 @@
-import { FC, useState } from 'react';
+import { FC, Suspense, lazy, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import MessageList from '@components/MessageList/MessageList';
-import SearchMessages from '@components/SearchMessages/SearchMessages';
 import ChatForm from '../ChatForm/ChatForm';
 import ChatHeader from '../ChatHeader/ChatHeader';
+const SearchMessages = lazy(() => import('@components/SearchMessages/SearchMessages'));
 import useChatStore from '@zustand/store';
 import '@i18n';
 
@@ -35,7 +35,9 @@ const Chat: FC = () => {
       </div>
       {isShowSearchMessages && (
         <div className="absolute top-0 right-0 z-10 md:static md:z-0 w-2/3 md:w-2/4 p-2 h-full border-l border-zinc-800 bg-gray-200 dark:bg-myBlackBcg">
-          <SearchMessages setIsShowSearchMessages={setIsShowSearchMessages} />
+          <Suspense>
+            <SearchMessages setIsShowSearchMessages={setIsShowSearchMessages} />
+          </Suspense>
         </div>
       )}
     </>

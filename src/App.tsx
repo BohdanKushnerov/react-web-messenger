@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { lazy, useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import HomePage from '@pages/HomePage/HomePage';
-import Auth from '@components/Auth/Auth';
 import Sidebar from '@components/Sidebar/Sidebar';
 import Chat from '@components/Chat/Chat';
+const Auth = lazy(() => import('@components/Auth/Auth'));
 import RestrictedRoute from '@routes/RestrictedRoute';
 import PrivateRoute from '@routes/PrivateRoute';
 import { auth } from '@myfirebase/config';

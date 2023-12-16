@@ -18,6 +18,9 @@ const SearchChatList: FC = () => {
 
   const { searchChatList, setSearchChatList } = useSearchUsers(); // поиск контактов(юзеров) в поисковой строке
 
+    console.log('screen --> SearchChatList');
+
+
   const handleManageCreateChat = (docData: DocumentData) => {
     handleCreateChat(docData, updateCurrentChatInfo, navigate);
 
