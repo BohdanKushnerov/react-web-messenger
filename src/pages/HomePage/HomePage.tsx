@@ -103,17 +103,32 @@ const HomePage = memo(() => {
   useEffect(() => {
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
-      // setIsMobileScreen(window.innerWidth <= 640);
+
+      if (window.innerWidth <= 640) {
+        setScreen(pathname === '/' ? 'Sidebar' : 'Chat');
+      } else {
+        setScreen('FullScreen');
+      }
     };
 
     window.addEventListener('resize', handleResize);
 
-    // setIsMobileScreen(window.innerWidth <= 640);
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (window.innerWidth <= 640) {
+      if (pathname === '/') {
+        setScreen('Sidebar');
+      } else {
+        setScreen('Chat');
+      }
+    } else {
+      setScreen('FullScreen');
+    }
+  }, [pathname]);
 
   // update online/offline status in realtime database
   useEffect(() => {
