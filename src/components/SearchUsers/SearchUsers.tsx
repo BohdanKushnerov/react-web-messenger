@@ -16,13 +16,11 @@ const SearchUsers: FC = () => {
   };
 
   return (
-    <>
       <Search
         value={searchValue}
         handleChange={handleChangeSearchValue}
         placeholderText={t('Search')}
       />
-    </>
   );
 };
 

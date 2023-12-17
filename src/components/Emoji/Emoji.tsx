@@ -1,42 +1,20 @@
-import { FC, Suspense, lazy, useEffect, useState } from 'react';
+import { FC, Suspense, lazy, useState } from 'react';
 
 const EmojiPickerWindow = lazy(
   () => import('@components/EmojiPickerWindow/EmojiPickerWindow')
 );
 import useChatStore from '@zustand/store';
 import sprite from '@assets/sprite.svg';
+import useCloseModal from '@hooks/useCloseModal';
 
 const Emoji: FC = () => {
   const [isShowEmoji, setIsShowEmoji] = useState(false);
-
   const [emojiTimeOutId, setEmojiTimeOutId] = useState<NodeJS.Timeout | null>(
     null
   );
+  useCloseModal(() => setIsShowEmoji(false));
 
   const editingMessageInfo = useChatStore(state => state.editingMessageInfo);
-
-  // устанавливаем слушателя на открытие емодзи на кнопку esc
-  useEffect(() => {
-    const handleCloseEmojiOnEsc = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsShowEmoji(false);
-      }
-    };
-
-    if (isShowEmoji) {
-      window.addEventListener('keydown', handleCloseEmojiOnEsc);
-    } else {
-      window.removeEventListener('keydown', handleCloseEmojiOnEsc);
-    }
-
-    return () => {
-      window.removeEventListener('keydown', handleCloseEmojiOnEsc);
-    };
-  }, [isShowEmoji]);
-
-  // const handleSelectEmoji = (emojiData: EmojiClickData) => {
-  //   setMessage(prevState => prevState + emojiData.emoji);
-  // };
 
   const handleMouseEnterEmoji = () => {
     setIsShowEmoji(true);
@@ -50,7 +28,7 @@ const Emoji: FC = () => {
   const handleMouseLeaveEmoji = () => {
     const timeoutId = setTimeout(() => {
       setIsShowEmoji(false);
-    }, 500);
+    }, 300);
     setEmojiTimeOutId(timeoutId);
   };
 

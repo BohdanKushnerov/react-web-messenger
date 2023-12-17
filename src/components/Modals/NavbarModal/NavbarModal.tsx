@@ -1,4 +1,5 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useRef } from 'react';
+import { signOut } from 'firebase/auth';
 import { useTranslation } from 'react-i18next';
 import { Transition } from 'react-transition-group';
 
@@ -6,9 +7,9 @@ import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import LanguageSwitcher from '@components/LanguageSwitcher/LanguageSwitcher';
 import Theme from '@components/Theme/Theme';
 import ModalWindow from '../ModalWindow/ModalWindow';
-import useChatStore from '@zustand/store';
-import { signOut } from 'firebase/auth';
 import { auth } from '@myfirebase/config';
+import useChatStore from '@zustand/store';
+import useStartTransition from '@hooks/useStartTransition';
 import '@i18n';
 
 interface INavbarModal {
@@ -16,7 +17,7 @@ interface INavbarModal {
 }
 
 const NavbarModal: FC<INavbarModal> = ({ handleToggleModal }) => {
-  const [startTransition, setStartTransition] = useState(false);
+  const startTransition = useStartTransition();
   const nodeRefNavBar = useRef(null);
   const { t } = useTranslation('translation', {
     keyPrefix: 'NavBar',
@@ -27,14 +28,6 @@ const NavbarModal: FC<INavbarModal> = ({ handleToggleModal }) => {
   const resetCurrentChatInfo = useChatStore(
     state => state.resetCurrentChatInfo
   );
-
-  useEffect(() => {
-    setStartTransition(true);
-
-    return () => {
-      setStartTransition(false);
-    };
-  }, []);
 
   const handleSignOut = async () => {
     resetCurrentChatInfo();

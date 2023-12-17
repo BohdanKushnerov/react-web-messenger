@@ -33,9 +33,6 @@ const handleCreateChat = async (
     // проверим есть ли такой чат уже у нас
     const res = await getDoc(doc(db, 'chats', combinedUsersChatID));
 
-    // console.log('res getDoc combinedUsersChatID', res);
-    // console.log('user.photoURL ', user.photoURL);
-
     if (!res.exists()) {
       // если нету чата, создаем
       await setDoc(doc(db, 'chats', combinedUsersChatID), {});
