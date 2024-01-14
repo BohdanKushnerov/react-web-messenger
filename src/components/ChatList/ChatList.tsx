@@ -11,7 +11,7 @@ const ChatList: FC = () => {
 
   return (
     <div>
-      <ul className="p-0 m-0">
+      <ul className="h-full p-0 m-0">
         {myUserChatList &&
           myUserChatList.map((chatInfo: ChatListItemType) => (
             <ChatListItem key={chatInfo[0]} chatInfo={chatInfo} />

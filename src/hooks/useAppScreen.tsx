@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { AppScreenType } from 'types/AppScreenType';
@@ -10,17 +10,23 @@ interface IUseAppScreen {
 const useAppScreen: IUseAppScreen = setScreen => {
   const { pathname } = useLocation();
 
-  useEffect(() => {
-    if (window.innerWidth <= 640) {
-      if (pathname === '/') {
-        setScreen('Sidebar');
+  const handleScreenChange = useMemo(() => {
+    return () => {
+      if (window.innerWidth <= 640) {
+        if (pathname === '/') {
+          setScreen('Sidebar');
+        } else {
+          setScreen('Chat');
+        }
       } else {
-        setScreen('Chat');
+        // setScreen('FullScreen');
       }
-    } else {
-      // setScreen('FullScreen');
-    }
+    };
   }, [pathname, setScreen]);
+
+  useEffect(() => {
+    handleScreenChange();
+  }, [handleScreenChange]);
 };
 
 export default useAppScreen;

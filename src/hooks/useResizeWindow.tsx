@@ -1,23 +1,16 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-
-import { AppScreenType } from 'types/AppScreenType';
 
 interface IUseResizeWindow {
-  (setScreen: (string: AppScreenType) => void, setWindowHeight: (number: number) => void): void;
+  (setIsFullScreen: (boolean: boolean) => void): void;
 }
 
-const useResizeWindow: IUseResizeWindow = (setScreen, setWindowHeight) => {
-  const { pathname } = useLocation();
-
+const useResizeWindow: IUseResizeWindow = setIsFullScreen => {
   useEffect(() => {
     const handleResize = () => {
-      setWindowHeight(window.innerHeight);
-
       if (window.innerWidth <= 640) {
-        setScreen(pathname === '/' ? 'Sidebar' : 'Chat');
+        setIsFullScreen(false);
       } else {
-        setScreen('FullScreen');
+        setIsFullScreen(true);
       }
     };
 
@@ -26,7 +19,7 @@ const useResizeWindow: IUseResizeWindow = (setScreen, setWindowHeight) => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [pathname, setScreen, setWindowHeight]);
+  }, [setIsFullScreen]);
 };
 
 export default useResizeWindow;

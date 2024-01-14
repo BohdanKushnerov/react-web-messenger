@@ -1,49 +1,46 @@
 import { useState, useRef, memo } from 'react';
 import { Transition } from 'react-transition-group';
+import { useLocation } from 'react-router-dom';
 
 import Chat from '@components/Chat/Chat';
 import Sidebar from '@components/Sidebar/Sidebar';
 import useRequestPermission from '@hooks/useRequestPermission';
-import useIsRedirectToCurrentChat from '@hooks/useIsRedirectToCurrentChat';
+// import useIsRedirectToCurrentChat from '@hooks/useIsRedirectToCurrentChat';
 import useResizeWindow from '@hooks/useResizeWindow';
-import { AppScreenType } from 'types/AppScreenType';
 import useIsOnlineMyStatus from '@hooks/useIsOnlineMyStatus';
-import useAppScreen from '@hooks/useAppScreen';
 
 const HomePage = memo(() => {
-  const [windowHeight, setWindowHeight] = useState(() => window.innerHeight);
-  const [screen, setScreen] = useState<AppScreenType>(() => {
-    if (window.innerWidth <= 640) {
-      return window.location.pathname === '/react-web-messenger'
-        ? 'Sidebar'
-        : 'Chat';
-    } else {
-      return 'FullScreen';
-    }
-  });
+  const [isFullScreen, setIsFullScreen] = useState(
+    () => window.innerWidth > 640
+  );
+  const { pathname } = useLocation();
   const nodeRefSidebar = useRef(null);
   const nodeRefChat = useRef(null);
 
-  console.log('screen --> HomePage');
-  console.log('screen==========================', screen);
-
   useRequestPermission();
-  useAppScreen(setScreen); // useLocation; + 1 setState
-  useIsRedirectToCurrentChat(); // useNavigate; currentUserUID, updateCurrentChatInfo - zustand
-  useResizeWindow(setScreen, setWindowHeight); // useLocation; + 2 setState
+  // useAppScreen(setScreen); // useLocation; + 1 setState
+  // useIsRedirectToCurrentChat(); // useNavigate; currentUserUID, updateCurrentChatInfo - zustand
+  useResizeWindow(setIsFullScreen); // useLocation; + 2 setState
   useIsOnlineMyStatus(); // currentUserUID - zustand;
+
+  console.log('screen --> HomePage');
 
   return (
     <div
       className={`flex overflow-hidden bg-main-bcg2 bg-no-repeat bg-cover bg-center`}
       style={{
-        height: `${windowHeight}px`,
+        height: `${window.innerHeight}px`,
+        // height: '100vh',
       }}
     >
       <div className="w-full h-full flex sm:hidden">
         <Transition
           nodeRef={nodeRefSidebar}
-          in={screen === 'Sidebar'}
+          in={
+            window.innerWidth <= 640
+              ? (pathname === '/' ? 'Sidebar' : 'Chat') === 'Sidebar'
+              : false
+          }
           timeout={300}
           unmountOnExit
         >
@@ -64,7 +61,11 @@ const HomePage = memo(() => {
         </Transition>
         <Transition
           nodeRef={nodeRefChat}
-          in={screen === 'Chat'}
+          in={
+            window.innerWidth <= 640
+              ? (pathname === '/' ? 'Sidebar' : 'Chat') === 'Chat'
+              : false
+          }
           timeout={300}
           unmountOnExit
         >
@@ -84,15 +85,18 @@ const HomePage = memo(() => {
           )}
         </Transition>
       </div>
-      <div
-        className="hidden sm:flex overflow-hidden"
-        style={{
-          height: `${windowHeight}px`,
-        }}
-      >
-        <Sidebar />
-        <Chat />
-      </div>
+      {isFullScreen && (
+        <div
+          className="hidden sm:flex overflow-hidden"
+          style={{
+            height: `${window.innerHeight}px`,
+            // height: '100vh',
+          }}
+        >
+          <Sidebar />
+          <Chat />
+        </div>
+      )}
     </div>
   );
 });

@@ -1,4 +1,4 @@
-import { FC, Suspense, lazy, useRef } from 'react';
+import { FC, Suspense, lazy, memo, useRef } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { Transition } from 'react-transition-group';
 
@@ -11,7 +11,7 @@ const ProfileSettings = lazy(
 );
 import useChatStore from '@zustand/store';
 
-const Sidebar: FC = () => {
+const Sidebar: FC = memo(() => {
   const nodeRefSidebarDefault = useRef(null);
 
   const sidebarScreen = useChatStore(state => state.sidebarScreen);
@@ -63,6 +63,6 @@ const Sidebar: FC = () => {
       )}
     </div>
   );
-};
+});
 
 export default Sidebar;

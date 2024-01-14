@@ -2,8 +2,8 @@ import { lazy, useEffect } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import HomePage from '@pages/HomePage/HomePage';
-import Sidebar from '@components/Sidebar/Sidebar';
-import Chat from '@components/Chat/Chat';
+// import Sidebar from '@components/Sidebar/Sidebar';
+// import Chat from '@components/Chat/Chat';
 const Auth = lazy(() => import('@components/Auth/Auth'));
 import RestrictedRoute from '@routes/RestrictedRoute';
 import PrivateRoute from '@routes/PrivateRoute';
@@ -13,7 +13,7 @@ import useChatStore from '@zustand/store';
 function App() {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
 
-  console.log('APP')
+  console.log('APP');
 
   useEffect(() => {
     if (localStorage.language) {
@@ -73,12 +73,15 @@ function App() {
         children: [
           {
             path: '/',
-            element: <Sidebar />,
+            // element: <Sidebar />,
+            element: (
+              <PrivateRoute component={HomePage} redirectTo="/authentication" />
+            ),
           },
           {
             path: '/:id',
             element: (
-              <PrivateRoute component={Chat} redirectTo="/authentication" />
+              <PrivateRoute component={HomePage} redirectTo="/authentication" />
             ),
           },
         ],

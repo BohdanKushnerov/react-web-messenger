@@ -1,4 +1,4 @@
-import { FC, Suspense, lazy, useState } from 'react';
+import { FC, Suspense, lazy, memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import MessageList from '@components/MessageList/MessageList';
@@ -8,7 +8,7 @@ const SearchMessages = lazy(() => import('@components/SearchMessages/SearchMessa
 import useChatStore from '@zustand/store';
 import '@i18n';
 
-const Chat: FC = () => {
+const Chat: FC = memo(() => {
   const [isShowSearchMessages, setIsShowSearchMessages] = useState(false);
   const { t } = useTranslation();
 
@@ -42,6 +42,6 @@ const Chat: FC = () => {
       )}
     </>
   );
-};
+});
 
 export default Chat;
