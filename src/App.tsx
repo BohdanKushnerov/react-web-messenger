@@ -13,6 +13,8 @@ import useChatStore from '@zustand/store';
 function App() {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
 
+  console.log('APP')
+
   useEffect(() => {
     if (localStorage.language) {
       return;

@@ -11,9 +11,9 @@ import {
 } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 import { Scrollbars } from 'react-custom-scrollbars-2';
+import { useTranslation } from 'react-i18next';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 
 import MessageItem from '@components/MessageItem/MessageItem';
 import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
@@ -42,8 +42,6 @@ const MessageList: FC = () => {
   const updateEditingMessage = useChatStore(
     state => state.updateEditingMessage
   );
-
-  // console.log('screen --> MessageList');
 
   const selectedDocDataMessage = messages?.find(
     message => message.id === selectedItemIdForOpenModal
@@ -238,7 +236,7 @@ const MessageList: FC = () => {
           (el: { url: string }) => {
             const desertRef = ref(storage, el.url);
 
-            return deleteObject(desertRef)
+            return deleteObject(desertRef);
           }
         );
 

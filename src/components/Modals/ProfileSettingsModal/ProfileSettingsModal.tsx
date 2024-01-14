@@ -9,13 +9,13 @@ import {
 } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { Line } from 'rc-progress';
-
-import { auth, db, storage } from '@myfirebase/config';
+import { useTranslation } from 'react-i18next';
 
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
 import ModalWindow from '../ModalWindow/ModalWindow';
+import { auth, db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import { useTranslation } from 'react-i18next';
+import '@i18n';
 
 interface IProfileSettingsModal {
   photoProfileInputRef: RefObject<HTMLInputElement>;

@@ -17,7 +17,7 @@ const ChatHeader: FC<IChatHeaderProps> = ({ setIsShowSearchMessages }) => {
     state => state.resetCurrentChatInfo
   );
 
-  console.log('screen --> ChatHeader');
+  // console.log('screen --> ChatHeader');
 
   // resize window
   useEffect(() => {

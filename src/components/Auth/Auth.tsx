@@ -7,7 +7,7 @@ import MyPhoneInput from '@components/Inputs/MyPhoneInput/MyPhoneInput';
 import CodeInput from '@components/Inputs/CodeInput/CodeInput';
 import { auth, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import handleSubmitVerifyCode from './utils/handleSubmitVerifyCodeVerifyCode';
+import handleSubmitVerifyCode from './utils/handleSubmitVerifyCode';
 import setUpRecaptcha from './utils/setUpRecaptcha';
 import { AuthSteps } from 'types/AuthSteps';
 import AuthConfirmButton from '@components/Buttons/AuthConfirmButton/AuthConfirmButton';

@@ -1,7 +1,7 @@
 import { FC, Suspense, lazy, useRef, useState } from 'react';
 import Avatar from 'react-avatar';
-import { useTranslation } from 'react-i18next';
 import { Transition } from 'react-transition-group';
+import { useTranslation } from 'react-i18next';
 
 import ButtonArrow from '@components/Buttons/ButtonArrow/ButtonArrow';
 const ProfileSettingsModal = lazy(
@@ -154,7 +154,7 @@ const ProfileSettings: FC = () => {
                   className={`w-48 border-2 rounded-3xl ${
                     displayName === newDisplayName
                       ? 'bg-transparent border-zinc-400 text-zinc-400'
-                      : 'text-black bg-transparent border-black'
+                      : 'text-white bg-transparent border-white'
                   } hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800 cursor-pointer`}
                   onClick={() =>
                     uid !== null &&

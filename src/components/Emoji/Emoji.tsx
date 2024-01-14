@@ -4,8 +4,8 @@ const EmojiPickerWindow = lazy(
   () => import('@components/EmojiPickerWindow/EmojiPickerWindow')
 );
 import useChatStore from '@zustand/store';
-import sprite from '@assets/sprite.svg';
 import useCloseModal from '@hooks/useCloseModal';
+import sprite from '@assets/sprite.svg';
 
 const Emoji: FC = () => {
   const [isShowEmoji, setIsShowEmoji] = useState(false);

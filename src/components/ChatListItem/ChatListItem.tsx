@@ -18,7 +18,6 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
   const location = useLocation();
   const { t } = useTranslation();
 
-  // zustand
   const { uid } = useChatStore(state => state.currentUser);
   const { chatUID } = useChatStore(state => state.currentChatInfo);
   const updateCurrentChatInfo = useChatStore(

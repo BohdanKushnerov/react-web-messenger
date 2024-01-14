@@ -7,7 +7,7 @@ import { ChatListItemType } from 'types/ChatListItemType';
 const ChatList: FC = () => {
   const myUserChatList = useMyUserChatList(); // загрузка списка моих чатов
 
-  console.log('screen --> ChatList');
+  // console.log('screen --> ChatList');
 
   return (
     <div>

@@ -26,7 +26,7 @@ const ChatForm: FC = () => {
   useBeforeUnloadToStopTyping(); // еффект beforeunload чтобы прекратить состояние печати
   useTyping(message); // запуск таймаута при печатании + сброс при смене чата
 
-  console.log('screen --> ChatForm');
+  // console.log('screen --> ChatForm');
 
   // юзеффект держит в фокусе инпут ввода сообщений
   useEffect(() => {
