@@ -1,15 +1,6 @@
 import { useEffect } from 'react';
-import { DocumentData } from 'firebase/firestore';
 
-interface IUseEditingMessage {
-  (
-    editingMessageInfo: {
-      selectedMessage: DocumentData;
-      isLastMessage: boolean;
-    } | null,
-    setMessage: (msg: string | ((prev: string) => string)) => void
-  ): void;
-}
+import { IUseEditingMessage } from '@interfaces/hooks/IUseEditingMessage';
 
 const useEditingMessage: IUseEditingMessage = (
   editingMessageInfo,

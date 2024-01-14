@@ -1,5 +1,6 @@
 import { DocumentData, doc, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
+import { TFunction } from 'i18next';
 
 import { db } from '@myfirebase/config';
 
@@ -11,7 +12,8 @@ const handleUpdateEditMessage = async (
   chatUID: string | null,
   newMessage: string,
   currentUserUID: string | null,
-  userUID: string | null
+  userUID: string | null,
+  t: TFunction
 ) => {
   // const editMessageId = editMessage.id;
   if (editingMessageInfo && chatUID) {
@@ -34,7 +36,6 @@ const handleUpdateEditMessage = async (
       userUID &&
       !editingMessageInfo?.selectedMessage.data().file
     ) {
-      
       // здесь надо переписывать последнее сообщение мне и напарнику
       await updateDoc(doc(db, 'userChats', currentUserUID), {
         [chatUID + '.lastMessage']: newMessage,
@@ -53,7 +54,6 @@ const handleUpdateEditMessage = async (
     userUID &&
     editingMessageInfo?.selectedMessage.data().file
   ) {
-
     await updateDoc(doc(db, 'userChats', currentUserUID), {
       [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
         editingMessageInfo?.selectedMessage.data().file.length
@@ -68,7 +68,7 @@ const handleUpdateEditMessage = async (
     });
   }
 
-  toast.success('Message successfully edited!');
+  toast.success(t('Toasts.EditingMessageSuccess'));
 };
 
 export default handleUpdateEditMessage;

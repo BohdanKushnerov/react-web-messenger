@@ -56,6 +56,15 @@ const resources = {
         ImageCaptionPlaceholder: 'Add a caption...',
         Send: 'Send',
       },
+      ChatListUnreadMsg: {
+        UnreadMessage: 'unread message!',
+        UnreadMessages: 'unread messages!',
+      },
+      Toasts: {
+        DeleteMessageSuccess: 'Message successfully deleted!',
+        EditingMessageSuccess: 'Message successfully edited!',
+        CopyToClipboard: 'Copied to Clipboard!',
+      },
       Search: 'Search...',
       EmptyChatNofify: 'Select or search user who you would to start messaging',
       SearchMsgPlaceholder: 'Enter text (case-sensitive)',
@@ -116,6 +125,15 @@ const resources = {
         Files: 'файл(и)',
         ImageCaptionPlaceholder: 'Додати підпис...',
         Send: 'Відправити',
+      },
+      ChatListUnreadMsg: {
+        UnreadMessage: 'непрочитане повідомлення!',
+        UnreadMessages: 'непрочитані повідомлення!',
+      },
+      Toasts: {
+        DeleteMessageSuccess: 'Повідомлення успішно видалено!',
+        EditingMessageSuccess: 'Повідомлення успішно відредаговано!',
+        CopyToClipboard: 'Скопійовано в буфер обміну!',
       },
       Search: 'Пошук...',
       EmptyChatNofify:
@@ -178,6 +196,15 @@ const resources = {
         Files: 'файл(ы)',
         ImageCaptionPlaceholder: 'Добавить подпись...',
         Send: 'Отправить',
+      },
+      ChatListUnreadMsg: {
+        UnreadMessage: 'непрочитанное сообщение!',
+        UnreadMessages: 'непрочитанных сообщения!',
+      },
+      Toasts: {
+        DeleteMessageSuccess: 'Сообщение успешно удалено!',
+        EditingMessageSuccess: 'Сообщение успешно отредактировано!',
+        CopyToClipboard: 'Скопировано в буфер обмена!',
       },
       Search: 'Поиск...',
       EmptyChatNofify:

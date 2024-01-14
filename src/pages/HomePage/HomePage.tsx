@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import Chat from '@components/Chat/Chat';
 import Sidebar from '@components/Sidebar/Sidebar';
 import useRequestPermission from '@hooks/useRequestPermission';
-// import useIsRedirectToCurrentChat from '@hooks/useIsRedirectToCurrentChat';
+import useIsRedirectToCurrentChat from '@hooks/useIsRedirectToCurrentChat';
 import useResizeWindow from '@hooks/useResizeWindow';
 import useIsOnlineMyStatus from '@hooks/useIsOnlineMyStatus';
 
@@ -15,8 +15,7 @@ const HomePage = memo(() => {
   const nodeRefChat = useRef(null);
 
   useRequestPermission();
-  // useAppScreen(setScreen); // useLocation; + 1 setState
-  // useIsRedirectToCurrentChat(); // useNavigate; currentUserUID, updateCurrentChatInfo - zustand
+  useIsRedirectToCurrentChat(); // useNavigate; currentUserUID, updateCurrentChatInfo - zustand
   const isFullScreen = useResizeWindow();
   useIsOnlineMyStatus(); // currentUserUID - zustand;
 

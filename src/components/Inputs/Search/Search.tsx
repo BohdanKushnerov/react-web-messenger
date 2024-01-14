@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import { ISearch } from '@interfaces/ISearch';
+import { ISearchProps } from '@interfaces/ISearchProps';
 import sprite from '@assets/sprite.svg';
 
-const Search: FC<ISearch> = ({ value, handleChange, placeholderText }) => {
+const Search: FC<ISearchProps> = ({ value, handleChange, placeholderText }) => {
   return (
     <div className="relative w-full">
       <input

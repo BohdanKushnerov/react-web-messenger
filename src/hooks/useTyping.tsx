@@ -3,13 +3,7 @@ import { useEffect, useRef } from 'react';
 import useChatStore from '@zustand/store';
 import { updateTypingIsFalse } from '@api/firestore/updateTypingIsFalse';
 import { updateTypingIsTrue } from '@api/firestore/updateTypingIsTrue';
-
-interface IUseTyping {
-  (
-    message: string
-    // myTypingTimeoutRef: React.MutableRefObject<NodeJS.Timeout | null>
-  ): void;
-}
+import { IUseTyping } from '@interfaces/hooks/IUseTyping';
 
 const useTyping: IUseTyping = message => {
   const myTypingTimeoutRef = useRef<NodeJS.Timeout | null>(null);

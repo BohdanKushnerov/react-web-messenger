@@ -17,7 +17,7 @@ const ChatHeader: FC<IChatHeaderProps> = ({ setIsShowSearchMessages }) => {
 
   const isFullScreen = useResizeWindow();
 
-  console.log('screen --> ChatHeader');
+  // console.log('screen --> ChatHeader');
 
   const handleClickShowSearchMessages = () => {
     setIsShowSearchMessages(true);

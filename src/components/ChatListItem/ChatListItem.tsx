@@ -13,8 +13,12 @@ import handleSelectChat from '@utils/handleSelectChat';
 import { IChatListItemProps } from '@interfaces/IChatListItemProps';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
+import useUnreadMessagesInChatListItem from '@hooks/useUnreadMessagesInChatListItem';
 
-const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
+const ChatListItem: FC<IChatListItemProps> = ({
+  chatInfo,
+  setChatUnreadMessages,
+}) => {
   const location = useLocation();
   const { t } = useTranslation();
 
@@ -28,6 +32,11 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
   const userInfo = useChatInfo(chatInfo[1].userUID); // обновляет инфо о текущем юзере в списке чата
   const lengthOfMyUnreadMsgs = useLengthOfMyUnreadMsgs(chatInfo); // следим за количеством моих непрочитаных сообщений в ChatItem
   const isReadMyLastMessage = useIsReadMyLastMessage(chatInfo); // прочитаное мое последнее сообщение или нет
+  useUnreadMessagesInChatListItem(
+    lengthOfMyUnreadMsgs,
+    setChatUnreadMessages,
+    chatInfo
+  );
 
   // console.log('screen --> ChatListItem');
 

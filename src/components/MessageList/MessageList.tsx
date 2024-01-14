@@ -44,7 +44,7 @@ const MessageList: FC = () => {
     state => state.updateEditingMessage
   );
 
-  console.log('screen --> MessageList');
+  // console.log('screen --> MessageList');
 
   useEffect(() => {
     if (chatUID === null) return;
@@ -267,7 +267,7 @@ const MessageList: FC = () => {
         });
       }
 
-      toast.success('Message successfully deleted!');
+      toast.success(t('Toasts.DeleteMessageSuccess'));
 
       const inputElement = document.getElementById('chatFormInput')!;
       inputElement.focus();
@@ -299,7 +299,7 @@ const MessageList: FC = () => {
   };
 
   const handleSuccessClickCopyTextMsg = () => {
-    toast.success('Copied to Clipboard!');
+    toast.success(t('Toasts.CopyToClipboard'));
     handleCloseModal();
 
     const inputElement = document.getElementById('chatFormInput')!;
