@@ -23,16 +23,15 @@ import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
 
-interface IGroupedMessages {
-  [date: string]: DocumentData[];
-}
-
 const MessageList: FC = () => {
-  const [groupedMessages, setGroupedMessages] =
-    useState<IGroupedMessages | null>(null);
+  const [messages, setMessages] = useState<DocumentData[] | null>(null);
+  const [groupedMessages, setGroupedMessages] = useState<DocumentData | null>(
+    null
+  );
   const [isButtonVisible, setIsButtonVisible] = useState(false);
-  const [selectedDocDataMessage, setSelectedDocDataMessage] =
-    useState<DocumentData | null>(null);
+  const [selectedItemIdForOpenModal, setSelectedItemIdForOpenModal] = useState<
+    string | null
+  >(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const scrollbarsRef = useRef<Scrollbars>(null);
   const msgListRef = useRef(null);
@@ -44,26 +43,21 @@ const MessageList: FC = () => {
     state => state.updateEditingMessage
   );
 
+  const selectedDocDataMessage = messages?.find(
+    message => message.id === selectedItemIdForOpenModal
+  );
+
   console.log('screen --> MessageList');
 
+  // Группировка сообщений по дате (та что sticky)
   useEffect(() => {
-    if (chatUID === null) return;
-
-    const queryParams = query(
-      collection(db, `chats/${chatUID}/messages`),
-      orderBy('date', 'asc')
-    );
-
-    const unsubChatMessages = onSnapshot(queryParams, snapshot => {
-      console.log(snapshot.docs);
-      const updatedMessages: DocumentData[] = snapshot.docs;
-
-      // Группировка сообщений по дате (та что sticky)
-      const grouped = updatedMessages.reduce((acc, message) => {
+    if (messages) {
+      const grouped = messages.reduce((acc, message) => {
+        // Проверка на существование timestamp
         const messageData = message.data();
         if (messageData && messageData.date) {
-          const date = messageData.date.toDate();
-          const dateString = date.toISOString().split('T')[0];
+          const date = messageData.date.toDate(); // Преобразуем _Timestamp в объект Date
+          const dateString = date.toISOString().split('T')[0]; // Получаем строку в формате 'YYYY-MM-DD'
 
           acc[dateString] = acc[dateString] || [];
           acc[dateString].push(message);
@@ -72,13 +66,10 @@ const MessageList: FC = () => {
         return acc;
       }, {});
 
+      // console.log('grouped', grouped);
       setGroupedMessages(grouped);
-    });
-
-    return () => {
-      unsubChatMessages();
-    };
-  }, [chatUID, currentUserUID]);
+    }
+  }, [messages]);
 
   // Добавляет currentChatId в локалСторидж, чтобы при перезагрузке врнуться на текущий чат
   useEffect(() => {
@@ -90,6 +81,57 @@ const MessageList: FC = () => {
       localStorage.removeItem('currentChatId');
     };
   }, [chatUID]);
+
+  useEffect(() => {
+    if (chatUID === null) return;
+
+    const queryParams = query(
+      collection(db, `chats/${chatUID}/messages`),
+      orderBy('date', 'asc')
+    );
+
+    onSnapshot(queryParams, snapshot => {
+      // if (!snapshot.empty) {
+      //   if(!messages) {
+      //     setMessages(snapshot.docs);
+      //   }
+      // }
+      snapshot.docChanges().forEach(change => {
+        if (change.type === 'added') {
+          console.log('New mes: added', change.doc.data());
+          // if(messages) {
+          //   setMessages([change.doc]);
+          // } else {
+          //   setMessages(prev => [...prev, change.doc]);
+          // }
+          // console.log('change', change.doc.data());
+
+          // if (
+          //   change.doc.data().senderUserID !== currentUserUID &&
+          //   change.doc.data().isRead === false
+          // ) {
+          //   // new Notification('new Message', {
+          //   //   body: change.doc.data().message,
+          //   // });
+          // }
+        }
+        if (change.type === 'modified') {
+          console.log('Modified mes: ', change.doc.data());
+        }
+        if (change.type === 'removed') {
+          console.log('Removed mes: ', change.doc.data());
+        }
+      });
+    });
+
+    const unsubChatMessages = onSnapshot(queryParams, querySnapshot => {
+      setMessages(querySnapshot.docs);
+    });
+
+    return () => {
+      unsubChatMessages();
+    };
+  }, [chatUID, currentUserUID]);
 
   // Измерение высоты ul - чата(размер ul с сообщениями) при его изменении
   useEffect(() => {
@@ -124,10 +166,7 @@ const MessageList: FC = () => {
     setIsButtonVisible(isNearBottom);
   };
 
-  const handleClickRigthButtonMessage = (
-    message: DocumentData,
-    e?: React.MouseEvent
-  ) => {
+  const handleClickRigthButtonMessage = (id: string, e?: React.MouseEvent) => {
     if (e) {
       e.preventDefault();
 
@@ -171,28 +210,23 @@ const MessageList: FC = () => {
       }
     }
 
-    if (selectedDocDataMessage?.id === message.id) {
-      setSelectedDocDataMessage(null);
+    if (selectedItemIdForOpenModal === id) {
+      setSelectedItemIdForOpenModal(null);
     } else {
-      setSelectedDocDataMessage(message);
+      setSelectedItemIdForOpenModal(id);
     }
   };
 
   const handleCloseModal = () => {
-    if (selectedDocDataMessage !== null) setSelectedDocDataMessage(null);
+    if (selectedItemIdForOpenModal !== null)
+      setSelectedItemIdForOpenModal(null);
   };
 
   const handleDeleteMessage = async () => {
-    if (!groupedMessages) return;
-    const mergedArray: DocumentData[] = Object.values(groupedMessages).reduce(
-      (acc, currentArray) => acc.concat(currentArray),
-      []
-    );
-
     if (
       chatUID &&
-      mergedArray &&
-      selectedDocDataMessage !== null &&
+      messages &&
+      selectedItemIdForOpenModal !== null &&
       currentUserUID &&
       userUID &&
       selectedDocDataMessage
@@ -218,24 +252,21 @@ const MessageList: FC = () => {
       });
 
       // если последнее сообщение то ставим последнее сообщение messages[selectedItemIndexForOpenModal - 1]
-      if (mergedArray.length > 1) {
+      if (messages.length > 1) {
         // тут в ифе по идее условие если последнее сообщение здесь
-        if (
-          selectedDocDataMessage.id === mergedArray[mergedArray.length - 1].id
-        ) {
-          const lastFiles = mergedArray[mergedArray.length - 2].data()?.file;
+        if (selectedDocDataMessage.id === messages[messages.length - 1].id) {
+          const lastFiles = messages[messages.length - 2].data()?.file;
 
           const lastMessage = lastFiles
             ? `${String.fromCodePoint(128206)} ${lastFiles.length} file(s) ${
-                mergedArray[mergedArray.length - 2].data().message
+                messages[messages.length - 2].data().message
               }`
-            : mergedArray[mergedArray.length - 2].data().message;
+            : messages[messages.length - 2].data().message;
 
           const senderUserIDMessage =
-            mergedArray[mergedArray.length - 2].data().senderUserID;
+            messages[messages.length - 2].data().senderUserID;
 
-          const lastDateMessage =
-            mergedArray[mergedArray.length - 2].data().date;
+          const lastDateMessage = messages[messages.length - 2].data().date;
 
           // здесь надо переписывать последнее сообщение мне и напарнику после удаления
           await updateDoc(doc(db, 'userChats', currentUserUID), {
@@ -268,42 +299,33 @@ const MessageList: FC = () => {
       }
 
       toast.success('Message successfully deleted!');
-
-      const inputElement = document.getElementById('chatFormInput')!;
-      inputElement.focus();
     }
   };
 
   const handleChooseEditMessage = () => {
-    if (!groupedMessages) return;
-    const mergedArray: DocumentData[] = Object.values(groupedMessages).reduce(
-      (acc, currentArray) => acc.concat(currentArray),
-      []
-    );
+    if (chatUID && messages && selectedItemIdForOpenModal !== null) {
+      const selectedMessage: DocumentData | undefined = messages.find(
+        message => message.id === selectedItemIdForOpenModal
+      );
 
-    if (chatUID && mergedArray && selectedDocDataMessage !== null) {
-      const editingMessageInfo = {
-        selectedMessage: selectedDocDataMessage,
-        isLastMessage:
-          selectedDocDataMessage.id === mergedArray[mergedArray.length - 1].id
-            ? true
-            : false,
-      };
+      if (selectedMessage) {
+        const editingMessageInfo = {
+          selectedMessage,
+          isLastMessage:
+            selectedMessage.id === messages[messages.length - 1].id
+              ? true
+              : false,
+        };
 
-      updateEditingMessage(editingMessageInfo);
-      handleCloseModal();
-
-      const inputElement = document.getElementById('chatFormInput')!;
-      inputElement.focus();
+        updateEditingMessage(editingMessageInfo);
+        handleCloseModal();
+      }
     }
   };
 
   const handleSuccessClickCopyTextMsg = () => {
     toast.success('Copied to Clipboard!');
     handleCloseModal();
-
-    const inputElement = document.getElementById('chatFormInput')!;
-    inputElement.focus();
   };
 
   return (
@@ -329,7 +351,7 @@ const MessageList: FC = () => {
                   </div>
                   {groupedMessages[date].map((message: DocumentData) => {
                     const currentItem =
-                      selectedDocDataMessage?.id === message.id;
+                      selectedItemIdForOpenModal === message.id;
 
                     return (
                       <div
@@ -338,7 +360,7 @@ const MessageList: FC = () => {
                         }`}
                         key={message.id}
                         onContextMenu={e =>
-                          handleClickRigthButtonMessage(message, e)
+                          handleClickRigthButtonMessage(message.id, e)
                         }
                       >
                         <MessageItem msg={message} />
@@ -368,7 +390,7 @@ const MessageList: FC = () => {
           </button>
         )}
       </div>
-      {groupedMessages && selectedDocDataMessage !== null && (
+      {messages && selectedItemIdForOpenModal !== null && (
         <MessageContextMenuModal
           closeModal={handleCloseModal}
           modalPosition={modalPosition}

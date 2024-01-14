@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-interface IUseResizeWindow {
-  (setIsFullScreen: (boolean: boolean) => void): void;
-}
+const useResizeWindow = () => {
+  const [isFullScreen, setIsFullScreen] = useState(
+    () => window.innerWidth > 640
+  );
 
-const useResizeWindow: IUseResizeWindow = setIsFullScreen => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 640) {
@@ -20,6 +20,8 @@ const useResizeWindow: IUseResizeWindow = setIsFullScreen => {
       window.removeEventListener('resize', handleResize);
     };
   }, [setIsFullScreen]);
+
+  return isFullScreen;
 };
 
 export default useResizeWindow;

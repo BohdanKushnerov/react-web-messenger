@@ -1,36 +1,23 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import ChatHeaderOponentInfo from '@components/ChatHeaderOponentInfo/ChatHeaderOponentInfo';
 import ButtonArrow from '@components/Buttons/ButtonArrow/ButtonArrow';
+import useChatStore from '@zustand/store';
+import useResizeWindow from '@hooks/useResizeWindow';
 import { IChatHeaderProps } from '@interfaces/IChatHeaderProps';
 import sprite from '@assets/sprite.svg';
-import { useNavigate } from 'react-router-dom';
-import useChatStore from '@zustand/store';
 
 const ChatHeader: FC<IChatHeaderProps> = ({ setIsShowSearchMessages }) => {
-  const [isMobileScreen, setIsMobileScreen] = useState(
-    () => window.innerWidth <= 640
-  );
   const navigate = useNavigate();
 
   const resetCurrentChatInfo = useChatStore(
     state => state.resetCurrentChatInfo
   );
 
-  // console.log('screen --> ChatHeader');
+  const isFullScreen = useResizeWindow();
 
-  // resize window
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobileScreen(window.innerWidth <= 640);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  console.log('screen --> ChatHeader');
 
   const handleClickShowSearchMessages = () => {
     setIsShowSearchMessages(true);
@@ -43,7 +30,7 @@ const ChatHeader: FC<IChatHeaderProps> = ({ setIsShowSearchMessages }) => {
 
   return (
     <div className="absolute top-0 left-0 z-10 flex gap-4 items-center w-full h-14 px-6 bg-gray-200 dark:bg-myBlackBcg shadow-bottomShadow">
-      {isMobileScreen && (
+      {!isFullScreen && (
         <ButtonArrow
           handleClickButtonArrow={handleClickNavigateToSidebarScreen}
         />

@@ -1,4 +1,4 @@
-import { useState, useRef, memo } from 'react';
+import { useRef, memo } from 'react';
 import { Transition } from 'react-transition-group';
 import { useLocation } from 'react-router-dom';
 
@@ -10,9 +10,6 @@ import useResizeWindow from '@hooks/useResizeWindow';
 import useIsOnlineMyStatus from '@hooks/useIsOnlineMyStatus';
 
 const HomePage = memo(() => {
-  const [isFullScreen, setIsFullScreen] = useState(
-    () => window.innerWidth > 640
-  );
   const { pathname } = useLocation();
   const nodeRefSidebar = useRef(null);
   const nodeRefChat = useRef(null);
@@ -20,7 +17,7 @@ const HomePage = memo(() => {
   useRequestPermission();
   // useAppScreen(setScreen); // useLocation; + 1 setState
   // useIsRedirectToCurrentChat(); // useNavigate; currentUserUID, updateCurrentChatInfo - zustand
-  useResizeWindow(setIsFullScreen); // useLocation; + 2 setState
+  const isFullScreen = useResizeWindow();
   useIsOnlineMyStatus(); // currentUserUID - zustand;
 
   console.log('screen --> HomePage');
@@ -30,7 +27,6 @@ const HomePage = memo(() => {
       className={`flex overflow-hidden bg-main-bcg2 bg-no-repeat bg-cover bg-center`}
       style={{
         height: `${window.innerHeight}px`,
-        // height: '100vh',
       }}
     >
       <div className="w-full h-full flex sm:hidden">
@@ -90,7 +86,6 @@ const HomePage = memo(() => {
           className="hidden sm:flex overflow-hidden"
           style={{
             height: `${window.innerHeight}px`,
-            // height: '100vh',
           }}
         >
           <Sidebar />
