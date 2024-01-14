@@ -1,22 +1,16 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useRef } from 'react';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { Transition } from 'react-transition-group';
 
 import useChatStore from '@zustand/store';
+import useStartTransition from '@hooks/useStartTransition';
 
 const EmojiPickerWindow: FC = () => {
-  const [startTransition, setStartTransition] = useState(false);
   const nodeRefEmoji = useRef(null);
 
   const setMessage = useChatStore(state => state.setMessage);
 
-  useEffect(() => {
-    setStartTransition(true);
-
-    return () => {
-      setStartTransition(false);
-    };
-  }, []);
+  const startTransition = useStartTransition();
 
   const handleSelectEmoji = (emojiData: EmojiClickData) => {
     setMessage(prevState => prevState + emojiData.emoji);

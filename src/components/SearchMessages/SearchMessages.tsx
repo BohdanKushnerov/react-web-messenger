@@ -1,18 +1,11 @@
-import { FC, useEffect, useState } from 'react';
-import {
-  DocumentData,
-  collection,
-  doc,
-  onSnapshot,
-  query,
-  where,
-} from 'firebase/firestore';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import Search from '@components/Inputs/Search/Search';
-import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import useSearchMessageValue from '@hooks/useSearchMessageValue';
+import useChatInfo from '@hooks/useChatInfo';
 import formatTimeSearchMsg from '@utils/formatTimeSearchMsg';
 import { ISearchMessagesProps } from '@interfaces/ISearchMessagesProps';
 import sprite from '@assets/sprite.svg';
@@ -21,58 +14,19 @@ import '@i18n';
 const SearchMessages: FC<ISearchMessagesProps> = ({
   setIsShowSearchMessages,
 }) => {
-  const [searchValue, setSearchValue] = useState('');
-  const [searchMessages, setSearchMessages] = useState<DocumentData[] | null>(
-    null
-  );
-  const [currentChatInfo, setCurrentChatInfo] = useState<DocumentData | null>(
-    null
-  );
   const { t } = useTranslation();
 
-  const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
+  const { userUID } = useChatStore(state => state.currentChatInfo);
   const { photoURL, displayName } = useChatStore(state => state.currentUser);
 
-  useEffect(() => {
-    if (!searchValue) {
-      setSearchMessages(null);
-      return;
-    }
-
-    const queryParams = query(
-      collection(db, `chats/${chatUID}/messages`),
-      where('message', '>=', searchValue),
-      where('message', '<=', searchValue + '\uf8ff')
-    );
-
-    const unsubSearchMessages = onSnapshot(queryParams, querySnapshot => {
-      setSearchMessages(querySnapshot.docs);
-    });
-
-    return () => {
-      unsubSearchMessages();
-    };
-  }, [chatUID, searchValue]);
-
-  useEffect(() => {
-    if (!userUID) return;
-
-    const unsubUserInfoData = onSnapshot(doc(db, 'users', userUID), doc => {
-      const data = doc.data();
-      if (data) {
-        setCurrentChatInfo(data);
-      }
-    });
-
-    return () => {
-      unsubUserInfoData();
-    };
-  }, [userUID]);
+  const { searchMessages, searchMessageValue, setSearchMessageValue } =
+    useSearchMessageValue();
+  const currentChatInfo = useChatInfo(userUID);
 
   const handleChangeSearchMessage = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setSearchValue(e.target.value);
+    setSearchMessageValue(e.target.value);
   };
 
   const handleClickCloseSearchMessage = () => {
@@ -96,7 +50,7 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
         </button>
 
         <Search
-          value={searchValue}
+          value={searchMessageValue}
           handleChange={handleChangeSearchMessage}
           placeholderText={t('SearchMsgPlaceholder')}
         />

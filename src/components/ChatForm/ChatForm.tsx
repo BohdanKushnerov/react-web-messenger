@@ -7,6 +7,8 @@ import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
 import useChatStore from '@zustand/store';
 import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
 import useTyping from '@hooks/useTyping';
+import useClearMessagesOnChatChange from '@hooks/useClearMessagesOnChatChange';
+import useEditingMessage from '@hooks/useEditingMessage';
 import handleUpdateEditMessage from '@utils/handleUpdateEditMessage';
 import handleSendMessage from '@utils/handleSendMessage';
 import sprite from '@assets/sprite.svg';
@@ -25,6 +27,8 @@ const ChatForm: FC = () => {
 
   useBeforeUnloadToStopTyping(); // еффект beforeunload чтобы прекратить состояние печати
   useTyping(message); // запуск таймаута при печатании + сброс при смене чата
+  useEditingMessage(editingMessageInfo, setMessage);
+  useClearMessagesOnChatChange(chatUID, setMessage);
 
   console.log('screen --> ChatForm');
 
@@ -33,19 +37,12 @@ const ChatForm: FC = () => {
     inputRef.current?.focus();
   }, [chatUID]);
 
-  // юзеффект изменения месседжа
-  // + чистит при смене юзера сообщение
-  useEffect(() => {
-    if (editingMessageInfo) {
-      const msg = editingMessageInfo.selectedMessage.data().message;
-      setMessage(msg);
-    } else {
-      setMessage('');
-    }
-  }, [chatUID, editingMessageInfo, setMessage]);
-
   const handleCancelEditingMessage = () => {
     resetEditingMessage();
+    setMessage('');
+
+    const inputElement = document.getElementById('chatFormInput')!;
+    inputElement.focus();
   };
 
   const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +103,7 @@ const ChatForm: FC = () => {
         >
           <input
             autoFocus={true}
-            id='chatFormInput'
+            id="chatFormInput"
             className="w-full h-10 py-1 pl-10 pr-14 rounded-3xl bg-zinc-300 dark:bg-mySeacrhBcg text-black dark:text-white placeholder:text-zinc-900 placeholder:dark:text-zinc-400 border-2 border-transparent outline-none focus:border-solid focus:dark:border-cyan-500"
             type="text"
             placeholder={t('ChatInputPlaceholder')}
