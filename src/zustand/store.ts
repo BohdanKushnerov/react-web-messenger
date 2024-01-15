@@ -7,12 +7,15 @@ import createCurrentChatInfoState from './currentChatInfoSlice';
 import createSidebarScreenState from './sidebarScreenSlice';
 import createMessageEditingFormState from './messageEditingFormState';
 import createMessageChatForm from './messageChatForm';
+import createTotalUnreadMessagesState from './totalUnreadMessagesSlice';
+
 import { ISearchUsersState } from '@interfaces/zustand/ISearchUsersState';
 import { IAuthSliceState } from '@interfaces/zustand/IAuthSliceState';
 import { ICurrentChatInfoState } from '@interfaces/zustand/ICurrentChatInfoState';
 import { ISidebarScreenState } from '@interfaces/zustand/ISidebarScreen';
 import { IMessageEditingState } from '@interfaces/zustand/IMessageEditingState';
 import { IMessageChatForm } from '@interfaces/zustand/IMessageChatForm';
+import { ITotalUnreadMessagesState } from '@interfaces/zustand/ITotalUnreadMessagesState';
 
 const useChatStore = create<
   ISearchUsersState &
@@ -20,7 +23,8 @@ const useChatStore = create<
     ICurrentChatInfoState &
     ISidebarScreenState &
     IMessageEditingState &
-    IMessageChatForm
+    IMessageChatForm &
+    ITotalUnreadMessagesState
 >()(
   devtools((...a) => ({
     ...createSearchUsersState(...a),
@@ -29,6 +33,7 @@ const useChatStore = create<
     ...createSidebarScreenState(...a),
     ...createMessageEditingFormState(...a),
     ...createMessageChatForm(...a),
+    ...createTotalUnreadMessagesState(...a),
   }))
 );
 

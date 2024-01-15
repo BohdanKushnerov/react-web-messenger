@@ -107,8 +107,9 @@ const ChatForm: FC = () => {
           onSubmit={handleManageSendMessage}
         >
           <input
-            autoFocus={true}
             id="chatFormInput"
+            autoFocus={true}
+            autoComplete="off"
             className="w-full h-10 py-1 pl-10 pr-14 rounded-3xl bg-zinc-300 dark:bg-mySeacrhBcg text-black dark:text-white placeholder:text-zinc-900 placeholder:dark:text-zinc-400 border-2 border-transparent outline-none focus:border-solid focus:dark:border-cyan-500"
             type="text"
             placeholder={t('ChatForm.ChatInputPlaceholder')}

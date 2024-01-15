@@ -13,6 +13,10 @@ import { AuthSteps } from 'types/AuthSteps';
 import AuthConfirmButton from '@components/Buttons/AuthConfirmButton/AuthConfirmButton';
 import { toast } from 'react-toastify';
 
+import authStep1 from '@assets/auth-step1.webp';
+import authStep2 from '@assets/auth-step2.webp';
+import authStep3 from '@assets/auth-step3.webp';
+
 const Auth: FC = () => {
   const [step, setStep] = useState<AuthSteps>('Step 1/3');
   const [phone, setPhone] = useState<E164Number | string>('16505553435');
@@ -54,7 +58,7 @@ const Auth: FC = () => {
 
       const userCredential = await handleSubmitVerifyCode(
         confirmationResult,
-        code,
+        code
       );
 
       if (userCredential) {
@@ -66,7 +70,7 @@ const Auth: FC = () => {
       }
     } catch (error) {
       console.log('handleMannageVerifyCode error', error);
-      toast.error(String(error))
+      toast.error(String(error));
     } finally {
       setIsLoading(false);
     }
@@ -96,7 +100,7 @@ const Auth: FC = () => {
 
         // =================создаем обьект чаты нашего юзера которого мы только создали=======================
         await setDoc(doc(db, 'userChats', user.uid), {});
-      } 
+      }
     } catch (error) {
       console.log('handleUpdateProfile error', error);
       toast.error(String(error));
@@ -121,7 +125,7 @@ const Auth: FC = () => {
           <>
             <img
               className="mx-auto mb-10 rounded-md"
-              src="https://images.nightcafe.studio/jobs/b1mMho0tc6Zo10GkTLXe/b1mMho0tc6Zo10GkTLXe--1--h5wl0.jpg?tr=w-120,c-at_max"
+              src={authStep1}
               alt="phone"
               width={120}
               height={120}
@@ -141,7 +145,7 @@ const Auth: FC = () => {
           <>
             <img
               className="mx-auto mb-10 rounded-md"
-              src="https://images.nightcafe.studio/jobs/wSrsDx9XKJfVx8fOPc9F/wSrsDx9XKJfVx8fOPc9F--1--7ni36.jpg?tr=w-120,c-at_max"
+              src={authStep2}
               alt="phone"
               width={120}
               height={120}
@@ -164,7 +168,7 @@ const Auth: FC = () => {
           <>
             <img
               className="mx-auto mb-10 rounded-md"
-              src="https://images.nightcafe.studio/jobs/bcazXMvJXZlem8MrBUaH/bcazXMvJXZlem8MrBUaH--1--c2com.jpg?tr=w-120,c-at_max"
+              src={authStep3}
               alt="phone"
               width={120}
               height={120}

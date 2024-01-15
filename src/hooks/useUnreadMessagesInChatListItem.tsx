@@ -1,29 +1,21 @@
 import { useEffect } from 'react';
 
 import { IUseUnreadMessagesInChatListItem } from '@interfaces/hooks/IUseUnreadMessagesInChatListItem';
+import useChatStore from '@zustand/store';
 
 const useUnreadMessagesInChatListItem: IUseUnreadMessagesInChatListItem = (
   lengthOfMyUnreadMsgs,
-  setChatUnreadMessages,
   chatInfo
 ) => {
+  const updateTotalUnreadMessages = useChatStore(
+    state => state.updateTotalUnreadMessages
+  );
+
   useEffect(() => {
     if (lengthOfMyUnreadMsgs) {
-      setChatUnreadMessages(prev => {
-        return {
-          ...prev,
-          [chatInfo[0]]: lengthOfMyUnreadMsgs,
-        };
-      });
-    } else {
-      setChatUnreadMessages(prev => {
-        return {
-          ...prev,
-          [chatInfo[0]]: 0,
-        };
-      });
-    }
-  }, [chatInfo, setChatUnreadMessages, lengthOfMyUnreadMsgs]);
+      updateTotalUnreadMessages({ [chatInfo[0]]: lengthOfMyUnreadMsgs });
+    } 
+  }, [chatInfo, lengthOfMyUnreadMsgs, updateTotalUnreadMessages]);
 };
 
 export default useUnreadMessagesInChatListItem;

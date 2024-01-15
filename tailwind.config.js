@@ -26,9 +26,9 @@ export default {
         body: ['"Open Sans"', 'sans'],
       },
       backgroundImage: {
-        'main-bcg': "url('/src/assets/bcg.jpg')",
-        'main-bcg2': "url('/src/assets/bcg-dark.jpg')",
-        'loader-bcg': "url('/src/assets/loader-img.jpg')",
+        'main-bcg': "url('/src/assets/bcg.webp')",
+        'main-bcg2': "url('/src/assets/bcg-dark.webp')",
+        'loader-bcg': "url('/src/assets/loader-img.webp')",
       },
       backgroundColor: {
         mybcg: '#1F2025',

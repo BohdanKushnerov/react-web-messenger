@@ -17,7 +17,6 @@ import useUnreadMessagesInChatListItem from '@hooks/useUnreadMessagesInChatListI
 
 const ChatListItem: FC<IChatListItemProps> = ({
   chatInfo,
-  setChatUnreadMessages,
 }) => {
   const location = useLocation();
   const { t } = useTranslation();
@@ -34,15 +33,21 @@ const ChatListItem: FC<IChatListItemProps> = ({
   const isReadMyLastMessage = useIsReadMyLastMessage(chatInfo); // прочитаное мое последнее сообщение или нет
   useUnreadMessagesInChatListItem(
     lengthOfMyUnreadMsgs,
-    setChatUnreadMessages,
     chatInfo
+  );
+
+  const updateTotalUnreadMessages = useChatStore(
+    state => state.updateTotalUnreadMessages
   );
 
   // console.log('screen --> ChatListItem');
 
   const handleManageSelectChat = () => {
     handleSelectChat(chatInfo, updateCurrentChatInfo);
-    // при выборе нового чата сброс сообщения в ChatForm
+    // при выборе чата с непрочитаными сообщениями сбрасываем на 0
+    if (lengthOfMyUnreadMsgs) {
+      updateTotalUnreadMessages({ [chatInfo[0]]: 0 });
+    }
   };
 
   return (

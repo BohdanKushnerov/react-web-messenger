@@ -15,12 +15,6 @@ const useBrowserTabTitleVisibilityChange: IUseBrowserTabTitleVisibilityChange =
       keyPrefix: 'ChatListUnreadMsg',
     });
 
-    console.log('docHidden', docHidden);
-    console.log(
-      'changeTitleIntervalRef.current',
-      changeTitleIntervalRef.current
-    );
-
     useEffect(() => {
       const handleVisibilityChange = () => {
         if (document.hidden) {

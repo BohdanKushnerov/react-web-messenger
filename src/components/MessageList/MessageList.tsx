@@ -55,7 +55,7 @@ const MessageList: FC = () => {
     );
 
     const unsubChatMessages = onSnapshot(queryParams, snapshot => {
-      console.log(snapshot.docs);
+      // console.log(snapshot.docs);
       const updatedMessages: DocumentData[] = snapshot.docs;
 
       // Группировка сообщений по дате (та что sticky)
