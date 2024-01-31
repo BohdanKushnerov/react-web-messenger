@@ -13,6 +13,7 @@ import handleUpdateEditMessage from '@utils/handleUpdateEditMessage';
 import handleSendMessage from '@utils/handleSendMessage';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
+import RecordingAudio from '@components/RecordingAudio/RecordingAudio';
 
 const ChatForm: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -117,18 +118,22 @@ const ChatForm: FC = () => {
             value={message}
             onChange={handleChangeMessage}
           />
-          <button
-            className="flex justify-center items-center h-12 w-12 bg-transparent transition-all duration-300 hover:bg-zinc-100/20 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
-            aria-label="Send message"
-          >
-            <svg
-              width={24}
-              height={24}
-              className="fill-zinc-200 dark:fill-zinc-400"
+          {message ? (
+            <button
+              className="flex justify-center items-center h-12 w-12 bg-transparent transition-all duration-300 hover:bg-zinc-100/20 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
+              type="submit"
             >
-              <use href={sprite + '#icon-send-message'} />
-            </svg>
-          </button>
+              <svg
+                width={24}
+                height={24}
+                className="fill-zinc-200 dark:fill-zinc-400"
+              >
+                <use href={'sprite' + '#icon-send-message'} />
+              </svg>
+            </button>
+          ) : (
+            <RecordingAudio />
+          )}
         </form>
         <FileInput />
         <Emoji />
