@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 import ChatListItem from '@components/ChatListItem/ChatListItem';
 import useMyUserChatList from '@hooks/useMyUserChatList';
 import { ChatListItemType } from 'types/ChatListItemType';
 import BrowserTabTitle from './BrowserTabTitle';
 
-const ChatList: FC = () => {
+const ChatList: FC = memo(() => {
   const myUserChatList = useMyUserChatList(); // загрузка списка моих чатов
 
   console.log('screen --> ChatList');
@@ -21,6 +21,6 @@ const ChatList: FC = () => {
       <BrowserTabTitle />
     </div>
   );
-};
+});
 
 export default ChatList;

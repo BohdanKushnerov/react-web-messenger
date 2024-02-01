@@ -24,6 +24,7 @@ const handleSendMessage = async (
       senderUserID: currentUserUID,
       date: Timestamp.now(),
       isRead: false,
+      isShowNotification: true,
     });
 
     // здесь надо переписывать последнее сообщение мне и напарнику
