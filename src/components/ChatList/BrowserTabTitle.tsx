@@ -4,7 +4,6 @@ import useChatStore from '@zustand/store';
 import useBrowserTabTitleVisibilityChange from '@hooks/useBrowserTabTitleVisibilityChange';
 import useCountChatUnreadMessages from '@hooks/useCountChatUnreadMessages';
 
-
 const BrowserTabTitle: FC = () => {
   const totalUnreadMessages = useChatStore(state => state.totalUnreadMessages);
 

@@ -80,10 +80,11 @@ const ProfileSettingsModal: FC<IProfileSettingsModal> = ({
 
                     resolve(downloadURL);
                   } catch (error) {
-                    console.log(
-                      'profilePhotoUrlFromStorage',
-                      profilePhotoUrlFromStorage
-                    );
+                    // console.log(
+                    //   'profilePhotoUrlFromStorage',
+                    //   profilePhotoUrlFromStorage
+                    // );
+                    console.log('profilePhotoUrlFromStorage error', error);
                     reject(error);
                   }
                 }

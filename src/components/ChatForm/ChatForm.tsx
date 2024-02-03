@@ -51,7 +51,7 @@ const ChatForm: FC = () => {
   };
 
   const handleManageSendMessage = (e: React.FormEvent) => {
-    console.log('handleManageSendMessage');
+    // console.log('handleManageSendMessage');
     e.preventDefault();
 
     if (message.trim() === '') {
@@ -128,7 +128,7 @@ const ChatForm: FC = () => {
                 height={24}
                 className="fill-zinc-200 dark:fill-zinc-400"
               >
-                <use href={'sprite' + '#icon-send-message'} />
+                <use href={sprite + '#icon-send-message'} />
               </svg>
             </button>
           ) : (

@@ -4,6 +4,7 @@ import ChatListItem from '@components/ChatListItem/ChatListItem';
 import useMyUserChatList from '@hooks/useMyUserChatList';
 import { ChatListItemType } from 'types/ChatListItemType';
 import BrowserTabTitle from './BrowserTabTitle';
+import audio from '@assets/notify.mp3';
 
 const ChatList: FC = memo(() => {
   const myUserChatList = useMyUserChatList(); // загрузка списка моих чатов
@@ -19,6 +20,7 @@ const ChatList: FC = memo(() => {
           ))}
       </ul>
       <BrowserTabTitle />
+      <audio src={audio} id='notify'></audio>
     </div>
   );
 });

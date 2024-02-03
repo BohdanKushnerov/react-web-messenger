@@ -98,7 +98,7 @@ const MessageList: FC = () => {
       // }
       snapshot.docChanges().forEach(change => {
         if (change.type === 'added') {
-          console.log('New mes: added', change.doc.data());
+          // console.log('New mes: added', change.doc.data());
           // if(messages) {
           //   setMessages([change.doc]);
           // } else {
@@ -116,10 +116,10 @@ const MessageList: FC = () => {
           // }
         }
         if (change.type === 'modified') {
-          console.log('Modified mes: ', change.doc.data());
+          // console.log('Modified mes: ', change.doc.data());
         }
         if (change.type === 'removed') {
-          console.log('Removed mes: ', change.doc.data());
+          // console.log('Removed mes: ', change.doc.data());
         }
       });
     });

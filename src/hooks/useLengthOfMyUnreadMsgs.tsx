@@ -11,6 +11,7 @@ import {
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import { ChatListItemType } from 'types/ChatListItemType';
+// import audio from '@assets/notify.mp3'
 
 const useLengthOfMyUnreadMsgs = (chatInfo: ChatListItemType) => {
   const [lengthOfMyUnreadMsgs, setLengthOfMyUnreadMsgs] = useState<number>(0);
@@ -26,7 +27,6 @@ const useLengthOfMyUnreadMsgs = (chatInfo: ChatListItemType) => {
     const unsubMyUnreadMsgs = onSnapshot(queryParams, querySnapshot => {
       if (querySnapshot.docs) {
         setLengthOfMyUnreadMsgs(querySnapshot.docs.length);
-        console.log(querySnapshot.docs.length);
 
         querySnapshot.docs.forEach(msg => {
           // console.log("msg.data", msg.data());
@@ -42,10 +42,17 @@ const useLengthOfMyUnreadMsgs = (chatInfo: ChatListItemType) => {
             });
 
             // Создаем аудиоэлемент
-            const audioElement = new Audio('/tap-notification.mp3');
+            // const audioElement = new Audio(audio);
+
+            // const url = URL.createObjectURL(audio);
+            // const audio = new Audio(url);
+
+            const audio = document.getElementById('notify') as HTMLAudioElement;
 
             // Воспроизводим звук
-            audioElement.play();
+            if (audio) {
+              audio.play();
+            }
 
             updateDoc(doc(db, 'chats', chatInfo[0], 'messages', `${msg.id}`), {
               ['isShowNotification']: false,

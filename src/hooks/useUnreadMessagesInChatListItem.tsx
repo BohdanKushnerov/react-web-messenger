@@ -14,7 +14,9 @@ const useUnreadMessagesInChatListItem: IUseUnreadMessagesInChatListItem = (
   useEffect(() => {
     if (lengthOfMyUnreadMsgs) {
       updateTotalUnreadMessages({ [chatInfo[0]]: lengthOfMyUnreadMsgs });
-    } 
+    } else {
+      updateTotalUnreadMessages({ [chatInfo[0]]: 0 });
+    }
   }, [chatInfo, lengthOfMyUnreadMsgs, updateTotalUnreadMessages]);
 };
 
