@@ -30,7 +30,7 @@ const ChatHeaderOponentInfo: FC = () => {
         {currentChatInfo?.displayName}
       </p>
       {isOpponentTyping ? (
-        <h2 className="text-black dark:text-white">typing...</h2>
+        <h2 className="text-black dark:text-white">{t('Typing')}...</h2>
       ) : (
         <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
           {isOnline ? t('Online') : t('Offline')}

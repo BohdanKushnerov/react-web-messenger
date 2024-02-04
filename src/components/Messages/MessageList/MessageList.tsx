@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
 
-import MessageItem from '@components/MessageItem/MessageItem';
+import MessageItem from '@components/Messages/MessageItem/MessageItem';
 import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
 import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';

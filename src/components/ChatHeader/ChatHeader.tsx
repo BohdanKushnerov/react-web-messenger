@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import ChatHeaderOponentInfo from '@components/ChatHeaderOponentInfo/ChatHeaderOponentInfo';
+import ChatHeaderOponentInfo from '@components/ChatHeader/ChatHeaderOponentInfo/ChatHeaderOponentInfo';
 import ButtonArrow from '@components/Buttons/ButtonArrow/ButtonArrow';
 import useChatStore from '@zustand/store';
 import useResizeWindow from '@hooks/useResizeWindow';

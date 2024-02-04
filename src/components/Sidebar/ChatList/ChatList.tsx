@@ -1,6 +1,6 @@
 import { FC, memo } from 'react';
 
-import ChatListItem from '@components/ChatListItem/ChatListItem';
+import ChatListItem from '@components/Sidebar/ChatListItem/ChatListItem';
 import useMyUserChatList from '@hooks/useMyUserChatList';
 import { ChatListItemType } from 'types/ChatListItemType';
 import BrowserTabTitle from './BrowserTabTitle';

@@ -2,12 +2,12 @@ import { FC, Suspense, lazy, memo, useRef } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { Transition } from 'react-transition-group';
 
-import ChatList from '@components/ChatList/ChatList';
-import Navbar from '@components/Navbar/Navbar';
-import SearchUsers from '@components/SearchUsers/SearchUsers';
-import SearchChatList from '@components/SearchChatList/SearchChatList';
+import ChatList from '@components/Sidebar/ChatList/ChatList';
+import Navbar from '@components/Sidebar/Navbar/Navbar';
+import SearchUsers from '@components/Sidebar/SearchUsers/SearchUsers';
+import SearchChatList from '@components/Sidebar/SearchChatList/SearchChatList';
 const ProfileSettings = lazy(
-  () => import('@components/ProfileSettings/ProfileSettings')
+  () => import('@components/Sidebar/ProfileSettings/ProfileSettings')
 );
 import useChatStore from '@zustand/store';
 

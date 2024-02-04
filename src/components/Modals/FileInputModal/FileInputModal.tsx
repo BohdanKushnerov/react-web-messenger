@@ -15,8 +15,8 @@ import { useTranslation } from 'react-i18next';
 
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
-import UploadPhotoFile from '@components/UploadPhotoFile/UploadPhotoFile';
-import UploadDocumentFile from '@components/UploadDocumentFile/UploadDocumentFile';
+import UploadPhotoFile from '@components/ChatForm/UploadPhotoFile/UploadPhotoFile';
+import UploadDocumentFile from '@components/ChatForm/UploadDocumentFile/UploadDocumentFile';
 import useChatStore from '@zustand/store';
 import { FilesUploadStatuses } from 'types/FilesUploadStatuses';
 import { db, storage } from '@myfirebase/config';

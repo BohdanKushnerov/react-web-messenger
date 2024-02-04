@@ -5,7 +5,7 @@ import { Transition } from 'react-transition-group';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import LanguageSwitcher from '@components/LanguageSwitcher/LanguageSwitcher';
-import Theme from '@components/Theme/Theme';
+import Theme from '@components/Sidebar/Theme/Theme';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';

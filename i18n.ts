@@ -71,6 +71,7 @@ const resources = {
       NotFoundMsg: 'Not found messages, change search value',
       Offline: 'Offline',
       Online: 'Online',
+      Typing: 'typing',
     },
   },
   ua: {
@@ -142,6 +143,7 @@ const resources = {
       NotFoundMsg: 'Повідомлення не знайдено, змініть значення пошуку',
       Offline: 'Офлайн',
       Online: 'Онлайн',
+      Typing: 'друкує',
     },
   },
   ru: {
@@ -213,6 +215,7 @@ const resources = {
       NotFoundMsg: 'Сообщения не найдены, измените значение поиска',
       Offline: 'Офлайн',
       Online: 'Онлайн',
+      Typing: 'печатает',
     },
   },
 };

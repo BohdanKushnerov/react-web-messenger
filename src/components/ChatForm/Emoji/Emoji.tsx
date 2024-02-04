@@ -1,7 +1,7 @@
 import { FC, Suspense, lazy, useState } from 'react';
 
 const EmojiPickerWindow = lazy(
-  () => import('@components/EmojiPickerWindow/EmojiPickerWindow')
+  () => import('@components/ChatForm/EmojiPickerWindow/EmojiPickerWindow')
 );
 import useChatStore from '@zustand/store';
 import useCloseModal from '@hooks/useCloseModal';

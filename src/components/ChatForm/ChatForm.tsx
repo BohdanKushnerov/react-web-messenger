@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import FileInput from '@components/Inputs/FileInput/FileInput';
-import Emoji from '@components/Emoji/Emoji';
+import Emoji from '@components/ChatForm/Emoji/Emoji';
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
 import useChatStore from '@zustand/store';
 import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
@@ -13,7 +13,7 @@ import handleUpdateEditMessage from '@utils/handleUpdateEditMessage';
 import handleSendMessage from '@utils/handleSendMessage';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
-import RecordingAudio from '@components/RecordingAudio/RecordingAudio';
+import RecordingAudio from '@components/ChatForm/RecordingAudio/RecordingAudio';
 
 const ChatForm: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);

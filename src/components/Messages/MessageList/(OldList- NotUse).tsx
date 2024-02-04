@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
 
-import MessageItem from '@components/MessageItem/MessageItem';
+import MessageItem from '@components/Messages/MessageItem/MessageItem';
 import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
 import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
@@ -105,7 +105,6 @@ const MessageList: FC = () => {
           //   setMessages(prev => [...prev, change.doc]);
           // }
           // console.log('change', change.doc.data());
-
           // if (
           //   change.doc.data().senderUserID !== currentUserUID &&
           //   change.doc.data().isRead === false
