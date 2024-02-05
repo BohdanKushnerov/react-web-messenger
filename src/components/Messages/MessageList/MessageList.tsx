@@ -23,6 +23,7 @@ import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
 
 const MessageList: FC = () => {
   const [groupedMessages, setGroupedMessages] =
@@ -45,7 +46,10 @@ const MessageList: FC = () => {
 
   // console.log('screen --> MessageList');
 
+  // еффект ждет пока загрузятся фотки на странице, чтобы не было скачков,
+  // далее таймаут чтобы успели попасть в дом дерево и уже там по селектору взять их и посмотреть на их load
   useEffect(() => {
+    scrollToBottom();
     // Проверяем, был ли таймер уже запущен
     if (
       !isLoadedContent &&
@@ -74,7 +78,7 @@ const MessageList: FC = () => {
             try {
               await Promise.all([...images].map(img => loadImage(img.src)));
 
-              handleClickScrollBottom();
+              scrollToBottom();
               setIsLoadedContent(true);
             } catch (error) {
               console.error('Error loading images:', error);
@@ -84,7 +88,7 @@ const MessageList: FC = () => {
           loadAllImages(imagesInMessages);
         } else {
           // если нету фото делаем скролл вниз
-          handleClickScrollBottom();
+          scrollToBottom();
           setIsLoadedContent(true);
         }
       }, 500);
@@ -98,8 +102,7 @@ const MessageList: FC = () => {
     };
   }, [groupedMessages, isLoadedContent]);
 
-  // ====================================
-
+  // скелетон сообщений
   useEffect(() => {
     console.log('setIsLoadedContent');
     setIsLoadedContent(false);
@@ -159,28 +162,6 @@ const MessageList: FC = () => {
       localStorage.removeItem('currentChatId');
     };
   }, [chatUID]);
-
-  // Измерение высоты ul - чата(размер ul с сообщениями) при его изменении
-  // useEffect(() => {
-  //   const observer = new ResizeObserver(handleClickScrollBottom);
-  //   const currentMsgListRef = msgListRef.current;
-
-  //   if (currentMsgListRef) {
-  //     observer.observe(currentMsgListRef);
-  //   }
-
-  //   return () => {
-  //     if (currentMsgListRef) {
-  //       observer.unobserve(currentMsgListRef);
-  //     }
-  //   };
-  // }, []);
-
-  const handleClickScrollBottom = () => {
-    if (scrollbarsRef.current) {
-      scrollbarsRef.current.scrollToBottom();
-    }
-  };
 
   // надо тротл добавить чтобы не так часто срабатывало
   const handleScroll = () => {
@@ -381,6 +362,14 @@ const MessageList: FC = () => {
   //   });
   // };
 
+  const scrollToBottom = () => {
+    const list = msgListRef?.current;
+    const lastMessage = list?.lastElementChild;
+    if (list && lastMessage) {
+      lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  };
+
   console.log('isLoadedContent', isLoadedContent);
 
   return (
@@ -390,14 +379,8 @@ const MessageList: FC = () => {
           ref={scrollbarsRef}
           autoHide
           style={{
-            // position: 'relative',
             top: 56,
             height: 'calc(100% - 56px - 96px)',
-            // display: 'flex',
-            // flexDirection: 'column',
-            // paddingLeft: 24,
-            // paddingRight: 24,
-            // gap: 2,
           }}
           onScroll={handleScroll}
         >
@@ -438,23 +421,11 @@ const MessageList: FC = () => {
           </ul>
         </Scrollbars>
 
-        {!isLoadedContent && (
-          <div
-            className="absolute w-full bg-red-100/80 z-10"
-            style={{
-              top: 56,
-              height: 'calc(100% - 56px - 96px)',
-            }}
-          >
-            <h1 className="text-white">
-              qQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQq
-            </h1>
-          </div>
-        )}
+        {!isLoadedContent && <MessagesSkeleton scrollbarsRef={scrollbarsRef} />}
 
-        {isButtonVisible && (
+        {isButtonVisible && isLoadedContent && (
           <button
-            onClick={handleClickScrollBottom}
+            onClick={scrollToBottom}
             className="absolute bottom-32 right-10 bg-white p-2 rounded-full"
           >
             <svg
