@@ -22,10 +22,7 @@ import useChatStore from '@zustand/store';
 import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
-
-interface IGroupedMessages {
-  [date: string]: DocumentData[];
-}
+import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 
 const MessageList: FC = () => {
   const [groupedMessages, setGroupedMessages] =

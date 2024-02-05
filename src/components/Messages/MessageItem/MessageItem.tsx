@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import { FC, useCallback, useState } from 'react';
 
-import MessageFileItem from '@components/Messages/MessageFileItem/MessageFileItem';
-import MessageImageItem from '@components/Messages/MessageImageItem/MessageImageItem';
+import MessageImagesWithLightBox from '../MessageImagesWithLightBox/MessageImagesWithLightBox';
+import MessageFiles from '../MessageFiles/MessageFiles';
 import MessageTriangle from '@components/Messages/MessageTriangle/MessageTriangle';
 import IsReadMsg from '@components/Messages/IsReadMsg/IsReadMsg';
 import useChatStore from '@zustand/store';
@@ -10,9 +10,15 @@ import formatTimeMsg from '@utils/formatTimeMsg';
 import { IMessageItemProps } from '@interfaces/IMessageItemProps';
 
 const MessageItem: FC<IMessageItemProps> = ({ msg }) => {
+  const [indexClickedPhoto, setIndexClickedPhoto] = useState(-1);
+
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 
   useMakeReadMsg(msg); // делает при монтировании чата прочитаные мои сообщения
+
+  const handleClickPhoto = useCallback((index: number) => {
+    setIndexClickedPhoto(index);
+  }, []);
 
   const myUID = currentUserUID === msg.data().senderUserID;
 
@@ -35,38 +41,14 @@ const MessageItem: FC<IMessageItemProps> = ({ msg }) => {
           className={`flex flex-wrap sm:justify-center md:justify-normal gap-0.5 ${
             msg.data().file?.length === 1 ? 'max-w-md' : 'max-w-xs'
           }`}
+          id="file-container"
         >
-          {msg.data().file &&
-            msg.data().file.map(
-              (
-                fileInside: {
-                  url: string;
-                  name: string;
-                  type: string;
-                  // уже есть ширина и высота на сервере
-                  // width?: number;
-                  // height?: number;
-                },
-                index: number
-              ) => {
-                if (
-                  fileInside.type === 'image/png' ||
-                  fileInside.type === 'image/jpeg' ||
-                  fileInside.type === 'image/webp'
-                ) {
-                  return (
-                    <MessageImageItem
-                      key={index}
-                      msg={msg}
-                      file={fileInside}
-                      index={index}
-                    />
-                  );
-                } else {
-                  return <MessageFileItem key={index} file={fileInside} />;
-                }
-              }
-            )}
+          <MessageImagesWithLightBox
+            msg={msg}
+            indexClickedPhoto={indexClickedPhoto}
+            handleClickPhoto={handleClickPhoto}
+          />
+          <MessageFiles msg={msg} />
         </div>
 
         {/* message */}

@@ -1,19 +1,13 @@
 import { FC } from 'react';
-import { DocumentData } from 'firebase/firestore';
+import { IFile } from '@interfaces/IFile';
+import { IMessageImageProps } from '@interfaces/IMessageImageProps';
 
-interface IFile {
-  url: string;
-  name: string;
-  type: string;
-}
-
-interface IMessageImageItemProps {
-  msg: DocumentData;
-  file: IFile;
-  index: number;
-}
-
-const MessageImageItem: FC<IMessageImageItemProps> = ({ msg, file, index }) => {
+const MessageImage: FC<IMessageImageProps> = ({
+  msg,
+  file,
+  index,
+  handleClickPhoto,
+}) => {
   const files: IFile[] = msg.data().file;
 
   const getImageStyle = (files: IFile[], index: number) => {
@@ -36,13 +30,14 @@ const MessageImageItem: FC<IMessageImageItemProps> = ({ msg, file, index }) => {
 
   return (
     <img
-      // key={index}
+      className="cursor-pointer"
       src={file.url}
       alt={file.type}
       style={imageStyle}
       loading="lazy"
+      onClick={() => handleClickPhoto(index)}
     />
   );
 };
 
-export default MessageImageItem;
+export default MessageImage;

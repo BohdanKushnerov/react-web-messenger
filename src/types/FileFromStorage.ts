@@ -1,1 +1,3 @@
-export type FileFromStorage = { url: string; name: string; type: string }
+import { IFile } from '@interfaces/IFile';
+
+export type FileFromStorage = IFile;
