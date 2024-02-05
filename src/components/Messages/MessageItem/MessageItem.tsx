@@ -47,6 +47,7 @@ const MessageItem: FC<IMessageItemProps> = ({ msg }) => {
             msg={msg}
             indexClickedPhoto={indexClickedPhoto}
             handleClickPhoto={handleClickPhoto}
+
           />
           <MessageFiles msg={msg} />
         </div>

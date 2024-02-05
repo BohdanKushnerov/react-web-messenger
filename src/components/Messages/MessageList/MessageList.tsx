@@ -31,8 +31,10 @@ const MessageList: FC = () => {
   const [selectedDocDataMessage, setSelectedDocDataMessage] =
     useState<DocumentData | null>(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+  const [isLoadedContent, setIsLoadedContent] = useState(false);
   const scrollbarsRef = useRef<Scrollbars>(null);
-  const msgListRef = useRef(null);
+  const msgListRef = useRef<HTMLUListElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { t } = useTranslation();
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
@@ -44,6 +46,72 @@ const MessageList: FC = () => {
   // console.log('screen --> MessageList');
 
   useEffect(() => {
+    // Проверяем, был ли таймер уже запущен
+    if (
+      !isLoadedContent &&
+      groupedMessages &&
+      msgListRef.current &&
+      !timeoutRef.current
+    ) {
+      timeoutRef.current = setTimeout(() => {
+        console.log('timeout');
+        const imagesInMessages = msgListRef?.current?.querySelectorAll('img');
+        if (imagesInMessages && imagesInMessages.length > 0) {
+          // console.log('imagesInMessages', imagesInMessages);
+
+          const loadImage = (url: string) => {
+            return new Promise((resolve, reject) => {
+              const img = new Image();
+              img.onload = () => resolve(img);
+              img.onerror = reject;
+              img.src = url;
+            });
+          };
+
+          const loadAllImages = async (
+            images: NodeListOf<HTMLImageElement>
+          ) => {
+            try {
+              await Promise.all([...images].map(img => loadImage(img.src)));
+
+              handleClickScrollBottom();
+              setIsLoadedContent(true);
+            } catch (error) {
+              console.error('Error loading images:', error);
+            }
+          };
+
+          loadAllImages(imagesInMessages);
+        } else {
+          // если нету фото делаем скролл вниз
+          handleClickScrollBottom();
+          setIsLoadedContent(true);
+        }
+      }, 500);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null; // Сбрасываем таймер
+      }
+    };
+  }, [groupedMessages, isLoadedContent]);
+
+  // ====================================
+
+  useEffect(() => {
+    console.log('setIsLoadedContent');
+    setIsLoadedContent(false);
+
+    return () => {
+      console.log('setIsLoadedContent return =============');
+
+      setIsLoadedContent(false);
+    };
+  }, [chatUID]);
+
+  useEffect(() => {
     if (chatUID === null) return;
 
     const queryParams = query(
@@ -52,30 +120,34 @@ const MessageList: FC = () => {
     );
 
     const unsubChatMessages = onSnapshot(queryParams, snapshot => {
-      // console.log(snapshot.docs);
-      const updatedMessages: DocumentData[] = snapshot.docs;
+      if (snapshot.metadata.fromCache === false) {
+        // console.log('snapshot', snapshot.metadata.fromCache);
+        const updatedMessages: DocumentData[] = snapshot.docs;
 
-      // Группировка сообщений по дате (та что sticky)
-      const grouped = updatedMessages.reduce((acc, message) => {
-        const messageData = message.data();
-        if (messageData && messageData.date) {
-          const date = messageData.date.toDate();
-          const dateString = date.toISOString().split('T')[0];
+        // Группировка сообщений по дате (та что sticky)
+        const groupedMsgs = updatedMessages.reduce((acc, message) => {
+          const messageData = message.data();
+          if (messageData && messageData.date) {
+            const date = messageData.date.toDate();
+            const dateString = date.toISOString().split('T')[0];
 
-          acc[dateString] = acc[dateString] || [];
-          acc[dateString].push(message);
-        }
+            acc[dateString] = acc[dateString] || [];
+            acc[dateString].push(message);
+          }
 
-        return acc;
-      }, {});
+          return acc;
+        }, {});
 
-      setGroupedMessages(grouped);
+        console.log('groupedMsgs', groupedMsgs);
+
+        setGroupedMessages(groupedMsgs);
+      }
     });
 
     return () => {
       unsubChatMessages();
     };
-  }, [chatUID, currentUserUID]);
+  }, [chatUID]);
 
   // Добавляет currentChatId в локалСторидж, чтобы при перезагрузке врнуться на текущий чат
   useEffect(() => {
@@ -89,20 +161,20 @@ const MessageList: FC = () => {
   }, [chatUID]);
 
   // Измерение высоты ul - чата(размер ul с сообщениями) при его изменении
-  useEffect(() => {
-    const observer = new ResizeObserver(handleClickScrollBottom);
-    const currentMsgListRef = msgListRef.current;
+  // useEffect(() => {
+  //   const observer = new ResizeObserver(handleClickScrollBottom);
+  //   const currentMsgListRef = msgListRef.current;
 
-    if (currentMsgListRef) {
-      observer.observe(currentMsgListRef);
-    }
+  //   if (currentMsgListRef) {
+  //     observer.observe(currentMsgListRef);
+  //   }
 
-    return () => {
-      if (currentMsgListRef) {
-        observer.unobserve(currentMsgListRef);
-      }
-    };
-  }, [msgListRef]);
+  //   return () => {
+  //     if (currentMsgListRef) {
+  //       observer.unobserve(currentMsgListRef);
+  //     }
+  //   };
+  // }, []);
 
   const handleClickScrollBottom = () => {
     if (scrollbarsRef.current) {
@@ -303,19 +375,38 @@ const MessageList: FC = () => {
     inputElement.focus();
   };
 
+  // const scrollToBottom = () => {
+  //   msgListRef?.current?.lastElementChild.scrollIntoView({
+  //     behavior: 'smooth',
+  //   });
+  // };
+
+  console.log('isLoadedContent', isLoadedContent);
+
   return (
     <>
-      <div className="h-full w-full py-1" onClick={handleCloseModal}>
+      <div className="relative h-full w-full py-1" onClick={handleCloseModal}>
         <Scrollbars
           ref={scrollbarsRef}
           autoHide
           style={{
+            // position: 'relative',
             top: 56,
             height: 'calc(100% - 56px - 96px)',
+            // display: 'flex',
+            // flexDirection: 'column',
+            // paddingLeft: 24,
+            // paddingRight: 24,
+            // gap: 2,
           }}
           onScroll={handleScroll}
         >
-          <ul ref={msgListRef} className="flex flex-col px-6 gap-2">
+          <ul
+            ref={msgListRef}
+            className={`flex flex-col px-6 gap-2 ${
+              !isLoadedContent && 'invisible'
+            }`}
+          >
             {groupedMessages &&
               Object.keys(groupedMessages).map(date => (
                 <li className="relative flex flex-col gap-2" key={date}>
@@ -346,6 +437,20 @@ const MessageList: FC = () => {
               ))}
           </ul>
         </Scrollbars>
+
+        {!isLoadedContent && (
+          <div
+            className="absolute w-full bg-red-100/80 z-10"
+            style={{
+              top: 56,
+              height: 'calc(100% - 56px - 96px)',
+            }}
+          >
+            <h1 className="text-white">
+              qQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQq
+            </h1>
+          </div>
+        )}
 
         {isButtonVisible && (
           <button
