@@ -23,6 +23,7 @@ import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
 
 const MessageList: FC = () => {
   const [groupedMessages, setGroupedMessages] =
@@ -31,8 +32,10 @@ const MessageList: FC = () => {
   const [selectedDocDataMessage, setSelectedDocDataMessage] =
     useState<DocumentData | null>(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+  const [isLoadedContent, setIsLoadedContent] = useState(false);
   const scrollbarsRef = useRef<Scrollbars>(null);
-  const msgListRef = useRef(null);
+  const msgListRef = useRef<HTMLUListElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { t } = useTranslation();
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
@@ -43,6 +46,71 @@ const MessageList: FC = () => {
 
   // console.log('screen --> MessageList');
 
+  // еффект ждет пока загрузятся фотки на странице, чтобы не было скачков,
+  // далее таймаут чтобы успели попасть в дом дерево и уже там по селектору взять их и посмотреть на их load
+  useEffect(() => {
+    // Проверяем, был ли таймер уже запущен
+    if (
+      !isLoadedContent &&
+      groupedMessages &&
+      msgListRef.current &&
+      !timeoutRef.current
+    ) {
+      scrollToBottom();
+
+      timeoutRef.current = setTimeout(() => {
+        const imagesInMessages = msgListRef?.current?.querySelectorAll('img');
+        if (imagesInMessages && imagesInMessages.length > 0) {
+          // console.log('imagesInMessages', imagesInMessages);
+
+          const loadImage = (url: string) => {
+            return new Promise((resolve, reject) => {
+              const img = new Image();
+              img.onload = () => resolve(img);
+              img.onerror = reject;
+              img.src = url;
+            });
+          };
+
+          const loadAllImages = async (
+            images: NodeListOf<HTMLImageElement>
+          ) => {
+            try {
+              await Promise.all([...images].map(img => loadImage(img.src)));
+
+              scrollToBottom();
+              setIsLoadedContent(true);
+            } catch (error) {
+              console.error('Error loading images:', error);
+            }
+          };
+
+          loadAllImages(imagesInMessages);
+        } else {
+          // если нету фото делаем скролл вниз
+          scrollToBottom();
+          setIsLoadedContent(true);
+        }
+      }, 300);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null; // Сбрасываем таймер
+      }
+    };
+  }, [groupedMessages, isLoadedContent]);
+
+  // скелетон сообщений
+  useEffect(() => {
+    setIsLoadedContent(false);
+
+    return () => {
+      setIsLoadedContent(false);
+    };
+  }, [chatUID]);
+
   useEffect(() => {
     if (chatUID === null) return;
 
@@ -52,11 +120,14 @@ const MessageList: FC = () => {
     );
 
     const unsubChatMessages = onSnapshot(queryParams, snapshot => {
-      // console.log(snapshot.docs);
+      console.log('snapshot.metadata', snapshot.metadata);
+      console.log('snapshot.docs', snapshot.docs);
+      // if (snapshot.metadata.fromCache === false) {
+      // console.log('snapshot', snapshot.metadata.fromCache);
       const updatedMessages: DocumentData[] = snapshot.docs;
 
       // Группировка сообщений по дате (та что sticky)
-      const grouped = updatedMessages.reduce((acc, message) => {
+      const groupedMsgs = updatedMessages.reduce((acc, message) => {
         const messageData = message.data();
         if (messageData && messageData.date) {
           const date = messageData.date.toDate();
@@ -69,13 +140,16 @@ const MessageList: FC = () => {
         return acc;
       }, {});
 
-      setGroupedMessages(grouped);
+      // console.log('groupedMsgs', groupedMsgs);
+
+      setGroupedMessages(groupedMsgs);
+      // }
     });
 
     return () => {
       unsubChatMessages();
     };
-  }, [chatUID, currentUserUID]);
+  }, [chatUID]);
 
   // Добавляет currentChatId в локалСторидж, чтобы при перезагрузке врнуться на текущий чат
   useEffect(() => {
@@ -87,28 +161,6 @@ const MessageList: FC = () => {
       localStorage.removeItem('currentChatId');
     };
   }, [chatUID]);
-
-  // Измерение высоты ul - чата(размер ul с сообщениями) при его изменении
-  useEffect(() => {
-    const observer = new ResizeObserver(handleClickScrollBottom);
-    const currentMsgListRef = msgListRef.current;
-
-    if (currentMsgListRef) {
-      observer.observe(currentMsgListRef);
-    }
-
-    return () => {
-      if (currentMsgListRef) {
-        observer.unobserve(currentMsgListRef);
-      }
-    };
-  }, [msgListRef]);
-
-  const handleClickScrollBottom = () => {
-    if (scrollbarsRef.current) {
-      scrollbarsRef.current.scrollToBottom();
-    }
-  };
 
   // надо тротл добавить чтобы не так часто срабатывало
   const handleScroll = () => {
@@ -303,9 +355,23 @@ const MessageList: FC = () => {
     inputElement.focus();
   };
 
+  // const scrollToBottom = () => {
+  //   msgListRef?.current?.lastElementChild.scrollIntoView({
+  //     behavior: 'smooth',
+  //   });
+  // };
+
+  const scrollToBottom = () => {
+    const list = msgListRef?.current;
+    const lastMessage = list?.lastElementChild;
+    if (list && lastMessage) {
+      lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  };
+
   return (
     <>
-      <div className="h-full w-full py-1" onClick={handleCloseModal}>
+      <div className="relative h-full w-full py-1" onClick={handleCloseModal}>
         <Scrollbars
           ref={scrollbarsRef}
           autoHide
@@ -315,7 +381,12 @@ const MessageList: FC = () => {
           }}
           onScroll={handleScroll}
         >
-          <ul ref={msgListRef} className="flex flex-col px-6 gap-2">
+          <ul
+            ref={msgListRef}
+            className={`flex flex-col px-6 gap-2 ${
+              !isLoadedContent && 'invisible'
+            }`}
+          >
             {groupedMessages &&
               Object.keys(groupedMessages).map(date => (
                 <li className="relative flex flex-col gap-2" key={date}>
@@ -347,9 +418,11 @@ const MessageList: FC = () => {
           </ul>
         </Scrollbars>
 
-        {isButtonVisible && (
+        {!isLoadedContent && <MessagesSkeleton scrollbarsRef={scrollbarsRef} />}
+
+        {isButtonVisible && isLoadedContent && (
           <button
-            onClick={handleClickScrollBottom}
+            onClick={scrollToBottom}
             className="absolute bottom-32 right-10 bg-white p-2 rounded-full"
           >
             <svg
