@@ -9,12 +9,12 @@ import useMakeReadMsg from '@hooks/useMakeReadMsg';
 import formatTimeMsg from '@utils/formatTimeMsg';
 import { IMessageItemProps } from '@interfaces/IMessageItemProps';
 
-const MessageItem: FC<IMessageItemProps> = ({ msg }) => {
+const MessageItem: FC<IMessageItemProps> = ({ msg, isNearBottom }) => {
   const [indexClickedPhoto, setIndexClickedPhoto] = useState(-1);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 
-  useMakeReadMsg(msg); // делает при монтировании чата прочитаные мои сообщения
+  useMakeReadMsg(msg, isNearBottom); // делает при монтировании чата прочитаные мои сообщения
 
   const handleClickPhoto = useCallback((index: number) => {
     setIndexClickedPhoto(index);
@@ -47,7 +47,6 @@ const MessageItem: FC<IMessageItemProps> = ({ msg }) => {
             msg={msg}
             indexClickedPhoto={indexClickedPhoto}
             handleClickPhoto={handleClickPhoto}
-
           />
           <MessageFiles msg={msg} />
         </div>

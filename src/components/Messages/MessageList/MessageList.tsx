@@ -15,20 +15,22 @@ import { useTranslation } from 'react-i18next';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
 
+import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
 import MessageItem from '@components/Messages/MessageItem/MessageItem';
 import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
 import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
 import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
+import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
-import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
 
 const MessageList: FC = () => {
   const [groupedMessages, setGroupedMessages] =
     useState<IGroupedMessages | null>(null);
-  const [isButtonVisible, setIsButtonVisible] = useState(false);
+  const [isScrollDownButtonVisible, setIsScrollDownButtonVisible] =
+    useState(false);
   const [selectedDocDataMessage, setSelectedDocDataMessage] =
     useState<DocumentData | null>(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
@@ -44,10 +46,16 @@ const MessageList: FC = () => {
     state => state.updateEditingMessage
   );
 
+  const length = useLengthOfMyUnreadMsgs(
+    [chatUID, { lastMessage: '', senderUserID: '', userUID: '' }],
+    false
+  );
+  console.log('length', length);
   // console.log('screen --> MessageList');
 
   // еффект ждет пока загрузятся фотки на странице, чтобы не было скачков,
-  // далее таймаут чтобы успели попасть в дом дерево и уже там по селектору взять их и посмотреть на их load
+  // далее таймаут чтобы успели попасть в дом дерево и уже там по селектору взять их
+  // и посмотреть на их load
   useEffect(() => {
     // Проверяем, был ли таймер уже запущен
     if (
@@ -102,6 +110,16 @@ const MessageList: FC = () => {
     };
   }, [groupedMessages, isLoadedContent]);
 
+  // авто скролл вниз при новом сообщении если я внизу списка
+  useEffect(() => {
+    if (scrollbarsRef.current) {
+      if (!isScrollDownButtonVisible) {
+        scrollToBottom();
+        // console.log('==========================етот скролл работает');
+      }
+    }
+  }, [groupedMessages, isScrollDownButtonVisible]);
+
   // скелетон сообщений
   useEffect(() => {
     setIsLoadedContent(false);
@@ -143,6 +161,7 @@ const MessageList: FC = () => {
       // console.log('groupedMsgs', groupedMsgs);
 
       setGroupedMessages(groupedMsgs);
+
       // }
     });
 
@@ -170,7 +189,7 @@ const MessageList: FC = () => {
 
     const isNearBottom = scrollHeight - scrollTop - clientHeight > 100;
 
-    setIsButtonVisible(isNearBottom);
+    setIsScrollDownButtonVisible(isNearBottom);
   };
 
   const handleClickRigthButtonMessage = (
@@ -409,7 +428,10 @@ const MessageList: FC = () => {
                           handleClickRigthButtonMessage(message, e)
                         }
                       >
-                        <MessageItem msg={message} />
+                        <MessageItem
+                          msg={message}
+                          isNearBottom={!isScrollDownButtonVisible}
+                        />
                       </div>
                     );
                   })}
@@ -420,22 +442,45 @@ const MessageList: FC = () => {
 
         {!isLoadedContent && <MessagesSkeleton scrollbarsRef={scrollbarsRef} />}
 
-        {isButtonVisible && isLoadedContent && (
+        {isScrollDownButtonVisible && isLoadedContent && (
+          // length
           <button
-            onClick={scrollToBottom}
             className="absolute bottom-32 right-10 bg-white p-2 rounded-full"
+            onClick={scrollToBottom}
           >
-            <svg
-              className="rotate-180"
-              strokeWidth="0"
-              viewBox="0 0 320 512"
-              height="24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"></path>
-            </svg>
+            <div className="relative">
+              <svg
+                className="rotate-180"
+                strokeWidth="0"
+                viewBox="0 0 320 512"
+                height="24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"></path>
+              </svg>
+              {length > 0 && (
+                <span className="absolute bottom-0 right-0 transform translate-x-4 -mb-4 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                  {length}
+                </span>
+              )}
+            </div>
           </button>
+          // <button
+          //   onClick={scrollToBottom}
+          //   className="absolute bottom-32 right-10 bg-white p-2 rounded-full "
+          // >
+          //   <svg
+          //     className="rotate-180"
+          //     strokeWidth="0"
+          //     viewBox="0 0 320 512"
+          //     height="24"
+          //     width="24"
+          //     xmlns="http://www.w3.org/2000/svg"
+          //   >
+          //     <path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"></path>
+          //   </svg>
+          // </button>
         )}
       </div>
       {groupedMessages && selectedDocDataMessage !== null && (

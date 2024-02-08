@@ -1,5 +1,5 @@
 export type ChatListItemType = [
-  string,
+  string | null,
   {
     lastMessage: string;
     senderUserID: string;

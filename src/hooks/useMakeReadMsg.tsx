@@ -4,7 +4,7 @@ import { makeReadMsg } from '@api/firestore/makeReadMsg';
 import useChatStore from '@zustand/store';
 import { DocumentData } from 'firebase/firestore';
 
-const useMakeReadMsg = (msg: DocumentData) => {
+const useMakeReadMsg = (msg: DocumentData, isNearBottom: boolean) => {
   const { chatUID } = useChatStore(state => state.currentChatInfo);
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 
@@ -12,11 +12,12 @@ const useMakeReadMsg = (msg: DocumentData) => {
     if (
       msg.data().senderUserID !== currentUserUID &&
       !msg.data().isRead &&
-      chatUID
+      chatUID &&
+      isNearBottom
     ) {
       makeReadMsg(chatUID, msg.id);
     }
-  }, [chatUID, currentUserUID, msg]);
+  }, [chatUID, currentUserUID, isNearBottom, msg]);
 };
 
 export default useMakeReadMsg;
