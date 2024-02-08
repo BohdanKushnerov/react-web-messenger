@@ -10,13 +10,10 @@ import ModalWindow from '../ModalWindow/ModalWindow';
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import useStartTransition from '@hooks/useStartTransition';
+import { INavbarModalProps } from '@interfaces/INavbarModalProps';
 import '@i18n';
 
-interface INavbarModal {
-  handleToggleModal: () => void;
-}
-
-const NavbarModal: FC<INavbarModal> = ({ handleToggleModal }) => {
+const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
   const startTransition = useStartTransition();
   const nodeRefNavBar = useRef(null);
   const { t } = useTranslation('translation', {

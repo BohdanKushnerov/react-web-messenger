@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, FC } from 'react';
+import { useEffect, useState, useRef, FC, useLayoutEffect } from 'react';
 import {
   DocumentData,
   collection,
@@ -50,13 +50,13 @@ const MessageList: FC = () => {
     [chatUID, { lastMessage: '', senderUserID: '', userUID: '' }],
     false
   );
-  console.log('length', length);
-  // console.log('screen --> MessageList');
+
+  console.log('screen --> MessageList');
 
   // еффект ждет пока загрузятся фотки на странице, чтобы не было скачков,
   // далее таймаут чтобы успели попасть в дом дерево и уже там по селектору взять их
   // и посмотреть на их load
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Проверяем, был ли таймер уже запущен
     if (
       !isLoadedContent &&
@@ -64,7 +64,8 @@ const MessageList: FC = () => {
       msgListRef.current &&
       !timeoutRef.current
     ) {
-      scrollToBottom();
+      // scrollToBottom();
+      quickScrollBottom();
 
       timeoutRef.current = setTimeout(() => {
         const imagesInMessages = msgListRef?.current?.querySelectorAll('img');
@@ -84,10 +85,11 @@ const MessageList: FC = () => {
             images: NodeListOf<HTMLImageElement>
           ) => {
             try {
-              await Promise.all([...images].map(img => loadImage(img.src)));
+              await Promise.all([...images].map(img => loadImage(img.src)))
+                .then(() => quickScrollBottom())
+                .then(() => setIsLoadedContent(true));
 
-              scrollToBottom();
-              setIsLoadedContent(true);
+              // scrollToBottom();
             } catch (error) {
               console.error('Error loading images:', error);
             }
@@ -96,10 +98,11 @@ const MessageList: FC = () => {
           loadAllImages(imagesInMessages);
         } else {
           // если нету фото делаем скролл вниз
-          scrollToBottom();
+          // scrollToBottom();
+          quickScrollBottom();
           setIsLoadedContent(true);
         }
-      }, 300);
+      }, 250);
     }
 
     return () => {
@@ -138,8 +141,8 @@ const MessageList: FC = () => {
     );
 
     const unsubChatMessages = onSnapshot(queryParams, snapshot => {
-      console.log('snapshot.metadata', snapshot.metadata);
-      console.log('snapshot.docs', snapshot.docs);
+      // console.log('snapshot.metadata', snapshot.metadata);
+      // console.log('snapshot.docs', snapshot.docs);
       // if (snapshot.metadata.fromCache === false) {
       // console.log('snapshot', snapshot.metadata.fromCache);
       const updatedMessages: DocumentData[] = snapshot.docs;
@@ -380,11 +383,20 @@ const MessageList: FC = () => {
   //   });
   // };
 
+  const quickScrollBottom = () => {
+    const list = msgListRef?.current;
+    const lastMessage = list?.lastElementChild;
+    if (list && lastMessage) {
+      lastMessage.scrollIntoView({ block: 'end' });
+    }
+  };
+
   const scrollToBottom = () => {
     const list = msgListRef?.current;
     const lastMessage = list?.lastElementChild;
     if (list && lastMessage) {
       lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      // lastMessage.scrollIntoView();
     }
   };
 
@@ -443,7 +455,6 @@ const MessageList: FC = () => {
         {!isLoadedContent && <MessagesSkeleton scrollbarsRef={scrollbarsRef} />}
 
         {isScrollDownButtonVisible && isLoadedContent && (
-          // length
           <button
             className="absolute bottom-32 right-10 bg-white p-2 rounded-full"
             onClick={scrollToBottom}

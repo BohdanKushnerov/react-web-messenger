@@ -1,9 +1,14 @@
-import React, { FC, useEffect, useRef } from 'react';
+import { FC, Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import FileInput from '@components/Inputs/FileInput/FileInput';
 import Emoji from '@components/ChatForm/Emoji/Emoji';
-import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
+const RecordingAudio = lazy(
+  () => import('@components/ChatForm/RecordingAudio/RecordingAudio')
+);
+const ButtonClose = lazy(
+  () => import('@components/Buttons/ButtonClose/ButtonClose')
+);
 import useChatStore from '@zustand/store';
 import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
 import useTyping from '@hooks/useTyping';
@@ -13,9 +18,9 @@ import handleUpdateEditMessage from '@utils/handleUpdateEditMessage';
 import handleSendMessage from '@utils/handleSendMessage';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
-import RecordingAudio from '@components/ChatForm/RecordingAudio/RecordingAudio';
 
 const ChatForm: FC = () => {
+  const [isRecording, setIsRecording] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
 
@@ -75,6 +80,10 @@ const ChatForm: FC = () => {
     }
   };
 
+  const handleToggleRecordingStatus = () => {
+    setIsRecording(prev => !prev);
+  };
+
   return (
     <div className="absolute bottom-0 left-0 z-10 w-full h-24 flex flex-col items-center">
       <div className="relative flex flex-col justify-center w-full h-full shadow-whiteTopShadow xl:w-8/12">
@@ -97,9 +106,11 @@ const ChatForm: FC = () => {
               </p>
             </div>
             <div className="absolute top-0 right-12">
-              <ButtonClose
-                handleClickButtonClose={handleCancelEditingMessage}
-              />
+              <Suspense>
+                <ButtonClose
+                  handleClickButtonClose={handleCancelEditingMessage}
+                />
+              </Suspense>
             </div>
           </div>
         )}
@@ -132,7 +143,30 @@ const ChatForm: FC = () => {
               </svg>
             </button>
           ) : (
-            <RecordingAudio />
+            <>
+              {!isRecording ? (
+                <button
+                  className="flex justify-center items-center h-12 w-12 bg-transparent transition-all duration-300 hover:bg-zinc-100/20 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
+                  type="button"
+                  onClick={handleToggleRecordingStatus}
+                >
+                  <svg
+                    width={24}
+                    height={24}
+                    className="fill-zinc-200 dark:fill-zinc-400"
+                  >
+                    <use href={sprite + '#icon-mic'} />
+                  </svg>
+                </button>
+              ) : (
+                <Suspense>
+                  <RecordingAudio
+                    isRecording={isRecording}
+                    handleToggleRecordingStatus={handleToggleRecordingStatus}
+                  />
+                </Suspense>
+              )}
+            </>
           )}
         </form>
         <FileInput />

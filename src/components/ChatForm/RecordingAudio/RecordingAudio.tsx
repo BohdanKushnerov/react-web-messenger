@@ -3,11 +3,15 @@ import { FC, useEffect, useRef, useState } from 'react';
 import useChatStore from '@zustand/store';
 import handleSendAudio from '@utils/handleSendAudio';
 import setupAudioAnalyzer from '@utils/setupAudioAnalyzer';
+import { IRecordingAudioProps } from '@interfaces/IRecordingAudioProps';
 import sprite from '@assets/sprite.svg';
 
-const RecordingAudio: FC = () => {
+const RecordingAudio: FC<IRecordingAudioProps> = ({
+  isRecording,
+  handleToggleRecordingStatus,
+}) => {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const [recordingStatus, setRecordingStatus] = useState('inactive');
+
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -41,32 +45,43 @@ const RecordingAudio: FC = () => {
     };
   }, []);
 
-  const startRecording = async () => {
-    const streamData = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: false,
-    });
+  useEffect(() => {
+    if (isRecording) {
+      const startRecording = async () => {
+        const streamData = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: false,
+        });
 
-    if (streamData) {
-      setRecordingStatus('recording');
-      const media = new MediaRecorder(streamData, { mimeType: mimeType });
-      mediaRecorderRef.current = media;
-      mediaRecorderRef.current.start();
+        if (streamData) {
+          // setRecordingStatus('recording');
+          const media = new MediaRecorder(streamData, { mimeType: mimeType });
+          mediaRecorderRef.current = media;
+          mediaRecorderRef.current.start();
 
-      const localAudioChunks: Blob[] = [];
-      mediaRecorderRef.current.ondataavailable = event => {
-        if (typeof event.data === 'undefined') return;
-        if (event.data.size === 0) return;
-        localAudioChunks.push(event.data);
+          const localAudioChunks: Blob[] = [];
+          mediaRecorderRef.current.ondataavailable = event => {
+            if (typeof event.data === 'undefined') return;
+            if (event.data.size === 0) return;
+            localAudioChunks.push(event.data);
+          };
+          setAudioChunks(localAudioChunks);
+
+          setupAudioAnalyzer(
+            streamData,
+            canvasRef,
+            analyserRef,
+            animationIdRef
+          );
+        }
       };
-      setAudioChunks(localAudioChunks);
 
-      setupAudioAnalyzer(streamData, canvasRef, analyserRef, animationIdRef);
+      startRecording();
     }
-  };
+  }, [isRecording]);
 
   const stopRecording = () => {
-    setRecordingStatus('inactive');
+    // setRecordingStatus('inactive');
     if (animationIdRef.current) {
       cancelAnimationFrame(animationIdRef.current);
       animationIdRef.current = null;
@@ -74,31 +89,37 @@ const RecordingAudio: FC = () => {
 
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
-      mediaRecorderRef.current.onstop = () => {
+      mediaRecorderRef.current.onstop = async () => {
         const audioBlob = new Blob(audioChunks, { type: mimeType });
 
         if (chatUID && userUID && currentUserUID) {
-          handleSendAudio(audioBlob, chatUID, userUID, currentUserUID);
+          try {
+            await handleSendAudio(audioBlob, chatUID, userUID, currentUserUID);
+            stopRecordingAndDisconnectAnalyser();
+            handleToggleRecordingStatus();
+          } catch (e) {
+            console.log('stopRecording error', e);
+          }
         }
-
-        stopRecordingAndDisconnectAnalyser();
       };
     }
   };
 
   return (
     <>
-      <div
-        className={`absolute top-1/2 right-28 -translate-y-1/2 z-20 flex p-1 gap-2 bg-red-200 rounded-full ${
-          recordingStatus === 'recording' ? 'block' : 'hidden'
-        }`}
-      >
-        <svg width={24} height={24} className="fill-red-700 ">
-          <use href={sprite + '#icon-rec'} />
-        </svg>
-        <canvas ref={canvasRef} width={200} height={20}></canvas>
-      </div>
-      {recordingStatus === 'inactive' && (
+      {
+        <div
+          className={`absolute top-1/2 right-28 -translate-y-1/2 z-20 flex p-1 gap-2 bg-red-200 rounded-full ${
+            isRecording ? 'block' : 'hidden'
+          }`}
+        >
+          <svg width={24} height={24} className="fill-red-700 ">
+            <use href={sprite + '#icon-rec'} />
+          </svg>
+          <canvas ref={canvasRef} width={200} height={20}></canvas>
+        </div>
+      }
+      {/* {recordingStatus === 'inactive' && (
         <button
           className="flex justify-center items-center h-12 w-12 bg-transparent transition-all duration-300 hover:bg-zinc-100/20 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
           type="button"
@@ -112,8 +133,8 @@ const RecordingAudio: FC = () => {
             <use href={sprite + '#icon-mic'} />
           </svg>
         </button>
-      )}
-      {recordingStatus === 'recording' && (
+      )} */}
+      {isRecording && (
         <>
           <button
             className="flex justify-center items-center h-12 w-12 bg-transparent transition-all duration-300 hover:bg-zinc-100/20 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"

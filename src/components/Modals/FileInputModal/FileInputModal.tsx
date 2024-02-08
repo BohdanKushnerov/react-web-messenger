@@ -17,18 +17,13 @@ import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
 import UploadPhotoFile from '@components/ChatForm/UploadPhotoFile/UploadPhotoFile';
 import UploadDocumentFile from '@components/ChatForm/UploadDocumentFile/UploadDocumentFile';
-import useChatStore from '@zustand/store';
-import { FilesUploadStatuses } from 'types/FilesUploadStatuses';
 import { db, storage } from '@myfirebase/config';
+import useChatStore from '@zustand/store';
+import { IFileInputModalProps } from '@interfaces/IFileInputModalProps';
+import { FilesUploadStatuses } from 'types/FilesUploadStatuses';
 import '@i18n';
 
-interface IFileInputModal {
-  hiddenFileInput: React.RefObject<HTMLInputElement>;
-  setIsModalAddFileOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleToggleModal: () => void;
-}
-
-const FileInputModal: FC<IFileInputModal> = ({
+const FileInputModal: FC<IFileInputModalProps> = ({
   hiddenFileInput,
   setIsModalAddFileOpen,
   handleToggleModal,
