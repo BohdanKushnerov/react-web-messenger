@@ -1,11 +1,7 @@
 import { FC } from 'react';
-import { DocumentData } from 'firebase/firestore';
 
+import { IIsReadMsgProps } from '@interfaces/IIsReadMsgProps';
 import sprite from '@assets/sprite.svg';
-
-interface IIsReadMsgProps {
-  msg: DocumentData;
-}
 
 const IsReadMsg: FC<IIsReadMsgProps> = ({ msg }) => {
   return (

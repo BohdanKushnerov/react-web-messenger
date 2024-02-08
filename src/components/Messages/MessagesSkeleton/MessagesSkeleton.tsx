@@ -1,11 +1,8 @@
-import { FC, RefObject } from 'react';
-import Scrollbars from 'react-custom-scrollbars-2';
+import { FC } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-interface IMessagesSkeletonProps {
-  scrollbarsRef: RefObject<Scrollbars>;
-}
+import { IMessagesSkeletonProps } from '@interfaces/IMessagesSkeletonProps';
 
 const MessagesSkeleton: FC<IMessagesSkeletonProps> = ({ scrollbarsRef }) => {
   const clientHeight = scrollbarsRef.current?.getClientHeight();

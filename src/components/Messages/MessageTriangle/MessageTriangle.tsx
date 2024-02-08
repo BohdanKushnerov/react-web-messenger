@@ -1,10 +1,7 @@
 import { FC } from 'react';
 
+import { IMessageTriangleProps } from '@interfaces/IMessageTriangleProps';
 import sprite from '@assets/sprite.svg';
-
-interface IMessageTriangleProps {
-  myUID: boolean;
-}
 
 const MessageTriangle: FC<IMessageTriangleProps> = ({ myUID }) => {
   return (

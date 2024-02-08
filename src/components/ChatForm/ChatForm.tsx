@@ -1,4 +1,4 @@
-import React, { FC, Suspense, lazy, useEffect, useRef, useState } from 'react';
+import { FC, Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import FileInput from '@components/Inputs/FileInput/FileInput';

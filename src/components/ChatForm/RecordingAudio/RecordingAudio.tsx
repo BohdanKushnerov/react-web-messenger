@@ -3,12 +3,8 @@ import { FC, useEffect, useRef, useState } from 'react';
 import useChatStore from '@zustand/store';
 import handleSendAudio from '@utils/handleSendAudio';
 import setupAudioAnalyzer from '@utils/setupAudioAnalyzer';
+import { IRecordingAudioProps } from '@interfaces/IRecordingAudioProps';
 import sprite from '@assets/sprite.svg';
-
-interface IRecordingAudioProps {
-  isRecording: boolean;
-  handleChangeRecordingStatus: () => void;
-}
 
 const RecordingAudio: FC<IRecordingAudioProps> = ({
   isRecording,

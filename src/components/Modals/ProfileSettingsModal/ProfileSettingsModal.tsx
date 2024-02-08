@@ -1,4 +1,4 @@
-import { FC, RefObject, useState } from 'react';
+import { FC, useState } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
 import {
@@ -11,18 +11,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { Line } from 'rc-progress';
 import { useTranslation } from 'react-i18next';
 
-import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
 import ModalWindow from '../ModalWindow/ModalWindow';
+import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
 import { auth, db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import { IProfileSettingsModalProps } from '@interfaces/IProfileSettingsModalProps';
 import '@i18n';
 
-interface IProfileSettingsModal {
-  photoProfileInputRef: RefObject<HTMLInputElement>;
-  handleToggleProfilePhotoModal: () => void;
-}
-
-const ProfileSettingsModal: FC<IProfileSettingsModal> = ({
+const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
   photoProfileInputRef,
   handleToggleProfilePhotoModal,
 }) => {

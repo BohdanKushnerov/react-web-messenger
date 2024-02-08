@@ -1,12 +1,9 @@
 import { FC } from 'react';
 
+import { IButtonArrowProps } from '@interfaces/IButtonArrowProps';
 import sprite from '@assets/sprite.svg';
 
-interface IButtonArrow {
-  handleClickButtonArrow: () => void;
-}
-
-const ButtonArrow: FC<IButtonArrow> = ({ handleClickButtonArrow }) => {
+const ButtonArrow: FC<IButtonArrowProps> = ({ handleClickButtonArrow }) => {
   return (
     <button
       className="flex justify-center items-center w-12 h-12 text-white rounded-full transition-all duration-300 hover:bg-hoverGray  cursor-pointer"
