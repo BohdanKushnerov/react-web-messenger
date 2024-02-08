@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import { FC, Suspense, lazy } from 'react';
 
 import MessageImage from '../MessageImage/MessageImage';
-import Lightbox from 'yet-another-react-lightbox';
+const Lightbox = lazy(() => import('yet-another-react-lightbox'));
 import 'yet-another-react-lightbox/styles.css';
 import { IFile } from '@interfaces/IFile';
 import { IMessageImagesWithLightBoxProps } from '@interfaces/IMessageImagesWithLightBoxProps';
@@ -64,12 +64,16 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
           }
           return null;
         })}
-      <Lightbox
-        index={indexClickedPhoto}
-        slides={slidesForLightBox}
-        open={indexClickedPhoto >= 0}
-        close={() => handleClickPhoto(-1)}
-      />
+      {indexClickedPhoto >= 0 && (
+        <Suspense>
+          <Lightbox
+            index={indexClickedPhoto}
+            slides={slidesForLightBox}
+            open={indexClickedPhoto >= 0}
+            close={() => handleClickPhoto(-1)}
+          />
+        </Suspense>
+      )}
     </>
   );
 };

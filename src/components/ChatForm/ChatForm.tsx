@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import FileInput from '@components/Inputs/FileInput/FileInput';
@@ -13,9 +13,13 @@ import handleUpdateEditMessage from '@utils/handleUpdateEditMessage';
 import handleSendMessage from '@utils/handleSendMessage';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
-import RecordingAudio from '@components/ChatForm/RecordingAudio/RecordingAudio';
+const RecordingAudio = lazy(
+  () => import('@components/ChatForm/RecordingAudio/RecordingAudio')
+);
+// import RecordingAudio from '@components/ChatForm/RecordingAudio/RecordingAudio';
 
 const ChatForm: FC = () => {
+  const [isRecording, setIsRecording] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
 
@@ -75,6 +79,10 @@ const ChatForm: FC = () => {
     }
   };
 
+  const handleChangeRecordingStatus = () => {
+    setIsRecording(prev => !prev);
+  };
+
   return (
     <div className="absolute bottom-0 left-0 z-10 w-full h-24 flex flex-col items-center">
       <div className="relative flex flex-col justify-center w-full h-full shadow-whiteTopShadow xl:w-8/12">
@@ -132,7 +140,33 @@ const ChatForm: FC = () => {
               </svg>
             </button>
           ) : (
-            <RecordingAudio />
+            <>
+              {/* <Suspense>
+                <RecordingAudio />
+              </Suspense> */}
+              {!isRecording ? (
+                <button
+                  className="flex justify-center items-center h-12 w-12 bg-transparent transition-all duration-300 hover:bg-zinc-100/20 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
+                  type="button"
+                  onClick={handleChangeRecordingStatus}
+                >
+                  <svg
+                    width={24}
+                    height={24}
+                    className="fill-zinc-200 dark:fill-zinc-400"
+                  >
+                    <use href={sprite + '#icon-mic'} />
+                  </svg>
+                </button>
+              ) : (
+                <Suspense>
+                  <RecordingAudio
+                    isRecording={isRecording}
+                    handleChangeRecordingStatus={handleChangeRecordingStatus}
+                  />
+                </Suspense>
+              )}
+            </>
           )}
         </form>
         <FileInput />

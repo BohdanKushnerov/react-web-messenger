@@ -50,8 +50,8 @@ const MessageList: FC = () => {
     [chatUID, { lastMessage: '', senderUserID: '', userUID: '' }],
     false
   );
-  console.log('length', length);
-  // console.log('screen --> MessageList');
+
+  console.log('screen --> MessageList');
 
   // еффект ждет пока загрузятся фотки на странице, чтобы не было скачков,
   // далее таймаут чтобы успели попасть в дом дерево и уже там по селектору взять их
@@ -87,6 +87,7 @@ const MessageList: FC = () => {
               await Promise.all([...images].map(img => loadImage(img.src)));
 
               scrollToBottom();
+              // quickScrollBottom();
               setIsLoadedContent(true);
             } catch (error) {
               console.error('Error loading images:', error);
@@ -97,9 +98,10 @@ const MessageList: FC = () => {
         } else {
           // если нету фото делаем скролл вниз
           scrollToBottom();
+          // quickScrollBottom();
           setIsLoadedContent(true);
         }
-      }, 300);
+      }, 250);
     }
 
     return () => {
@@ -138,8 +140,8 @@ const MessageList: FC = () => {
     );
 
     const unsubChatMessages = onSnapshot(queryParams, snapshot => {
-      console.log('snapshot.metadata', snapshot.metadata);
-      console.log('snapshot.docs', snapshot.docs);
+      // console.log('snapshot.metadata', snapshot.metadata);
+      // console.log('snapshot.docs', snapshot.docs);
       // if (snapshot.metadata.fromCache === false) {
       // console.log('snapshot', snapshot.metadata.fromCache);
       const updatedMessages: DocumentData[] = snapshot.docs;
@@ -378,6 +380,14 @@ const MessageList: FC = () => {
   //   msgListRef?.current?.lastElementChild.scrollIntoView({
   //     behavior: 'smooth',
   //   });
+  // };
+  
+  // const quickScrollBottom = () => {
+  //   const list = msgListRef?.current;
+  //   const lastMessage = list?.lastElementChild;
+  //   if (list && lastMessage) {
+  //     lastMessage.scrollIntoView();
+  //   }
   // };
 
   const scrollToBottom = () => {
