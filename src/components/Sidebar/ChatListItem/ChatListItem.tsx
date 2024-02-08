@@ -15,9 +15,7 @@ import sprite from '@assets/sprite.svg';
 import '@i18n';
 import useUnreadMessagesInChatListItem from '@hooks/useUnreadMessagesInChatListItem';
 
-const ChatListItem: FC<IChatListItemProps> = ({
-  chatInfo,
-}) => {
+const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
   const location = useLocation();
   const { t } = useTranslation();
 
@@ -31,10 +29,7 @@ const ChatListItem: FC<IChatListItemProps> = ({
   const userInfo = useChatInfo(chatInfo[1].userUID); // обновляет инфо о текущем юзере в списке чата
   const lengthOfMyUnreadMsgs = useLengthOfMyUnreadMsgs(chatInfo); // следим за количеством моих непрочитаных сообщений в ChatItem
   const isReadMyLastMessage = useIsReadMyLastMessage(chatInfo); // прочитаное мое последнее сообщение или нет
-  useUnreadMessagesInChatListItem(
-    lengthOfMyUnreadMsgs,
-    chatInfo
-  );
+  useUnreadMessagesInChatListItem(lengthOfMyUnreadMsgs, chatInfo);
 
   const updateTotalUnreadMessages = useChatStore(
     state => state.updateTotalUnreadMessages
@@ -43,10 +38,12 @@ const ChatListItem: FC<IChatListItemProps> = ({
   // console.log('screen --> ChatListItem');
 
   const handleManageSelectChat = () => {
-    handleSelectChat(chatInfo, updateCurrentChatInfo);
-    // при выборе чата с непрочитаными сообщениями сбрасываем на 0
-    if (lengthOfMyUnreadMsgs) {
-      updateTotalUnreadMessages({ [chatInfo[0]]: 0 });
+    if (chatInfo[0]) {
+      handleSelectChat(chatInfo, updateCurrentChatInfo);
+      // при выборе чата с непрочитаными сообщениями сбрасываем на 0
+      if (lengthOfMyUnreadMsgs) {
+        updateTotalUnreadMessages({ [chatInfo[0]]: 0 });
+      }
     }
   };
 

@@ -24,6 +24,8 @@ import sprite from '@assets/sprite.svg';
 import '@i18n';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
+// import useCountChatUnreadMessages from '@hooks/useCountChatUnreadMessages';
+import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
 
 const MessageList: FC = () => {
   const [groupedMessages, setGroupedMessages] =
@@ -44,6 +46,12 @@ const MessageList: FC = () => {
   const updateEditingMessage = useChatStore(
     state => state.updateEditingMessage
   );
+
+  const length = useLengthOfMyUnreadMsgs(
+    [chatUID, { lastMessage: '', senderUserID: '', userUID: '' }],
+    false
+  );
+  console.log('length', length);
   // console.log('screen --> MessageList');
 
   // еффект ждет пока загрузятся фотки на странице, чтобы не было скачков,
@@ -436,21 +444,44 @@ const MessageList: FC = () => {
         {!isLoadedContent && <MessagesSkeleton scrollbarsRef={scrollbarsRef} />}
 
         {isScrollDownButtonVisible && isLoadedContent && (
+          // length
           <button
-            onClick={scrollToBottom}
             className="absolute bottom-32 right-10 bg-white p-2 rounded-full"
+            onClick={scrollToBottom}
           >
-            <svg
-              className="rotate-180"
-              strokeWidth="0"
-              viewBox="0 0 320 512"
-              height="24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"></path>
-            </svg>
+            <div className="relative">
+              <svg
+                className="rotate-180"
+                strokeWidth="0"
+                viewBox="0 0 320 512"
+                height="24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"></path>
+              </svg>
+              {length > 0 && (
+                <span className="absolute bottom-0 right-0 transform translate-x-4 -mb-4 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                  {length}
+                </span>
+              )}
+            </div>
           </button>
+          // <button
+          //   onClick={scrollToBottom}
+          //   className="absolute bottom-32 right-10 bg-white p-2 rounded-full "
+          // >
+          //   <svg
+          //     className="rotate-180"
+          //     strokeWidth="0"
+          //     viewBox="0 0 320 512"
+          //     height="24"
+          //     width="24"
+          //     xmlns="http://www.w3.org/2000/svg"
+          //   >
+          //     <path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"></path>
+          //   </svg>
+          // </button>
         )}
       </div>
       {groupedMessages && selectedDocDataMessage !== null && (

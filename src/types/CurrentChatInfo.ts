@@ -1,5 +1,5 @@
 export type CurrentChatInfo = [
-  string,
+  string | null,
   {
     userUID: string;
   }
