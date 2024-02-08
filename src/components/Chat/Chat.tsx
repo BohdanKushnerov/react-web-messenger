@@ -1,9 +1,9 @@
 import { FC, Suspense, lazy, memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import MessageList from '@components/Messages/MessageList/MessageList';
 import ChatForm from '../ChatForm/ChatForm';
 import ChatHeader from '../ChatHeader/ChatHeader';
+import MessageList from '@components/Messages/MessageList/MessageList';
 const SearchMessages = lazy(() => import('@components/ChatHeader/SearchMessages/SearchMessages'));
 import useChatStore from '@zustand/store';
 import '@i18n';

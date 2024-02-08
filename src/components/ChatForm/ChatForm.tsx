@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 
 import FileInput from '@components/Inputs/FileInput/FileInput';
 import Emoji from '@components/ChatForm/Emoji/Emoji';
-import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
+const ButtonClose = lazy(
+  () => import('@components/Buttons/ButtonClose/ButtonClose')
+);
 import useChatStore from '@zustand/store';
 import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
 import useTyping from '@hooks/useTyping';
@@ -105,9 +107,11 @@ const ChatForm: FC = () => {
               </p>
             </div>
             <div className="absolute top-0 right-12">
-              <ButtonClose
-                handleClickButtonClose={handleCancelEditingMessage}
-              />
+              <Suspense>
+                <ButtonClose
+                  handleClickButtonClose={handleCancelEditingMessage}
+                />
+              </Suspense>
             </div>
           </div>
         )}
