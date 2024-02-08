@@ -28,7 +28,8 @@ import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
 const MessageList: FC = () => {
   const [groupedMessages, setGroupedMessages] =
     useState<IGroupedMessages | null>(null);
-  const [isButtonVisible, setIsButtonVisible] = useState(false);
+  const [isScrollDownButtonVisible, setIsScrollDownButtonVisible] =
+    useState(false);
   const [selectedDocDataMessage, setSelectedDocDataMessage] =
     useState<DocumentData | null>(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
@@ -43,11 +44,11 @@ const MessageList: FC = () => {
   const updateEditingMessage = useChatStore(
     state => state.updateEditingMessage
   );
-
   // console.log('screen --> MessageList');
 
   // еффект ждет пока загрузятся фотки на странице, чтобы не было скачков,
-  // далее таймаут чтобы успели попасть в дом дерево и уже там по селектору взять их и посмотреть на их load
+  // далее таймаут чтобы успели попасть в дом дерево и уже там по селектору взять их
+  // и посмотреть на их load
   useEffect(() => {
     // Проверяем, был ли таймер уже запущен
     if (
@@ -102,6 +103,16 @@ const MessageList: FC = () => {
     };
   }, [groupedMessages, isLoadedContent]);
 
+  // авто скролл вниз при новом сообщении если я внизу списка
+  useEffect(() => {
+    if (scrollbarsRef.current) {
+      if (!isScrollDownButtonVisible) {
+        scrollToBottom();
+        // console.log('==========================етот скролл работает');
+      }
+    }
+  }, [groupedMessages, isScrollDownButtonVisible]);
+
   // скелетон сообщений
   useEffect(() => {
     setIsLoadedContent(false);
@@ -143,6 +154,7 @@ const MessageList: FC = () => {
       // console.log('groupedMsgs', groupedMsgs);
 
       setGroupedMessages(groupedMsgs);
+
       // }
     });
 
@@ -170,7 +182,7 @@ const MessageList: FC = () => {
 
     const isNearBottom = scrollHeight - scrollTop - clientHeight > 100;
 
-    setIsButtonVisible(isNearBottom);
+    setIsScrollDownButtonVisible(isNearBottom);
   };
 
   const handleClickRigthButtonMessage = (
@@ -409,7 +421,10 @@ const MessageList: FC = () => {
                           handleClickRigthButtonMessage(message, e)
                         }
                       >
-                        <MessageItem msg={message} />
+                        <MessageItem
+                          msg={message}
+                          isNearBottom={!isScrollDownButtonVisible}
+                        />
                       </div>
                     );
                   })}
@@ -420,7 +435,7 @@ const MessageList: FC = () => {
 
         {!isLoadedContent && <MessagesSkeleton scrollbarsRef={scrollbarsRef} />}
 
-        {isButtonVisible && isLoadedContent && (
+        {isScrollDownButtonVisible && isLoadedContent && (
           <button
             onClick={scrollToBottom}
             className="absolute bottom-32 right-10 bg-white p-2 rounded-full"
