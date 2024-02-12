@@ -1,9 +1,12 @@
 import { useEffect, useState, useRef, FC, useLayoutEffect } from 'react';
 import {
   DocumentData,
+  Firestore,
   collection,
   deleteDoc,
   doc,
+  getDocs,
+  limit,
   onSnapshot,
   orderBy,
   query,
@@ -23,6 +26,7 @@ import useChatStore from '@zustand/store';
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
 import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import { IFile } from '@interfaces/IFile';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
 
@@ -31,8 +35,9 @@ const MessageList: FC = () => {
     useState<IGroupedMessages | null>(null);
   const [isScrollDownButtonVisible, setIsScrollDownButtonVisible] =
     useState(false);
-  const [selectedDocDataMessage, setSelectedDocDataMessage] =
-    useState<DocumentData | null>(null);
+  const [selectedDocDataMessage, setSelectedDocDataMessage] = useState<
+    DocumentData[] | null
+  >(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [isLoadedContent, setIsLoadedContent] = useState(false);
   const scrollbarsRef = useRef<Scrollbars>(null);
@@ -51,7 +56,7 @@ const MessageList: FC = () => {
     false
   );
 
-  console.log('screen --> MessageList');
+  // console.log('screen --> MessageList');
 
   // еффект ждет пока загрузятся фотки на странице, чтобы не было скачков,
   // далее таймаут чтобы успели попасть в дом дерево и уже там по селектору взять их
@@ -242,94 +247,132 @@ const MessageList: FC = () => {
       }
     }
 
-    if (selectedDocDataMessage?.id === message.id) {
+    // if (selectedDocDataMessage?.id === message.id) {
+    //   setSelectedDocDataMessage(null);
+    // } else {
+    //   setSelectedDocDataMessage(message);
+    // }
+
+    // console.log(selectedDocDataMessage.find(msg => msg.id === message.id));
+
+    if (
+      selectedDocDataMessage !== null &&
+      selectedDocDataMessage.find(msg => msg.id === message.id) !== undefined
+    ) {
+      console.log('очистим');
       setSelectedDocDataMessage(null);
     } else {
-      setSelectedDocDataMessage(message);
+      console.log('добавим ');
+
+      setSelectedDocDataMessage(prev =>
+        prev === null ? [message] : [...prev, message]
+      );
+      // setSelectedDocDataMessage([...message]);
     }
   };
 
+  console.log('selectedDocDataMessage', selectedDocDataMessage);
+
   const handleCloseModal = () => {
     if (selectedDocDataMessage !== null) setSelectedDocDataMessage(null);
+    // if (selectedDocDataMessage !== null) {
+    //   console.log('handleCloseModal');
+    //   // setSelectedDocDataMessage([]);
+    // }
   };
 
-  const handleDeleteMessage = async () => {
-    if (!groupedMessages) return;
-    const mergedArray: DocumentData[] = Object.values(groupedMessages).reduce(
-      (acc, currentArray) => acc.concat(currentArray),
-      []
+  async function deleteFilesAndDocs(
+    selectedDocDataMessage: DocumentData[],
+    db: Firestore,
+    chatUID: string
+  ) {
+    await Promise.all(
+      selectedDocDataMessage.map(async msg => {
+        const arrayURLsOfFiles = msg.data()?.file;
+
+        if (arrayURLsOfFiles) {
+          const promisesArrOfURLs = arrayURLsOfFiles.map((el: IFile) => {
+            const desertRef = ref(storage, el.url);
+            return deleteObject(desertRef);
+          });
+
+          await Promise.all(promisesArrOfURLs);
+        }
+
+        await deleteDoc(doc(db, 'chats', chatUID, 'messages', msg.id));
+      })
+    );
+  }
+
+  async function getLastMessage(chatUID: string) {
+    const queryParams = query(
+      collection(db, `chats/${chatUID}/messages`),
+      orderBy('date', 'desc'), // Сортируем по убыванию даты, чтобы получить последнее сообщение
+      limit(1) // Ограничиваем результат одним документом
     );
 
+    const querySnapshot = await getDocs(queryParams);
+
+    if (querySnapshot.empty) {
+      console.log('No messages');
+      return null;
+    }
+
+    // Получаем последний документ из результатов запроса
+    const lastMessage = querySnapshot.docs[0];
+    const lastMessageData = lastMessage.data();
+    console.log('Last message:', lastMessageData);
+    return lastMessageData;
+  }
+
+  const handleDeleteMessage = async () => {
     if (
       chatUID &&
-      mergedArray &&
       selectedDocDataMessage !== null &&
       currentUserUID &&
       userUID &&
       selectedDocDataMessage
     ) {
-      const arrayURLsOfFiles = selectedDocDataMessage?.data()?.file;
-
-      if (arrayURLsOfFiles) {
-        const promisesArrOfURLs = arrayURLsOfFiles.map(
-          (el: { url: string }) => {
-            const desertRef = ref(storage, el.url);
-
-            return deleteObject(desertRef);
-          }
-        );
-
-        await Promise.all(promisesArrOfURLs);
-      }
-
-      await deleteDoc(
-        doc(db, 'chats', chatUID, 'messages', selectedDocDataMessage.id)
-      ).then(() => {
+      await deleteFilesAndDocs(selectedDocDataMessage, db, chatUID).then(() => {
         handleCloseModal();
       });
 
-      // если последнее сообщение то ставим последнее сообщение messages[selectedItemIndexForOpenModal - 1]
-      if (mergedArray.length > 1) {
-        // тут в ифе по идее условие если последнее сообщение здесь
-        if (
-          selectedDocDataMessage.id === mergedArray[mergedArray.length - 1].id
-        ) {
-          const lastFiles = mergedArray[mergedArray.length - 2].data()?.file;
+      const lastMessageFromStorage = await getLastMessage(chatUID);
 
-          const lastMessage = lastFiles
-            ? `${String.fromCodePoint(128206)} ${lastFiles.length} file(s) ${
-                mergedArray[mergedArray.length - 2].data().message
-              }`
-            : mergedArray[mergedArray.length - 2].data().message;
+      if (lastMessageFromStorage) {
+        const lastFiles = lastMessageFromStorage.file;
 
-          const senderUserIDMessage =
-            mergedArray[mergedArray.length - 2].data().senderUserID;
+        const lastMessage = lastFiles
+          ? `${String.fromCodePoint(128206)} ${lastFiles.length} file(s) ${
+              lastMessageFromStorage.message
+            }`
+          : lastMessageFromStorage.message;
 
-          const lastDateMessage =
-            mergedArray[mergedArray.length - 2].data().date;
+        const senderUserIDMessage = lastMessageFromStorage.senderUserID;
 
-          // здесь надо переписывать последнее сообщение мне и напарнику после удаления
-          await updateDoc(doc(db, 'userChats', currentUserUID), {
-            [chatUID + '.lastMessage']: lastMessage,
-            [chatUID + '.senderUserID']: senderUserIDMessage,
-            [chatUID + '.date']: lastDateMessage,
-          });
+        const lastDateMessage = lastMessageFromStorage.date;
 
-          // =====================================================
-          await updateDoc(doc(db, 'userChats', userUID), {
-            [chatUID + '.lastMessage']: lastMessage,
-            [chatUID + '.senderUserID']: senderUserIDMessage,
-            [chatUID + '.date']: lastDateMessage,
-          });
-        }
+        // здесь надо переписывать последнее сообщение мне и напарнику после удаления
+        await updateDoc(doc(db, 'userChats', currentUserUID), {
+          [chatUID + '.lastMessage']: lastMessage,
+          [chatUID + '.senderUserID']: senderUserIDMessage,
+          [chatUID + '.date']: lastDateMessage,
+        });
+
+        // =====================================================
+        await updateDoc(doc(db, 'userChats', userUID), {
+          [chatUID + '.lastMessage']: lastMessage,
+          [chatUID + '.senderUserID']: senderUserIDMessage,
+          [chatUID + '.date']: lastDateMessage,
+        });
       } else {
         // пустую строку с пробелом чтобы не падала ошибка
+
         await updateDoc(doc(db, 'userChats', currentUserUID), {
           [chatUID + '.lastMessage']: ' ',
           [chatUID + '.senderUserID']: ' ',
           [chatUID + '.date']: ' ',
         });
-
         // =====================================================
         await updateDoc(doc(db, 'userChats', userUID), {
           [chatUID + '.lastMessage']: ' ',
@@ -352,11 +395,17 @@ const MessageList: FC = () => {
       []
     );
 
-    if (chatUID && mergedArray && selectedDocDataMessage !== null) {
+    if (
+      chatUID &&
+      mergedArray &&
+      selectedDocDataMessage &&
+      selectedDocDataMessage.length === 1
+    ) {
       const editingMessageInfo = {
-        selectedMessage: selectedDocDataMessage,
+        selectedMessage: selectedDocDataMessage[0],
         isLastMessage:
-          selectedDocDataMessage.id === mergedArray[mergedArray.length - 1].id
+          selectedDocDataMessage[0].id ===
+          mergedArray[mergedArray.length - 1].id
             ? true
             : false,
       };
@@ -377,12 +426,6 @@ const MessageList: FC = () => {
     inputElement.focus();
   };
 
-  // const scrollToBottom = () => {
-  //   msgListRef?.current?.lastElementChild.scrollIntoView({
-  //     behavior: 'smooth',
-  //   });
-  // };
-
   const quickScrollBottom = () => {
     const list = msgListRef?.current;
     const lastMessage = list?.lastElementChild;
@@ -398,6 +441,23 @@ const MessageList: FC = () => {
       lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
       // lastMessage.scrollIntoView();
     }
+  };
+
+  const textFromSelectedMsgs = () => {
+    if (selectedDocDataMessage?.length) {
+      // const allText = selectedDocDataMessage.reduce((acc, msg) => {
+      //   return acc + ' ' + msg.data().message;
+      // }, '');
+      const allText = selectedDocDataMessage
+        .map(msg => msg.data().message)
+        .join(' ');
+
+      console.log('allText', allText);
+      return allText;
+    }
+    // else {
+    //   return '========================';
+    // }
   };
 
   return (
@@ -428,7 +488,10 @@ const MessageList: FC = () => {
                   </div>
                   {groupedMessages[date].map((message: DocumentData) => {
                     const currentItem =
-                      selectedDocDataMessage?.id === message.id;
+                      // selectedDocDataMessage?.id === message.id;
+                      selectedDocDataMessage?.find(
+                        msg => msg.id === message.id
+                      );
 
                     return (
                       <div
@@ -500,22 +563,24 @@ const MessageList: FC = () => {
           modalPosition={modalPosition}
         >
           <div className="w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto">
-            {selectedDocDataMessage?.data()?.senderUserID ===
-              currentUserUID && (
-              <button
-                className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-                onClick={handleChooseEditMessage}
-              >
-                <svg width={20} height={20}>
-                  <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
-                </svg>
-                <span>{t('ContextMenu.Edit')}</span>
-              </button>
-            )}
+            {selectedDocDataMessage &&
+              selectedDocDataMessage[0]?.data()?.senderUserID ===
+                currentUserUID && (
+                <button
+                  className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
+                  onClick={handleChooseEditMessage}
+                >
+                  <svg width={20} height={20}>
+                    <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
+                  </svg>
+                  <span>{t('ContextMenu.Edit')}</span>
+                </button>
+              )}
 
-            {selectedDocDataMessage?.data()?.message && (
+            {selectedDocDataMessage && (
               <CopyToClipboard
-                text={selectedDocDataMessage?.data()?.message}
+                // text={selectedDocDataMessage?.data()?.message}
+                text={textFromSelectedMsgs() || ''}
                 onCopy={handleSuccessClickCopyTextMsg}
               >
                 <button className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md">
