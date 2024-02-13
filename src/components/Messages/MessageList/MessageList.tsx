@@ -1,18 +1,11 @@
 import { useEffect, useState, useRef, FC, useLayoutEffect } from 'react';
 import {
   DocumentData,
-  Firestore,
   collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  limit,
   onSnapshot,
   orderBy,
   query,
-  updateDoc,
 } from 'firebase/firestore';
-import { deleteObject, ref } from 'firebase/storage';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useTranslation } from 'react-i18next';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -21,12 +14,13 @@ import { toast } from 'react-toastify';
 import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
 import MessageItem from '@components/Messages/MessageItem/MessageItem';
 import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
-import { db, storage } from '@myfirebase/config';
+import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
+import { textFromSelectedMsgs } from './utils/textFromSelectedMsgs';
+import { handleDeleteMessage } from './utils/handleDeleteMessage';
 import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
-import { IFile } from '@interfaces/IFile';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
 
@@ -35,10 +29,6 @@ const MessageList: FC = () => {
     useState<IGroupedMessages | null>(null);
   const [isScrollDownButtonVisible, setIsScrollDownButtonVisible] =
     useState(false);
-  const [selectedDocDataMessage, setSelectedDocDataMessage] = useState<
-    DocumentData[] | null
-  >(null);
-  const [isSelectMessagesOn, setIsSelectMessagesOn] = useState<boolean>(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [isLoadedContent, setIsLoadedContent] = useState(false);
   const scrollbarsRef = useRef<Scrollbars>(null);
@@ -51,13 +41,38 @@ const MessageList: FC = () => {
   const updateEditingMessage = useChatStore(
     state => state.updateEditingMessage
   );
+  const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
+  const updateIsSelectedMessages = useChatStore(
+    state => state.updateIsSelectedMessages
+  );
+  const selectedDocDataMessage = useChatStore(
+    state => state.selectedDocDataMessage
+  );
+  const updateSelectedDocDataMessage = useChatStore(
+    state => state.updateSelectedDocDataMessage
+  );
 
   const length = useLengthOfMyUnreadMsgs(
     [chatUID, { lastMessage: '', senderUserID: '', userUID: '' }],
     false
   );
 
+  console.log('isSelectedMessages', isSelectedMessages);
+
   // console.log('screen --> MessageList');
+
+  // тоглит чат форму вместо кнопок интерфейса выбраных сообщений
+  useEffect(() => {
+    if (!isSelectedMessages) {
+      updateSelectedDocDataMessage(null);
+    }
+  }, [isSelectedMessages, updateSelectedDocDataMessage]);
+
+  useEffect(() => {
+    if (selectedDocDataMessage === null) {
+      updateIsSelectedMessages(false);
+    }
+  }, [selectedDocDataMessage, updateIsSelectedMessages]);
 
   // еффект ждет пока загрузятся фотки на странице, чтобы не было скачков,
   // далее таймаут чтобы успели попасть в дом дерево и уже там по селектору взять их
@@ -205,7 +220,7 @@ const MessageList: FC = () => {
     if (e) {
       e.preventDefault();
 
-      setIsSelectMessagesOn(false);
+      updateIsSelectedMessages(false);
 
       const chatContainerEl =
         e.currentTarget.parentElement?.parentElement?.parentElement;
@@ -251,35 +266,34 @@ const MessageList: FC = () => {
       selectedDocDataMessage !== null &&
       selectedDocDataMessage.find(msg => msg.id === message.id) !== undefined
     ) {
-      setSelectedDocDataMessage(null);
+      updateSelectedDocDataMessage(null);
     } else {
-      setSelectedDocDataMessage([message]);
+      updateSelectedDocDataMessage([message]);
     }
   };
 
   const handleToggleSelectOn = () => {
-    if (isSelectMessagesOn) {
-      setSelectedDocDataMessage(null);
-      setIsSelectMessagesOn(false);
+    if (isSelectedMessages) {
+      updateSelectedDocDataMessage(null);
+      updateIsSelectedMessages(false);
     } else {
-      setIsSelectMessagesOn(true);
+      updateIsSelectedMessages(true);
     }
   };
 
   const handleToggleSelectedMessage = (message: DocumentData) => {
     if (selectedDocDataMessage?.find(msg => msg.id === message.id)) {
-      setSelectedDocDataMessage(prev => {
+      updateSelectedDocDataMessage(prev => {
         const filteredMsgs = prev?.filter(msg => msg.id !== message.id);
 
         if (filteredMsgs?.length === 0) {
-          setIsSelectMessagesOn(false);
           return null;
         } else {
           return filteredMsgs ?? null;
         }
       });
     } else {
-      setSelectedDocDataMessage(prev =>
+      updateSelectedDocDataMessage(prev =>
         prev === null ? [message] : [...prev, message]
       );
     }
@@ -291,122 +305,15 @@ const MessageList: FC = () => {
       e.target instanceof Element &&
       e.target.id &&
       selectedDocDataMessage &&
-      isSelectMessagesOn &&
+      isSelectedMessages &&
       selectedDocDataMessage?.length >= 1
     ) {
       return;
     }
 
     if (selectedDocDataMessage !== null) {
-      setSelectedDocDataMessage(null);
-      setIsSelectMessagesOn(false);
-    }
-  };
-
-  async function deleteFilesAndDocs(
-    selectedDocDataMessage: DocumentData[],
-    db: Firestore,
-    chatUID: string
-  ) {
-    await Promise.all(
-      selectedDocDataMessage.map(async msg => {
-        const arrayURLsOfFiles = msg.data()?.file;
-
-        if (arrayURLsOfFiles) {
-          const promisesArrOfURLs = arrayURLsOfFiles.map((el: IFile) => {
-            const desertRef = ref(storage, el.url);
-            return deleteObject(desertRef);
-          });
-
-          await Promise.all(promisesArrOfURLs);
-        }
-
-        await deleteDoc(doc(db, 'chats', chatUID, 'messages', msg.id));
-      })
-    );
-  }
-
-  async function getLastMessage(chatUID: string) {
-    const queryParams = query(
-      collection(db, `chats/${chatUID}/messages`),
-      orderBy('date', 'desc'), // Сортируем по убыванию даты, чтобы получить последнее сообщение
-      limit(1) // Ограничиваем результат одним документом
-    );
-
-    const querySnapshot = await getDocs(queryParams);
-
-    if (querySnapshot.empty) {
-      console.log('No messages');
-      return null;
-    }
-
-    // Получаем последний документ из результатов запроса
-    const lastMessage = querySnapshot.docs[0];
-    const lastMessageData = lastMessage.data();
-    console.log('Last message:', lastMessageData);
-    return lastMessageData;
-  }
-
-  const handleDeleteMessage = async () => {
-    if (
-      chatUID &&
-      selectedDocDataMessage !== null &&
-      currentUserUID &&
-      userUID &&
-      selectedDocDataMessage
-    ) {
-      await deleteFilesAndDocs(selectedDocDataMessage, db, chatUID).then(() => {
-        handleCloseModal();
-      });
-
-      const lastMessageFromStorage = await getLastMessage(chatUID);
-
-      if (lastMessageFromStorage) {
-        const lastFiles = lastMessageFromStorage.file;
-
-        const lastMessage = lastFiles
-          ? `${String.fromCodePoint(128206)} ${lastFiles.length} file(s) ${
-              lastMessageFromStorage.message
-            }`
-          : lastMessageFromStorage.message;
-
-        const senderUserIDMessage = lastMessageFromStorage.senderUserID;
-
-        const lastDateMessage = lastMessageFromStorage.date;
-
-        // здесь надо переписывать последнее сообщение мне и напарнику после удаления
-        await updateDoc(doc(db, 'userChats', currentUserUID), {
-          [chatUID + '.lastMessage']: lastMessage,
-          [chatUID + '.senderUserID']: senderUserIDMessage,
-          [chatUID + '.date']: lastDateMessage,
-        });
-
-        // =====================================================
-        await updateDoc(doc(db, 'userChats', userUID), {
-          [chatUID + '.lastMessage']: lastMessage,
-          [chatUID + '.senderUserID']: senderUserIDMessage,
-          [chatUID + '.date']: lastDateMessage,
-        });
-      } else {
-        // пустую строку с пробелом чтобы не падала ошибка
-
-        await updateDoc(doc(db, 'userChats', currentUserUID), {
-          [chatUID + '.lastMessage']: ' ',
-          [chatUID + '.senderUserID']: ' ',
-          [chatUID + '.date']: ' ',
-        });
-        // =====================================================
-        await updateDoc(doc(db, 'userChats', userUID), {
-          [chatUID + '.lastMessage']: ' ',
-          [chatUID + '.senderUserID']: ' ',
-          [chatUID + '.date']: ' ',
-        });
-      }
-
-      toast.success(t('Toasts.DeleteMessageSuccess'));
-
-      const inputElement = document.getElementById('chatFormInput')!;
-      inputElement.focus();
+      updateSelectedDocDataMessage(null);
+      updateIsSelectedMessages(false);
     }
   };
 
@@ -465,28 +372,12 @@ const MessageList: FC = () => {
     }
   };
 
-  const textFromSelectedMsgs = () => {
-    if (selectedDocDataMessage?.length) {
-      // const allText = selectedDocDataMessage.reduce((acc, msg) => {
-      //   return acc + ' ' + msg.data().message;
-      // }, '');
-      const allText = selectedDocDataMessage
-        .map(msg => msg.data().message)
-        .join(' ');
-
-      console.log('allText', allText);
-      return allText;
-    }
-    // else {
-    //   return '========================';
-    // }
-  };
-
   return (
     <>
       <div
-        className="relative h-full w-full py-1"
+        className="h-full w-full py-1"
         onClick={e => handleCloseModal(e)}
+        id="chat"
       >
         <Scrollbars
           ref={scrollbarsRef}
@@ -512,13 +403,9 @@ const MessageList: FC = () => {
                     </p>
                   </div>
                   {groupedMessages[date].map((message: DocumentData) => {
-                    const currentItem =
-                      // selectedDocDataMessage?.id === message.id;
-                      selectedDocDataMessage?.find(
-                        msg => msg.id === message.id
-                      );
-
-                    // const isSelectedMsg = selectedDocDataMessage?.find(msg=>msg)
+                    const currentItem = selectedDocDataMessage?.find(
+                      msg => msg.id === message.id
+                    );
 
                     return (
                       <div
@@ -530,12 +417,12 @@ const MessageList: FC = () => {
                           handleClickRigthButtonMessage(message, e)
                         }
                         onClick={() =>
-                          isSelectMessagesOn &&
+                          isSelectedMessages &&
                           handleToggleSelectedMessage(message)
                         }
                         id="documentDataMsg"
                       >
-                        {isSelectMessagesOn && currentItem ? (
+                        {isSelectedMessages && currentItem ? (
                           <svg width={20} height={20} id="select">
                             <use
                               href={sprite + '#icon-select'}
@@ -543,7 +430,7 @@ const MessageList: FC = () => {
                             />
                           </svg>
                         ) : (
-                          isSelectMessagesOn &&
+                          isSelectedMessages &&
                           !currentItem && (
                             <svg width={20} height={20} id="not-select">
                               <use
@@ -599,64 +486,70 @@ const MessageList: FC = () => {
             closeModal={handleCloseModal}
             modalPosition={modalPosition}
           >
-            <div className="w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto">
-              {selectedDocDataMessage &&
-                selectedDocDataMessage.length === 1 &&
-                selectedDocDataMessage[0]?.data()?.senderUserID ===
-                  currentUserUID && (
-                  <button
-                    className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-                    onClick={handleChooseEditMessage}
+            {!isSelectedMessages && (
+              <div
+                className={`w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto ${
+                  isSelectedMessages && 'hidden'
+                }`}
+              >
+                {selectedDocDataMessage &&
+                  selectedDocDataMessage.length === 1 &&
+                  selectedDocDataMessage[0]?.data()?.senderUserID ===
+                    currentUserUID && (
+                    <button
+                      className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
+                      onClick={handleChooseEditMessage}
+                    >
+                      <svg width={20} height={20}>
+                        <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
+                      </svg>
+                      <span>{t('ContextMenu.Edit')}</span>
+                    </button>
+                  )}
+
+                {selectedDocDataMessage && (
+                  <CopyToClipboard
+                    text={textFromSelectedMsgs(selectedDocDataMessage) || ''}
+                    onCopy={handleSuccessClickCopyTextMsg}
                   >
-                    <svg width={20} height={20}>
-                      <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
-                    </svg>
-                    <span>{t('ContextMenu.Edit')}</span>
-                  </button>
+                    <div className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md">
+                      <svg width={20} height={20}>
+                        <use href={sprite + '#icon-copy'} fill="#FFFFFF" />
+                      </svg>
+                      <span>{t('ContextMenu.Copy')}</span>
+                    </div>
+                  </CopyToClipboard>
                 )}
 
-              {selectedDocDataMessage && (
-                <CopyToClipboard
-                  text={textFromSelectedMsgs() || ''}
-                  onCopy={handleSuccessClickCopyTextMsg}
+                <button
+                  className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
+                  onClick={() =>
+                    handleDeleteMessage(
+                      selectedDocDataMessage,
+                      chatUID,
+                      currentUserUID,
+                      userUID,
+                      t,
+                      handleCloseModal
+                    )
+                  }
                 >
-                  <button className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md">
-                    <svg width={20} height={20}>
-                      <use href={sprite + '#icon-copy'} fill="#FFFFFF" />
-                    </svg>
-                    <span>{t('ContextMenu.Copy')}</span>
-                  </button>
-                </CopyToClipboard>
-              )}
-
-              <button
-                className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-                onClick={handleDeleteMessage}
-              >
-                <svg width={20} height={20}>
-                  <use href={sprite + '#icon-delete-button'} fill="#FFFFFF" />
-                </svg>
-                <span>{t('ContextMenu.Delete')}</span>
-              </button>
-              <button
-                className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-                onClick={handleToggleSelectOn}
-              >
-                <svg width={20} height={20}>
-                  <use href={sprite + '#icon-select'} fill="#FFFFFF" />
-                </svg>
-                <span>Select</span>
-              </button>
-              {/* <button
-              className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-              onClick={handleDeleteMessage}
-            >
-              <svg width={20} height={20}>
-                <use href={sprite + '#icon-not-select'} fill="#FFFFFF" />
-              </svg>
-              <span>{t('ContextMenu.Delete')}</span>
-            </button> */}
-            </div>
+                  <svg width={20} height={20}>
+                    <use href={sprite + '#icon-delete-button'} fill="#FFFFFF" />
+                  </svg>
+                  <span>{t('ContextMenu.Delete')}</span>
+                </button>
+                <button
+                  className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
+                  onClick={handleToggleSelectOn}
+                >
+                  <svg width={20} height={20}>
+                    <use href={sprite + '#icon-select'} fill="#FFFFFF" />
+                  </svg>
+                  <span>Select</span>
+                </button>
+              </div>
+            )}
           </MessageContextMenuModal>
         )}
     </>
