@@ -27,6 +27,7 @@ const MessageItem: FC<IMessageItemProps> = ({ msg, isNearBottom }) => {
       className={`relative flex w-full items-end xl:w-8/12 ${
         myUID ? 'justify-end' : 'justify-start'
       }`}
+      id="message"
     >
       <div
         className={`flex flex-col py-2 px-4 rounded-xl ${

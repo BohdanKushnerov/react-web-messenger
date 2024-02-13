@@ -38,6 +38,7 @@ const MessageList: FC = () => {
   const [selectedDocDataMessage, setSelectedDocDataMessage] = useState<
     DocumentData[] | null
   >(null);
+  const [isSelectMessagesOn, setIsSelectMessagesOn] = useState<boolean>(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [isLoadedContent, setIsLoadedContent] = useState(false);
   const scrollbarsRef = useRef<Scrollbars>(null);
@@ -69,11 +70,11 @@ const MessageList: FC = () => {
       msgListRef.current &&
       !timeoutRef.current
     ) {
-      // scrollToBottom();
       quickScrollBottom();
 
       timeoutRef.current = setTimeout(() => {
         const imagesInMessages = msgListRef?.current?.querySelectorAll('img');
+        console.log('imagesInMessages', imagesInMessages);
         if (imagesInMessages && imagesInMessages.length > 0) {
           // console.log('imagesInMessages', imagesInMessages);
 
@@ -93,8 +94,6 @@ const MessageList: FC = () => {
               await Promise.all([...images].map(img => loadImage(img.src)))
                 .then(() => quickScrollBottom())
                 .then(() => setIsLoadedContent(true));
-
-              // scrollToBottom();
             } catch (error) {
               console.error('Error loading images:', error);
             }
@@ -103,11 +102,10 @@ const MessageList: FC = () => {
           loadAllImages(imagesInMessages);
         } else {
           // если нету фото делаем скролл вниз
-          // scrollToBottom();
           quickScrollBottom();
           setIsLoadedContent(true);
         }
-      }, 250);
+      }, 300);
     }
 
     return () => {
@@ -207,6 +205,8 @@ const MessageList: FC = () => {
     if (e) {
       e.preventDefault();
 
+      setIsSelectMessagesOn(false);
+
       const chatContainerEl =
         e.currentTarget.parentElement?.parentElement?.parentElement;
       const rect = chatContainerEl?.getBoundingClientRect();
@@ -247,38 +247,60 @@ const MessageList: FC = () => {
       }
     }
 
-    // if (selectedDocDataMessage?.id === message.id) {
-    //   setSelectedDocDataMessage(null);
-    // } else {
-    //   setSelectedDocDataMessage(message);
-    // }
-
-    // console.log(selectedDocDataMessage.find(msg => msg.id === message.id));
-
     if (
       selectedDocDataMessage !== null &&
       selectedDocDataMessage.find(msg => msg.id === message.id) !== undefined
     ) {
-      console.log('очистим');
       setSelectedDocDataMessage(null);
     } else {
-      console.log('добавим ');
-
-      setSelectedDocDataMessage(prev =>
-        prev === null ? [message] : [...prev, message]
-      );
-      // setSelectedDocDataMessage([...message]);
+      setSelectedDocDataMessage([message]);
     }
   };
 
-  console.log('selectedDocDataMessage', selectedDocDataMessage);
+  const handleToggleSelectOn = () => {
+    if (isSelectMessagesOn) {
+      setSelectedDocDataMessage(null);
+      setIsSelectMessagesOn(false);
+    } else {
+      setIsSelectMessagesOn(true);
+    }
+  };
 
-  const handleCloseModal = () => {
-    if (selectedDocDataMessage !== null) setSelectedDocDataMessage(null);
-    // if (selectedDocDataMessage !== null) {
-    //   console.log('handleCloseModal');
-    //   // setSelectedDocDataMessage([]);
-    // }
+  const handleToggleSelectedMessage = (message: DocumentData) => {
+    if (selectedDocDataMessage?.find(msg => msg.id === message.id)) {
+      setSelectedDocDataMessage(prev => {
+        const filteredMsgs = prev?.filter(msg => msg.id !== message.id);
+
+        if (filteredMsgs?.length === 0) {
+          setIsSelectMessagesOn(false);
+          return null;
+        } else {
+          return filteredMsgs ?? null;
+        }
+      });
+    } else {
+      setSelectedDocDataMessage(prev =>
+        prev === null ? [message] : [...prev, message]
+      );
+    }
+  };
+
+  const handleCloseModal = (e?: React.MouseEvent<HTMLDivElement>) => {
+    if (
+      e &&
+      e.target instanceof Element &&
+      e.target.id &&
+      selectedDocDataMessage &&
+      isSelectMessagesOn &&
+      selectedDocDataMessage?.length >= 1
+    ) {
+      return;
+    }
+
+    if (selectedDocDataMessage !== null) {
+      setSelectedDocDataMessage(null);
+      setIsSelectMessagesOn(false);
+    }
   };
 
   async function deleteFilesAndDocs(
@@ -462,7 +484,10 @@ const MessageList: FC = () => {
 
   return (
     <>
-      <div className="relative h-full w-full py-1" onClick={handleCloseModal}>
+      <div
+        className="relative h-full w-full py-1"
+        onClick={e => handleCloseModal(e)}
+      >
         <Scrollbars
           ref={scrollbarsRef}
           autoHide
@@ -493,6 +518,8 @@ const MessageList: FC = () => {
                         msg => msg.id === message.id
                       );
 
+                    // const isSelectedMsg = selectedDocDataMessage?.find(msg=>msg)
+
                     return (
                       <div
                         className={`flex justify-center p-0.5 rounded-xl ${
@@ -502,7 +529,30 @@ const MessageList: FC = () => {
                         onContextMenu={e =>
                           handleClickRigthButtonMessage(message, e)
                         }
+                        onClick={() =>
+                          isSelectMessagesOn &&
+                          handleToggleSelectedMessage(message)
+                        }
+                        id="documentDataMsg"
                       >
+                        {isSelectMessagesOn && currentItem ? (
+                          <svg width={20} height={20} id="select">
+                            <use
+                              href={sprite + '#icon-select'}
+                              fill="#FFFFFF"
+                            />
+                          </svg>
+                        ) : (
+                          isSelectMessagesOn &&
+                          !currentItem && (
+                            <svg width={20} height={20} id="not-select">
+                              <use
+                                href={sprite + '#icon-not-select'}
+                                fill="#FFFFFF"
+                              />
+                            </svg>
+                          )
+                        )}
                         <MessageItem
                           msg={message}
                           isNearBottom={!isScrollDownButtonVisible}
@@ -540,70 +590,75 @@ const MessageList: FC = () => {
               )}
             </div>
           </button>
-          // <button
-          //   onClick={scrollToBottom}
-          //   className="absolute bottom-32 right-10 bg-white p-2 rounded-full "
-          // >
-          //   <svg
-          //     className="rotate-180"
-          //     strokeWidth="0"
-          //     viewBox="0 0 320 512"
-          //     height="24"
-          //     width="24"
-          //     xmlns="http://www.w3.org/2000/svg"
-          //   >
-          //     <path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"></path>
-          //   </svg>
-          // </button>
         )}
       </div>
-      {groupedMessages && selectedDocDataMessage !== null && (
-        <MessageContextMenuModal
-          closeModal={handleCloseModal}
-          modalPosition={modalPosition}
-        >
-          <div className="w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto">
-            {selectedDocDataMessage &&
-              selectedDocDataMessage[0]?.data()?.senderUserID ===
-                currentUserUID && (
-                <button
-                  className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-                  onClick={handleChooseEditMessage}
+      {groupedMessages &&
+        selectedDocDataMessage &&
+        selectedDocDataMessage.length && (
+          <MessageContextMenuModal
+            closeModal={handleCloseModal}
+            modalPosition={modalPosition}
+          >
+            <div className="w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto">
+              {selectedDocDataMessage &&
+                selectedDocDataMessage.length === 1 &&
+                selectedDocDataMessage[0]?.data()?.senderUserID ===
+                  currentUserUID && (
+                  <button
+                    className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
+                    onClick={handleChooseEditMessage}
+                  >
+                    <svg width={20} height={20}>
+                      <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
+                    </svg>
+                    <span>{t('ContextMenu.Edit')}</span>
+                  </button>
+                )}
+
+              {selectedDocDataMessage && (
+                <CopyToClipboard
+                  text={textFromSelectedMsgs() || ''}
+                  onCopy={handleSuccessClickCopyTextMsg}
                 >
-                  <svg width={20} height={20}>
-                    <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
-                  </svg>
-                  <span>{t('ContextMenu.Edit')}</span>
-                </button>
+                  <button className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md">
+                    <svg width={20} height={20}>
+                      <use href={sprite + '#icon-copy'} fill="#FFFFFF" />
+                    </svg>
+                    <span>{t('ContextMenu.Copy')}</span>
+                  </button>
+                </CopyToClipboard>
               )}
 
-            {selectedDocDataMessage && (
-              <CopyToClipboard
-                // text={selectedDocDataMessage?.data()?.message}
-                text={textFromSelectedMsgs() || ''}
-                onCopy={handleSuccessClickCopyTextMsg}
+              <button
+                className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
+                onClick={handleDeleteMessage}
               >
-                <button className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md">
-                  <svg width={20} height={20}>
-                    <use href={sprite + '#icon-copy'} fill="#FFFFFF" />
-                  </svg>
-                  <span>{t('ContextMenu.Copy')}</span>
-                </button>
-              </CopyToClipboard>
-            )}
-
-            <button
+                <svg width={20} height={20}>
+                  <use href={sprite + '#icon-delete-button'} fill="#FFFFFF" />
+                </svg>
+                <span>{t('ContextMenu.Delete')}</span>
+              </button>
+              <button
+                className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
+                onClick={handleToggleSelectOn}
+              >
+                <svg width={20} height={20}>
+                  <use href={sprite + '#icon-select'} fill="#FFFFFF" />
+                </svg>
+                <span>Select</span>
+              </button>
+              {/* <button
               className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
               onClick={handleDeleteMessage}
             >
               <svg width={20} height={20}>
-                <use href={sprite + '#icon-delete-button'} fill="#FFFFFF" />
+                <use href={sprite + '#icon-not-select'} fill="#FFFFFF" />
               </svg>
               <span>{t('ContextMenu.Delete')}</span>
-            </button>
-          </div>
-        </MessageContextMenuModal>
-      )}
+            </button> */}
+            </div>
+          </MessageContextMenuModal>
+        )}
     </>
   );
 };
