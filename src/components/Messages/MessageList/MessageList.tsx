@@ -1,38 +1,35 @@
-import { useEffect, useState, useRef, FC, useLayoutEffect } from 'react';
+import { useEffect, useState, useRef, FC } from 'react';
 import {
   DocumentData,
   collection,
-  deleteDoc,
-  doc,
   onSnapshot,
   orderBy,
   query,
-  updateDoc,
 } from 'firebase/firestore';
-import { deleteObject, ref } from 'firebase/storage';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useTranslation } from 'react-i18next';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { toast } from 'react-toastify';
+// import { CopyToClipboard } from 'react-copy-to-clipboard';
+// import { toast } from 'react-toastify';
 
 import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
 import MessageItem from '@components/Messages/MessageItem/MessageItem';
 import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
-import { db, storage } from '@myfirebase/config';
+import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
+// import { textFromSelectedMsgs } from './utils/textFromSelectedMsgs';
+// import { handleDeleteMessage } from './utils/handleDeleteMessage';
 import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
+import ContextMenu from '../ContextMenu/ContextMenu';
 
 const MessageList: FC = () => {
   const [groupedMessages, setGroupedMessages] =
     useState<IGroupedMessages | null>(null);
   const [isScrollDownButtonVisible, setIsScrollDownButtonVisible] =
     useState(false);
-  const [selectedDocDataMessage, setSelectedDocDataMessage] =
-    useState<DocumentData | null>(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [isLoadedContent, setIsLoadedContent] = useState(false);
   const scrollbarsRef = useRef<Scrollbars>(null);
@@ -40,10 +37,16 @@ const MessageList: FC = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { t } = useTranslation();
 
-  const currentUserUID = useChatStore(state => state.currentUser.uid);
-  const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
-  const updateEditingMessage = useChatStore(
-    state => state.updateEditingMessage
+  const { chatUID } = useChatStore(state => state.currentChatInfo);
+  const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
+  const updateIsSelectedMessages = useChatStore(
+    state => state.updateIsSelectedMessages
+  );
+  const selectedDocDataMessage = useChatStore(
+    state => state.selectedDocDataMessage
+  );
+  const updateSelectedDocDataMessage = useChatStore(
+    state => state.updateSelectedDocDataMessage
   );
 
   const length = useLengthOfMyUnreadMsgs(
@@ -51,12 +54,28 @@ const MessageList: FC = () => {
     false
   );
 
-  console.log('screen --> MessageList');
+  console.log('isSelectedMessages', isSelectedMessages);
+
+  // console.log('screen --> MessageList');
+
+  // тоглит чат форму вместо кнопок интерфейса выбраных сообщений
+  useEffect(() => {
+    if (!isSelectedMessages) {
+      updateSelectedDocDataMessage(null);
+    }
+  }, [isSelectedMessages, updateSelectedDocDataMessage]);
+
+  // если убрал последний селект то убираються кнопки интерфейса выбраных сообщений и квадратики для селектов
+  useEffect(() => {
+    if (selectedDocDataMessage === null) {
+      updateIsSelectedMessages(false);
+    }
+  }, [selectedDocDataMessage, updateIsSelectedMessages]);
 
   // еффект ждет пока загрузятся фотки на странице, чтобы не было скачков,
   // далее таймаут чтобы успели попасть в дом дерево и уже там по селектору взять их
   // и посмотреть на их load
-  useLayoutEffect(() => {
+  useEffect(() => {
     // Проверяем, был ли таймер уже запущен
     if (
       !isLoadedContent &&
@@ -64,11 +83,11 @@ const MessageList: FC = () => {
       msgListRef.current &&
       !timeoutRef.current
     ) {
-      // scrollToBottom();
       quickScrollBottom();
 
       timeoutRef.current = setTimeout(() => {
         const imagesInMessages = msgListRef?.current?.querySelectorAll('img');
+        console.log('imagesInMessages', imagesInMessages);
         if (imagesInMessages && imagesInMessages.length > 0) {
           // console.log('imagesInMessages', imagesInMessages);
 
@@ -88,8 +107,6 @@ const MessageList: FC = () => {
               await Promise.all([...images].map(img => loadImage(img.src)))
                 .then(() => quickScrollBottom())
                 .then(() => setIsLoadedContent(true));
-
-              // scrollToBottom();
             } catch (error) {
               console.error('Error loading images:', error);
             }
@@ -98,11 +115,10 @@ const MessageList: FC = () => {
           loadAllImages(imagesInMessages);
         } else {
           // если нету фото делаем скролл вниз
-          // scrollToBottom();
           quickScrollBottom();
           setIsLoadedContent(true);
         }
-      }, 250);
+      }, 300);
     }
 
     return () => {
@@ -141,10 +157,11 @@ const MessageList: FC = () => {
     );
 
     const unsubChatMessages = onSnapshot(queryParams, snapshot => {
-      // console.log('snapshot.metadata', snapshot.metadata);
-      // console.log('snapshot.docs', snapshot.docs);
+      // console.log('snapshot.metadata.fromCache', snapshot.metadata.fromCache);
+      // console.log(snapshot.docs);
       // if (snapshot.metadata.fromCache === false) {
-      // console.log('snapshot', snapshot.metadata.fromCache);
+      //   setIsLoadedContent(false);
+      // }
       const updatedMessages: DocumentData[] = snapshot.docs;
 
       // Группировка сообщений по дате (та что sticky)
@@ -164,8 +181,6 @@ const MessageList: FC = () => {
       // console.log('groupedMsgs', groupedMsgs);
 
       setGroupedMessages(groupedMsgs);
-
-      // }
     });
 
     return () => {
@@ -183,6 +198,12 @@ const MessageList: FC = () => {
       localStorage.removeItem('currentChatId');
     };
   }, [chatUID]);
+
+  // сброс выделеных сообщений через селект при смене чата
+  useEffect(() => {
+    updateSelectedDocDataMessage(null);
+    updateIsSelectedMessages(false);
+  }, [chatUID, updateIsSelectedMessages, updateSelectedDocDataMessage]);
 
   // надо тротл добавить чтобы не так часто срабатывало
   const handleScroll = () => {
@@ -202,8 +223,13 @@ const MessageList: FC = () => {
     if (e) {
       e.preventDefault();
 
-      const chatContainerEl =
-        e.currentTarget.parentElement?.parentElement?.parentElement;
+      // сброс предидущего значения перед слудующим
+      if (isSelectedMessages) {
+        updateIsSelectedMessages(false);
+      }
+
+      const chatContainerEl = document.getElementById('scrollbars');
+      console.log(chatContainerEl);
       const rect = chatContainerEl?.getBoundingClientRect();
       const containerTop = rect?.top;
       const containerLeft = rect?.left;
@@ -242,146 +268,51 @@ const MessageList: FC = () => {
       }
     }
 
-    if (selectedDocDataMessage?.id === message.id) {
-      setSelectedDocDataMessage(null);
-    } else {
-      setSelectedDocDataMessage(message);
-    }
-  };
-
-  const handleCloseModal = () => {
-    if (selectedDocDataMessage !== null) setSelectedDocDataMessage(null);
-  };
-
-  const handleDeleteMessage = async () => {
-    if (!groupedMessages) return;
-    const mergedArray: DocumentData[] = Object.values(groupedMessages).reduce(
-      (acc, currentArray) => acc.concat(currentArray),
-      []
-    );
-
     if (
-      chatUID &&
-      mergedArray &&
       selectedDocDataMessage !== null &&
-      currentUserUID &&
-      userUID &&
-      selectedDocDataMessage
+      selectedDocDataMessage.find(msg => msg.id === message.id) !== undefined
     ) {
-      const arrayURLsOfFiles = selectedDocDataMessage?.data()?.file;
+      updateSelectedDocDataMessage(null);
+    } else {
+      updateSelectedDocDataMessage([message]);
+    }
+  };
 
-      if (arrayURLsOfFiles) {
-        const promisesArrOfURLs = arrayURLsOfFiles.map(
-          (el: { url: string }) => {
-            const desertRef = ref(storage, el.url);
+  const handleToggleSelectedMessage = (message: DocumentData) => {
+    if (selectedDocDataMessage?.find(msg => msg.id === message.id)) {
+      updateSelectedDocDataMessage(prev => {
+        const filteredMsgs = prev?.filter(msg => msg.id !== message.id);
 
-            return deleteObject(desertRef);
-          }
-        );
-
-        await Promise.all(promisesArrOfURLs);
-      }
-
-      await deleteDoc(
-        doc(db, 'chats', chatUID, 'messages', selectedDocDataMessage.id)
-      ).then(() => {
-        handleCloseModal();
-      });
-
-      // если последнее сообщение то ставим последнее сообщение messages[selectedItemIndexForOpenModal - 1]
-      if (mergedArray.length > 1) {
-        // тут в ифе по идее условие если последнее сообщение здесь
-        if (
-          selectedDocDataMessage.id === mergedArray[mergedArray.length - 1].id
-        ) {
-          const lastFiles = mergedArray[mergedArray.length - 2].data()?.file;
-
-          const lastMessage = lastFiles
-            ? `${String.fromCodePoint(128206)} ${lastFiles.length} file(s) ${
-                mergedArray[mergedArray.length - 2].data().message
-              }`
-            : mergedArray[mergedArray.length - 2].data().message;
-
-          const senderUserIDMessage =
-            mergedArray[mergedArray.length - 2].data().senderUserID;
-
-          const lastDateMessage =
-            mergedArray[mergedArray.length - 2].data().date;
-
-          // здесь надо переписывать последнее сообщение мне и напарнику после удаления
-          await updateDoc(doc(db, 'userChats', currentUserUID), {
-            [chatUID + '.lastMessage']: lastMessage,
-            [chatUID + '.senderUserID']: senderUserIDMessage,
-            [chatUID + '.date']: lastDateMessage,
-          });
-
-          // =====================================================
-          await updateDoc(doc(db, 'userChats', userUID), {
-            [chatUID + '.lastMessage']: lastMessage,
-            [chatUID + '.senderUserID']: senderUserIDMessage,
-            [chatUID + '.date']: lastDateMessage,
-          });
+        if (filteredMsgs?.length === 0) {
+          return null;
+        } else {
+          return filteredMsgs ?? null;
         }
-      } else {
-        // пустую строку с пробелом чтобы не падала ошибка
-        await updateDoc(doc(db, 'userChats', currentUserUID), {
-          [chatUID + '.lastMessage']: ' ',
-          [chatUID + '.senderUserID']: ' ',
-          [chatUID + '.date']: ' ',
-        });
-
-        // =====================================================
-        await updateDoc(doc(db, 'userChats', userUID), {
-          [chatUID + '.lastMessage']: ' ',
-          [chatUID + '.senderUserID']: ' ',
-          [chatUID + '.date']: ' ',
-        });
-      }
-
-      toast.success(t('Toasts.DeleteMessageSuccess'));
-
-      const inputElement = document.getElementById('chatFormInput')!;
-      inputElement.focus();
+      });
+    } else {
+      updateSelectedDocDataMessage(prev =>
+        prev === null ? [message] : [...prev, message]
+      );
     }
   };
 
-  const handleChooseEditMessage = () => {
-    if (!groupedMessages) return;
-    const mergedArray: DocumentData[] = Object.values(groupedMessages).reduce(
-      (acc, currentArray) => acc.concat(currentArray),
-      []
-    );
+  const handleCloseModal = (e?: React.MouseEvent<HTMLDivElement>) => {
+    if (
+      e &&
+      e.target instanceof Element &&
+      e.target.id &&
+      selectedDocDataMessage &&
+      isSelectedMessages &&
+      selectedDocDataMessage?.length >= 1
+    ) {
+      return;
+    }
 
-    if (chatUID && mergedArray && selectedDocDataMessage !== null) {
-      const editingMessageInfo = {
-        selectedMessage: selectedDocDataMessage,
-        isLastMessage:
-          selectedDocDataMessage.id === mergedArray[mergedArray.length - 1].id
-            ? true
-            : false,
-      };
-
-      updateEditingMessage(editingMessageInfo);
-      handleCloseModal();
-
-      const inputElement = document.getElementById('chatFormInput')!;
-      inputElement.focus();
+    if (selectedDocDataMessage !== null) {
+      updateSelectedDocDataMessage(null);
+      updateIsSelectedMessages(false);
     }
   };
-
-  const handleSuccessClickCopyTextMsg = () => {
-    toast.success(t('Toasts.CopyToClipboard'));
-    handleCloseModal();
-
-    const inputElement = document.getElementById('chatFormInput')!;
-    inputElement.focus();
-  };
-
-  // const scrollToBottom = () => {
-  //   msgListRef?.current?.lastElementChild.scrollIntoView({
-  //     behavior: 'smooth',
-  //   });
-  // };
 
   const quickScrollBottom = () => {
     const list = msgListRef?.current;
@@ -396,13 +327,12 @@ const MessageList: FC = () => {
     const lastMessage = list?.lastElementChild;
     if (list && lastMessage) {
       lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
-      // lastMessage.scrollIntoView();
     }
   };
 
   return (
     <>
-      <div className="relative h-full w-full py-1" onClick={handleCloseModal}>
+      <div className="h-full w-full py-1">
         <Scrollbars
           ref={scrollbarsRef}
           autoHide
@@ -411,6 +341,7 @@ const MessageList: FC = () => {
             height: 'calc(100% - 56px - 96px)',
           }}
           onScroll={handleScroll}
+          id="scrollbars"
         >
           <ul
             ref={msgListRef}
@@ -427,22 +358,50 @@ const MessageList: FC = () => {
                     </p>
                   </div>
                   {groupedMessages[date].map((message: DocumentData) => {
-                    const currentItem =
-                      selectedDocDataMessage?.id === message.id;
+                    const currentItem = selectedDocDataMessage?.find(
+                      msg => msg.id === message.id
+                    );
 
                     return (
                       <div
-                        className={`flex justify-center p-0.5 rounded-xl ${
+                        className={`flex justify-center items-center gap-x-5 p-0.5 rounded-xl ${
                           currentItem && 'bg-currentContextMenuMessage'
+                        } ${
+                          isSelectedMessages &&
+                          'hover:cursor-pointer hover:outline outline-1 outline-white'
                         }`}
                         key={message.id}
                         onContextMenu={e =>
                           handleClickRigthButtonMessage(message, e)
                         }
+                        onClick={() =>
+                          isSelectedMessages &&
+                          handleToggleSelectedMessage(message)
+                        }
+                        id="documentDataMsg"
                       >
+                        {isSelectedMessages && currentItem ? (
+                          <svg width={32} height={32} id="select">
+                            <use
+                              href={sprite + '#icon-select'}
+                              fill="#FFFFFF"
+                            />
+                          </svg>
+                        ) : (
+                          isSelectedMessages &&
+                          !currentItem && (
+                            <svg width={32} height={32} id="not-select">
+                              <use
+                                href={sprite + '#icon-not-select'}
+                                fill="#FFFFFF"
+                              />
+                            </svg>
+                          )
+                        )}
                         <MessageItem
                           msg={message}
                           isNearBottom={!isScrollDownButtonVisible}
+                          isSelectedMessages={isSelectedMessages}
                         />
                       </div>
                     );
@@ -452,7 +411,9 @@ const MessageList: FC = () => {
           </ul>
         </Scrollbars>
 
-        {!isLoadedContent && <MessagesSkeleton scrollbarsRef={scrollbarsRef} />}
+        <MessagesSkeleton
+          isLoadedContent={isLoadedContent}
+        />
 
         {isScrollDownButtonVisible && isLoadedContent && (
           <button
@@ -477,66 +438,17 @@ const MessageList: FC = () => {
               )}
             </div>
           </button>
-          // <button
-          //   onClick={scrollToBottom}
-          //   className="absolute bottom-32 right-10 bg-white p-2 rounded-full "
-          // >
-          //   <svg
-          //     className="rotate-180"
-          //     strokeWidth="0"
-          //     viewBox="0 0 320 512"
-          //     height="24"
-          //     width="24"
-          //     xmlns="http://www.w3.org/2000/svg"
-          //   >
-          //     <path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"></path>
-          //   </svg>
-          // </button>
         )}
       </div>
-      {groupedMessages && selectedDocDataMessage !== null && (
+      {groupedMessages && selectedDocDataMessage && (
         <MessageContextMenuModal
           closeModal={handleCloseModal}
           modalPosition={modalPosition}
         >
-          <div className="w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto">
-            {selectedDocDataMessage?.data()?.senderUserID ===
-              currentUserUID && (
-              <button
-                className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-                onClick={handleChooseEditMessage}
-              >
-                <svg width={20} height={20}>
-                  <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
-                </svg>
-                <span>{t('ContextMenu.Edit')}</span>
-              </button>
-            )}
-
-            {selectedDocDataMessage?.data()?.message && (
-              <CopyToClipboard
-                text={selectedDocDataMessage?.data()?.message}
-                onCopy={handleSuccessClickCopyTextMsg}
-              >
-                <button className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md">
-                  <svg width={20} height={20}>
-                    <use href={sprite + '#icon-copy'} fill="#FFFFFF" />
-                  </svg>
-                  <span>{t('ContextMenu.Copy')}</span>
-                </button>
-              </CopyToClipboard>
-            )}
-
-            <button
-              className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-              onClick={handleDeleteMessage}
-            >
-              <svg width={20} height={20}>
-                <use href={sprite + '#icon-delete-button'} fill="#FFFFFF" />
-              </svg>
-              <span>{t('ContextMenu.Delete')}</span>
-            </button>
-          </div>
+          <ContextMenu
+            groupedMessages={groupedMessages}
+            handleCloseModal={handleCloseModal}
+          />
         </MessageContextMenuModal>
       )}
     </>

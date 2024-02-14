@@ -9,16 +9,25 @@ import useMakeReadMsg from '@hooks/useMakeReadMsg';
 import formatTimeMsg from '@utils/formatTimeMsg';
 import { IMessageItemProps } from '@interfaces/IMessageItemProps';
 
-const MessageItem: FC<IMessageItemProps> = ({ msg, isNearBottom }) => {
+const MessageItem: FC<IMessageItemProps> = ({
+  msg,
+  isNearBottom,
+  isSelectedMessages,
+}) => {
   const [indexClickedPhoto, setIndexClickedPhoto] = useState(-1);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 
   useMakeReadMsg(msg, isNearBottom); // делает при монтировании чата прочитаные мои сообщения
 
-  const handleClickPhoto = useCallback((index: number) => {
-    setIndexClickedPhoto(index);
-  }, []);
+  const handleClickPhoto = useCallback(
+    (index: number) => {
+      if (!isSelectedMessages) {
+        setIndexClickedPhoto(index);
+      }
+    },
+    [isSelectedMessages]
+  );
 
   const myUID = currentUserUID === msg.data().senderUserID;
 
@@ -27,6 +36,7 @@ const MessageItem: FC<IMessageItemProps> = ({ msg, isNearBottom }) => {
       className={`relative flex w-full items-end xl:w-8/12 ${
         myUID ? 'justify-end' : 'justify-start'
       }`}
+      id="message"
     >
       <div
         className={`flex flex-col py-2 px-4 rounded-xl ${

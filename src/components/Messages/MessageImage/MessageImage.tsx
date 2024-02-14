@@ -36,6 +36,7 @@ const MessageImage: FC<IMessageImageProps> = ({
       style={imageStyle}
       loading="lazy"
       onClick={() => handleClickPhoto(index)}
+      id='img'
     />
   );
 };

@@ -5,12 +5,8 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { IMessagesSkeletonProps } from '@interfaces/IMessagesSkeletonProps';
 
 const MessagesSkeleton: FC<IMessagesSkeletonProps> = memo(
-  ({ scrollbarsRef }) => {
-    if (!scrollbarsRef.current) {
-      return null;
-    }
-
-    const clientHeight = scrollbarsRef.current.getClientHeight();
+  ({ isLoadedContent }) => {
+    const clientHeight = window.innerHeight - 56 - 96;
 
     const quantitySceletons = Math.floor(clientHeight / 90);
 
@@ -19,8 +15,9 @@ const MessagesSkeleton: FC<IMessagesSkeletonProps> = memo(
 
     return (
       <>
-        {clientHeight && (
+        {!isLoadedContent && (
           <div
+            id="skeleton"
             className="absolute w-full xl:w-8/12 z-10 left-1/2 transform -translate-x-1/2"
             style={{
               top: 56,
