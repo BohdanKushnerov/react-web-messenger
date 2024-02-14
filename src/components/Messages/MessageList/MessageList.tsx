@@ -8,8 +8,8 @@ import {
 } from 'firebase/firestore';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useTranslation } from 'react-i18next';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { toast } from 'react-toastify';
+// import { CopyToClipboard } from 'react-copy-to-clipboard';
+// import { toast } from 'react-toastify';
 
 import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
 import MessageItem from '@components/Messages/MessageItem/MessageItem';
@@ -17,12 +17,13 @@ import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
-import { textFromSelectedMsgs } from './utils/textFromSelectedMsgs';
-import { handleDeleteMessage } from './utils/handleDeleteMessage';
+// import { textFromSelectedMsgs } from './utils/textFromSelectedMsgs';
+// import { handleDeleteMessage } from './utils/handleDeleteMessage';
 import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
+import ContextMenu from '../ContextMenu/ContextMenu';
 
 const MessageList: FC = () => {
   const [groupedMessages, setGroupedMessages] =
@@ -36,11 +37,10 @@ const MessageList: FC = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { t } = useTranslation();
 
-  const currentUserUID = useChatStore(state => state.currentUser.uid);
-  const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
-  const updateEditingMessage = useChatStore(
-    state => state.updateEditingMessage
-  );
+  const { chatUID } = useChatStore(state => state.currentChatInfo);
+  // const updateEditingMessage = useChatStore(
+  //   state => state.updateEditingMessage
+  // );
   const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
   const updateIsSelectedMessages = useChatStore(
     state => state.updateIsSelectedMessages
@@ -202,6 +202,12 @@ const MessageList: FC = () => {
     };
   }, [chatUID]);
 
+  // сброс выделеных сообщений через селект при смене чата
+  useEffect(() => {
+    updateSelectedDocDataMessage(null);
+    updateIsSelectedMessages(false);
+  }, [chatUID, updateIsSelectedMessages, updateSelectedDocDataMessage]);
+
   // надо тротл добавить чтобы не так часто срабатывало
   const handleScroll = () => {
     const scrollHeight = scrollbarsRef.current?.getScrollHeight() || 0;
@@ -272,15 +278,6 @@ const MessageList: FC = () => {
     }
   };
 
-  const handleToggleSelectOn = () => {
-    if (isSelectedMessages) {
-      updateSelectedDocDataMessage(null);
-      updateIsSelectedMessages(false);
-    } else {
-      updateIsSelectedMessages(true);
-    }
-  };
-
   const handleToggleSelectedMessage = (message: DocumentData) => {
     if (selectedDocDataMessage?.find(msg => msg.id === message.id)) {
       updateSelectedDocDataMessage(prev => {
@@ -315,44 +312,6 @@ const MessageList: FC = () => {
       updateSelectedDocDataMessage(null);
       updateIsSelectedMessages(false);
     }
-  };
-
-  const handleChooseEditMessage = () => {
-    if (!groupedMessages) return;
-    const mergedArray: DocumentData[] = Object.values(groupedMessages).reduce(
-      (acc, currentArray) => acc.concat(currentArray),
-      []
-    );
-
-    if (
-      chatUID &&
-      mergedArray &&
-      selectedDocDataMessage &&
-      selectedDocDataMessage.length === 1
-    ) {
-      const editingMessageInfo = {
-        selectedMessage: selectedDocDataMessage[0],
-        isLastMessage:
-          selectedDocDataMessage[0].id ===
-          mergedArray[mergedArray.length - 1].id
-            ? true
-            : false,
-      };
-
-      updateEditingMessage(editingMessageInfo);
-      handleCloseModal();
-
-      const inputElement = document.getElementById('chatFormInput')!;
-      inputElement.focus();
-    }
-  };
-
-  const handleSuccessClickCopyTextMsg = () => {
-    toast.success(t('Toasts.CopyToClipboard'));
-    handleCloseModal();
-
-    const inputElement = document.getElementById('chatFormInput')!;
-    inputElement.focus();
   };
 
   const quickScrollBottom = () => {
@@ -409,8 +368,11 @@ const MessageList: FC = () => {
 
                     return (
                       <div
-                        className={`flex justify-center p-0.5 rounded-xl ${
+                        className={`flex justify-center items-center gap-x-5 p-0.5 rounded-xl ${
                           currentItem && 'bg-currentContextMenuMessage'
+                        } ${
+                          isSelectedMessages &&
+                          'hover:cursor-pointer hover:outline outline-1 outline-white'
                         }`}
                         key={message.id}
                         onContextMenu={e =>
@@ -423,7 +385,7 @@ const MessageList: FC = () => {
                         id="documentDataMsg"
                       >
                         {isSelectedMessages && currentItem ? (
-                          <svg width={20} height={20} id="select">
+                          <svg width={32} height={32} id="select">
                             <use
                               href={sprite + '#icon-select'}
                               fill="#FFFFFF"
@@ -432,7 +394,7 @@ const MessageList: FC = () => {
                         ) : (
                           isSelectedMessages &&
                           !currentItem && (
-                            <svg width={20} height={20} id="not-select">
+                            <svg width={32} height={32} id="not-select">
                               <use
                                 href={sprite + '#icon-not-select'}
                                 fill="#FFFFFF"
@@ -479,79 +441,17 @@ const MessageList: FC = () => {
           </button>
         )}
       </div>
-      {groupedMessages &&
-        selectedDocDataMessage &&
-        selectedDocDataMessage.length && (
-          <MessageContextMenuModal
-            closeModal={handleCloseModal}
-            modalPosition={modalPosition}
-          >
-            {!isSelectedMessages && (
-              <div
-                className={`w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto ${
-                  isSelectedMessages && 'hidden'
-                }`}
-              >
-                {selectedDocDataMessage &&
-                  selectedDocDataMessage.length === 1 &&
-                  selectedDocDataMessage[0]?.data()?.senderUserID ===
-                    currentUserUID && (
-                    <button
-                      className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-                      onClick={handleChooseEditMessage}
-                    >
-                      <svg width={20} height={20}>
-                        <use href={sprite + '#icon-pencil'} fill="#FFFFFF" />
-                      </svg>
-                      <span>{t('ContextMenu.Edit')}</span>
-                    </button>
-                  )}
-
-                {selectedDocDataMessage && (
-                  <CopyToClipboard
-                    text={textFromSelectedMsgs(selectedDocDataMessage) || ''}
-                    onCopy={handleSuccessClickCopyTextMsg}
-                  >
-                    <div className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md">
-                      <svg width={20} height={20}>
-                        <use href={sprite + '#icon-copy'} fill="#FFFFFF" />
-                      </svg>
-                      <span>{t('ContextMenu.Copy')}</span>
-                    </div>
-                  </CopyToClipboard>
-                )}
-
-                <button
-                  className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-                  onClick={() =>
-                    handleDeleteMessage(
-                      selectedDocDataMessage,
-                      chatUID,
-                      currentUserUID,
-                      userUID,
-                      t,
-                      handleCloseModal
-                    )
-                  }
-                >
-                  <svg width={20} height={20}>
-                    <use href={sprite + '#icon-delete-button'} fill="#FFFFFF" />
-                  </svg>
-                  <span>{t('ContextMenu.Delete')}</span>
-                </button>
-                <button
-                  className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-                  onClick={handleToggleSelectOn}
-                >
-                  <svg width={20} height={20}>
-                    <use href={sprite + '#icon-select'} fill="#FFFFFF" />
-                  </svg>
-                  <span>Select</span>
-                </button>
-              </div>
-            )}
-          </MessageContextMenuModal>
-        )}
+      {groupedMessages && selectedDocDataMessage && (
+        <MessageContextMenuModal
+          closeModal={handleCloseModal}
+          modalPosition={modalPosition}
+        >
+          <ContextMenu
+            groupedMessages={groupedMessages}
+            handleCloseModal={handleCloseModal}
+          />
+        </MessageContextMenuModal>
+      )}
     </>
   );
 };

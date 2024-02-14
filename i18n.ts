@@ -50,6 +50,7 @@ const resources = {
         Edit: 'EDIT',
         Copy: 'COPY',
         Delete: 'DELETE',
+        Select: 'SELECT',
       },
       FileInput: {
         Files: 'file(s)',
@@ -121,6 +122,7 @@ const resources = {
         Edit: 'РЕДАГУВАТИ',
         Copy: 'КОПІЮВАТИ',
         Delete: 'ВИДАЛИТИ',
+        Select: 'ВИБРАТИ',
       },
       FileInput: {
         Files: 'файл(и)',
@@ -190,9 +192,10 @@ const resources = {
         EmptyMessage: 'Пустое сообщение... =)',
       },
       ContextMenu: {
-        Edit: 'РЕДАКТИРОВАТЬ',
+        Edit: 'РЕДАКТИР.',
         Copy: 'КОПИРОВАТЬ',
         Delete: 'УДАЛИТЬ',
+        Select: 'ВЫБРАТЬ',
       },
       FileInput: {
         Files: 'файл(ы)',

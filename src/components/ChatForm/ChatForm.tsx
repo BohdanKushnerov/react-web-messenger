@@ -96,14 +96,14 @@ const ChatForm: FC = () => {
     setIsRecording(prev => !prev);
   };
 
-    const handleSuccessClickCopyTextMsg = () => {
-      toast.success(t('Toasts.CopyToClipboard'));
-      // handleCloseModal();
-      updateIsSelectedMessages(false);
+  const handleSuccessClickCopyTextMsg = () => {
+    toast.success(t('Toasts.CopyToClipboard'));
+    // handleCloseModal();
+    updateIsSelectedMessages(false);
 
-      const inputElement = document.getElementById('chatFormInput')!;
-      inputElement.focus();
-    };
+    const inputElement = document.getElementById('chatFormInput')!;
+    inputElement.focus();
+  };
 
   return (
     <div className="absolute bottom-0 left-0 z-10 w-full h-24 flex flex-col items-center">
@@ -199,50 +199,53 @@ const ChatForm: FC = () => {
           </>
         </div>
       ) : (
-        <div className="relative flex flex-col justify-center w-full h-full shadow-whiteTopShadow xl:w-8/12">
-          <div
-            className={`flex flex-row h-10 py-1 pl-10 pr-14 rounded-3xl bg-zinc-300 dark:bg-mySeacrhBcg text-black dark:text-white border-2 border-transparent outline-none`}
-          >
-            <button
-              className="text-black"
-              onClick={() => updateIsSelectedMessages(false)}
+        <Suspense>
+          <div className="flex flex-col justify-center w-full h-full shadow-whiteTopShadow xl:w-8/12">
+            <div
+              className={`relative flex flex-row h-14 px-8 rounded-3xl bg-zinc-300 dark:bg-mySeacrhBcg text-black dark:text-white border-2 border-transparent outline-none`}
             >
-              CLOSE
-            </button>
+              <ButtonClose
+                handleClickButtonClose={() => updateIsSelectedMessages(false)}
+              />
 
-            {selectedDocDataMessage && <CopyToClipboard
-              text={textFromSelectedMsgs(selectedDocDataMessage) || ''}
-              onCopy={handleSuccessClickCopyTextMsg}
-            >
-              <div className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md">
-                <svg width={20} height={20}>
-                  <use href={sprite + '#icon-copy'} fill="#FFFFFF" />
-                </svg>
-                {/* <span>{t('ContextMenu.Copy')}</span> */}
+              <div className="flex flex-row gap-x-1 ml-auto">
+                {selectedDocDataMessage && (
+                  <CopyToClipboard
+                    text={textFromSelectedMsgs(selectedDocDataMessage) || ''}
+                    onCopy={handleSuccessClickCopyTextMsg}
+                  >
+                    <div className="flex items-center justify-center w-10 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md">
+                      <svg width={20} height={20}>
+                        <use href={sprite + '#icon-copy'} fill="#FFFFFF" />
+                      </svg>
+                      {/* <span>{t('ContextMenu.Copy')}</span> */}
+                    </div>
+                  </CopyToClipboard>
+                )}
+
+                <button
+                  className="flex items-center justify-center w-10 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
+                  onClick={() =>
+                    handleDeleteMessage(
+                      selectedDocDataMessage,
+                      chatUID,
+                      currentUserUID,
+                      userUID,
+                      t,
+                      undefined,
+                      updateIsSelectedMessages
+                    )
+                  }
+                >
+                  <svg width={20} height={20}>
+                    <use href={sprite + '#icon-delete-button'} fill="red" />
+                  </svg>
+                  {/* <span>{t('ContextMenu.Delete')}</span> */}
+                </button>
               </div>
-            </CopyToClipboard>}
-
-            <button
-              className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-              onClick={() =>
-                handleDeleteMessage(
-                  selectedDocDataMessage,
-                  chatUID,
-                  currentUserUID,
-                  userUID,
-                  t,
-                  undefined,
-                  updateIsSelectedMessages
-                )
-              }
-            >
-              <svg width={20} height={20}>
-                <use href={sprite + '#icon-delete-button'} fill="#FFFFFF" />
-              </svg>
-              {/* <span>{t('ContextMenu.Delete')}</span> */}
-            </button>
+            </div>
           </div>
-        </div>
+        </Suspense>
       )}
     </div>
   );

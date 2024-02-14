@@ -9,7 +9,10 @@ import useMakeReadMsg from '@hooks/useMakeReadMsg';
 import formatTimeMsg from '@utils/formatTimeMsg';
 import { IMessageItemProps } from '@interfaces/IMessageItemProps';
 
-const MessageItem: FC<IMessageItemProps> = ({ msg, isNearBottom }) => {
+const MessageItem: FC<IMessageItemProps> = ({
+  msg,
+  isNearBottom,
+}) => {
   const [indexClickedPhoto, setIndexClickedPhoto] = useState(-1);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
