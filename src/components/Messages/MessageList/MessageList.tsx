@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, FC } from 'react';
+import { useEffect, useState, useRef, FC, Suspense, lazy } from 'react';
 import {
   DocumentData,
   collection,
@@ -8,22 +8,23 @@ import {
 } from 'firebase/firestore';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useTranslation } from 'react-i18next';
-// import { CopyToClipboard } from 'react-copy-to-clipboard';
-// import { toast } from 'react-toastify';
 
 import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
 import MessageItem from '@components/Messages/MessageItem/MessageItem';
-import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
+// import ContextMenu from '../ContextMenu/ContextMenu';
+// import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
+const ContextMenu = lazy(() => import('../ContextMenu/ContextMenu'));
+const MessageContextMenuModal = lazy(
+  () =>
+    import('@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu')
+);
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
-// import { textFromSelectedMsgs } from './utils/textFromSelectedMsgs';
-// import { handleDeleteMessage } from './utils/handleDeleteMessage';
 import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
-import ContextMenu from '../ContextMenu/ContextMenu';
 
 const MessageList: FC = () => {
   const [groupedMessages, setGroupedMessages] =
@@ -49,12 +50,16 @@ const MessageList: FC = () => {
     state => state.updateSelectedDocDataMessage
   );
 
+  const resetSelectedMessages = useChatStore(
+    state => state.resetSelectedMessages
+  );
+
   const length = useLengthOfMyUnreadMsgs(
     [chatUID, { lastMessage: '', senderUserID: '', userUID: '' }],
     false
   );
 
-  console.log('isSelectedMessages', isSelectedMessages);
+  console.log('isLoadedContent', isLoadedContent);
 
   // console.log('screen --> MessageList');
 
@@ -178,7 +183,7 @@ const MessageList: FC = () => {
         return acc;
       }, {});
 
-      // console.log('groupedMsgs', groupedMsgs);
+      console.log('groupedMsgs', groupedMsgs);
 
       setGroupedMessages(groupedMsgs);
     });
@@ -201,9 +206,8 @@ const MessageList: FC = () => {
 
   // сброс выделеных сообщений через селект при смене чата
   useEffect(() => {
-    updateSelectedDocDataMessage(null);
-    updateIsSelectedMessages(false);
-  }, [chatUID, updateIsSelectedMessages, updateSelectedDocDataMessage]);
+    resetSelectedMessages();
+  }, [chatUID, resetSelectedMessages]);
 
   // надо тротл добавить чтобы не так часто срабатывало
   const handleScroll = () => {
@@ -301,16 +305,15 @@ const MessageList: FC = () => {
       e &&
       e.target instanceof Element &&
       e.target.id &&
-      selectedDocDataMessage &&
-      isSelectedMessages &&
-      selectedDocDataMessage?.length >= 1
+      // selectedDocDataMessage &&
+      // selectedDocDataMessage?.length !== 1 &&
+      isSelectedMessages
     ) {
       return;
     }
 
     if (selectedDocDataMessage !== null) {
-      updateSelectedDocDataMessage(null);
-      updateIsSelectedMessages(false);
+      resetSelectedMessages();
     }
   };
 
@@ -332,7 +335,7 @@ const MessageList: FC = () => {
 
   return (
     <>
-      <div className="h-full w-full py-1">
+      <div className="h-full w-full py-1" onClick={handleCloseModal}>
         <Scrollbars
           ref={scrollbarsRef}
           autoHide
@@ -411,9 +414,7 @@ const MessageList: FC = () => {
           </ul>
         </Scrollbars>
 
-        <MessagesSkeleton
-          isLoadedContent={isLoadedContent}
-        />
+        <MessagesSkeleton isLoadedContent={isLoadedContent} />
 
         {isScrollDownButtonVisible && isLoadedContent && (
           <button
@@ -441,15 +442,14 @@ const MessageList: FC = () => {
         )}
       </div>
       {groupedMessages && selectedDocDataMessage && (
-        <MessageContextMenuModal
-          closeModal={handleCloseModal}
-          modalPosition={modalPosition}
-        >
-          <ContextMenu
-            groupedMessages={groupedMessages}
-            handleCloseModal={handleCloseModal}
-          />
-        </MessageContextMenuModal>
+        <Suspense>
+          <MessageContextMenuModal
+            closeModal={handleCloseModal}
+            modalPosition={modalPosition}
+          >
+            <ContextMenu groupedMessages={groupedMessages} />
+          </MessageContextMenuModal>
+        </Suspense>
       )}
     </>
   );

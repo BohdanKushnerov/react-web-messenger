@@ -4,6 +4,7 @@ const NavbarModal = lazy(
   () => import('@components/Modals/NavbarModal/NavbarModal')
 );
 import sprite from '@assets/sprite.svg';
+import ButtonLoader from '@components/Buttons/ButtonLoader/ButtonLoader';
 
 const Navbar: FC = () => {
   const [isModalOpen, setIsModelOpen] = useState(false);
@@ -15,7 +16,7 @@ const Navbar: FC = () => {
   return (
     <div>
       <div
-        className="w-12 h-10 flex justify-center items-center bg-transparent transition-all duration-300 hover:bg-zinc-300 hover:dark:bg-hoverGray rounded-full cursor-pointer"
+        className="relative w-12 h-10 flex justify-center items-center bg-transparent transition-all duration-300 hover:bg-zinc-300 hover:dark:bg-hoverGray rounded-full cursor-pointer"
         onClick={handleToggleModal}
       >
         <svg
@@ -26,7 +27,13 @@ const Navbar: FC = () => {
           <use href={sprite + '#icon-menu'} />
         </svg>
       </div>
-      <Suspense>
+      <Suspense
+        fallback={
+          <div className="absolute top-2 left-4">
+            <ButtonLoader size={40} />
+          </div>
+        }
+      >
         {isModalOpen && <NavbarModal handleToggleModal={handleToggleModal} />}
       </Suspense>
     </div>

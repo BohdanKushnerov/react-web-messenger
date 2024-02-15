@@ -1,5 +1,3 @@
-import { IFile } from '@interfaces/IFile';
-import { db, storage } from '@myfirebase/config';
 import {
   DocumentData,
   Firestore,
@@ -15,6 +13,9 @@ import {
 import { deleteObject, ref } from 'firebase/storage';
 import { TFunction } from 'i18next';
 import { toast } from 'react-toastify';
+
+import { db, storage } from '@myfirebase/config';
+import { IFile } from '@interfaces/IFile';
 
 const deleteFilesAndDocs = async (
   selectedDocDataMessage: DocumentData[],
@@ -66,8 +67,7 @@ export const handleDeleteMessage = async (
   currentUserUID: string | null,
   userUID: string | null,
   t: TFunction<'translation', undefined>,
-  closeModal?: () => void | undefined,
-  closeModalWithBoolean?: (boolean: boolean) => void | null
+  closeModal: () => void
 ) => {
   if (
     chatUID &&
@@ -77,12 +77,7 @@ export const handleDeleteMessage = async (
     selectedDocDataMessage
   ) {
     await deleteFilesAndDocs(selectedDocDataMessage, db, chatUID).then(() => {
-      if (closeModal) {
-        closeModal();
-      }
-      if (closeModalWithBoolean) {
-        closeModalWithBoolean(false);
-      }
+      closeModal();
     });
 
     const lastMessageFromStorage = await getLastMessage(chatUID, db);
