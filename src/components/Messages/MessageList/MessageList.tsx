@@ -25,6 +25,7 @@ import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
+import ButtonLoader from '@components/Buttons/ButtonLoader/ButtonLoader';
 
 const MessageList: FC = () => {
   const [groupedMessages, setGroupedMessages] =
@@ -442,7 +443,24 @@ const MessageList: FC = () => {
         )}
       </div>
       {groupedMessages && selectedDocDataMessage && (
-        <Suspense>
+        <Suspense
+          fallback={
+            <div
+              style={{
+                position: 'absolute',
+                top: modalPosition.top + 'px',
+                left: modalPosition.left + 'px',
+              }}
+              className="z-50 w-screen h-screen bg-transparent pointer-events-none"
+            >
+              <div
+                className={`w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto`}
+              >
+                <ButtonLoader size={200} />
+              </div>
+            </div>
+          }
+        >
           <MessageContextMenuModal
             closeModal={handleCloseModal}
             modalPosition={modalPosition}

@@ -11,9 +11,7 @@ interface IContextMenuProps {
   groupedMessages: IGroupedMessages | null;
 }
 
-const ContextMenu: FC<IContextMenuProps> = ({
-  groupedMessages,
-}) => {
+const ContextMenu: FC<IContextMenuProps> = ({ groupedMessages }) => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 
   const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
@@ -32,10 +30,7 @@ const ContextMenu: FC<IContextMenuProps> = ({
           {selectedDocDataMessage.length === 1 &&
             selectedDocDataMessage[0]?.data()?.senderUserID ===
               currentUserUID && (
-              <ButtonEdit
-                groupedMessages={groupedMessages}
-                color="white"
-              />
+              <ButtonEdit groupedMessages={groupedMessages} color="white" />
             )}
 
           <CopyButton color="white" />

@@ -8,7 +8,8 @@ interface IButtonLoaderProps {
 const ButtonLoader: FC<IButtonLoaderProps> = ({ size = 15 }) => {
   return (
     <ClipLoader
-      color={'rgb(63 63 70)'}
+      // color={'rgb(63 63 70)'}
+      color='white'
       size={size}
       aria-label="Loading Spinner"
       data-testid="loader"
