@@ -10,9 +10,9 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useTranslation } from 'react-i18next';
 
 import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
+import ButtonLoader from '@components/Buttons/ButtonLoader/ButtonLoader';
+import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
 import MessageItem from '@components/Messages/MessageItem/MessageItem';
-// import ContextMenu from '../ContextMenu/ContextMenu';
-// import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
 const ContextMenu = lazy(() => import('../ContextMenu/ContextMenu'));
 const MessageContextMenuModal = lazy(
   () =>
@@ -25,7 +25,6 @@ import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
-import ButtonLoader from '@components/Buttons/ButtonLoader/ButtonLoader';
 
 const MessageList: FC = () => {
   const [groupedMessages, setGroupedMessages] =
@@ -55,7 +54,7 @@ const MessageList: FC = () => {
     state => state.resetSelectedMessages
   );
 
-  const length = useLengthOfMyUnreadMsgs(
+  const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(
     [chatUID, { lastMessage: '', senderUserID: '', userUID: '' }],
     false
   );
@@ -355,7 +354,12 @@ const MessageList: FC = () => {
           >
             {groupedMessages &&
               Object.keys(groupedMessages).map(date => (
-                <li className="relative flex flex-col gap-2" key={date}>
+                <li
+                  className={`relative flex flex-col ${
+                    isSelectedMessages ? 'gap-0' : 'gap-2'
+                  }`}
+                  key={date}
+                >
                   <div className="flex justify-center sticky top-1 z-10 ">
                     <p className="px-2 py-0.5 w-min-0 whitespace-no-wrap rounded-xl bg-zinc-200/40 text-green-100 text-center">
                       {formatDateForGroupMessages(date, t)}
@@ -368,11 +372,11 @@ const MessageList: FC = () => {
 
                     return (
                       <div
-                        className={`flex justify-center items-center gap-x-5 p-0.5 rounded-xl ${
+                        className={`flex justify-center items-center gap-x-5 m-0.5 rounded-xl transition-all duration-150  ${
                           currentItem && 'bg-currentContextMenuMessage'
                         } ${
                           isSelectedMessages &&
-                          'hover:cursor-pointer hover:outline outline-1 outline-white'
+                          'hover:cursor-pointer hover:outline hover:outline-1 hover:outline-white'
                         }`}
                         key={message.id}
                         onContextMenu={e =>
@@ -418,28 +422,10 @@ const MessageList: FC = () => {
         <MessagesSkeleton isLoadedContent={isLoadedContent} />
 
         {isScrollDownButtonVisible && isLoadedContent && (
-          <button
-            className="absolute bottom-32 right-10 bg-white p-2 rounded-full"
-            onClick={scrollToBottom}
-          >
-            <div className="relative">
-              <svg
-                className="rotate-180"
-                strokeWidth="0"
-                viewBox="0 0 320 512"
-                height="24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"></path>
-              </svg>
-              {length > 0 && (
-                <span className="absolute bottom-0 right-0 transform translate-x-4 -mb-4 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
-                  {length}
-                </span>
-              )}
-            </div>
-          </button>
+          <ButtonScrollDown
+            scrollToBottom={scrollToBottom}
+            lengthOfUnreadMsgs={lengthOfUnreadMsgs}
+          />
         )}
       </div>
       {groupedMessages && selectedDocDataMessage && (

@@ -63,7 +63,7 @@ const ButtonEdit: FC<IButtonEditProps> = ({
 
   return (
     <button
-      className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
+      className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-zinc-600/90 hover:rounded-md"
       onClick={handleChooseEditMessage}
     >
       <svg width={20} height={20}>

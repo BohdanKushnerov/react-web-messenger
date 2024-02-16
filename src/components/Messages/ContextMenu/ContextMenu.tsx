@@ -33,7 +33,7 @@ const ContextMenu: FC<IContextMenuProps> = ({ groupedMessages }) => {
               <ButtonEdit groupedMessages={groupedMessages} color="white" />
             )}
 
-          <CopyButton color="white" />
+          <CopyButton white="white" dark="white" />
 
           <DeleteButton color="white" />
 

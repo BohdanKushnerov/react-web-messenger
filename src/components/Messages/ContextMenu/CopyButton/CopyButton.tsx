@@ -9,10 +9,15 @@ import sprite from '@assets/sprite.svg';
 
 interface ICopyButtonProps {
   textContent?: boolean;
-  color: string;
+  white?: string;
+  dark?: string;
 }
 
-const CopyButton: FC<ICopyButtonProps> = ({ textContent = true, color }) => {
+const CopyButton: FC<ICopyButtonProps> = ({
+  textContent = true,
+  white = 'white',
+  dark = 'white',
+}) => {
   const { t } = useTranslation();
 
   const selectedDocDataMessage = useChatStore(
@@ -40,10 +45,14 @@ const CopyButton: FC<ICopyButtonProps> = ({ textContent = true, color }) => {
           <div
             className={`flex items-center ${
               textContent ? 'justify-between' : 'justify-center'
-            }  w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md`}
+            }  w-full px-8 py-2 text-white transition-all duration-150 hover:cursor-pointer hover:bg-zinc-600/90 hover:rounded-md`}
           >
-            <svg width={20} height={20}>
-              <use href={sprite + '#icon-copy'} fill={color} />
+            <svg
+              width={20}
+              height={20}
+              className={`flex fill-${white} dark:fill-${dark}`}
+            >
+              <use href={sprite + '#icon-copy'} />
             </svg>
             {textContent && (
               <span className="text-base">{t('ContextMenu.Copy')}</span>

@@ -42,7 +42,13 @@ const Emoji: FC = () => {
       onMouseLeave={handleMouseLeaveEmoji}
     >
       {isShowEmoji && (
-        <Suspense fallback={<ButtonLoader size={40} />}>
+        <Suspense
+          fallback={
+            <div className="absolute">
+              <ButtonLoader size={40} />
+            </div>
+          }
+        >
           <EmojiPickerWindow />
         </Suspense>
       )}
