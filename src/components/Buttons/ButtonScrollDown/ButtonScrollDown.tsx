@@ -13,12 +13,12 @@ const ButtonScrollDown: FC<IButtonScrollDownProps> = ({
 }) => {
   return (
     <button
-      className="absolute bottom-32 right-10 bg-white p-2 rounded-full group hover:outline outline-1 outline-green-500"
+      className="absolute bottom-32 right-10 bg-white p-2 rounded-full group hover:scale-105 hover:outline outline-1 outline-green-500"
       onClick={scrollToBottom}
     >
       <div className="relative">
         <svg
-          className="rotate-180 group-hover:scale-125"
+          className="rotate-180 transition-all duration-150 group-hover:scale-125"
           width={24}
           height={24}
         >

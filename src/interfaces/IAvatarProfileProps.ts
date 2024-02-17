@@ -1,5 +1,5 @@
 export interface IAvatarProfileProps {
-  photoURL: string;
-  displayName: string;
+  photoURL: string | null;
+  displayName: string | null;
   size: string;
 }
