@@ -1,6 +1,6 @@
-import { MutableRefObject, RefObject } from "react";
+import { MutableRefObject, RefObject } from 'react';
 
-import drawCanvasFrame from "./drawCanvasFrame";
+import drawCanvasFrame from './drawCanvasFrame';
 
 const setupAudioAnalyzer = (
   streamData: MediaStream,

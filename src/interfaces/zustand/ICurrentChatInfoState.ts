@@ -1,4 +1,4 @@
-import { CurrentChatInfo } from 'types/CurrentChatInfo';
+import { CurrentChatInfo } from "types/CurrentChatInfo";
 
 export interface ICurrentChatInfoState {
   currentChatInfo: {

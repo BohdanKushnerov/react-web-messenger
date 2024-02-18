@@ -9,7 +9,7 @@ import {
 import { NavigateFunction } from 'react-router-dom';
 
 import { auth, db } from '@myfirebase/config';
-import handleSelectChat from '@utils/handleSelectChat';
+import handleSelectChat from '@utils/chatListItem/handleSelectChat';
 import { ChatListItemType } from 'types/ChatListItemType';
 
 // создаем общий ИД для общего чата + обновляем списки чатов у 2их юзеров(1. я как текущий и 2. тот которого выбрал)

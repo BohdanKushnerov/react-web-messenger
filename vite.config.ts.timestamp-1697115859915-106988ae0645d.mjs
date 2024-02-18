@@ -10,7 +10,7 @@ var vite_config_default = defineConfig({
       "@myfirebase": "/src/myfirebase",
       "@zustand": "/src/zustand",
       "@utils": "/src/utils",
-      // '@types': '/src/types',
+      '@myTypes': '/src/types',
       "@interfaces": "/src/interfaces",
       "@hooks": "/src/hooks"
     }

@@ -6,6 +6,7 @@ const FileInputModal = lazy(
 import useChatStore from '@zustand/store';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const FileInput: FC = () => {
   const [isModalAddFileOpen, setIsModalAddFileOpen] = useState(false);
@@ -66,7 +67,13 @@ const FileInput: FC = () => {
         />
       </button>
       {isModalAddFileOpen && (
-        <Suspense>
+        <Suspense
+          fallback={
+            <div className="absolute top-6 right-14">
+              <LoaderUIActions size={50} />
+            </div>
+          }
+        >
           <FileInputModal
             hiddenFileInput={hiddenFileInput}
             setIsModalAddFileOpen={setIsModalAddFileOpen}

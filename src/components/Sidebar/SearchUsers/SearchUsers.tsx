@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Search from '../../Inputs/Search/Search';
+import Search from '../../Inputs/SearchMsgsInput/SearchMsgsInput';
 import useChatStore from '@zustand/store';
 import '@i18n';
 

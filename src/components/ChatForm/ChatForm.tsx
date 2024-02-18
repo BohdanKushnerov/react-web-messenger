@@ -12,15 +12,18 @@ const ButtonClose = lazy(
 const ChatFormSelectedMsgs = lazy(
   () => import('@components/ChatForm/ChatFormSelectedMsgs/ChatFormSelectedMsgs')
 );
+import SendMessage from '@components/Buttons/ButtonSendMessage/ButtonSendMessage';
+import ButtonRecordAudio from '@components/Buttons/ButtonRecordAudio/ButtonRecordAudio';
 import useChatStore from '@zustand/store';
 import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
 import useTyping from '@hooks/useTyping';
 import useClearMessagesOnChatChange from '@hooks/useClearMessagesOnChatChange';
 import useEditingMessage from '@hooks/useEditingMessage';
-import handleUpdateEditMessage from '@utils/handleUpdateEditMessage';
-import handleSendMessage from '@utils/handleSendMessage';
+import handleUpdateEditMessage from '@utils/chatForm/handleUpdateEditMessage';
+import handleSendMessage from '@utils/chatForm/handleSendMessage';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const ChatForm: FC = () => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
@@ -112,7 +115,13 @@ const ChatForm: FC = () => {
                   </p>
                 </div>
                 <div className="absolute top-0 right-12">
-                  <Suspense>
+                  <Suspense
+                    fallback={
+                      <div className="absolute top-1 left-2">
+                        <LoaderUIActions size={40} />
+                      </div>
+                    }
+                  >
                     <ButtonClose
                       handleClickButtonClose={handleCancelEditingMessage}
                     />
@@ -136,36 +145,15 @@ const ChatForm: FC = () => {
                 onChange={handleChangeMessage}
               />
               {message ? (
-                <button
-                  className="flex justify-center items-center h-12 w-12 bg-transparent transition-all duration-300 hover:bg-zinc-100/20 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
-                  type="submit"
-                >
-                  <svg
-                    width={24}
-                    height={24}
-                    className="fill-zinc-200 dark:fill-zinc-400"
-                  >
-                    <use href={sprite + '#icon-send-message'} />
-                  </svg>
-                </button>
+                <SendMessage />
               ) : (
                 <>
                   {!isRecording ? (
-                    <button
-                      className="flex justify-center items-center h-12 w-12 bg-transparent transition-all duration-300 hover:bg-zinc-100/20 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
-                      type="button"
-                      onClick={handleToggleRecordingStatus}
-                    >
-                      <svg
-                        width={24}
-                        height={24}
-                        className="fill-zinc-200 dark:fill-zinc-400"
-                      >
-                        <use href={sprite + '#icon-mic'} />
-                      </svg>
-                    </button>
+                    <ButtonRecordAudio
+                      handleToggleRecordingStatus={handleToggleRecordingStatus}
+                    />
                   ) : (
-                    <Suspense>
+                    <Suspense fallback={<LoaderUIActions size={40} />}>
                       <RecordingAudio
                         isRecording={isRecording}
                         handleToggleRecordingStatus={

@@ -1,8 +1,8 @@
 import { FC, useEffect, useRef, useState } from 'react';
 
 import useChatStore from '@zustand/store';
-import handleSendAudio from '@utils/handleSendAudio';
-import setupAudioAnalyzer from '@utils/setupAudioAnalyzer';
+import handleSendAudio from '@utils/chatForm/handleSendAudio';
+import setupAudioAnalyzer from '@utils/chatForm/setupAudioAnalyzer';
 import { IRecordingAudioProps } from '@interfaces/IRecordingAudioProps';
 import sprite from '@assets/sprite.svg';
 
@@ -119,21 +119,6 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
           <canvas ref={canvasRef} width={200} height={20}></canvas>
         </div>
       }
-      {/* {recordingStatus === 'inactive' && (
-        <button
-          className="flex justify-center items-center h-12 w-12 bg-transparent transition-all duration-300 hover:bg-zinc-100/20 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
-          type="button"
-          onClick={startRecording}
-        >
-          <svg
-            width={24}
-            height={24}
-            className="fill-zinc-200 dark:fill-zinc-400"
-          >
-            <use href={sprite + '#icon-mic'} />
-          </svg>
-        </button>
-      )} */}
       {isRecording && (
         <>
           <button

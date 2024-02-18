@@ -17,8 +17,6 @@ const ChatList: FC = memo(() => {
             <ChatListItem key={chatInfo[0]} chatInfo={chatInfo} />
           ))}
       </ul>
-      {/* <BrowserTabTitle /> */}
-      
     </div>
   );
 });

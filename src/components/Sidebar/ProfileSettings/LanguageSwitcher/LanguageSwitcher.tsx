@@ -28,6 +28,7 @@ const LanguageSwitcher: FC = () => {
             changeLanguage('en');
             localStorage.setItem('language', 'en');
           }}
+          aria-label="Choose english language"
         >
           {t('English')}
         </button>
@@ -41,6 +42,7 @@ const LanguageSwitcher: FC = () => {
             changeLanguage('ua');
             localStorage.setItem('language', 'ua');
           }}
+          aria-label="Choose ukrainian language"
         >
           {t('Ukrainian')}
         </button>
@@ -54,6 +56,7 @@ const LanguageSwitcher: FC = () => {
             changeLanguage('ru');
             localStorage.setItem('language', 'ru');
           }}
+          aria-label="Choose russian language"
         >
           {t('Russian')}
         </button>

@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import { IFile } from '@interfaces/IFile';
 import { IMessageImageProps } from '@interfaces/IMessageImageProps';
 

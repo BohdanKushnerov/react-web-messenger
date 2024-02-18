@@ -3,10 +3,10 @@ import { signOut } from 'firebase/auth';
 import { useTranslation } from 'react-i18next';
 import { Transition } from 'react-transition-group';
 
-import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import LanguageSwitcher from '@components/LanguageSwitcher/LanguageSwitcher';
-import Theme from '@components/Sidebar/Theme/Theme';
 import ModalWindow from '../ModalWindow/ModalWindow';
+import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
+import LanguageSwitcher from '@components/Sidebar/ProfileSettings/LanguageSwitcher/LanguageSwitcher';
+import Theme from '@components/Sidebar/Theme/Theme';
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import useStartTransition from '@hooks/useStartTransition';
@@ -70,6 +70,7 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
                   <button
                     className="px-2 py-1 border border-zinc-600 dark:border-zinc-500 rounded-full transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
                     onClick={handleSignOut}
+                    aria-label="Sign Out"
                   >
                     {t('SignOut')}
                   </button>
@@ -77,6 +78,7 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
                 <button
                   className="px-2 py-1 border border-zinc-600 dark:border-zinc-500 rounded-full text-black dark:text-white transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
                   onClick={handleSettingsClick}
+                  aria-label="Profile settings"
                 >
                   {t('ProfileSettings')}
                 </button>

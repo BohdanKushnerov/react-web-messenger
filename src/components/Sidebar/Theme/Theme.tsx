@@ -31,6 +31,7 @@ const Theme: FC = () => {
           data-theme="light"
           disabled={isLightTheme}
           onClick={handleChangeTheme}
+          aria-label="Light theme"
         >
           <div className="flex justify-center items-center gap-1 pointer-events-none">
             <svg width={24} height={24} fill="currentColor">
@@ -47,6 +48,7 @@ const Theme: FC = () => {
           data-theme="dark"
           disabled={!isLightTheme}
           onClick={handleChangeTheme}
+          aria-label="Dark theme"
         >
           <div className="flex justify-center items-center gap-1 pointer-events-none">
             <svg width={24} height={24} fill="currentColor">

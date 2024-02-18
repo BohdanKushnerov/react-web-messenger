@@ -241,6 +241,7 @@ const FileInputModal: FC<IFileInputModalProps> = ({
               className="px-2 py-1 border border-gray-600 rounded-full text-black dark:text-white transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
               type="submit"
               disabled={Object.keys(uploadFilesStatus).length > 0}
+              aria-label="Send"
             >
               {t('Send')}
             </button>

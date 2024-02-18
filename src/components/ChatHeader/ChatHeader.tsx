@@ -9,6 +9,7 @@ import useChatStore from '@zustand/store';
 import useResizeWindow from '@hooks/useResizeWindow';
 import { IChatHeaderProps } from '@interfaces/IChatHeaderProps';
 import sprite from '@assets/sprite.svg';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const ChatHeader: FC<IChatHeaderProps> = ({ setIsShowSearchMessages }) => {
   const navigate = useNavigate();
@@ -33,7 +34,13 @@ const ChatHeader: FC<IChatHeaderProps> = ({ setIsShowSearchMessages }) => {
   return (
     <div className="absolute top-0 left-0 z-10 flex gap-4 items-center w-full h-14 px-6 bg-gray-200 dark:bg-myBlackBcg shadow-bottomShadow">
       {!isFullScreen && (
-        <Suspense>
+        <Suspense
+          fallback={
+            <div>
+              <LoaderUIActions size={40} />
+            </div>
+          }
+        >
           <ButtonArrow
             handleClickButtonArrow={handleClickNavigateToSidebarScreen}
           />

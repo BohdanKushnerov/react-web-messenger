@@ -1,9 +1,9 @@
 import { FC } from 'react';
-
-import sprite from '@assets/sprite.svg';
-import { handleDeleteMessage } from '@utils/messages/handleDeleteMessage';
-import useChatStore from '@zustand/store';
 import { useTranslation } from 'react-i18next';
+
+import useChatStore from '@zustand/store';
+import { handleDeleteMessage } from '@utils/messages/handleDeleteMessage';
+import sprite from '@assets/sprite.svg';
 
 interface IDeleteButtonProps {
   textContent?: boolean;
@@ -39,6 +39,7 @@ const DeleteButton: FC<IDeleteButtonProps> = ({
           resetSelectedMessages
         )
       }
+      aria-label="Delete message"
     >
       <svg width={20} height={20}>
         <use href={sprite + '#icon-delete-button'} fill={color} />

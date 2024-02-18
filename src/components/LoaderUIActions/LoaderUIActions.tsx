@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { ClipLoader } from 'react-spinners';
 
-interface IButtonLoaderProps {
+interface ILoaderUIActionsProps {
   size?: number;
 }
 
-const ButtonLoader: FC<IButtonLoaderProps> = ({ size = 15 }) => {
+const LoaderUIActions: FC<ILoaderUIActionsProps> = ({ size = 15 }) => {
   return (
     <ClipLoader
       // color={'rgb(63 63 70)'}
@@ -17,4 +17,4 @@ const ButtonLoader: FC<IButtonLoaderProps> = ({ size = 15 }) => {
   );
 };
 
-export default ButtonLoader;
+export default LoaderUIActions;

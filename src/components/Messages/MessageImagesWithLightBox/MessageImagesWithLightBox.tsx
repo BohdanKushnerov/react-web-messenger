@@ -5,6 +5,7 @@ const Lightbox = lazy(() => import('yet-another-react-lightbox'));
 import 'yet-another-react-lightbox/styles.css';
 import { IMessageImagesWithLightBoxProps } from '@interfaces/IMessageImagesWithLightBoxProps';
 import { IFile } from '@interfaces/IFile';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
   msg,
@@ -65,7 +66,13 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
           return null;
         })}
       {indexClickedPhoto >= 0 && (
-        <Suspense>
+        <Suspense
+          fallback={
+            <div className="absolute">
+              <LoaderUIActions size={200} />
+            </div>
+          }
+        >
           <Lightbox
             index={indexClickedPhoto}
             slides={slidesForLightBox}

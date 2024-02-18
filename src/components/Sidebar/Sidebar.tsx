@@ -10,6 +10,7 @@ const ProfileSettings = lazy(
   () => import('@components/Sidebar/ProfileSettings/ProfileSettings')
 );
 import useChatStore from '@zustand/store';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const Sidebar: FC = memo(() => {
   const nodeRefSidebarDefault = useRef(null);
@@ -57,7 +58,13 @@ const Sidebar: FC = memo(() => {
       </Transition>
 
       {sidebarScreen === 'profileSettings' && (
-        <Suspense>
+        <Suspense
+          fallback={
+            <div className="absolute left-1/2 -translate-x-1/2">
+              <LoaderUIActions size={200} />
+            </div>
+          }
+        >
           <ProfileSettings />
         </Suspense>
       )}

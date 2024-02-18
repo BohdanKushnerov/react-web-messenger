@@ -1,4 +1,4 @@
-import { SidebarScreenValue } from 'types/SidebarScreenValue';
+import { SidebarScreenValue } from "types/SidebarScreenValue";
 
 export interface ISidebarScreenState {
   sidebarScreen: SidebarScreenValue;

@@ -1,12 +1,12 @@
 import { FC, Suspense, lazy, useState } from 'react';
 
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 const EmojiPickerWindow = lazy(
   () => import('@components/ChatForm/EmojiPickerWindow/EmojiPickerWindow')
 );
 import useChatStore from '@zustand/store';
 import useCloseModal from '@hooks/useCloseModal';
 import sprite from '@assets/sprite.svg';
-import ButtonLoader from '@components/Buttons/ButtonLoader/ButtonLoader';
 
 const Emoji: FC = () => {
   const [isShowEmoji, setIsShowEmoji] = useState(false);
@@ -45,7 +45,7 @@ const Emoji: FC = () => {
         <Suspense
           fallback={
             <div className="absolute">
-              <ButtonLoader size={40} />
+              <LoaderUIActions size={40} />
             </div>
           }
         >

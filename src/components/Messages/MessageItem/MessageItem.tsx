@@ -6,7 +6,7 @@ import MessageTriangle from '@components/Messages/MessageTriangle/MessageTriangl
 import IsReadMsg from '@components/Messages/IsReadMsg/IsReadMsg';
 import useChatStore from '@zustand/store';
 import useMakeReadMsg from '@hooks/useMakeReadMsg';
-import formatTimeMsg from '@utils/formatTimeMsg';
+import formatTimeMsg from '@utils/messages/formatTimeMsg';
 import { IMessageItemProps } from '@interfaces/IMessageItemProps';
 
 const MessageItem: FC<IMessageItemProps> = ({

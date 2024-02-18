@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import useChatStore from '@zustand/store';
 import useSearchUsers from '@hooks/useSearchUsers';
-import handleCreateChat from '@utils/handleCreateChat';
+import handleCreateChat from '@utils/chatListItem/handleCreateChat';
 
 const SearchChatList: FC = () => {
   const navigate = useNavigate();

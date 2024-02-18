@@ -2,17 +2,16 @@ import { FC, useState } from 'react';
 import { ConfirmationResult, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { E164Number } from 'libphonenumber-js';
+import { toast } from 'react-toastify';
 
 import MyPhoneInput from '@components/Inputs/MyPhoneInput/MyPhoneInput';
 import CodeInput from '@components/Inputs/CodeInput/CodeInput';
+import AuthConfirmButton from '@components/Buttons/ButtonAuthConfirm/ButtonAuthConfirm';
 import { auth, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import handleSubmitVerifyCode from './utils/handleSubmitVerifyCode';
-import setUpRecaptcha from './utils/setUpRecaptcha';
+import handleSubmitVerifyCode from '@utils/auth/handleSubmitVerifyCode';
+import setUpRecaptcha from '@utils/auth/setUpRecaptcha';
 import { AuthSteps } from 'types/AuthSteps';
-import AuthConfirmButton from '@components/Buttons/AuthConfirmButton/AuthConfirmButton';
-import { toast } from 'react-toastify';
-
 import authStep1 from '@assets/auth-step1.webp';
 import authStep2 from '@assets/auth-step2.webp';
 import authStep3 from '@assets/auth-step3.webp';

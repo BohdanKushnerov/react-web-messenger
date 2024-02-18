@@ -1,8 +1,5 @@
-import { ChatListItemType } from 'types/ChatListItemType';
+import { ChatListItemType } from "types/ChatListItemType";
 
 export interface IUseUnreadMessagesInChatListItem {
-  (
-    lengthOfMyUnreadMsgs: number,
-    chatInfo: ChatListItemType
-  ): void;
+  (lengthOfMyUnreadMsgs: number, chatInfo: ChatListItemType): void;
 }
