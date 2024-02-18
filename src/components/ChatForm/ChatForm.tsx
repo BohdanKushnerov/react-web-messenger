@@ -23,6 +23,7 @@ import handleUpdateEditMessage from '@utils/chatForm/handleUpdateEditMessage';
 import handleSendMessage from '@utils/chatForm/handleSendMessage';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const ChatForm: FC = () => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
@@ -114,7 +115,13 @@ const ChatForm: FC = () => {
                   </p>
                 </div>
                 <div className="absolute top-0 right-12">
-                  <Suspense>
+                  <Suspense
+                    fallback={
+                      <div className="absolute top-1 left-2">
+                        <LoaderUIActions size={40} />
+                      </div>
+                    }
+                  >
                     <ButtonClose
                       handleClickButtonClose={handleCancelEditingMessage}
                     />
@@ -146,7 +153,7 @@ const ChatForm: FC = () => {
                       handleToggleRecordingStatus={handleToggleRecordingStatus}
                     />
                   ) : (
-                    <Suspense>
+                    <Suspense fallback={<LoaderUIActions size={40} />}>
                       <RecordingAudio
                         isRecording={isRecording}
                         handleToggleRecordingStatus={

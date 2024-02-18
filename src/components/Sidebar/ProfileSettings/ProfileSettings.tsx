@@ -13,6 +13,7 @@ import useStartTransition from '@hooks/useStartTransition';
 import handleClickChangeDisplayName from '@utils/profileSettings/handleClickChangeDisplayName';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const ProfileSettings: FC = () => {
   const [newDisplayName, setNewDisplayName] = useState(
@@ -178,7 +179,13 @@ const ProfileSettings: FC = () => {
             )}
           </div>
           {isModalPhotoProfileOpen && (
-            <Suspense>
+            <Suspense
+              fallback={
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <LoaderUIActions size={200} />
+                </div>
+              }
+            >
               <ProfileSettingsModal
                 photoProfileInputRef={photoProfileInputRef}
                 handleToggleProfilePhotoModal={handleToggleProfilePhotoModal}

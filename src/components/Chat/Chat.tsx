@@ -4,9 +4,12 @@ import { useTranslation } from 'react-i18next';
 import ChatForm from '../ChatForm/ChatForm';
 import ChatHeader from '../ChatHeader/ChatHeader';
 import MessageList from '@components/Messages/MessageList/MessageList';
-const SearchMessages = lazy(() => import('@components/ChatHeader/SearchMessages/SearchMessages'));
+const SearchMessages = lazy(
+  () => import('@components/ChatHeader/SearchMessages/SearchMessages')
+);
 import useChatStore from '@zustand/store';
 import '@i18n';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const Chat: FC = memo(() => {
   const [isShowSearchMessages, setIsShowSearchMessages] = useState(false);
@@ -35,7 +38,7 @@ const Chat: FC = memo(() => {
       </div>
       {isShowSearchMessages && (
         <div className="absolute top-0 right-0 z-10 md:static md:z-0 w-2/3 md:w-2/4 p-2 h-full border-l border-zinc-800 bg-gray-200 dark:bg-myBlackBcg">
-          <Suspense>
+          <Suspense fallback={<LoaderUIActions size={50} />}>
             <SearchMessages setIsShowSearchMessages={setIsShowSearchMessages} />
           </Suspense>
         </div>
