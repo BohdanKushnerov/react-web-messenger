@@ -19,17 +19,24 @@ Before getting started, make sure you have:
 ## Installation
 
 ### Messenger Features:
-- Registration using a phone number.
+- Registration using a phone number (Firebase phone authentication).
+- Ability to replace the profile photo; by default, an avatar with your initials will be automatically generated.
+- Ability to change the profile name.
+- Change chat theme (Light/Dark).
+- Change chat language (English/Ukrainian/Russian).
 - Interaction with other users in real-time.
 - Convenient and intuitive user interface.
 - Search for already registered users to create a chat.
 - User status (online/offline, typing status in the current chat).
 - Message sending (also indicating whether a message has been read or unread, both in the sidebar and in the chat).
-- Unread message count displayed in the sidebar.
+- The count of unread messages is displayed in the sidebar of the chat.
 - Ability to send files and photos in the chat.
-- Editing the text content of your message and deleting your own messages from the chat.
-- Search for messages in the chat.
+- View photos in each message separately in a slider (using yet-another-react-lightbox).
+- Record audio messages.
+- Ability to select multiple messages using a context menu for copying text content and deleting messages.
+- Search for messages in the chat (case-sensitive).
 - Emoji support for text messages in the chat.
+- Modify the Browser Tab Title and Icon upon Receiving a New Unread Message.
 
 ## Running Instructions:
 
