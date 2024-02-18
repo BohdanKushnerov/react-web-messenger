@@ -1,12 +1,12 @@
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
-import useChatStore from '@zustand/store';
-import { DocumentData } from 'firebase/firestore';
 import { FC } from 'react';
-import sprite from '@assets/sprite.svg';
+import { DocumentData } from 'firebase/firestore';
 import { useTranslation } from 'react-i18next';
 
+import useChatStore from '@zustand/store';
+import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import sprite from '@assets/sprite.svg';
+
 interface IButtonEditProps {
-  // selectedDocDataMessage: DocumentData[];
   groupedMessages: IGroupedMessages | null;
   textContent?: boolean;
   color: string;
@@ -65,6 +65,7 @@ const ButtonEdit: FC<IButtonEditProps> = ({
     <button
       className="flex items-center justify-between w-full px-8 py-2 text-white hover:cursor-pointer hover:bg-zinc-600/90 hover:rounded-md"
       onClick={handleChooseEditMessage}
+      aria-label="Edit message"
     >
       <svg width={20} height={20}>
         <use href={sprite + '#icon-pencil'} fill={color} />

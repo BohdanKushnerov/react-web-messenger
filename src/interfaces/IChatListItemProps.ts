@@ -1,4 +1,4 @@
-import { ChatListItemType } from 'types/ChatListItemType';
+import { ChatListItemType } from '@myTypes';
 
 export interface IChatListItemProps {
   chatInfo: ChatListItemType;

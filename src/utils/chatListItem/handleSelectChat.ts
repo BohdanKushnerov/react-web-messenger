@@ -1,4 +1,4 @@
-import { ChatListItemType } from 'types/ChatListItemType';
+import { ChatListItemType } from '@myTypes';
 
 const handleSelectChat = (
   chat: ChatListItemType,

@@ -10,7 +10,7 @@ import {
 
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import { ChatListItemType } from 'types/ChatListItemType';
+import { ChatListItemType } from '@myTypes';
 // import audio from '@assets/notify.mp3'
 
 const useLengthOfMyUnreadMsgs = (

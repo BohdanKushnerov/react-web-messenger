@@ -10,7 +10,7 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useTranslation } from 'react-i18next';
 
 import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
-import ButtonLoader from '@components/Buttons/ButtonLoader/ButtonLoader';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
 import MessageItem from '@components/Messages/MessageItem/MessageItem';
 const ContextMenu = lazy(() => import('../ContextMenu/ContextMenu'));
@@ -21,7 +21,7 @@ const MessageContextMenuModal = lazy(
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
-import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
+import formatDateForGroupMessages from '@utils/messages/formatDateForGroupMessages';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
@@ -442,7 +442,7 @@ const MessageList: FC = () => {
               <div
                 className={`w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto`}
               >
-                <ButtonLoader size={200} />
+                <LoaderUIActions size={200} />
               </div>
             </div>
           }

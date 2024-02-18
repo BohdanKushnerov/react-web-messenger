@@ -3,7 +3,7 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import { ChatListItemType } from 'types/ChatListItemType';
+import { ChatListItemType } from '@myTypes';
 
 const useIsReadMyLastMessage = (chatInfo: ChatListItemType) => {
   const [isReadMyLastMessage, setIsReadMyLastMessage] = useState(true);

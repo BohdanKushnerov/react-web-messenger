@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import { useTranslation } from 'react-i18next';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
-import { textFromSelectedMsgs } from '@utils/messages/textFromSelectedMsgs';
 import useChatStore from '@zustand/store';
+import { textFromSelectedMsgs } from '@utils/messages/textFromSelectedMsgs';
 import sprite from '@assets/sprite.svg';
 
 interface ICopyButtonProps {

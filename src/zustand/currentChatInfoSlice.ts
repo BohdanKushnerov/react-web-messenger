@@ -2,7 +2,7 @@ import { StateCreator } from 'zustand';
 import { produce } from 'immer';
 
 import { ICurrentChatInfoState } from '@interfaces/zustand/ICurrentChatInfoState';
-import { CurrentChatInfo } from 'types/CurrentChatInfo';
+import { CurrentChatInfo } from '@myTypes';
 
 const createCurrentChatInfoState: StateCreator<
   ICurrentChatInfoState

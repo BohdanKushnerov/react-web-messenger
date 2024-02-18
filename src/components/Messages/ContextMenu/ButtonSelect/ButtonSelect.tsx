@@ -31,6 +31,7 @@ const ButtonSelect: FC<IButtonSelectProps> = ({ textContent = true }) => {
     <button
       className="flex items-center justify-between w-full px-8 py-2 text-white transition-all duration-150 hover:cursor-pointer hover:bg-zinc-600/90 hover:rounded-md"
       onClick={handleToggleSelectOn}
+      aria-label="Select message"
     >
       <svg width={16} height={16}>
         <use href={sprite + '#icon-select'} fill="#FFFFFF" />

@@ -10,7 +10,7 @@ import {
 
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import capitalizeName from '@utils/capitalizeFirstLetterName';
+import capitalizeName from '@utils/searchChatList/capitalizeFirstLetterName';
 
 const useSearchUsers = () => {
   const [searchChatList, setSearchChatList] = useState<QuerySnapshot<

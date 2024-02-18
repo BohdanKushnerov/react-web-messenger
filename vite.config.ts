@@ -12,7 +12,7 @@ export default defineConfig({
       '@myfirebase': '/src/myfirebase',
       '@zustand': '/src/zustand',
       '@utils': '/src/utils',
-      // '@types': '/src/types',
+      // '@myTypes': '/src/myTypes',
       '@interfaces': '/src/interfaces',
       '@hooks': '/src/hooks',
       '@i18n': '/i18n',

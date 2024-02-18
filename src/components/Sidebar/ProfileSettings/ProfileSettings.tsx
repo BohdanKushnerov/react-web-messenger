@@ -3,16 +3,16 @@ import { Transition } from 'react-transition-group';
 import { useTranslation } from 'react-i18next';
 
 import ButtonArrow from '@components/Buttons/ButtonArrow/ButtonArrow';
+import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 const ProfileSettingsModal = lazy(
   () => import('@components/Modals/ProfileSettingsModal/ProfileSettingsModal')
 );
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import useStartTransition from '@hooks/useStartTransition';
-import handleClickChangeDisplayName from '@utils/handleClickChangeDisplayName';
+import handleClickChangeDisplayName from '@utils/profileSettings/handleClickChangeDisplayName';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
-import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 
 const ProfileSettings: FC = () => {
   const [newDisplayName, setNewDisplayName] = useState(
@@ -27,7 +27,6 @@ const ProfileSettings: FC = () => {
 
   const { uid, displayName } = useChatStore(state => state.currentUser);
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
-  // const sidebarScreen = useChatStore(state => state.sidebarScreen);
   const updateSidebarScreen = useChatStore(state => state.updateSidebarScreen);
 
   console.log('screen --> ProfileSettings');
@@ -170,6 +169,7 @@ const ProfileSettings: FC = () => {
                       t
                     )
                   }
+                  aria-label="Change display name"
                   disabled={displayName === newDisplayName}
                 >
                   {t('ChangeName')}
