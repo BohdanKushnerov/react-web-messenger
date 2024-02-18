@@ -16,9 +16,7 @@ const createIsSelectedMessagesState: StateCreator<
       })
     );
   },
-  updateSelectedDocDataMessage: (
-    msg
-  ) => {
+  updateSelectedDocDataMessage: msg => {
     set(
       produce(state => {
         state.selectedDocDataMessage =
@@ -27,6 +25,14 @@ const createIsSelectedMessagesState: StateCreator<
                 state.selectedDocDataMessage ?? []
               )
             : msg;
+      })
+    );
+  },
+  resetSelectedMessages: () => {
+    set(
+      produce(state => {
+        state.isSelectedMessages = false;
+        state.selectedDocDataMessage = null;
       })
     );
   },

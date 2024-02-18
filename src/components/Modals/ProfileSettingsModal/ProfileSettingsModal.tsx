@@ -17,6 +17,7 @@ import { auth, db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import { IProfileSettingsModalProps } from '@interfaces/IProfileSettingsModalProps';
 import '@i18n';
+import { toast } from 'react-toastify';
 
 const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
   photoProfileInputRef,
@@ -75,6 +76,7 @@ const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
                     );
 
                     resolve(downloadURL);
+                    toast.success(t('ChangePhotoToast'));
                   } catch (error) {
                     // console.log(
                     //   'profilePhotoUrlFromStorage',
@@ -126,7 +128,7 @@ const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
           <ButtonClose handleClickButtonClose={handleToggleProfilePhotoModal} />
           {photoProfileInputRef.current?.files && (
             <img
-              className="rounded-full"
+              className="rounded-full max-h-[200px] max-w-[200px]"
               src={URL.createObjectURL(photoProfileInputRef.current?.files[0])}
               alt={photoProfileInputRef.current?.files[0].name}
               width={200}

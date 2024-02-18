@@ -1,5 +1,4 @@
 import { FC, Suspense, lazy, useRef, useState } from 'react';
-import Avatar from 'react-avatar';
 import { Transition } from 'react-transition-group';
 import { useTranslation } from 'react-i18next';
 
@@ -13,6 +12,7 @@ import useStartTransition from '@hooks/useStartTransition';
 import handleClickChangeDisplayName from '@utils/handleClickChangeDisplayName';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
+import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 
 const ProfileSettings: FC = () => {
   const [newDisplayName, setNewDisplayName] = useState(
@@ -98,12 +98,10 @@ const ProfileSettings: FC = () => {
             >
               {auth.currentUser?.photoURL && auth.currentUser.displayName ? (
                 <>
-                  <img
-                    className="rounded-full hover:shadow-mainShadow"
-                    width={200}
-                    height={200}
-                    src={auth.currentUser?.photoURL}
-                    alt={auth.currentUser?.displayName}
+                  <AvatarProfile
+                    photoURL={auth.currentUser.photoURL}
+                    displayName={auth.currentUser.displayName}
+                    size="200"
                   />
                   <svg
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-105 fill-white"
@@ -115,18 +113,25 @@ const ProfileSettings: FC = () => {
                 </>
               ) : (
                 <>
-                  <Avatar
-                    className="rounded-full"
-                    name={`${auth.currentUser?.displayName}`}
-                    size="200"
-                  />
-                  <svg
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hover:scale-105"
-                    width={48}
-                    height={48}
-                  >
-                    <use href={sprite + '#icon-photo-focus'} fill="#000000" />
-                  </svg>
+                  {auth.currentUser && (
+                    <>
+                      <AvatarProfile
+                        photoURL={auth.currentUser.photoURL}
+                        displayName={auth.currentUser.displayName}
+                        size="200"
+                      />
+                      <svg
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hover:scale-105"
+                        width={48}
+                        height={48}
+                      >
+                        <use
+                          href={sprite + '#icon-photo-focus'}
+                          fill="#000000"
+                        />
+                      </svg>
+                    </>
+                  )}
                 </>
               )}
             </div>
@@ -161,7 +166,8 @@ const ProfileSettings: FC = () => {
                     handleClickChangeDisplayName(
                       newDisplayName,
                       uid,
-                      updateCurrentUser
+                      updateCurrentUser,
+                      t
                     )
                   }
                   disabled={displayName === newDisplayName}

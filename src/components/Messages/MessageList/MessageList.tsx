@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, FC } from 'react';
+import { useEffect, useState, useRef, FC, Suspense, lazy } from 'react';
 import {
   DocumentData,
   collection,
@@ -8,22 +8,23 @@ import {
 } from 'firebase/firestore';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useTranslation } from 'react-i18next';
-// import { CopyToClipboard } from 'react-copy-to-clipboard';
-// import { toast } from 'react-toastify';
 
 import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
+import ButtonLoader from '@components/Buttons/ButtonLoader/ButtonLoader';
+import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
 import MessageItem from '@components/Messages/MessageItem/MessageItem';
-import MessageContextMenuModal from '@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu';
+const ContextMenu = lazy(() => import('../ContextMenu/ContextMenu'));
+const MessageContextMenuModal = lazy(
+  () =>
+    import('@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu')
+);
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
-// import { textFromSelectedMsgs } from './utils/textFromSelectedMsgs';
-// import { handleDeleteMessage } from './utils/handleDeleteMessage';
 import formatDateForGroupMessages from '@utils/formatDateForGroupMessages';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
-import ContextMenu from '../ContextMenu/ContextMenu';
 
 const MessageList: FC = () => {
   const [groupedMessages, setGroupedMessages] =
@@ -49,12 +50,16 @@ const MessageList: FC = () => {
     state => state.updateSelectedDocDataMessage
   );
 
-  const length = useLengthOfMyUnreadMsgs(
+  const resetSelectedMessages = useChatStore(
+    state => state.resetSelectedMessages
+  );
+
+  const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(
     [chatUID, { lastMessage: '', senderUserID: '', userUID: '' }],
     false
   );
 
-  console.log('isSelectedMessages', isSelectedMessages);
+  console.log('isLoadedContent', isLoadedContent);
 
   // console.log('screen --> MessageList');
 
@@ -178,7 +183,7 @@ const MessageList: FC = () => {
         return acc;
       }, {});
 
-      // console.log('groupedMsgs', groupedMsgs);
+      console.log('groupedMsgs', groupedMsgs);
 
       setGroupedMessages(groupedMsgs);
     });
@@ -201,9 +206,8 @@ const MessageList: FC = () => {
 
   // сброс выделеных сообщений через селект при смене чата
   useEffect(() => {
-    updateSelectedDocDataMessage(null);
-    updateIsSelectedMessages(false);
-  }, [chatUID, updateIsSelectedMessages, updateSelectedDocDataMessage]);
+    resetSelectedMessages();
+  }, [chatUID, resetSelectedMessages]);
 
   // надо тротл добавить чтобы не так часто срабатывало
   const handleScroll = () => {
@@ -301,16 +305,15 @@ const MessageList: FC = () => {
       e &&
       e.target instanceof Element &&
       e.target.id &&
-      selectedDocDataMessage &&
-      isSelectedMessages &&
-      selectedDocDataMessage?.length >= 1
+      // selectedDocDataMessage &&
+      // selectedDocDataMessage?.length !== 1 &&
+      isSelectedMessages
     ) {
       return;
     }
 
     if (selectedDocDataMessage !== null) {
-      updateSelectedDocDataMessage(null);
-      updateIsSelectedMessages(false);
+      resetSelectedMessages();
     }
   };
 
@@ -332,7 +335,7 @@ const MessageList: FC = () => {
 
   return (
     <>
-      <div className="h-full w-full py-1">
+      <div className="h-full w-full py-1" onClick={handleCloseModal}>
         <Scrollbars
           ref={scrollbarsRef}
           autoHide
@@ -351,7 +354,12 @@ const MessageList: FC = () => {
           >
             {groupedMessages &&
               Object.keys(groupedMessages).map(date => (
-                <li className="relative flex flex-col gap-2" key={date}>
+                <li
+                  className={`relative flex flex-col ${
+                    isSelectedMessages ? 'gap-0' : 'gap-2'
+                  }`}
+                  key={date}
+                >
                   <div className="flex justify-center sticky top-1 z-10 ">
                     <p className="px-2 py-0.5 w-min-0 whitespace-no-wrap rounded-xl bg-zinc-200/40 text-green-100 text-center">
                       {formatDateForGroupMessages(date, t)}
@@ -364,11 +372,11 @@ const MessageList: FC = () => {
 
                     return (
                       <div
-                        className={`flex justify-center items-center gap-x-5 p-0.5 rounded-xl ${
+                        className={`flex justify-center items-center gap-x-5 m-0.5 rounded-xl transition-all duration-150  ${
                           currentItem && 'bg-currentContextMenuMessage'
                         } ${
                           isSelectedMessages &&
-                          'hover:cursor-pointer hover:outline outline-1 outline-white'
+                          'hover:cursor-pointer hover:outline hover:outline-1 hover:outline-white'
                         }`}
                         key={message.id}
                         onContextMenu={e =>
@@ -411,45 +419,41 @@ const MessageList: FC = () => {
           </ul>
         </Scrollbars>
 
-        <MessagesSkeleton
-          isLoadedContent={isLoadedContent}
-        />
+        <MessagesSkeleton isLoadedContent={isLoadedContent} />
 
         {isScrollDownButtonVisible && isLoadedContent && (
-          <button
-            className="absolute bottom-32 right-10 bg-white p-2 rounded-full"
-            onClick={scrollToBottom}
-          >
-            <div className="relative">
-              <svg
-                className="rotate-180"
-                strokeWidth="0"
-                viewBox="0 0 320 512"
-                height="24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"></path>
-              </svg>
-              {length > 0 && (
-                <span className="absolute bottom-0 right-0 transform translate-x-4 -mb-4 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
-                  {length}
-                </span>
-              )}
-            </div>
-          </button>
+          <ButtonScrollDown
+            scrollToBottom={scrollToBottom}
+            lengthOfUnreadMsgs={lengthOfUnreadMsgs}
+          />
         )}
       </div>
       {groupedMessages && selectedDocDataMessage && (
-        <MessageContextMenuModal
-          closeModal={handleCloseModal}
-          modalPosition={modalPosition}
+        <Suspense
+          fallback={
+            <div
+              style={{
+                position: 'absolute',
+                top: modalPosition.top + 'px',
+                left: modalPosition.left + 'px',
+              }}
+              className="z-50 w-screen h-screen bg-transparent pointer-events-none"
+            >
+              <div
+                className={`w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto`}
+              >
+                <ButtonLoader size={200} />
+              </div>
+            </div>
+          }
         >
-          <ContextMenu
-            groupedMessages={groupedMessages}
-            handleCloseModal={handleCloseModal}
-          />
-        </MessageContextMenuModal>
+          <MessageContextMenuModal
+            closeModal={handleCloseModal}
+            modalPosition={modalPosition}
+          >
+            <ContextMenu groupedMessages={groupedMessages} />
+          </MessageContextMenuModal>
+        </Suspense>
       )}
     </>
   );

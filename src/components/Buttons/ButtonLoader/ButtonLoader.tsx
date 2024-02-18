@@ -1,15 +1,20 @@
-import { FC } from 'react'
+import { FC } from 'react';
 import { ClipLoader } from 'react-spinners';
 
-const ButtonLoader: FC = () => {
+interface IButtonLoaderProps {
+  size?: number;
+}
+
+const ButtonLoader: FC<IButtonLoaderProps> = ({ size = 15 }) => {
   return (
     <ClipLoader
-      color={"rgb(63 63 70)"}
-      size={15}
+      // color={'rgb(63 63 70)'}
+      color='white'
+      size={size}
       aria-label="Loading Spinner"
       data-testid="loader"
     />
   );
-}
+};
 
-export default ButtonLoader
+export default ButtonLoader;

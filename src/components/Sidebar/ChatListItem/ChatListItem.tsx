@@ -8,12 +8,12 @@ import useChatInfo from '@hooks/useChatInfo';
 import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
 import useIsReadMyLastMessage from '@hooks/useIsReadMyLastMessage';
+import useUnreadMessagesInChatListItem from '@hooks/useUnreadMessagesInChatListItem';
 import truncateLastMessageString from '@utils/truncateLastMessageString';
 import handleSelectChat from '@utils/handleSelectChat';
 import { IChatListItemProps } from '@interfaces/IChatListItemProps';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
-import useUnreadMessagesInChatListItem from '@hooks/useUnreadMessagesInChatListItem';
 
 const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
   const location = useLocation();

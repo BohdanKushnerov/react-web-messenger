@@ -17,7 +17,7 @@ const MessageContextMenuModal: FC<IModalMessageContextMenuProps> = ({
         top: modalPosition.top + 'px',
         left: modalPosition.left + 'px',
       }}
-      className="z-20 w-screen h-screen bg-transparent pointer-events-none"
+      className="z-50 w-screen h-screen bg-transparent pointer-events-none"
     >
       {children}
     </div>

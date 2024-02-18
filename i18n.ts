@@ -35,6 +35,8 @@ const resources = {
         Phone: 'Phone:',
         ChangeName: 'Change Name',
         ChangeNameNotify: 'Start change username and button will be enable',
+        ChangeNameToast: 'Change name success',
+        ChangePhotoToast: 'Change photo success',
         Modal: {
           ChangeProfilePhotoPrompt:
             "If you're satisfied, click the 'Change Profile Photo' button, or close the window and try a new photo",
@@ -107,6 +109,8 @@ const resources = {
         ChangeName: "Змінити ім'я",
         ChangeNameNotify:
           "Почніть змінювати ім'я користувача, і кнопка буде увімкнена",
+        ChangeNameToast: 'Зміна імені успішна',
+        ChangePhotoToast: 'Зміна фото успішна',
         Modal: {
           ChangeProfilePhotoPrompt:
             "Якщо ви задоволені, натисніть кнопку 'Змінити фото профілю' або закрийте вікно і спробуйте нове фото",
@@ -180,6 +184,8 @@ const resources = {
         ChangeName: 'Изменить имя',
         ChangeNameNotify:
           'Начните изменять имя пользователя, и кнопка будет включена',
+        ChangeNameToast: 'Смена имени успешна',
+        ChangePhotoToast: 'Смена фото успешна',
         Modal: {
           ChangeProfilePhotoPrompt:
             "Если вы удовлетворены, нажмите кнопку 'Изменить фото профиля' или закройте окно и попробуйте новое фото",

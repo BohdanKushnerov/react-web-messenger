@@ -9,6 +9,9 @@ const RecordingAudio = lazy(
 const ButtonClose = lazy(
   () => import('@components/Buttons/ButtonClose/ButtonClose')
 );
+const ChatFormSelectedMsgs = lazy(
+  () => import('@components/ChatForm/ChatFormSelectedMsgs/ChatFormSelectedMsgs')
+);
 import useChatStore from '@zustand/store';
 import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
 import useTyping from '@hooks/useTyping';
@@ -18,11 +21,6 @@ import handleUpdateEditMessage from '@utils/handleUpdateEditMessage';
 import handleSendMessage from '@utils/handleSendMessage';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
-import { handleDeleteMessage } from '@components/Messages/MessageList/utils/handleDeleteMessage';
-import CopyToClipboard from 'react-copy-to-clipboard';
-import { textFromSelectedMsgs } from '@components/Messages/MessageList/utils/textFromSelectedMsgs';
-import { toast } from 'react-toastify';
-// import { handleDeleteMessage } from '@components/Messages/MessageList/utils/handleDeleteMessage';
 
 const ChatForm: FC = () => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
@@ -36,12 +34,6 @@ const ChatForm: FC = () => {
   const editingMessageInfo = useChatStore(state => state.editingMessageInfo);
   const resetEditingMessage = useChatStore(state => state.resetEditingMessage);
   const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
-  const updateIsSelectedMessages = useChatStore(
-    state => state.updateIsSelectedMessages
-  );
-  const selectedDocDataMessage = useChatStore(
-    state => state.selectedDocDataMessage
-  );
 
   useBeforeUnloadToStopTyping(); // еффект beforeunload чтобы прекратить состояние печати
   useTyping(message); // запуск таймаута при печатании + сброс при смене чата
@@ -94,15 +86,6 @@ const ChatForm: FC = () => {
 
   const handleToggleRecordingStatus = () => {
     setIsRecording(prev => !prev);
-  };
-
-  const handleSuccessClickCopyTextMsg = () => {
-    toast.success(t('Toasts.CopyToClipboard'));
-    // handleCloseModal();
-    updateIsSelectedMessages(false);
-
-    const inputElement = document.getElementById('chatFormInput')!;
-    inputElement.focus();
   };
 
   return (
@@ -200,51 +183,7 @@ const ChatForm: FC = () => {
         </div>
       ) : (
         <Suspense>
-          <div className="flex flex-col justify-center w-full h-full shadow-whiteTopShadow xl:w-8/12">
-            <div
-              className={`relative flex flex-row h-14 px-8 rounded-3xl bg-zinc-300 dark:bg-mySeacrhBcg text-black dark:text-white border-2 border-transparent outline-none`}
-            >
-              <ButtonClose
-                handleClickButtonClose={() => updateIsSelectedMessages(false)}
-              />
-
-              <div className="flex flex-row gap-x-1 ml-auto">
-                {selectedDocDataMessage && (
-                  <CopyToClipboard
-                    text={textFromSelectedMsgs(selectedDocDataMessage) || ''}
-                    onCopy={handleSuccessClickCopyTextMsg}
-                  >
-                    <div className="flex items-center justify-center w-10 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md">
-                      <svg width={20} height={20}>
-                        <use href={sprite + '#icon-copy'} fill="#FFFFFF" />
-                      </svg>
-                      {/* <span>{t('ContextMenu.Copy')}</span> */}
-                    </div>
-                  </CopyToClipboard>
-                )}
-
-                <button
-                  className="flex items-center justify-center w-10 text-white hover:cursor-pointer hover:bg-hoverGray hover:rounded-md"
-                  onClick={() =>
-                    handleDeleteMessage(
-                      selectedDocDataMessage,
-                      chatUID,
-                      currentUserUID,
-                      userUID,
-                      t,
-                      undefined,
-                      updateIsSelectedMessages
-                    )
-                  }
-                >
-                  <svg width={20} height={20}>
-                    <use href={sprite + '#icon-delete-button'} fill="red" />
-                  </svg>
-                  {/* <span>{t('ContextMenu.Delete')}</span> */}
-                </button>
-              </div>
-            </div>
-          </div>
+          <ChatFormSelectedMsgs />
         </Suspense>
       )}
     </div>

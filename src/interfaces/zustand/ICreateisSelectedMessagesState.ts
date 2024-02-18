@@ -10,4 +10,5 @@ export interface ICreateisSelectedMessagesState {
       | null
       | ((prevState: DocumentData[] | null) => DocumentData[] | null)
   ) => void;
+  resetSelectedMessages: () => void;
 }
