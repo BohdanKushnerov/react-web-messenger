@@ -197,7 +197,7 @@ const FileInputModal: FC<IFileInputModalProps> = ({
                   if (
                     file.type === 'image/jpeg' ||
                     file.type === 'image/png' ||
-                    file.type === 'image/gif' ||
+                    // file.type === 'image/gif' ||
                     file.type === 'image/webp'
                   ) {
                     return (

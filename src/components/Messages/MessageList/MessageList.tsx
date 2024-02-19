@@ -59,7 +59,7 @@ const MessageList: FC = () => {
     false
   );
 
-  console.log('isLoadedContent', isLoadedContent);
+  // console.log('isLoadedContent', isLoadedContent);
 
   // console.log('screen --> MessageList');
 
@@ -92,7 +92,7 @@ const MessageList: FC = () => {
 
       timeoutRef.current = setTimeout(() => {
         const imagesInMessages = msgListRef?.current?.querySelectorAll('img');
-        console.log('imagesInMessages', imagesInMessages);
+        // console.log('imagesInMessages', imagesInMessages);
         if (imagesInMessages && imagesInMessages.length > 0) {
           // console.log('imagesInMessages', imagesInMessages);
 
@@ -183,7 +183,7 @@ const MessageList: FC = () => {
         return acc;
       }, {});
 
-      console.log('groupedMsgs', groupedMsgs);
+      // console.log('groupedMsgs', groupedMsgs);
 
       setGroupedMessages(groupedMsgs);
     });
@@ -233,7 +233,7 @@ const MessageList: FC = () => {
       }
 
       const chatContainerEl = document.getElementById('scrollbars');
-      console.log(chatContainerEl);
+      // console.log(chatContainerEl);
       const rect = chatContainerEl?.getBoundingClientRect();
       const containerTop = rect?.top;
       const containerLeft = rect?.left;

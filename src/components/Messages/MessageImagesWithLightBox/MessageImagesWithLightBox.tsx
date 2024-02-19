@@ -20,7 +20,8 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
         if (
           file.type === 'image/png' ||
           file.type === 'image/jpeg' ||
-          file.type === 'image/webp'
+          file.type === 'image/webp' ||
+          file.type.includes('video')
         ) {
           return { src: file.url };
         }
@@ -36,7 +37,8 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
         if (
           file.type === 'image/png' ||
           file.type === 'image/jpeg' ||
-          file.type === 'image/webp'
+          file.type === 'image/webp' ||
+          file.type.includes('video')
         ) {
           return file;
         }
@@ -62,7 +64,7 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
                 handleClickPhoto={handleClickPhoto}
               />
             );
-          }
+          } 
           return null;
         })}
       {indexClickedPhoto >= 0 && (
