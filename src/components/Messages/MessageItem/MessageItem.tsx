@@ -1,4 +1,5 @@
 import { FC, useCallback, useState } from 'react';
+import urlParser from 'js-video-url-parser';
 
 import MessageImagesWithLightBox from '../MessageImagesWithLightBox/MessageImagesWithLightBox';
 import MessageFiles from '../MessageFiles/MessageFiles';
@@ -8,6 +9,8 @@ import useChatStore from '@zustand/store';
 import useMakeReadMsg from '@hooks/useMakeReadMsg';
 import formatTimeMsg from '@utils/messages/formatTimeMsg';
 import { IMessageItemProps } from '@interfaces/IMessageItemProps';
+import isTextMsgLink from '@utils/isTextMsgLink';
+import VideoComponent from '../VideoComponent/VideoComponent';
 
 const MessageItem: FC<IMessageItemProps> = ({
   msg,
@@ -30,6 +33,12 @@ const MessageItem: FC<IMessageItemProps> = ({
   );
 
   const myUID = currentUserUID === msg.data().senderUserID;
+
+  const textMsg: string = msg.data().message;
+
+  console.log(textMsg);
+
+  const info = urlParser.parse(textMsg);
 
   return (
     <div
@@ -62,11 +71,20 @@ const MessageItem: FC<IMessageItemProps> = ({
         </div>
 
         {/* message */}
-        {msg.data().message && (
+        {/* {textMsg && ( */}
+        {isTextMsgLink(textMsg) ? (
+          <>
+            <a href={'//' + textMsg} target="_blank" rel="nofollow">
+              {textMsg}
+            </a>
+            {info?.mediaType === 'video' && <VideoComponent source={textMsg} />}
+          </>
+        ) : (
           <p className="w-full break-all text-black dark:text-white">
             {msg.data().message}
           </p>
         )}
+        {/* )} */}
 
         {/* date + read/unread */}
         <div className="w-full flex justify-end items-center gap-2">
