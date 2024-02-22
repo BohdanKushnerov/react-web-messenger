@@ -1,11 +1,11 @@
 import { FC, Suspense, lazy } from 'react';
 
 import MessageImage from '../MessageImage/MessageImage';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 const Lightbox = lazy(() => import('yet-another-react-lightbox'));
 import 'yet-another-react-lightbox/styles.css';
 import { IMessageImagesWithLightBoxProps } from '@interfaces/IMessageImagesWithLightBoxProps';
 import { IFile } from '@interfaces/IFile';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
   msg,
@@ -25,7 +25,7 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
         ) {
           return { src: file.url };
         }
-        return null; // or handle other types if needed
+        return null;
       })
       .filter((slide: IFile | null) => slide !== null);
 
@@ -64,7 +64,7 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
                 handleClickPhoto={handleClickPhoto}
               />
             );
-          } 
+          }
           return null;
         })}
       {indexClickedPhoto >= 0 && (
@@ -80,6 +80,14 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
             slides={slidesForLightBox}
             open={indexClickedPhoto >= 0}
             close={() => handleClickPhoto(-1)}
+            carousel={{
+              finite: true,
+            }}
+            styles={{
+              container: {
+                backgroundColor: 'rgb(51 65 85 / 0.7)',
+              },
+            }}
           />
         </Suspense>
       )}

@@ -14,7 +14,8 @@ const useDefaultTheme = () => {
       localStorage.theme === 'dark'
     );
   }, []);
-  return <div>useDefaultTheme</div>;
+
+  return null;
 };
 
 export default useDefaultTheme;

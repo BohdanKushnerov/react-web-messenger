@@ -36,6 +36,7 @@ export default {
         mySeacrhBcg: 'rgb(44,44,44)',
         currentContextMenuMessage: 'rgba( 24, 24, 24 , 0.9)',
         hoverGray: 'rgba( 170,170,170 , 0.08)',
+        sliderBcg: 'rgb(51 65 85 / 0.7)',
       },
       colors: {
         textSecondary: 'rgb(170,170,170)',

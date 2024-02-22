@@ -3,14 +3,14 @@ import urlParser from 'js-video-url-parser';
 
 import MessageImagesWithLightBox from '../MessageImagesWithLightBox/MessageImagesWithLightBox';
 import MessageFiles from '../MessageFiles/MessageFiles';
+import VideoComponent from '../VideoComponent/VideoComponent';
 import MessageTriangle from '@components/Messages/MessageTriangle/MessageTriangle';
 import IsReadMsg from '@components/Messages/IsReadMsg/IsReadMsg';
 import useChatStore from '@zustand/store';
 import useMakeReadMsg from '@hooks/useMakeReadMsg';
 import formatTimeMsg from '@utils/messages/formatTimeMsg';
+import isLinkMsg from '@utils/isLinkMsg';
 import { IMessageItemProps } from '@interfaces/IMessageItemProps';
-import isTextMsgLink from '@utils/isTextMsgLink';
-import VideoComponent from '../VideoComponent/VideoComponent';
 
 const MessageItem: FC<IMessageItemProps> = ({
   msg,
@@ -34,11 +34,9 @@ const MessageItem: FC<IMessageItemProps> = ({
 
   const myUID = currentUserUID === msg.data().senderUserID;
 
-  const textMsg: string = msg.data().message;
+  const textContentMsg: string = msg.data().message;
 
-  console.log(textMsg);
-
-  const info = urlParser.parse(textMsg);
+  const info = urlParser.parse(textContentMsg);
 
   return (
     <div
@@ -71,20 +69,28 @@ const MessageItem: FC<IMessageItemProps> = ({
         </div>
 
         {/* message */}
-        {/* {textMsg && ( */}
-        {isTextMsgLink(textMsg) ? (
+        {isLinkMsg(textContentMsg) ? (
           <>
-            <a href={'//' + textMsg} target="_blank" rel="nofollow">
-              {textMsg}
+            <a
+              href={
+                textContentMsg.startsWith('https://')
+                  ? textContentMsg
+                  : 'https://' + textContentMsg
+              }
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {textContentMsg}
             </a>
-            {info?.mediaType === 'video' && <VideoComponent source={textMsg} />}
+            {info?.mediaType === 'video' && (
+              <VideoComponent source={textContentMsg} />
+            )}
           </>
         ) : (
           <p className="w-full break-all text-black dark:text-white">
             {msg.data().message}
           </p>
         )}
-        {/* )} */}
 
         {/* date + read/unread */}
         <div className="w-full flex justify-end items-center gap-2">
