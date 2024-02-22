@@ -1,12 +1,15 @@
 import { FC, useCallback, useState } from 'react';
+import urlParser from 'js-video-url-parser';
 
 import MessageImagesWithLightBox from '../MessageImagesWithLightBox/MessageImagesWithLightBox';
 import MessageFiles from '../MessageFiles/MessageFiles';
+import VideoComponent from '../VideoComponent/VideoComponent';
 import MessageTriangle from '@components/Messages/MessageTriangle/MessageTriangle';
 import IsReadMsg from '@components/Messages/IsReadMsg/IsReadMsg';
 import useChatStore from '@zustand/store';
 import useMakeReadMsg from '@hooks/useMakeReadMsg';
 import formatTimeMsg from '@utils/messages/formatTimeMsg';
+import isLinkMsg from '@utils/isLinkMsg';
 import { IMessageItemProps } from '@interfaces/IMessageItemProps';
 
 const MessageItem: FC<IMessageItemProps> = ({
@@ -30,6 +33,10 @@ const MessageItem: FC<IMessageItemProps> = ({
   );
 
   const myUID = currentUserUID === msg.data().senderUserID;
+
+  const textContentMsg: string = msg.data().message;
+
+  const info = urlParser.parse(textContentMsg);
 
   return (
     <div
@@ -62,7 +69,24 @@ const MessageItem: FC<IMessageItemProps> = ({
         </div>
 
         {/* message */}
-        {msg.data().message && (
+        {isLinkMsg(textContentMsg) ? (
+          <>
+            <a
+              href={
+                textContentMsg.startsWith('https://')
+                  ? textContentMsg
+                  : 'https://' + textContentMsg
+              }
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {textContentMsg}
+            </a>
+            {info?.mediaType === 'video' && (
+              <VideoComponent source={textContentMsg} />
+            )}
+          </>
+        ) : (
           <p className="w-full break-all text-black dark:text-white">
             {msg.data().message}
           </p>

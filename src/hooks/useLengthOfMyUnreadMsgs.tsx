@@ -35,20 +35,10 @@ const useLengthOfMyUnreadMsgs = (
             // console.log("msg.data", msg.data());
 
             if (msg.data().isShowNotification && chatInfo[0]) {
-              // console.log(
-              //   'msg.data().isShowNotification',
-              //   msg.data().isShowNotification
-              // );
 
               new Notification('new Message', {
                 body: msg.data().message,
               });
-
-              // Создаем аудиоэлемент
-              // const audioElement = new Audio(audio);
-
-              // const url = URL.createObjectURL(audio);
-              // const audio = new Audio(url);
 
               const audio = document.getElementById(
                 'notify'
@@ -66,8 +56,6 @@ const useLengthOfMyUnreadMsgs = (
                 }
               );
             }
-
-            // console.log("msg.data().id", msg);
           });
       }
     });
