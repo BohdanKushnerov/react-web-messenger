@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import Chat from '@components/Chat/Chat';
 import Sidebar from '@components/Sidebar/Sidebar';
 const BrowserTabTitle = lazy(
-  () => import('@components/Sidebar/ChatList/BrowserTabTitle')
+  () => import('@components/BrowserTabTitle/BrowserTabTitle')
 );
 import useRequestPermission from '@hooks/useRequestPermission';
 import useIsRedirectToCurrentChat from '@hooks/useIsRedirectToCurrentChat';

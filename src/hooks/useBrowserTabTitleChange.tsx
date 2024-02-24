@@ -16,9 +16,9 @@ const useBrowserTabTitleChange: IUseBrowserTabTitleChange = (
   });
 
   useEffect(() => {
-    const startChangeChatTitle = () => {
-      const chatOriginalTitle = 'React Web Messenger';
+    const chatOriginalTitle = 'React Web Messenger';
 
+    const startChangeChatTitle = () => {
       if (docHidden) {
         // Вкладка стала неактивной
         if (countChatUnreadMessages) {
@@ -70,6 +70,10 @@ const useBrowserTabTitleChange: IUseBrowserTabTitleChange = (
         clearInterval(changeTitleIntervalRef.current);
         changeTitleIntervalRef.current = null;
       }
+
+      changeFaviconBrowserTab(faviconTab);
+
+      document.title = chatOriginalTitle;
     };
   }, [countChatUnreadMessages, docHidden, t]);
 };
