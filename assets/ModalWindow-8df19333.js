@@ -1,1 +1,0 @@
-import{G as a,N as c,j as n}from"./index-38f75362.js";const l=document.querySelector("#modal-root"),d=({handleToggleModal:t,children:r,contentClasses:e})=>{a(t);const s=o=>{o.target===o.currentTarget&&t()};return c.createPortal(n.jsx("div",{onClick:s,className:`absolute top-0 left-0 z-10 w-screen h-screen bg-transparent ${e}`,children:r}),l)};export{d as M};

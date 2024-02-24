@@ -1,0 +1,1 @@
+import{G as n,j as o}from"./index-f907468c.js";const r=({closeModal:s,modalPosition:e,children:t})=>(n(s),o.jsx("div",{style:{position:"absolute",top:e.top+"px",left:e.left+"px"},className:"z-50 w-screen h-screen bg-transparent pointer-events-none",children:t}));export{r as default};
