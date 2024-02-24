@@ -38,6 +38,8 @@ const MessageItem: FC<IMessageItemProps> = ({
 
   const info = urlParser.parse(textContentMsg);
 
+  const isLink = isLinkMsg(textContentMsg);
+
   return (
     <div
       className={`relative flex w-full items-end xl:w-8/12 ${
@@ -46,8 +48,10 @@ const MessageItem: FC<IMessageItemProps> = ({
       id="message"
     >
       <div
-        className={`flex flex-col py-2 px-4 rounded-xl ${
-          msg.data().file?.length === 1 ? 'max-w-md' : 'max-w-sm'
+        className={`flex flex-col py-2 px-4 ${
+          isLink && info?.mediaType === 'video' && 'w-full'
+        } rounded-xl ${
+          msg.data().file?.length === 1 ? 'max-w-md' : 'max-w-xl'
         }  ${
           myUID
             ? 'bg-emerald-400 dark:bg-cyan-600 rounded-br-none'
@@ -69,9 +73,10 @@ const MessageItem: FC<IMessageItemProps> = ({
         </div>
 
         {/* message */}
-        {isLinkMsg(textContentMsg) ? (
+        {isLink ? (
           <>
             <a
+              className="w-full break-all transition-colors duration-150 text-blue-950 hover:text-blue-800 dark:text-zinc-800 text-decoration-line: hover:underline hover:dark:text-zinc-600"
               href={
                 textContentMsg.startsWith('https://')
                   ? textContentMsg

@@ -1,24 +1,18 @@
 import { FC } from 'react';
 import ReactPlayer from 'react-player';
 
+import getYouTubeVideoId from '@utils/messages/getYouTubeVideoId';
 import { IVideoComponentProps } from '@interfaces/IVideoComponentProps';
 
 const VideoComponent: FC<IVideoComponentProps> = ({ source }) => {
-  function getYouTubeVideoId(url: string) {
-    const regExp: RegExp =
-      /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-    const match = url.match(regExp);
-    return match && match[1] ? match[1] : null;
-  }
-
-  // console.log(window.location.hostname);
-
   if (source.includes('youtube')) {
     return (
+      // ютуб видео через скидание ссылки в сообщение
       <iframe
         id="player"
         width="100%"
-        height="auto"
+        height="300"
+        allowFullScreen
         src={
           'https://www.youtube.com/embed/' +
           `${getYouTubeVideoId(source)}` +
@@ -27,6 +21,7 @@ const VideoComponent: FC<IVideoComponentProps> = ({ source }) => {
       ></iframe>
     );
   } else {
+    // остальные видео через скидание ссылки в сообщение
     return <ReactPlayer width="100%" controls url={source} />;
   }
 };
