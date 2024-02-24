@@ -4,7 +4,9 @@ import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '@myfirebase/config';
 
 const useMyUserChatList = () => {
-  const [myUserChatList, setMyUserChatList] = useState<DocumentData | []>([]);
+  const [myUserChatList, setMyUserChatList] = useState<DocumentData | null>(
+    null
+  );
 
   useEffect(() => {
     if (!auth?.currentUser?.uid) return;
@@ -20,8 +22,7 @@ const useMyUserChatList = () => {
         for (const key in data) {
           if (Object.prototype.hasOwnProperty.call(data, key)) {
             const element = data[key];
-            // console.log(element.date)
-            if (element.date === null) {
+            if (!element.date) {
               shouldUpdateChatList = false;
               break; // Прерываем цикл, так как уже есть нулевой элемент
             }

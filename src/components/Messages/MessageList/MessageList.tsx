@@ -58,6 +58,7 @@ const MessageList: FC = () => {
     [chatUID, { lastMessage: '', senderUserID: '', userUID: '' }],
     false
   );
+  // const lengthOfUnreadMsgs = 0;
 
   // console.log('isLoadedContent', isLoadedContent);
 

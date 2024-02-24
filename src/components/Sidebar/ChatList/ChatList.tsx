@@ -1,11 +1,12 @@
-import { FC, memo } from 'react';
+import { FC } from 'react';
 
 import ChatListItem from '@components/Sidebar/ChatListItem/ChatListItem';
 import useMyUserChatList from '@hooks/useMyUserChatList';
 import { ChatListItemType } from 'types/ChatListItemType';
 
-const ChatList: FC = memo(() => {
+const ChatList: FC = () => {
   const myUserChatList = useMyUserChatList(); // загрузка списка моих чатов
+  // const myUserChatList = []; // загрузка списка моих чатов
 
   console.log('screen --> ChatList');
 
@@ -19,6 +20,6 @@ const ChatList: FC = memo(() => {
       </ul>
     </div>
   );
-});
+};
 
 export default ChatList;

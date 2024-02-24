@@ -35,7 +35,13 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
     state => state.updateTotalUnreadMessages
   );
 
-  // console.log('screen --> ChatListItem');
+  //userInfo ------------------ useeffect
+  //lengthOfMyUnreadMsgs ------ 25Ref : {hasValue: true, value: {…}}
+
+  //isReadMyLastMessage ------- 34Effect:ƒ () {}
+
+  console.log('screen --> ChatListItem');
+  // console.log(lengthOfMyUnreadMsgs);
 
   const handleManageSelectChat = () => {
     if (chatInfo[0]) {
