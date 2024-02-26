@@ -19,7 +19,7 @@ const useCountChatUnreadMessages: IUseCountChatUnreadMessages =
       }
     }, [chatUnreadMessages, countChatUnreadMessages]);
 
-    return countChatUnreadMessages;
+    return countChatUnreadMessages !== 0 ? countChatUnreadMessages : null;
   };
 
 export default useCountChatUnreadMessages;

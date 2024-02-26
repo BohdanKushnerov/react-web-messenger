@@ -1,3 +1,3 @@
 export interface IUseBrowserTabTitleChange {
-  (countChatUnreadMessages: number, docHidden: boolean): void;
+  (countChatUnreadMessages: number | null, docHidden: boolean): void;
 }

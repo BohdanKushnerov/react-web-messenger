@@ -12,6 +12,7 @@ const ButtonClose = lazy(
 const ChatFormSelectedMsgs = lazy(
   () => import('@components/ChatForm/ChatFormSelectedMsgs/ChatFormSelectedMsgs')
 );
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import SendMessage from '@components/Buttons/ButtonSendMessage/ButtonSendMessage';
 import ButtonRecordAudio from '@components/Buttons/ButtonRecordAudio/ButtonRecordAudio';
 import useChatStore from '@zustand/store';
@@ -23,7 +24,6 @@ import handleUpdateEditMessage from '@utils/chatForm/handleUpdateEditMessage';
 import handleSendMessage from '@utils/chatForm/handleSendMessage';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const ChatForm: FC = () => {
   const [isRecording, setIsRecording] = useState<boolean>(false);

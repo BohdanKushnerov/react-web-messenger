@@ -1,5 +1,5 @@
-import { IUnreadMessages } from "../IUnreadMessages";
+import { IUnreadMessages } from '../IUnreadMessages';
 
 export interface IUseCountChatUnreadMessages {
-  (chatUnreadMessages: IUnreadMessages): number;
+  (chatUnreadMessages: IUnreadMessages): number | null;
 }

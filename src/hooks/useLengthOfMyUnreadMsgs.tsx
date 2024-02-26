@@ -24,16 +24,13 @@ const useLengthOfMyUnreadMsgs = (
 
   useEffect(() => {
     if (lengthOfMyUnreadMsgs === 0) {
-      console.log(1111111111111111111111111);
       processedMessages.current = [];
     } else {
-      console.log('processedMessages.current', processedMessages.current);
+      // console.log('processedMessages.current', processedMessages.current);
     }
 
     return () => {
       if (processedMessages.current.length > 0) {
-        console.log(22222222222222222222222222222);
-
         processedMessages.current = [];
       }
     };
