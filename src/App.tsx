@@ -8,8 +8,7 @@ import PrivateRoute from '@routes/PrivateRoute';
 import useOnAuthStateChanged from '@hooks/useOnAuthStateChanged';
 import useDefaultLanguage from '@hooks/useDefaultLanguage';
 import useDefaultTheme from '@hooks/useDefaultTheme';
-import Sidebar from '@components/Sidebar/Sidebar';
-import Chat from '@components/Chat/Chat';
+import Chat from '@pages/Chat/Chat';
 
 function App() {
   useOnAuthStateChanged();
@@ -30,12 +29,6 @@ function App() {
           <PrivateRoute component={HomePage} redirectTo="/authentication" />
         ),
         children: [
-          {
-            path: '/',
-            element: (
-              <PrivateRoute component={Sidebar} redirectTo="/authentication" />
-            ),
-          },
           {
             path: '/:id',
             element: (

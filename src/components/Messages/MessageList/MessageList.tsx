@@ -1,4 +1,12 @@
-import { useEffect, useState, useRef, FC, Suspense, lazy } from 'react';
+import {
+  useEffect,
+  useState,
+  useRef,
+  FC,
+  Suspense,
+  lazy,
+  // useLayoutEffect,
+} from 'react';
 import {
   DocumentData,
   collection,
@@ -89,11 +97,11 @@ const MessageList: FC = () => {
       msgListRef.current &&
       !timeoutRef.current
     ) {
-      quickScrollBottom();
+      // quickScrollBottom();
 
       timeoutRef.current = setTimeout(() => {
         const imagesInMessages = msgListRef?.current?.querySelectorAll('img');
-        // console.log('imagesInMessages', imagesInMessages);
+        console.log('imagesInMessages', imagesInMessages);
         if (imagesInMessages && imagesInMessages.length > 0) {
           // console.log('imagesInMessages', imagesInMessages);
 
@@ -111,7 +119,12 @@ const MessageList: FC = () => {
           ) => {
             try {
               await Promise.all([...images].map(img => loadImage(img.src)))
-                .then(() => quickScrollBottom())
+                .then(() => {
+                  console.log(
+                    '---------------------quickScrollBottom imagesInMessages'
+                  );
+                  quickScrollBottom();
+                })
                 .then(() => setIsLoadedContent(true));
             } catch (error) {
               console.error('Error loading images:', error);
@@ -136,14 +149,14 @@ const MessageList: FC = () => {
   }, [groupedMessages, isLoadedContent]);
 
   // авто скролл вниз при новом сообщении если я внизу списка
-  useEffect(() => {
-    if (scrollbarsRef.current) {
-      if (!isScrollDownButtonVisible) {
-        scrollToBottom();
-        // console.log('==========================етот скролл работает');
-      }
-    }
-  }, [groupedMessages, isScrollDownButtonVisible]);
+  // useLayoutEffect(() => {
+  //   if (scrollbarsRef.current) {
+  //     if (!isScrollDownButtonVisible) {
+  //       scrollToBottom();
+  //       console.log('==========================етот скролл работает');
+  //     }
+  //   }
+  // }, [groupedMessages, isScrollDownButtonVisible]);
 
   // скелетон сообщений
   useEffect(() => {
