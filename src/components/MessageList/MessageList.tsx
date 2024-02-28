@@ -1,12 +1,4 @@
-import {
-  useEffect,
-  useState,
-  useRef,
-  FC,
-  Suspense,
-  lazy,
-  // useLayoutEffect,
-} from 'react';
+import { useEffect, useState, useRef, FC, Suspense, lazy } from 'react';
 import {
   DocumentData,
   collection,
@@ -17,11 +9,13 @@ import {
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useTranslation } from 'react-i18next';
 
-import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
+import MessagesSkeleton from './MessagesSkeleton/MessagesSkeleton';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
-import MessageItem from '@components/Messages/MessageItem/MessageItem';
-const ContextMenu = lazy(() => import('../ContextMenu/ContextMenu'));
+import MessageItem from '@components/MessageList/MessageItem/MessageItem';
+const ChatContextMenu = lazy(
+  () => import('../ChatContextMenu/ChatContextMenu')
+);
 const MessageContextMenuModal = lazy(
   () =>
     import('@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu')
@@ -57,20 +51,14 @@ const MessageList: FC = () => {
   const updateSelectedDocDataMessage = useChatStore(
     state => state.updateSelectedDocDataMessage
   );
-
   const resetSelectedMessages = useChatStore(
     state => state.resetSelectedMessages
   );
 
   const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(
     [chatUID, { lastMessage: '', senderUserID: '', userUID: '' }],
-    false
+    true
   );
-  // const lengthOfUnreadMsgs = 0;
-
-  // console.log('isLoadedContent', isLoadedContent);
-
-  // console.log('screen --> MessageList');
 
   // тоглит чат форму вместо кнопок интерфейса выбраных сообщений
   useEffect(() => {
@@ -149,14 +137,14 @@ const MessageList: FC = () => {
   }, [groupedMessages, isLoadedContent]);
 
   // авто скролл вниз при новом сообщении если я внизу списка
-  // useLayoutEffect(() => {
-  //   if (scrollbarsRef.current) {
-  //     if (!isScrollDownButtonVisible) {
-  //       scrollToBottom();
-  //       console.log('==========================етот скролл работает');
-  //     }
-  //   }
-  // }, [groupedMessages, isScrollDownButtonVisible]);
+  useEffect(() => {
+    if (scrollbarsRef.current) {
+      if (!isScrollDownButtonVisible) {
+        scrollToBottom();
+        console.log('==========================етот скролл работает');
+      }
+    }
+  }, [groupedMessages, isScrollDownButtonVisible]);
 
   // скелетон сообщений
   useEffect(() => {
@@ -465,7 +453,7 @@ const MessageList: FC = () => {
             closeModal={handleCloseModal}
             modalPosition={modalPosition}
           >
-            <ContextMenu groupedMessages={groupedMessages} />
+            <ChatContextMenu groupedMessages={groupedMessages} />
           </MessageContextMenuModal>
         </Suspense>
       )}

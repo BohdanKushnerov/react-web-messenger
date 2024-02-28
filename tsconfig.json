@@ -6,6 +6,7 @@
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
+      "@router/*": ["router/*"],
       "@routes/*": ["routes/*"],
       "@myfirebase/*": ["myfirebase/*"],
       "@zustand/*": ["zustand/*"],

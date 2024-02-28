@@ -1,9 +1,9 @@
 import { useRef, memo, Suspense, lazy } from 'react';
 import { Transition } from 'react-transition-group';
 import { Outlet, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import Sidebar from '@components/Sidebar/Sidebar';
-import Chat from '@pages/Chat/Chat';
 const BrowserTabTitle = lazy(
   () => import('@components/BrowserTabTitle/BrowserTabTitle')
 );
@@ -13,11 +13,14 @@ import useResizeWindow from '@hooks/useResizeWindow';
 import useIsOnlineMyStatus from '@hooks/useIsOnlineMyStatus';
 import useBrowserTabVisibilityChange from '@hooks/useBrowserTabVisibilityChange';
 import audio from '@assets/notify.mp3';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const HomePage = memo(() => {
   const { pathname } = useLocation();
   const nodeRefSidebar = useRef(null);
   const nodeRefChat = useRef(null);
+
+  const { t } = useTranslation();
 
   const { isFullScreen, heightWindow } = useResizeWindow();
   const docHidden = useBrowserTabVisibilityChange();
@@ -81,7 +84,15 @@ const HomePage = memo(() => {
                       : 'translate-x-full scale-0'
                   }`}
             >
-              <Outlet />
+              <Suspense
+                fallback={
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <LoaderUIActions size={200} />
+                  </div>
+                }
+              >
+                <Outlet />
+              </Suspense>
             </div>
           )}
         </Transition>
@@ -94,7 +105,22 @@ const HomePage = memo(() => {
           }}
         >
           <Sidebar />
-          <Chat />
+          {pathname === '/' && (
+            <div className="relative h-full w-screen xl:flex xl:flex-col xl:items-center bg-transparent overflow-hidden">
+              <h2 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 bg-gray-700 rounded-xl text-center text-white font-black">
+                {t('EmptyChatNofify')}
+              </h2>
+            </div>
+          )}
+          <Suspense
+            fallback={
+              <div className="absolute top-1/2 left-1/2 translate-x-1/2 -translate-y-1/2">
+                <LoaderUIActions size={200} />
+              </div>
+            }
+          >
+            <Outlet />
+          </Suspense>
         </div>
       )}
       {docHidden && (

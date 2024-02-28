@@ -1,6 +1,6 @@
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
-import CopyButton from '@components/Messages/ContextMenu/CopyButton/CopyButton';
-import DeleteButton from '@components/Messages/ContextMenu/DeleteButton/DeleteButton';
+import CopyButton from '@components/ChatContextMenu/CopyButton/CopyButton';
+import DeleteButton from '@components/ChatContextMenu/DeleteButton/DeleteButton';
 import useChatStore from '@zustand/store';
 
 const ChatFormSelectedMsgs = () => {
