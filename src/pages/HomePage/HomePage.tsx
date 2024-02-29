@@ -1,8 +1,8 @@
 import { useRef, memo, Suspense, lazy } from 'react';
 import { Transition } from 'react-transition-group';
-import { useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import Chat from '@components/Chat/Chat';
 import Sidebar from '@components/Sidebar/Sidebar';
 const BrowserTabTitle = lazy(
   () => import('@components/BrowserTabTitle/BrowserTabTitle')
@@ -11,15 +11,18 @@ import useRequestPermission from '@hooks/useRequestPermission';
 import useIsRedirectToCurrentChat from '@hooks/useIsRedirectToCurrentChat';
 import useResizeWindow from '@hooks/useResizeWindow';
 import useIsOnlineMyStatus from '@hooks/useIsOnlineMyStatus';
-import audio from '@assets/notify.mp3';
 import useBrowserTabVisibilityChange from '@hooks/useBrowserTabVisibilityChange';
+import audio from '@assets/notify.mp3';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const HomePage = memo(() => {
   const { pathname } = useLocation();
   const nodeRefSidebar = useRef(null);
   const nodeRefChat = useRef(null);
 
-  const isFullScreen = useResizeWindow();
+  const { t } = useTranslation();
+
+  const { isFullScreen, heightWindow } = useResizeWindow();
   const docHidden = useBrowserTabVisibilityChange();
   useRequestPermission();
   useIsRedirectToCurrentChat(); // useNavigate; currentUserUID, updateCurrentChatInfo - zustand
@@ -31,7 +34,7 @@ const HomePage = memo(() => {
     <div
       className={`flex overflow-hidden bg-main-bcg2 bg-no-repeat bg-cover bg-center`}
       style={{
-        height: `${window.innerHeight}px`,
+        height: `${heightWindow}px`,
       }}
     >
       <div className="w-full h-full flex sm:hidden">
@@ -81,7 +84,15 @@ const HomePage = memo(() => {
                       : 'translate-x-full scale-0'
                   }`}
             >
-              <Chat />
+              <Suspense
+                fallback={
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <LoaderUIActions size={200} />
+                  </div>
+                }
+              >
+                <Outlet />
+              </Suspense>
             </div>
           )}
         </Transition>
@@ -90,11 +101,26 @@ const HomePage = memo(() => {
         <div
           className="hidden sm:flex overflow-hidden"
           style={{
-            height: `${window.innerHeight}px`,
+            height: `${heightWindow}px`,
           }}
         >
           <Sidebar />
-          <Chat />
+          {pathname === '/' && (
+            <div className="relative h-full w-screen xl:flex xl:flex-col xl:items-center bg-transparent overflow-hidden">
+              <h2 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 bg-gray-700 rounded-xl text-center text-white font-black">
+                {t('EmptyChatNofify')}
+              </h2>
+            </div>
+          )}
+          <Suspense
+            fallback={
+              <div className="absolute top-1/2 left-1/2 translate-x-1/2 -translate-y-1/2">
+                <LoaderUIActions size={200} />
+              </div>
+            }
+          >
+            <Outlet />
+          </Suspense>
         </div>
       )}
       {docHidden && (

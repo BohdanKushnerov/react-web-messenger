@@ -7,11 +7,11 @@ import ButtonEdit from './ButtonEdit/ButtonEdit';
 import useChatStore from '@zustand/store';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 
-interface IContextMenuProps {
+interface IChatContextMenuProps {
   groupedMessages: IGroupedMessages | null;
 }
 
-const ContextMenu: FC<IContextMenuProps> = ({ groupedMessages }) => {
+const ChatContextMenu: FC<IChatContextMenuProps> = ({ groupedMessages }) => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 
   const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
@@ -44,4 +44,4 @@ const ContextMenu: FC<IContextMenuProps> = ({ groupedMessages }) => {
   );
 };
 
-export default ContextMenu;
+export default ChatContextMenu;

@@ -9,11 +9,13 @@ import {
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useTranslation } from 'react-i18next';
 
-import MessagesSkeleton from '../MessagesSkeleton/MessagesSkeleton';
+import MessagesSkeleton from './MessagesSkeleton/MessagesSkeleton';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
-import MessageItem from '@components/Messages/MessageItem/MessageItem';
-const ContextMenu = lazy(() => import('../ContextMenu/ContextMenu'));
+import MessageItem from '@components/MessageList/MessageItem/MessageItem';
+const ChatContextMenu = lazy(
+  () => import('../ChatContextMenu/ChatContextMenu')
+);
 const MessageContextMenuModal = lazy(
   () =>
     import('@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu')
@@ -49,20 +51,14 @@ const MessageList: FC = () => {
   const updateSelectedDocDataMessage = useChatStore(
     state => state.updateSelectedDocDataMessage
   );
-
   const resetSelectedMessages = useChatStore(
     state => state.resetSelectedMessages
   );
 
   const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(
     [chatUID, { lastMessage: '', senderUserID: '', userUID: '' }],
-    false
+    true
   );
-  // const lengthOfUnreadMsgs = 0;
-
-  // console.log('isLoadedContent', isLoadedContent);
-
-  // console.log('screen --> MessageList');
 
   // тоглит чат форму вместо кнопок интерфейса выбраных сообщений
   useEffect(() => {
@@ -89,11 +85,11 @@ const MessageList: FC = () => {
       msgListRef.current &&
       !timeoutRef.current
     ) {
-      quickScrollBottom();
+      // quickScrollBottom();
 
       timeoutRef.current = setTimeout(() => {
         const imagesInMessages = msgListRef?.current?.querySelectorAll('img');
-        // console.log('imagesInMessages', imagesInMessages);
+        console.log('imagesInMessages', imagesInMessages);
         if (imagesInMessages && imagesInMessages.length > 0) {
           // console.log('imagesInMessages', imagesInMessages);
 
@@ -111,7 +107,12 @@ const MessageList: FC = () => {
           ) => {
             try {
               await Promise.all([...images].map(img => loadImage(img.src)))
-                .then(() => quickScrollBottom())
+                .then(() => {
+                  console.log(
+                    '---------------------quickScrollBottom imagesInMessages'
+                  );
+                  quickScrollBottom();
+                })
                 .then(() => setIsLoadedContent(true));
             } catch (error) {
               console.error('Error loading images:', error);
@@ -140,7 +141,7 @@ const MessageList: FC = () => {
     if (scrollbarsRef.current) {
       if (!isScrollDownButtonVisible) {
         scrollToBottom();
-        // console.log('==========================етот скролл работает');
+        console.log('==========================етот скролл работает');
       }
     }
   }, [groupedMessages, isScrollDownButtonVisible]);
@@ -452,7 +453,7 @@ const MessageList: FC = () => {
             closeModal={handleCloseModal}
             modalPosition={modalPosition}
           >
-            <ContextMenu groupedMessages={groupedMessages} />
+            <ChatContextMenu groupedMessages={groupedMessages} />
           </MessageContextMenuModal>
         </Suspense>
       )}

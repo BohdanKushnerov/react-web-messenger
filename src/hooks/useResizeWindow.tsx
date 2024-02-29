@@ -4,6 +4,7 @@ const useResizeWindow = () => {
   const [isFullScreen, setIsFullScreen] = useState(
     () => window.innerWidth > 640
   );
+  const [heightWindow, setHeightWindow] = useState(() => window.innerHeight);
 
   useEffect(() => {
     const handleResize = () => {
@@ -12,6 +13,7 @@ const useResizeWindow = () => {
       } else {
         setIsFullScreen(true);
       }
+      setHeightWindow(window.innerHeight);
     };
 
     window.addEventListener('resize', handleResize);
@@ -21,7 +23,7 @@ const useResizeWindow = () => {
     };
   }, [setIsFullScreen]);
 
-  return isFullScreen;
+  return { isFullScreen, heightWindow };
 };
 
 export default useResizeWindow;

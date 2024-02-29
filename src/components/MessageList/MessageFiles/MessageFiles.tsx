@@ -21,10 +21,7 @@ const MessageFiles: FC<IMessageFilesProps> = ({ msg }) => {
         }
         return null; // or handle other types if needed
       })
-      .filter(
-        (slide: IFile | null) =>
-          slide !== null
-      );
+      .filter((slide: IFile | null) => slide !== null);
 
   return (
     <>

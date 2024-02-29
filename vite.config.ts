@@ -8,6 +8,7 @@ export default defineConfig({
       '@assets': '/src/assets',
       '@components': '/src/components',
       '@pages': '/src/pages',
+      '@router': '/src/router',
       '@routes': '/src/routes',
       '@myfirebase': '/src/myfirebase',
       '@zustand': '/src/zustand',
