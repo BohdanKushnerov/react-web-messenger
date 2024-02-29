@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 
-import { IUseUnreadMessagesInChatListItem } from '@interfaces/hooks/IUseUnreadMessagesInChatListItem';
+import { IUseUnreadMessages } from '@interfaces/hooks/IUseUnreadMessages';
 import useChatStore from '@zustand/store';
 
-const useUnreadMessagesInChatListItem: IUseUnreadMessagesInChatListItem = (
+const useUnreadMessages: IUseUnreadMessages = (
   lengthOfMyUnreadMsgs,
   chatInfo
 ) => {
@@ -22,4 +22,4 @@ const useUnreadMessagesInChatListItem: IUseUnreadMessagesInChatListItem = (
   }, [chatInfo, lengthOfMyUnreadMsgs, updateTotalUnreadMessages]);
 };
 
-export default useUnreadMessagesInChatListItem;
+export default useUnreadMessages;

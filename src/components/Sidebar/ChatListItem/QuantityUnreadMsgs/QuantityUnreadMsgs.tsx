@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
 import { ChatListItemType } from 'types/ChatListItemType';
-import useUnreadMessagesInChatListItem from '@hooks/useUnreadMessagesInChatListItem';
+import useUnreadMessagesInChatListItem from '@hooks/useUnreadMessages';
 
 interface IQuantityUnreadMsgsProps {
   chatInfo: ChatListItemType;
