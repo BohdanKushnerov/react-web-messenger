@@ -5,7 +5,7 @@ import { IMessageFilesProps } from '@interfaces/IMessageFilesProps';
 import { IFile } from '@interfaces/IFile';
 
 const MessageFiles: FC<IMessageFilesProps> = ({ msg }) => {
-  const filterdeFiles =
+  const filteredFiles =
     msg.data().file &&
     msg
       .data()
@@ -25,8 +25,8 @@ const MessageFiles: FC<IMessageFilesProps> = ({ msg }) => {
 
   return (
     <>
-      {filterdeFiles &&
-        filterdeFiles.map((fileInside: IFile, index: number) => (
+      {filteredFiles &&
+        filteredFiles.map((fileInside: IFile, index: number) => (
           <MessageFile key={index} file={fileInside} />
         ))}
     </>

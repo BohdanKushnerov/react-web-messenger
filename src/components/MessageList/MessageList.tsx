@@ -86,6 +86,7 @@ const MessageList: FC = () => {
       !timeoutRef.current
     ) {
       // quickScrollBottom();
+      console.log('===================таймер уже запущен===================');
 
       timeoutRef.current = setTimeout(() => {
         const imagesInMessages = msgListRef?.current?.querySelectorAll('img');
@@ -106,14 +107,24 @@ const MessageList: FC = () => {
             images: NodeListOf<HTMLImageElement>
           ) => {
             try {
-              await Promise.all([...images].map(img => loadImage(img.src)))
-                .then(() => {
-                  console.log(
-                    '---------------------quickScrollBottom imagesInMessages'
-                  );
-                  quickScrollBottom();
-                })
-                .then(() => setIsLoadedContent(true));
+              await Promise.all(
+                [...images].map(img => loadImage(img.src))
+              ).then(() => {
+                console.log(
+                  '---------------------quickScrollBottom imagesInMessages'
+                );
+                quickScrollBottom();
+                setTimeout(() => {
+                  setIsLoadedContent(true);
+                }, 100);
+              });
+              // .then(() => {
+              //   console.log(
+              //     '---------------------quickScrollBottom imagesInMessages'
+              //   );
+              //   quickScrollBottom();
+              // })
+              // .then(() => setIsLoadedContent(true));
             } catch (error) {
               console.error('Error loading images:', error);
             }
@@ -123,9 +134,16 @@ const MessageList: FC = () => {
         } else {
           // если нету фото делаем скролл вниз
           quickScrollBottom();
-          setIsLoadedContent(true);
+          setTimeout(() => {
+            setIsLoadedContent(true);
+          }, 100);
+          // quickScrollBottom();
+          // setIsLoadedContent(true);
+          console.log(
+            '===================таймер уже ВСЕЕЕЕЕЕЕЕЕЕЕ нету фото==================='
+          );
         }
-      }, 300);
+      }, 150);
     }
 
     return () => {
@@ -139,12 +157,12 @@ const MessageList: FC = () => {
   // авто скролл вниз при новом сообщении если я внизу списка
   useEffect(() => {
     if (scrollbarsRef.current) {
-      if (!isScrollDownButtonVisible) {
+      if (!isScrollDownButtonVisible && isLoadedContent) {
         scrollToBottom();
-        console.log('==========================етот скролл работает');
+        // console.log('==========================етот скролл работает');
       }
     }
-  }, [groupedMessages, isScrollDownButtonVisible]);
+  }, [groupedMessages, isScrollDownButtonVisible, isLoadedContent]);
 
   // скелетон сообщений
   useEffect(() => {
@@ -165,7 +183,7 @@ const MessageList: FC = () => {
 
     const unsubChatMessages = onSnapshot(queryParams, snapshot => {
       // console.log('snapshot.metadata.fromCache', snapshot.metadata.fromCache);
-      // console.log(snapshot.docs);
+      console.log(snapshot.docs, snapshot.metadata.fromCache);
       // if (snapshot.metadata.fromCache === false) {
       //   setIsLoadedContent(false);
       // }
