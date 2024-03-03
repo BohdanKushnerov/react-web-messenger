@@ -11,34 +11,37 @@ const MessageImage: FC<IMessageImageProps> = ({
 }) => {
   const files: IFile[] = msg.data().file;
 
-  const getImageStyle = () => {
-    // const width = files.length === 1 ? 448 : index === 0 ? 320 : 159;
-    // const height = 'auto';
-    // const maxHeight = files.length === 1 ? 400 : index === 0 ? 320 : 159;
-    const objectFit = 'cover' as const;
-    const borderRadius = 6;
+  function calculateWidth(file: IFile) {
+    const height = file.height;
+    const width = file.width;
 
-    return {
-      // width,
-      // height,
-      // maxHeight,
-      objectFit,
-      borderRadius,
-    };
-  };
+    if (width / height > 1.4) {
+      return files.length === 1 ? 336 : index === 0 || index === 1 ? 159 : 78.5;
+    } else {
+      return files.length === 1 ? 200 : index === 0 || index === 1 ? 159 : 78.5;
+    }
+  }
 
-  const imageStyle = getImageStyle();
+  function calculateHeight(file: IFile) {
+    const height = file.height;
+    const width = file.width;
+
+    if (height / width > 1.4) {
+      return files.length === 1 ? 336 : index === 0 || index === 1 ? 159 : 78.5;
+    } else {
+      return files.length === 1 ? 200 : index === 0 || index === 1 ? 159 : 78.5;
+    }
+  }
 
   return (
     <img
-      className="cursor-pointer"
+      className="cursor-pointer object-cover rounded-md"
       src={file.url}
       alt={file.type}
-      style={imageStyle}
-      // width={files.length === 1 ? 448 : index === 0 ? 320 : 159}
-      // height={files.length === 1 ? 400 : index === 0 ? 320 : 159}
-      width={files.length === 1 ? 224 : index === 0 || index === 1 ? 159 : 78}
-      height={files.length === 1 ? 200 : index === 0 || index === 1 ? 159 : 78}
+      style={{
+        width: calculateWidth(file),
+        height: calculateHeight(file),
+      }}
       loading="lazy"
       onClick={() => handleClickPhoto(index)}
       id="img"
@@ -47,3 +50,13 @@ const MessageImage: FC<IMessageImageProps> = ({
 };
 
 export default MessageImage;
+
+// const files: IFile[] = msg.data().file;
+
+// width={files.length === 1 ? 336 : index === 0 || index === 1 ? 159 : 78}
+// height={files.length === 1 ? 200 : index === 0 || index === 1 ? 159 : 78}
+
+// width={files.length === 1 ? 448 : index === 0 ? 320 : 159}
+// height={files.length === 1 ? 400 : index === 0 ? 320 : 159}
+// width={files.length === 1 ? 224 : index === 0 || index === 1 ? 159 : 78}
+// height={files.length === 1 ? 200 : index === 0 || index === 1 ? 159 : 78}

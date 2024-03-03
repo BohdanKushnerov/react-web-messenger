@@ -107,24 +107,23 @@ const MessageList: FC = () => {
             images: NodeListOf<HTMLImageElement>
           ) => {
             try {
-              await Promise.all(
-                [...images].map(img => loadImage(img.src))
-              ).then(() => {
-                console.log(
-                  '---------------------quickScrollBottom imagesInMessages'
-                );
-                quickScrollBottom();
-                setTimeout(() => {
-                  setIsLoadedContent(true);
-                }, 100);
-              });
-              // .then(() => {
-              //   console.log(
-              //     '---------------------quickScrollBottom imagesInMessages'
-              //   );
-              //   quickScrollBottom();
-              // })
-              // .then(() => setIsLoadedContent(true));
+              await Promise.all([...images].map(img => loadImage(img.src)))
+                .then(() => {
+                  console.log(
+                    '---------------------quickScrollBottom imagesInMessages'
+                  );
+                  // quickScrollBottom();
+                  // setTimeout(() => {
+                  //   setIsLoadedContent(true);
+                  // }, 100);
+                })
+                .then(() => {
+                  console.log(
+                    '---------------------quickScrollBottom imagesInMessages'
+                  );
+                  quickScrollBottom();
+                })
+                .then(() => setIsLoadedContent(true));
             } catch (error) {
               console.error('Error loading images:', error);
             }
@@ -133,17 +132,18 @@ const MessageList: FC = () => {
           loadAllImages(imagesInMessages);
         } else {
           // если нету фото делаем скролл вниз
-          quickScrollBottom();
-          setTimeout(() => {
-            setIsLoadedContent(true);
-          }, 100);
           // quickScrollBottom();
-          // setIsLoadedContent(true);
+          // setTimeout(() => {
+          //   setIsLoadedContent(true);
+          // }, 100);
+
+          quickScrollBottom();
+          setIsLoadedContent(true);
           console.log(
             '===================таймер уже ВСЕЕЕЕЕЕЕЕЕЕЕ нету фото==================='
           );
         }
-      }, 150);
+      }, 200);
     }
 
     return () => {
