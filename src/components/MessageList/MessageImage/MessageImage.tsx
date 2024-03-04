@@ -1,7 +1,9 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { IFile } from '@interfaces/IFile';
 import { IMessageImageProps } from '@interfaces/IMessageImageProps';
+import calculateMsgImageWidth from '@utils/messages/calculateMsgImageWidth';
+import calculateMsgImageHeight from '@utils/messages/calculateMsgImageHeight';
 
 const MessageImage: FC<IMessageImageProps> = ({
   msg,
@@ -9,54 +11,51 @@ const MessageImage: FC<IMessageImageProps> = ({
   index,
   handleClickPhoto,
 }) => {
+  const [loading, setLoading] = useState(true);
+
+  const fetchImage = (src: string) => {
+    const loadingImage = new Image();
+    loadingImage.src = src;
+    loadingImage.onload = () => {
+      setLoading(false);
+    };
+  };
+
+  useEffect(() => {
+    fetchImage(file.url);
+  }, [file.url]);
+
   const files: IFile[] = msg.data().file;
 
-  function calculateWidth(file: IFile) {
-    const height = file.height;
-    const width = file.width;
-
-    if (width / height > 1.4) {
-      return files.length === 1 ? 336 : index === 0 || index === 1 ? 159 : 78.5;
-    } else {
-      return files.length === 1 ? 200 : index === 0 || index === 1 ? 159 : 78.5;
-    }
-  }
-
-  function calculateHeight(file: IFile) {
-    const height = file.height;
-    const width = file.width;
-
-    if (height / width > 1.4) {
-      return files.length === 1 ? 336 : index === 0 || index === 1 ? 159 : 78.5;
-    } else {
-      return files.length === 1 ? 200 : index === 0 || index === 1 ? 159 : 78.5;
-    }
-  }
+  const imgHeight = calculateMsgImageHeight(files, file, index);
+  const imgWidth = calculateMsgImageWidth(files, file, index);
 
   return (
-    <img
-      className="cursor-pointer object-cover rounded-md"
-      src={file.url}
-      alt={file.type}
+    <div
       style={{
-        width: calculateWidth(file),
-        height: calculateHeight(file),
+        height: imgHeight,
+        width: imgWidth,
+        backgroundColor: `${loading ? 'gray' : ''}`,
+        filter: `${loading ? 'blur(15px)' : ''}`,
+        transition: '500ms filter linear',
       }}
-      loading="lazy"
-      onClick={() => handleClickPhoto(index)}
-      id="img"
-    />
+    >
+      <img
+        className="cursor-pointer object-cover rounded-md"
+        src={file.url}
+        alt={file.type}
+        style={{
+          height: imgHeight,
+          width: imgWidth,
+          filter: `${loading ? 'blur(20px)' : ''}`,
+          transition: '1s filter linear',
+        }}
+        loading="lazy"
+        onClick={() => handleClickPhoto(index)}
+        id="img"
+      />
+    </div>
   );
 };
 
 export default MessageImage;
-
-// const files: IFile[] = msg.data().file;
-
-// width={files.length === 1 ? 336 : index === 0 || index === 1 ? 159 : 78}
-// height={files.length === 1 ? 200 : index === 0 || index === 1 ? 159 : 78}
-
-// width={files.length === 1 ? 448 : index === 0 ? 320 : 159}
-// height={files.length === 1 ? 400 : index === 0 ? 320 : 159}
-// width={files.length === 1 ? 224 : index === 0 || index === 1 ? 159 : 78}
-// height={files.length === 1 ? 200 : index === 0 || index === 1 ? 159 : 78}
