@@ -57,7 +57,7 @@ const MessageList: FC = () => {
 
   const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(
     [chatUID, { lastMessage: '', senderUserID: '', userUID: '' }],
-    true
+    false
   );
 
   // тоглит чат форму вместо кнопок интерфейса выбраных сообщений
@@ -74,57 +74,13 @@ const MessageList: FC = () => {
     }
   }, [selectedDocDataMessage, updateIsSelectedMessages]);
 
-  // еффект ждет пока загрузятся фотки на странице, чтобы не было скачков,
-  // далее таймаут чтобы успели попасть в дом дерево и уже там по селектору взять их
-  // и посмотреть на их load
+  // еффект ждет пока загрузятся контент на странице, чтобы не было скачков,
   useEffect(() => {
     // Проверяем, был ли таймер уже запущен
-    if (
-      !isLoadedContent &&
-      groupedMessages &&
-      msgListRef.current &&
-      !timeoutRef.current
-    ) {
-      // quickScrollBottom();
-
+    if (!isLoadedContent && groupedMessages && !timeoutRef.current) {
       timeoutRef.current = setTimeout(() => {
-        const imagesInMessages = msgListRef?.current?.querySelectorAll('img');
-        console.log('imagesInMessages', imagesInMessages);
-        if (imagesInMessages && imagesInMessages.length > 0) {
-          // console.log('imagesInMessages', imagesInMessages);
-
-          const loadImage = (url: string) => {
-            return new Promise((resolve, reject) => {
-              const img = new Image();
-              img.onload = () => resolve(img);
-              img.onerror = reject;
-              img.src = url;
-            });
-          };
-
-          const loadAllImages = async (
-            images: NodeListOf<HTMLImageElement>
-          ) => {
-            try {
-              await Promise.all([...images].map(img => loadImage(img.src)))
-                .then(() => {
-                  console.log(
-                    '---------------------quickScrollBottom imagesInMessages'
-                  );
-                  quickScrollBottom();
-                })
-                .then(() => setIsLoadedContent(true));
-            } catch (error) {
-              console.error('Error loading images:', error);
-            }
-          };
-
-          loadAllImages(imagesInMessages);
-        } else {
-          // если нету фото делаем скролл вниз
-          quickScrollBottom();
-          setIsLoadedContent(true);
-        }
+        quickScrollBottom();
+        setIsLoadedContent(true);
       }, 300);
     }
 
@@ -139,12 +95,26 @@ const MessageList: FC = () => {
   // авто скролл вниз при новом сообщении если я внизу списка
   useEffect(() => {
     if (scrollbarsRef.current) {
-      if (!isScrollDownButtonVisible) {
-        scrollToBottom();
-        console.log('==========================етот скролл работает');
+      if (!isScrollDownButtonVisible && isLoadedContent) {
+        const scrollHeight = scrollbarsRef.current?.getScrollHeight() || 0;
+        const clientHeight = scrollbarsRef.current?.getClientHeight() || 0;
+        const scrollTop = scrollbarsRef.current?.getScrollTop() || 0;
+        // const chatListBottom = scrollHeight - scrollTop === clientHeight;
+        const isNearBottom = scrollHeight - scrollTop - clientHeight < 200;
+        console.log(isNearBottom);
+        console.log(scrollHeight - scrollTop);
+        console.log(clientHeight);
+
+        if (isNearBottom) {
+          // console.log('scrollToBottom', 11111111111111111111111111);
+          scrollToBottom();
+        } else {
+          // console.log('quickScrollBottom', 2222222222222222222222);
+          quickScrollBottom();
+        }
       }
     }
-  }, [groupedMessages, isScrollDownButtonVisible]);
+  }, [groupedMessages, isLoadedContent, isScrollDownButtonVisible]);
 
   // скелетон сообщений
   useEffect(() => {
@@ -165,7 +135,7 @@ const MessageList: FC = () => {
 
     const unsubChatMessages = onSnapshot(queryParams, snapshot => {
       // console.log('snapshot.metadata.fromCache', snapshot.metadata.fromCache);
-      // console.log(snapshot.docs);
+      // console.log(snapshot.docs, snapshot.metadata.fromCache);
       // if (snapshot.metadata.fromCache === false) {
       //   setIsLoadedContent(false);
       // }
@@ -216,6 +186,10 @@ const MessageList: FC = () => {
     const scrollHeight = scrollbarsRef.current?.getScrollHeight() || 0;
     const clientHeight = scrollbarsRef.current?.getClientHeight() || 0;
     const scrollTop = scrollbarsRef.current?.getScrollTop() || 0;
+
+    // console.log('scrollHeight', scrollHeight);
+    // console.log('clientHeight', clientHeight);
+    // console.log('scrollTop', scrollTop);
 
     const isNearBottom = scrollHeight - scrollTop - clientHeight > 100;
 
