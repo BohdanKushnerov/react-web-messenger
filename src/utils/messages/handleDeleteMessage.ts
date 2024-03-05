@@ -15,6 +15,8 @@ import { TFunction } from 'i18next';
 import { toast } from 'react-toastify';
 
 import { db, storage } from '@myfirebase/config';
+import makeCursorOnProgress from '@utils/makeCursorOnProgress';
+import resetCursorOnDefault from '@utils/resetCursorOnDefault';
 import { IFile } from '@interfaces/IFile';
 
 const deleteFilesAndDocs = async (
@@ -76,57 +78,66 @@ export const handleDeleteMessage = async (
     userUID &&
     selectedDocDataMessage
   ) {
-    await deleteFilesAndDocs(selectedDocDataMessage, db, chatUID).then(() => {
-      closeModal();
-    });
+    try {
+      makeCursorOnProgress();
 
-    const lastMessageFromStorage = await getLastMessage(chatUID, db);
-
-    if (lastMessageFromStorage) {
-      const lastFiles = lastMessageFromStorage.file;
-
-      const lastMessage = lastFiles
-        ? `${String.fromCodePoint(128206)} ${lastFiles.length} file(s) ${
-            lastMessageFromStorage.message
-          }`
-        : lastMessageFromStorage.message;
-
-      const senderUserIDMessage = lastMessageFromStorage.senderUserID;
-
-      const lastDateMessage = lastMessageFromStorage.date;
-
-      // здесь надо переписывать последнее сообщение мне и напарнику после удаления
-      await updateDoc(doc(db, 'userChats', currentUserUID), {
-        [chatUID + '.lastMessage']: lastMessage,
-        [chatUID + '.senderUserID']: senderUserIDMessage,
-        [chatUID + '.date']: lastDateMessage,
+      await deleteFilesAndDocs(selectedDocDataMessage, db, chatUID).then(() => {
+        closeModal();
       });
 
-      // =====================================================
-      await updateDoc(doc(db, 'userChats', userUID), {
-        [chatUID + '.lastMessage']: lastMessage,
-        [chatUID + '.senderUserID']: senderUserIDMessage,
-        [chatUID + '.date']: lastDateMessage,
-      });
-    } else {
-      // пустую строку с пробелом чтобы не падала ошибка
+      const lastMessageFromStorage = await getLastMessage(chatUID, db);
 
-      await updateDoc(doc(db, 'userChats', currentUserUID), {
-        [chatUID + '.lastMessage']: ' ',
-        [chatUID + '.senderUserID']: ' ',
-        [chatUID + '.date']: ' ',
-      });
-      // =====================================================
-      await updateDoc(doc(db, 'userChats', userUID), {
-        [chatUID + '.lastMessage']: ' ',
-        [chatUID + '.senderUserID']: ' ',
-        [chatUID + '.date']: ' ',
-      });
+      if (lastMessageFromStorage) {
+        const lastFiles = lastMessageFromStorage.file;
+
+        const lastMessage = lastFiles
+          ? `${String.fromCodePoint(128206)} ${lastFiles.length} file(s) ${
+              lastMessageFromStorage.message
+            }`
+          : lastMessageFromStorage.message;
+
+        const senderUserIDMessage = lastMessageFromStorage.senderUserID;
+
+        const lastDateMessage = lastMessageFromStorage.date;
+
+        // здесь надо переписывать последнее сообщение мне и напарнику после удаления
+        await updateDoc(doc(db, 'userChats', currentUserUID), {
+          [chatUID + '.lastMessage']: lastMessage,
+          [chatUID + '.senderUserID']: senderUserIDMessage,
+          [chatUID + '.date']: lastDateMessage,
+        });
+
+        // =====================================================
+        await updateDoc(doc(db, 'userChats', userUID), {
+          [chatUID + '.lastMessage']: lastMessage,
+          [chatUID + '.senderUserID']: senderUserIDMessage,
+          [chatUID + '.date']: lastDateMessage,
+        });
+      } else {
+        // пустую строку с пробелом чтобы не падала ошибка
+
+        await updateDoc(doc(db, 'userChats', currentUserUID), {
+          [chatUID + '.lastMessage']: ' ',
+          [chatUID + '.senderUserID']: ' ',
+          [chatUID + '.date']: ' ',
+        });
+        // =====================================================
+        await updateDoc(doc(db, 'userChats', userUID), {
+          [chatUID + '.lastMessage']: ' ',
+          [chatUID + '.senderUserID']: ' ',
+          [chatUID + '.date']: ' ',
+        });
+      }
+
+      const inputElement = document.getElementById('chatFormInput')!;
+      inputElement.focus();
+
+      toast.success(t('Toasts.DeleteMessageSuccess'));
+    } catch (error) {
+      toast.error(t('Toasts.DeleteMessageError'));
+      console.log('handleDeleteMessage error', error);
+    } finally {
+      resetCursorOnDefault();
     }
-
-    toast.success(t('Toasts.DeleteMessageSuccess'));
-
-    const inputElement = document.getElementById('chatFormInput')!;
-    inputElement.focus();
   }
 };

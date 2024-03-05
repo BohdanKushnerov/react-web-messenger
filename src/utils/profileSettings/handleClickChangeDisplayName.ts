@@ -15,22 +15,20 @@ const handleClickChangeDisplayName = async (
     try {
       await updateProfile(auth.currentUser, {
         displayName: newDisplayName,
-      })
-        .then(() => {
-          if (auth.currentUser) {
-            updateCurrentUser(auth.currentUser);
-          }
-        })
-        .then(() => toast.success(t('ChangeNameToast')))
-        .catch(error => {
-          console.log('handleClickChangeDisplayName error', error);
-        });
+      });
 
-      // обновить имя в сторе
+      if (auth.currentUser) {
+        updateCurrentUser(auth.currentUser);
+      }
+
+      // Обновить имя в сторе
       await updateDoc(doc(db, 'users', userUid), {
         displayName: newDisplayName,
       });
+
+      toast.success(t('ChangeNameToastSuccess'));
     } catch (error) {
+      toast.error(t('ChangeNameToastError'));
       console.log('handleClickChangeDisplayName error', error);
     }
   }

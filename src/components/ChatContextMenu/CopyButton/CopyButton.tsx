@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 
 import useChatStore from '@zustand/store';
-import { textFromSelectedMsgs } from '@utils/messages/textFromSelectedMsgs';
+import copyTextSelectedMsgs from '@utils/messages/copyTextSelectedMsgs';
 import sprite from '@assets/sprite.svg';
 
 interface ICopyButtonProps {
@@ -39,7 +39,7 @@ const CopyButton: FC<ICopyButtonProps> = ({
     <>
       {selectedDocDataMessage && (
         <CopyToClipboard
-          text={textFromSelectedMsgs(selectedDocDataMessage) || ''}
+          text={copyTextSelectedMsgs(selectedDocDataMessage) || ''}
           onCopy={handleSuccessClickCopyTextMsg}
         >
           <div

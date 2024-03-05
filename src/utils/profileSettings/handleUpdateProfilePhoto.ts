@@ -55,7 +55,7 @@ export const handleUpdateProfilePhoto = async (
                 setProfilePhotoUploadStatus(progress);
               },
               error => {
-                console.log('error', error);
+                console.log('uploadTask.on error', error);
               },
               async () => {
                 try {
@@ -64,13 +64,7 @@ export const handleUpdateProfilePhoto = async (
                   );
 
                   resolve(downloadURL);
-                  toast.success(t('ChangePhotoToast'));
                 } catch (error) {
-                  // console.log(
-                  //   'profilePhotoUrlFromStorage',
-                  //   profilePhotoUrlFromStorage
-                  // );
-                  console.log('profilePhotoUrlFromStorage error', error);
                   reject(error);
                 }
               }
@@ -102,7 +96,10 @@ export const handleUpdateProfilePhoto = async (
 
         handleToggleProfilePhotoModal();
         setProfilePhotoUploadStatus(null);
+
+        toast.success(t('ChangePhotoToastSuccess'));
       } catch (error) {
+        toast.error(t('ChangePhotoToastError'));
         console.log('handleUpdateProfilePhoto error', error);
       }
     }

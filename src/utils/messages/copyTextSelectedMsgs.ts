@@ -1,9 +1,9 @@
 import { DocumentData } from 'firebase/firestore';
 
-export const textFromSelectedMsgs = (
-  selectedDocDataMessage: DocumentData[]
-) => {
+function copyTextSelectedMsgs(selectedDocDataMessage: DocumentData[]) {
   if (selectedDocDataMessage?.length) {
     return selectedDocDataMessage.map(msg => msg.data().message).join(' ');
   }
-};
+}
+
+export default copyTextSelectedMsgs

@@ -20,7 +20,7 @@ import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
 import useTyping from '@hooks/useTyping';
 import useClearMessagesOnChatChange from '@hooks/useClearMessagesOnChatChange';
 import useEditingMessage from '@hooks/useEditingMessage';
-import handleUpdateEditMessage from '@utils/chatForm/handleUpdateEditMessage';
+import handleUpdateEditMessage from '@utils/messages/handleUpdateEditMessage';
 import handleSendMessage from '@utils/chatForm/handleSendMessage';
 import sprite from '@assets/sprite.svg';
 import '@i18n';

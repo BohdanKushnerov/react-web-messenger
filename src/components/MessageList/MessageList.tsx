@@ -101,9 +101,9 @@ const MessageList: FC = () => {
         const scrollTop = scrollbarsRef.current?.getScrollTop() || 0;
         // const chatListBottom = scrollHeight - scrollTop === clientHeight;
         const isNearBottom = scrollHeight - scrollTop - clientHeight < 200;
-        console.log(isNearBottom);
-        console.log(scrollHeight - scrollTop);
-        console.log(clientHeight);
+        // console.log(isNearBottom);
+        // console.log(scrollHeight - scrollTop);
+        // console.log(clientHeight);
 
         if (isNearBottom) {
           // console.log('scrollToBottom', 11111111111111111111111111);

@@ -35,8 +35,10 @@ const resources = {
         Phone: 'Phone:',
         ChangeName: 'Change Name',
         ChangeNameNotify: 'Start change username and button will be enable',
-        ChangeNameToast: 'Change name success',
-        ChangePhotoToast: 'Change photo success',
+        ChangeNameToastSuccess: 'Change profile name success',
+        ChangeNameToastError: 'Change profile name error',
+        ChangePhotoToastSuccess: 'Change photo profile success',
+        ChangePhotoToastError: 'Change photo profile error',
         Modal: {
           ChangeProfilePhotoPrompt:
             "If you're satisfied, click the 'Change Profile Photo' button, or close the window and try a new photo",
@@ -64,8 +66,10 @@ const resources = {
         UnreadMessages: 'unread messages!',
       },
       Toasts: {
-        DeleteMessageSuccess: 'Message successfully deleted!',
+        DeleteMessageSuccess: 'Message(s) successfully deleted!',
+        DeleteMessageError: 'Message(s) deleting error!',
         EditingMessageSuccess: 'Message successfully edited!',
+        EditingMessageError: 'Message editing error!',
         CopyToClipboard: 'Copied to Clipboard!',
       },
       Search: 'Search...',
@@ -109,8 +113,10 @@ const resources = {
         ChangeName: "Змінити ім'я",
         ChangeNameNotify:
           "Почніть змінювати ім'я користувача, і кнопка буде увімкнена",
-        ChangeNameToast: 'Зміна імені успішна',
-        ChangePhotoToast: 'Зміна фото успішна',
+        ChangeNameToastSuccess: 'Зміна імені профілю успішна',
+        ChangeNameToastError: 'Помилка зміни імені профілю',
+        ChangePhotoToastSuccess: 'Зміна фото профілю успішна',
+        ChangePhotoToastError: 'Помилка зміни фото профілю',
         Modal: {
           ChangeProfilePhotoPrompt:
             "Якщо ви задоволені, натисніть кнопку 'Змінити фото профілю' або закрийте вікно і спробуйте нове фото",
@@ -138,8 +144,10 @@ const resources = {
         UnreadMessages: 'непрочитані повідомлення!',
       },
       Toasts: {
-        DeleteMessageSuccess: 'Повідомлення успішно видалено!',
+        DeleteMessageSuccess: 'Повідомлення успішно видалено(і)!',
+        DeleteMessageError: 'Помилка видалення повідомлення(ь)!',
         EditingMessageSuccess: 'Повідомлення успішно відредаговано!',
+        EditingMessageError: 'Помилка редагування повідомлення!',
         CopyToClipboard: 'Скопійовано в буфер обміну!',
       },
       Search: 'Пошук...',
@@ -184,8 +192,10 @@ const resources = {
         ChangeName: 'Изменить имя',
         ChangeNameNotify:
           'Начните изменять имя пользователя, и кнопка будет включена',
-        ChangeNameToast: 'Смена имени успешна',
-        ChangePhotoToast: 'Смена фото успешна',
+        ChangeNameToastSuccess: 'Смена имени профиля успешна',
+        ChangeNameToastError: 'Ошибка смены имени профиля',
+        ChangePhotoToastSuccess: 'Смена фото профиля успешна',
+        ChangePhotoToastError: 'Ошибка смены фото профиля',
         Modal: {
           ChangeProfilePhotoPrompt:
             "Если вы удовлетворены, нажмите кнопку 'Изменить фото профиля' или закройте окно и попробуйте новое фото",
@@ -213,8 +223,10 @@ const resources = {
         UnreadMessages: 'непрочитанных сообщения!',
       },
       Toasts: {
-        DeleteMessageSuccess: 'Сообщение успешно удалено!',
+        DeleteMessageSuccess: 'Сообщение(я) успешно удалено(ы)!',
+        DeleteMessageError: 'Ошибка удаления сообщения(й)!',
         EditingMessageSuccess: 'Сообщение успешно отредактировано!',
+        EditingMessageError: 'Ошибка исправления сообщения!',
         CopyToClipboard: 'Скопировано в буфер обмена!',
       },
       Search: 'Поиск...',
