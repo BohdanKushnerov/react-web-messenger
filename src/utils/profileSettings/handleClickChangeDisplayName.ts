@@ -13,9 +13,12 @@ const handleClickChangeDisplayName = async (
 ) => {
   if (auth.currentUser && userUid) {
     try {
-      await updateProfile(auth.currentUser, {
-        displayName: newDisplayName,
-      });
+      if (newDisplayName.trim() === "") {
+        throw new Error("Empty name")
+      }
+        await updateProfile(auth.currentUser, {
+          displayName: newDisplayName,
+        });
 
       if (auth.currentUser) {
         updateCurrentUser(auth.currentUser);

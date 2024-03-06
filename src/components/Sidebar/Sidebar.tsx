@@ -43,6 +43,7 @@ const Sidebar: FC = memo(() => {
               <Navbar />
               <SearchUsers />
             </div>
+
             <Scrollbars
               autoHide
               style={{

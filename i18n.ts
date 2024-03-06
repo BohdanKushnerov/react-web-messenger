@@ -20,6 +20,10 @@ const resources = {
         November: 'November',
         December: 'December',
       },
+      Sidebar: {
+        NoChats: "Sorry, but you don't have any chats yet 😔",
+        UsersNotFound: 'Users not found.',
+      },
       NavBar: {
         SignOut: 'Sign Out',
         ProfileSettings: 'Profile Settings',
@@ -96,6 +100,10 @@ const resources = {
         October: 'Жовтень',
         November: 'Листопад',
         December: 'Грудень',
+      },
+      Sidebar: {
+        NoChats: 'Шкода, але на жаль, у вас ще немає жодного чату 😔',
+        UsersNotFound: 'Користувачів не знайдено.',
       },
       NavBar: {
         SignOut: 'Вийти з аккаунта',
@@ -175,6 +183,10 @@ const resources = {
         October: 'Октябрь',
         November: 'Ноябрь',
         December: 'Декабрь',
+      },
+      Sidebar: {
+        NoChats: 'Жаль, но у вас пока нет ни одного чата 😔',
+        UsersNotFound: 'Пользователи не найдены.',
       },
       NavBar: {
         SignOut: 'Выйти из аккаунта',

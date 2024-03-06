@@ -1,4 +1,4 @@
-import { FC, Suspense, lazy } from 'react';
+import { FC, Suspense, lazy, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ChatHeaderOponentInfo from '@components/ChatHeader/ChatHeaderOponentInfo/ChatHeaderOponentInfo';
@@ -14,6 +14,8 @@ import { IChatHeaderProps } from '@interfaces/IChatHeaderProps';
 const ChatHeader: FC<IChatHeaderProps> = ({ setIsShowSearchMessages }) => {
   const navigate = useNavigate();
 
+  const { chatUID } = useChatStore(state => state.currentChatInfo);
+
   const resetCurrentChatInfo = useChatStore(
     state => state.resetCurrentChatInfo
   );
@@ -21,6 +23,10 @@ const ChatHeader: FC<IChatHeaderProps> = ({ setIsShowSearchMessages }) => {
   const { isFullScreen } = useResizeWindow();
 
   // console.log('screen --> ChatHeader');
+
+  useEffect(() => {
+    setIsShowSearchMessages(false);
+  }, [chatUID, setIsShowSearchMessages]);
 
   const handleClickShowSearchMessages = () => {
     setIsShowSearchMessages(true);

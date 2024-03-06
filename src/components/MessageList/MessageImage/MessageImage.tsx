@@ -33,8 +33,6 @@ const MessageImage: FC<IMessageImageProps> = ({
   return (
     <div
       style={{
-        height: imgHeight,
-        width: imgWidth,
         backgroundColor: `${loading ? 'gray' : ''}`,
         filter: `${loading ? 'blur(15px)' : ''}`,
         transition: '500ms filter linear',

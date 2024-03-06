@@ -6,10 +6,13 @@ interface ILoaderUIActionsProps {
 }
 
 const LoaderUIActions: FC<ILoaderUIActionsProps> = ({ size = 15 }) => {
+  // const theme = localStorage.getItem('theme');
+
   return (
     <ClipLoader
-      // color={'rgb(63 63 70)'}
-      color='white'
+      // color={theme === 'dark' ? "white" : 'black'}
+      // color={theme === 'dark' ? '#ffb641' : '#c6da96'}
+      color="#ffb641"
       size={size}
       aria-label="Loading Spinner"
       data-testid="loader"

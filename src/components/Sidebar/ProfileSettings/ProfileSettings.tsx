@@ -121,7 +121,7 @@ const ProfileSettings: FC = () => {
                         size="200"
                       />
                       <svg
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hover:scale-105"
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-105"
                         width={48}
                         height={48}
                       >
@@ -158,9 +158,9 @@ const ProfileSettings: FC = () => {
                 <button
                   className={`w-48 border-2 rounded-3xl ${
                     displayName === newDisplayName
-                      ? 'bg-transparent border-zinc-400 text-zinc-400'
-                      : 'text-white bg-transparent border-white'
-                  } hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800 cursor-pointer`}
+                      ? 'bg-transparent border-zinc-500 text-zinc-500'
+                      : 'bg-transparent text-black border-black dark:text-white dark:border-white hover:bg-zinc-400 hover:dark:bg-gray-800 cursor-pointer'
+                  } transition-all duration-300 hover:shadow-mainShadow `}
                   onClick={() =>
                     uid !== null &&
                     handleClickChangeDisplayName(
