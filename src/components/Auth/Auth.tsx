@@ -18,7 +18,7 @@ import authStep3 from '@assets/auth-step3.webp';
 
 const Auth: FC = () => {
   const [step, setStep] = useState<AuthSteps>('Step 1/3');
-  const [phone, setPhone] = useState<E164Number | string>('16505553435');
+  const [phone, setPhone] = useState<E164Number | string>('');
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
@@ -119,7 +119,7 @@ const Auth: FC = () => {
   return (
     <div className="bg-main-bcg bg-no-repeat bg-cover bg-center h-screen">
       <p className="text-white font-bold text-center">{step}</p>
-      <div className="bg-mybcg min-w-240px max-w-320px h-150 mx-auto my-0 p-4 rounded-md">
+      <div className="bg-mybcg min-w-240px max-w-320px mx-auto my-0 p-4 rounded-md">
         {step === 'Step 1/3' && (
           <>
             <img
@@ -200,6 +200,23 @@ const Auth: FC = () => {
             </form>
           </>
         )}
+      </div>
+
+      <div className="bg-mybcg min-w-240px max-w-320px mx-auto mt-10 rounded-md">
+        <div>
+          <h2 className="text-white font-bold text-center">Test number: 1</h2>
+          <p className="text-gray-400 font-bold text-center">+1 650-555-3434</p>
+          <p className="text-gray-500 font-bold text-center">
+            <span>Code: </span>111111
+          </p>
+        </div>
+        <div>
+          <h2 className="text-white font-bold text-center">Test number: 2 </h2>
+          <p className="text-gray-400 font-bold text-center">+1 650-555-3435</p>
+          <p className="text-gray-500 font-bold text-center">
+            <span>Code: </span>111111
+          </p>
+        </div>
       </div>
     </div>
   );

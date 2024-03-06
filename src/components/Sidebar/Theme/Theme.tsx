@@ -26,7 +26,7 @@ const Theme: FC = () => {
         <button
           id="light-theme-switcher"
           className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-gray-800 dark:text-gray-300 ${
-            isLightTheme && 'bg-gray-600'
+            isLightTheme && 'bg-gray-400'
           } transition-all duration-300 hover:dark:text-gray-800 hover:bg-gray-200 rounded-md disabled:pointer-events-none`}
           data-theme="light"
           disabled={isLightTheme}

@@ -1,19 +1,20 @@
-import { useRef, memo, Suspense, lazy } from 'react';
+import { useRef, memo, Suspense } from 'react';
 import { Transition } from 'react-transition-group';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import Sidebar from '@components/Sidebar/Sidebar';
-const BrowserTabTitle = lazy(
-  () => import('@components/BrowserTabTitle/BrowserTabTitle')
-);
+// const BrowserTabTitle = lazy(
+//   () => import('@components/BrowserTabTitle/BrowserTabTitle')
+// );
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import BrowserTabTitle from '@components/BrowserTabTitle/BrowserTabTitle';
 import useRequestPermission from '@hooks/useRequestPermission';
 import useIsRedirectToCurrentChat from '@hooks/useIsRedirectToCurrentChat';
 import useResizeWindow from '@hooks/useResizeWindow';
 import useIsOnlineMyStatus from '@hooks/useIsOnlineMyStatus';
 import useBrowserTabVisibilityChange from '@hooks/useBrowserTabVisibilityChange';
 import audio from '@assets/notify.mp3';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const HomePage = memo(() => {
   const { pathname } = useLocation();
@@ -123,11 +124,12 @@ const HomePage = memo(() => {
           </Suspense>
         </div>
       )}
-      {docHidden && (
+      {/* {docHidden && (
         <Suspense>
           <BrowserTabTitle docHidden={docHidden} />
         </Suspense>
-      )}
+      )} */}
+      {docHidden && <BrowserTabTitle docHidden={docHidden} />}
       <audio src={audio} id="notify"></audio>
     </div>
   );

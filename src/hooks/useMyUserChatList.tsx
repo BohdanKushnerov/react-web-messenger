@@ -4,12 +4,15 @@ import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '@myfirebase/config';
 
 const useMyUserChatList = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [myUserChatList, setMyUserChatList] = useState<DocumentData | null>(
     null
   );
 
   useEffect(() => {
     if (!auth?.currentUser?.uid) return;
+
+    setIsLoading(true);
 
     const unsubMyUserChats = onSnapshot(
       doc(db, 'userChats', auth?.currentUser?.uid),
@@ -35,6 +38,7 @@ const useMyUserChatList = () => {
           );
 
           setMyUserChatList(entries);
+          setIsLoading(false);
         }
       }
     );
@@ -44,7 +48,7 @@ const useMyUserChatList = () => {
     };
   }, []);
 
-  return myUserChatList;
+  return { isLoading, myUserChatList };
 };
 
 export default useMyUserChatList;

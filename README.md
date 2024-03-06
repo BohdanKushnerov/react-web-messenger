@@ -43,4 +43,4 @@ Before getting started, make sure you have:
 1. Clone the project repository.
 2. Run the command `npm install` to install the necessary dependencies.
 3. Execute `npm run dev` to start the project.
-4. Open a web browser and go to http://localhost:5173/react-web-messenger to view the application.
+4. Open a web browser and go to http://localhost:5173 to view the application.
