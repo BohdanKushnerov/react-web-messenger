@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { DefaultExtensionType, FileIcon, defaultStyles } from 'react-file-icon';
 
+import VideoComponent from '../VideoComponent/VideoComponent';
 import { useFileLinkFromStorage } from '@hooks/useFileLinkFromStorage';
 import { IMessageFileProps } from '@interfaces/IMessageFileProps';
-import VideoComponent from '../VideoComponent/VideoComponent';
 
 const MessageFile: FC<IMessageFileProps> = ({ file }) => {
   const storageLink = useFileLinkFromStorage(file); // получения ссилки на файл

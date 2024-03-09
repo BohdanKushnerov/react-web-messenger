@@ -8,6 +8,7 @@ const AvatarProfile: FC<IAvatarProfileProps> = ({
   displayName,
   size,
 }) => {
+  console.log('AVATAR');
   return photoURL && displayName ? (
     <img
       className="rounded-full shadow-secondaryShadow transition-all duration-150 group-hover:scale-105"

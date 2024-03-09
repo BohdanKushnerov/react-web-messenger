@@ -4,9 +4,6 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import Sidebar from '@components/Sidebar/Sidebar';
-// const BrowserTabTitle = lazy(
-//   () => import('@components/BrowserTabTitle/BrowserTabTitle')
-// );
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import BrowserTabTitle from '@components/BrowserTabTitle/BrowserTabTitle';
 import useRequestPermission from '@hooks/useRequestPermission';
@@ -25,9 +22,10 @@ const HomePage = memo(() => {
 
   const { isFullScreen, heightWindow } = useResizeWindow();
   const docHidden = useBrowserTabVisibilityChange();
+
   useRequestPermission();
-  useIsRedirectToCurrentChat(); // useNavigate; currentUserUID, updateCurrentChatInfo - zustand
-  useIsOnlineMyStatus(); // currentUserUID - zustand;
+  useIsOnlineMyStatus();
+  useIsRedirectToCurrentChat();
 
   console.log('screen --> HomePage');
 
@@ -124,11 +122,6 @@ const HomePage = memo(() => {
           </Suspense>
         </div>
       )}
-      {/* {docHidden && (
-        <Suspense>
-          <BrowserTabTitle docHidden={docHidden} />
-        </Suspense>
-      )} */}
       {docHidden && <BrowserTabTitle docHidden={docHidden} />}
       <audio src={audio} id="notify"></audio>
     </div>

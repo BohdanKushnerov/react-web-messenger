@@ -1,4 +1,4 @@
-import { FC, Suspense, lazy, memo, useState } from 'react';
+import { FC, Suspense, lazy, useState } from 'react';
 
 import ChatForm from '../../components/ChatForm/ChatForm';
 import ChatHeader from '../../components/ChatHeader/ChatHeader';
@@ -8,7 +8,7 @@ const SearchMessages = lazy(
   () => import('@components/ChatHeader/SearchMessages/SearchMessages')
 );
 
-const ChatPage: FC = memo(() => {
+const ChatPage: FC = () => {
   const [isShowSearchMessages, setIsShowSearchMessages] = useState(false);
 
   console.log('screen --> Chat');
@@ -31,6 +31,6 @@ const ChatPage: FC = memo(() => {
       )}
     </>
   );
-});
+};
 
 export default ChatPage;
