@@ -1,5 +1,4 @@
-import { FC, Suspense, lazy, memo, useRef } from 'react';
-import Scrollbars from 'react-custom-scrollbars-2';
+import { FC, Suspense, lazy, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 
 import ChatList from '@components/Sidebar/ChatList/ChatList';
@@ -12,7 +11,7 @@ const ProfileSettings = lazy(
 import useChatStore from '@zustand/store';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
-const Sidebar: FC = memo(() => {
+const Sidebar: FC = () => {
   const nodeRefSidebarDefault = useRef(null);
 
   const sidebarScreen = useChatStore(state => state.sidebarScreen);
@@ -44,16 +43,16 @@ const Sidebar: FC = memo(() => {
               <SearchUsers />
             </div>
 
-            <Scrollbars
-              autoHide
+            <div
               style={{
+                overflow: 'scroll',
                 width: '100%',
                 height: 'calc(100% - 48px)',
               }}
             >
               <SearchChatList />
               <ChatList />
-            </Scrollbars>
+            </div>
           </div>
         )}
       </Transition>
@@ -71,6 +70,6 @@ const Sidebar: FC = memo(() => {
       )}
     </div>
   );
-});
+};
 
 export default Sidebar;

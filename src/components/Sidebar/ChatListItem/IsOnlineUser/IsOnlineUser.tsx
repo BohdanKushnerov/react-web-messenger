@@ -14,6 +14,8 @@ const IsOnlineUser: FC<IIsOnlineUserProps> = ({ chatInfo }) => {
 
   const isOnline = useIsOnlineStatus(chatInfo[1].userUID); // следим за состоянием онлайн/офлайн
 
+  // console.log('screen --> IsOnlineUser');
+
   return (
     <div className={`${isOnline ? 'text-green-700' : 'text-red-700'}`}>
       {isOnline ? t('Online') : t('Offline')}

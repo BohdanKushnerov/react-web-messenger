@@ -9,7 +9,6 @@ import {
 } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { DefaultExtensionType } from 'react-file-icon';
-import Scrollbars from 'react-custom-scrollbars-2';
 import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 
@@ -32,7 +31,7 @@ const FileInputModal: FC<IFileInputModalProps> = ({
   const [uploadFilesStatus, setUploadFilesStatus] =
     useState<FilesUploadStatuses>({});
 
-  const scrollbarsRef = useRef<Scrollbars>(null);
+  const scrollbarsRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation('translation', { keyPrefix: 'FileInput' });
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
@@ -182,13 +181,14 @@ const FileInputModal: FC<IFileInputModalProps> = ({
             )}`}
           </p>
           <ButtonClose handleClickButtonClose={handleCloseAddFileModal} />
-          <Scrollbars
+          <div
             ref={scrollbarsRef}
-            autoHide
-            style={{
-              width: '100%',
-              height: '100%',
-            }}
+            className="w-full h-full overflow-scroll"
+            // style={{
+            //   overflow: 'scroll',
+            //   width: '100%',
+            //   height: '100%',
+            // }}
           >
             <ul className="flex flex-col gap-2">
               {hiddenFileInput.current?.files &&
@@ -223,7 +223,7 @@ const FileInputModal: FC<IFileInputModalProps> = ({
                   }
                 })}
             </ul>
-          </Scrollbars>
+          </div>
           <form
             className="w-full flex items-center gap-4 h-8 px-6"
             onSubmit={handleManageSendFile}
