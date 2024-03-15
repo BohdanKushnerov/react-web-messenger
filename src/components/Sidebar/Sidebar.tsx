@@ -44,7 +44,6 @@ const Sidebar: FC = () => {
             </div>
 
             <div
-              // autoHide
               style={{
                 overflow: 'scroll',
                 width: '100%',
