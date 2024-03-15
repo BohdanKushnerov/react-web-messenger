@@ -1,1 +1,0 @@
-import{j as o}from"./index-c4ac1dc2.js";import{u as n}from"./useCloseModal-9298a5e7.js";const p=({closeModal:t,modalPosition:e,children:s})=>(n(t),o.jsx("div",{style:{position:"absolute",top:e.top+"px",left:e.left+"px"},className:"z-50 w-screen h-screen bg-transparent pointer-events-none",children:s}));export{p as default};
