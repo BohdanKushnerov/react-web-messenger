@@ -4,6 +4,8 @@ import MessageImage from '../MessageImage/MessageImage';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 const Lightbox = lazy(() => import('yet-another-react-lightbox'));
 import 'yet-another-react-lightbox/styles.css';
+import getSlidesForLightbox from '@utils/messages/getSlidesForLightbox';
+import getMessageImages from '@utils/messages/getMessageImages';
 import { IMessageImagesWithLightBoxProps } from '@interfaces/IMessageImagesWithLightBoxProps';
 import { IFile } from '@interfaces/IFile';
 
@@ -12,44 +14,14 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
   indexClickedPhoto,
   handleClickPhoto,
 }) => {
-  const slidesForLightBox =
-    msg.data().file &&
-    msg
-      .data()
-      .file.map((file: IFile) => {
-        if (
-          file.type === 'image/png' ||
-          file.type === 'image/jpeg' ||
-          file.type === 'image/webp' ||
-          file.type.includes('video')
-        ) {
-          return { src: file.url };
-        }
-        return null;
-      })
-      .filter((slide: IFile | null) => slide !== null);
+  const slidesForLightbox = getSlidesForLightbox(msg);
 
-  const slidesForImages =
-    msg.data().file &&
-    msg
-      .data()
-      .file.map((file: IFile) => {
-        if (
-          file.type === 'image/png' ||
-          file.type === 'image/jpeg' ||
-          file.type === 'image/webp' ||
-          file.type.includes('video')
-        ) {
-          return file;
-        }
-        return null; // or handle other types if needed
-      })
-      .filter((slide: IFile | null) => slide !== null);
+  const imagesForMessage = getMessageImages(msg);
 
   return (
     <>
-      {slidesForImages &&
-        slidesForImages.map((fileInside: IFile, index: number) => {
+      {imagesForMessage &&
+        imagesForMessage.map((fileInside: IFile, index: number) => {
           if (
             fileInside.type === 'image/png' ||
             fileInside.type === 'image/jpeg' ||
@@ -77,7 +49,7 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
         >
           <Lightbox
             index={indexClickedPhoto}
-            slides={slidesForLightBox}
+            slides={slidesForLightbox}
             open={indexClickedPhoto >= 0}
             close={() => handleClickPhoto(-1)}
             carousel={{

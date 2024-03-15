@@ -35,6 +35,8 @@ const MessageList: FC = () => {
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [isLoadedContent, setIsLoadedContent] = useState(false);
   const scrollbarsRef = useRef<HTMLDivElement>(null);
+  // const scrollbarsRef = useRef<HTMLUListElement>(null);
+
   const msgListRef = useRef<HTMLUListElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { t } = useTranslation();
@@ -296,25 +298,22 @@ const MessageList: FC = () => {
     <>
       <div className="h-full w-full py-1" onClick={handleCloseModal}>
         <div
-          id="scrollbars"
-          ref={scrollbarsRef}
           style={{
-            position: 'relative',
-            overflow: 'hidden',
+            marginTop: 56,
             width: '100%',
             height: 'calc(100% - 152px)',
-            top: 56,
+            overflow: 'hidden',
           }}
-          onScroll={handleScroll}
         >
           <div
+            id="scrollbars"
+            ref={scrollbarsRef}
             style={{
-              position: 'absolute',
-              inset: 0,
+              width: '100%',
+              height: '100%',
               overflow: 'scroll',
-              marginRight: 0,
-              marginBottom: 0,
             }}
+            onScroll={handleScroll}
           >
             <ul
               ref={msgListRef}

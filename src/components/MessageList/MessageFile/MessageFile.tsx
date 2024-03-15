@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { DefaultExtensionType, FileIcon, defaultStyles } from 'react-file-icon';
 
 import VideoComponent from '../VideoComponent/VideoComponent';
+import AudioComponent from '../AudioComponent/AudioComponent';
 import { useFileLinkFromStorage } from '@hooks/useFileLinkFromStorage';
 import { IMessageFileProps } from '@interfaces/IMessageFileProps';
 
@@ -12,19 +13,9 @@ const MessageFile: FC<IMessageFileProps> = ({ file }) => {
     (file.name.split('.').pop() as DefaultExtensionType) || 'default';
 
   if (file.type.includes('video')) {
-    return (
-      <div className="flex gap-1 items-center h-auto w-full">
-        <VideoComponent source={file.url} />
-      </div>
-    );
+    return <VideoComponent source={file.url} />;
   } else if (file.type.includes('audio')) {
-    return (
-      <div className="flex gap-1 items-center h-auto w-full">
-        <audio controls className="w-72 sm:w-40 md:w-72">
-          <source src={file.url} type="audio/webm"></source>
-        </audio>
-      </div>
-    );
+    return <AudioComponent audioUrl={file.url} />;
   }
 
   return (
