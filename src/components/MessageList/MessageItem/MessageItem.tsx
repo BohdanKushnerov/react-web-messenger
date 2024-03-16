@@ -11,6 +11,7 @@ import useMakeReadMsg from '@hooks/useMakeReadMsg';
 import formatTimeMsg from '@utils/messages/formatTimeMsg';
 import isLinkMsg from '@utils/isLinkMsg';
 import { IMessageItemProps } from '@interfaces/IMessageItemProps';
+import { IFile } from '@interfaces/IFile';
 
 const MessageItem: FC<IMessageItemProps> = ({
   msg,
@@ -40,6 +41,8 @@ const MessageItem: FC<IMessageItemProps> = ({
 
   const isLink = isLinkMsg(textContentMsg);
 
+  console.log('msg.data().file', msg.data().file);
+
   return (
     <div
       className={`relative flex w-full items-end xl:w-8/12 ${
@@ -48,7 +51,7 @@ const MessageItem: FC<IMessageItemProps> = ({
       id="message"
     >
       <div
-        className={`flex flex-col py-2 px-4 ${
+        className={`flex flex-col items-center py-2 px-4 ${
           isLink && info?.mediaType === 'video' && 'w-full'
         } rounded-xl ${
           msg.data().file?.length === 1 ? 'max-w-md' : 'max-w-xl'
@@ -58,19 +61,27 @@ const MessageItem: FC<IMessageItemProps> = ({
             : 'bg-zinc-100 dark:bg-green-600 rounded-bl-none'
         } shadow-secondaryShadow`}
       >
-        <div
-          className={`flex flex-wrap sm:justify-center md:justify-normal gap-0.5 ${
-            msg.data().file?.length === 1 ? 'max-w-md' : 'max-w-xs'
-          }`}
-          id="file-container"
-        >
-          <MessageImagesWithLightBox
-            msg={msg}
-            indexClickedPhoto={indexClickedPhoto}
-            handleClickPhoto={handleClickPhoto}
-          />
-          <MessageFiles msg={msg} />
-        </div>
+        {msg.data().file &&
+          msg
+            .data()
+            .file.some((file: IFile) => file.type.includes('image')) && (
+            <div
+              className={`flex flex-wrap sm:justify-center lg:justify-normal gap-0.5 ${
+                msg.data().file?.length === 1
+                  ? 'max-w-md'
+                  : 'w-[160px] lg:w-full max-w-xs'
+              }`}
+              id="file-container"
+            >
+              <MessageImagesWithLightBox
+                msg={msg}
+                indexClickedPhoto={indexClickedPhoto}
+                handleClickPhoto={handleClickPhoto}
+              />
+            </div>
+          )}
+
+        {msg.data().file && <MessageFiles msg={msg} />}
 
         {/* message */}
         {isLink ? (

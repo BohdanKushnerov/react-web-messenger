@@ -21,7 +21,7 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   const { wavesurfer, isPlaying, currentTime } = useWavesurfer({
     container: containerRef,
     url: audioUrl,
-    waveColor: 'orange',
+    waveColor: 'yellow',
     height: 50,
   });
 
@@ -30,13 +30,13 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   };
 
   return (
-    <div className="flex flex-row items-start gap-2 w-[320px]">
-      <button onClick={onPlayPause} className='py-3'>
+    <div className="flex flex-row items-start gap-2 w-[160px] md:min-w-240px md:max-w-sm">
+      <button onClick={onPlayPause} className="py-3">
         {isPlaying ? (
           <svg
             width={24}
             height={24}
-            className="fill-zinc-400 dark:fill-zinc-200 "
+            className="fill-zinc-600 dark:fill-zinc-200 "
           >
             <use href={sprite + '#icon-stop'} />
           </svg>
@@ -44,7 +44,7 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
           <svg
             width={24}
             height={24}
-            className="fill-zinc-400 dark:fill-zinc-200"
+            className="fill-zinc-600 dark:fill-zinc-200"
           >
             <use href={sprite + '#icon-play'} />
           </svg>
@@ -54,7 +54,7 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
       <div className="flex flex-1 flex-col items-start">
         <div className="flex-1 w-full" ref={containerRef} />
 
-        <p className="text-white">{convertToTime(currentTime)}</p>
+        <p className="text-black dark:text-white">{convertToTime(currentTime)}</p>
       </div>
     </div>
   );

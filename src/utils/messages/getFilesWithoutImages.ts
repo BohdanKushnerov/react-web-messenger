@@ -8,13 +8,7 @@ function getFilesWithoutImages(msg: DocumentData) {
     msg
       .data()
       .file.map((file: IFile) => {
-        if (
-          !(
-            file.type === 'image/png' ||
-            file.type === 'image/jpeg' ||
-            file.type === 'image/webp'
-          )
-        ) {
+        if (!file.type.includes('image')) {
           return file;
         }
         return null; // or handle other types if needed

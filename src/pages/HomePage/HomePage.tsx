@@ -40,7 +40,7 @@ const HomePage = memo(() => {
         <Transition
           nodeRef={nodeRefSidebar}
           in={
-            window.innerWidth <= 640
+            window.innerWidth <= 639
               ? (pathname === '/' ? 'Sidebar' : 'Chat') === 'Sidebar'
               : false
           }
@@ -65,7 +65,7 @@ const HomePage = memo(() => {
         <Transition
           nodeRef={nodeRefChat}
           in={
-            window.innerWidth <= 640
+            window.innerWidth <= 639
               ? (pathname === '/' ? 'Sidebar' : 'Chat') === 'Chat'
               : false
           }

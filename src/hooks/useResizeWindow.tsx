@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 
 const useResizeWindow = () => {
   const [isFullScreen, setIsFullScreen] = useState(
-    () => window.innerWidth > 640
+    () => window.innerWidth > 639
   );
   const [heightWindow, setHeightWindow] = useState(() => window.innerHeight);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 640) {
+      if (window.innerWidth <= 639) {
         setIsFullScreen(false);
       } else {
         setIsFullScreen(true);

@@ -8,12 +8,7 @@ function getSlidesForLightbox(msg: DocumentData) {
     msg
       .data()
       .file.map((file: IFile) => {
-        if (
-          file.type === 'image/png' ||
-          file.type === 'image/jpeg' ||
-          file.type === 'image/webp' ||
-          file.type.includes('video')
-        ) {
+        if (file.type.includes('image')) {
           return { src: file.url };
         }
         return null;

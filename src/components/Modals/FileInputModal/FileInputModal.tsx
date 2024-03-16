@@ -95,11 +95,7 @@ const FileInputModal: FC<IFileInputModalProps> = ({
                     uploadTask.snapshot.ref
                   );
 
-                  if (
-                    file.type === 'image/png' ||
-                    file.type === 'image/jpeg' ||
-                    file.type === 'image/webp'
-                  ) {
+                  if (file.type.includes('image')) {
                     const image = new Image();
                     image.src = URL.createObjectURL(fileBlob);
 
@@ -194,12 +190,7 @@ const FileInputModal: FC<IFileInputModalProps> = ({
               {hiddenFileInput.current?.files &&
                 Array.from(hiddenFileInput.current.files).map(file => {
                   // console.log('file', file);
-                  if (
-                    file.type === 'image/jpeg' ||
-                    file.type === 'image/png' ||
-                    // file.type === 'image/gif' ||
-                    file.type === 'image/webp'
-                  ) {
+                  if (file.type.includes('image')) {
                     return (
                       <UploadPhotoFile
                         key={file.name}

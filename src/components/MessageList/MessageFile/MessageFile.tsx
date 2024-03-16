@@ -19,7 +19,7 @@ const MessageFile: FC<IMessageFileProps> = ({ file }) => {
   }
 
   return (
-    <div className="flex gap-1 items-center h-auto w-full">
+    <div className="flex gap-1 items-center h-auto w-full max-w-[200px]">
       <span className="w-10 h-10">
         <FileIcon extension={fileType} {...defaultStyles[fileType]} />
       </span>

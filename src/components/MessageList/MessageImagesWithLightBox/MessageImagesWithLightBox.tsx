@@ -22,11 +22,7 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
     <>
       {imagesForMessage &&
         imagesForMessage.map((fileInside: IFile, index: number) => {
-          if (
-            fileInside.type === 'image/png' ||
-            fileInside.type === 'image/jpeg' ||
-            fileInside.type === 'image/webp'
-          ) {
+          if (fileInside.type.includes('image')) {
             return (
               <MessageImage
                 key={index}
