@@ -6,7 +6,7 @@ import sprite from '@assets/sprite.svg';
 const ButtonArrow: FC<IButtonArrowProps> = ({ handleClickButtonArrow }) => {
   return (
     <button
-      className="flex justify-center items-center w-12 h-12 text-white rounded-full transition-all duration-300 hover:bg-hoverGray  cursor-pointer"
+      className="flex justify-center items-center w-12 h-12 text-white rounded-full transition-all duration-300 hover:bg-zinc-400 hover:dark:bg-zinc-100/10 cursor-pointer"
       onClick={handleClickButtonArrow}
       aria-label="Come back"
     >

@@ -33,7 +33,7 @@ const SearchChatList: FC = () => {
   console.log('searchChatList', searchChatList);
 
   return (
-    <div className='px-2'>
+    <div className="px-2">
       {isLoading && <LoaderUIActions size={50} />}
       {!isLoading && searchChatList && searchChatList.size > 0 ? (
         <ul>
@@ -46,7 +46,7 @@ const SearchChatList: FC = () => {
 
             return (
               <li
-                className="flex items-center content-center gap-3 h-72px p-2 transition-all duration-300 group hover:bg-zinc-400 rounded-md hover:cursor-pointer"
+                className="flex items-center content-center gap-3 h-[72px] p-2 transition-all duration-300 group hover:bg-zinc-400 rounded-md hover:cursor-pointer"
                 key={doc.id}
                 onClick={() => handleManageCreateChat(docData)}
               >
@@ -55,7 +55,7 @@ const SearchChatList: FC = () => {
                   displayName={docData.displayName}
                   size="50"
                 />
-                <p className="text-zinc-600 dark:text-textSecondary font-semibold">
+                <p className="text-zinc-600 dark:text-zinc-400 font-semibold">
                   {docData.displayName}
                 </p>
               </li>

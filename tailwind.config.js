@@ -1,25 +1,31 @@
 /** @type {import('tailwindcss').Config} */
+
+import colors from 'tailwindcss/colors';
+
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
       height: {
-        '72px': '72px',
+        // '72px': '72px',
       },
       width: {
-        '60px': '60px',
-        '124px': '124px',
-        '150px': '150px',
-        '304px': '304px',
+        // '60px': '60px',
+        // '124px': '124px',
+        // '150px': '150px',
+        // '304px': '304px',
       },
       minWidth: {
+        // '300px': '300px',
+        // '400px': '400px',
+
+        // auth
         '240px': '240px',
-        '300px': '300px',
-        '400px': '400px',
       },
 
       maxWidth: {
+        // auth
         '320px': '320px',
       },
       fontFamily: {
@@ -35,11 +41,15 @@ export default {
         myBlackBcg: 'rgb(33,33,33)',
         mySeacrhBcg: 'rgb(44,44,44)',
         currentContextMenuMessage: 'rgba( 24, 24, 24 , 0.9)',
-        hoverGray: 'rgba( 170,170,170 , 0.08)',
-        sliderBcg: 'rgb(51 65 85 / 0.7)',
+        // hoverGray: 'rgba( 170,170,170 , 0.08)',
+        // sliderBcg: 'rgb(51 65 85 / 0.7)',
       },
       colors: {
-        textSecondary: 'rgb(170,170,170)',
+        black: colors.black,
+        //
+        // textSecondary: 'rgb(170,170,170)',
+
+        // auth colors
         textcolor: '#707175',
         inputChar: '#35363B',
         inputCharSelect: '#13BAEE',

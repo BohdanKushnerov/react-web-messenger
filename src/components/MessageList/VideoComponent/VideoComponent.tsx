@@ -11,7 +11,7 @@ const VideoComponent: FC<IVideoComponentProps> = ({ source }) => {
       <iframe
         id="player"
         width="100%"
-        height="300"
+        height={300}
         allowFullScreen
         src={
           'https://www.youtube.com/embed/' +
@@ -22,7 +22,15 @@ const VideoComponent: FC<IVideoComponentProps> = ({ source }) => {
     );
   } else {
     // остальные видео через скидание ссылки в сообщение
-    return <ReactPlayer width="100%" controls url={source} />;
+    return (
+      <ReactPlayer
+        // width="100%"
+        width="100%"
+        height={300}
+        controls
+        url={source}
+      />
+    );
   }
 };
 

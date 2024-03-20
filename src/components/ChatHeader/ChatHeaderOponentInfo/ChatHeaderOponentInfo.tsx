@@ -26,7 +26,7 @@ const ChatHeaderOponentInfo: FC = () => {
         displayName={currentChatInfo?.displayName}
         size="40"
       />
-      <p className="font-bold text-zinc-800 dark:text-textSecondary">
+      <p className="font-bold text-zinc-800 dark:text-zinc-400">
         {currentChatInfo?.displayName}
       </p>
       {isOpponentTyping ? (
