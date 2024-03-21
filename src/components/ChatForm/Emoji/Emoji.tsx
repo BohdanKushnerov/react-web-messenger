@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useDeferredValue, useState } from 'react';
 
 import EmojiPickerWindow from '../EmojiPickerWindow/EmojiPickerWindow';
 import useChatStore from '@zustand/store';
@@ -10,6 +10,8 @@ const Emoji: FC = () => {
   const [emojiTimeOutId, setEmojiTimeOutId] = useState<NodeJS.Timeout | null>(
     null
   );
+  const deferredIsShowEmoji = useDeferredValue(isShowEmoji);
+
   useCloseModal(() => setIsShowEmoji(false));
 
   const editingMessageInfo = useChatStore(state => state.editingMessageInfo);
@@ -38,7 +40,7 @@ const Emoji: FC = () => {
       onMouseEnter={handleMouseEnterEmoji}
       onMouseLeave={handleMouseLeaveEmoji}
     >
-      <EmojiPickerWindow isShowEmoji={isShowEmoji} />
+      <EmojiPickerWindow isShowEmoji={deferredIsShowEmoji} />
 
       <div className="flex justify-center items-center w-10 h-10 transition-all duration-300 hover:bg-zinc-400 hover:dark:bg-zinc-100/10 rounded-full">
         <svg

@@ -83,6 +83,8 @@ const resources = {
       Offline: 'Offline',
       Online: 'Online',
       Typing: 'typing',
+      Time: 'Time',
+      Volume: 'Volume',
     },
   },
   ua: {
@@ -166,6 +168,8 @@ const resources = {
       Offline: 'Офлайн',
       Online: 'Онлайн',
       Typing: 'друкує',
+      Time: 'Час',
+      Volume: 'Гучність',
     },
   },
   ru: {
@@ -249,6 +253,8 @@ const resources = {
       Offline: 'Офлайн',
       Online: 'Онлайн',
       Typing: 'печатает',
+      Time: 'Время',
+      Volume: 'Громкость',
     },
   },
 };

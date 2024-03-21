@@ -7,7 +7,8 @@ function PrivateRoute({
   component: Component,
   redirectTo = '/authentication',
 }: IPrivateRouteProps) {
-  const { currentUser, isLoggedIn } = useChatStore(state => state);
+  const isLoggedIn = useChatStore(state => state.isLoggedIn);
+  const currentUser = useChatStore(state => state.currentUser);
 
   return isLoggedIn && currentUser.displayName ? (
     <Component />

@@ -40,7 +40,7 @@ export default {
         mybcg: '#1F2025',
         myBlackBcg: 'rgb(33,33,33)',
         mySeacrhBcg: 'rgb(44,44,44)',
-        currentContextMenuMessage: 'rgba( 24, 24, 24 , 0.9)',
+        currentContextMenuMessage: 'rgba(24,24,24,0.9)',
         // hoverGray: 'rgba( 170,170,170 , 0.08)',
         // sliderBcg: 'rgb(51 65 85 / 0.7)',
       },

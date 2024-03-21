@@ -8,7 +8,8 @@ function RestrictedRoute({
   component: Component,
   redirectTo = '/',
 }: IRestrictedRouteProps) {
-  const { currentUser, isLoggedIn } = useChatStore(state => state);
+  const isLoggedIn = useChatStore(state => state.isLoggedIn);
+  const currentUser = useChatStore(state => state.currentUser);
 
   return (
     <>

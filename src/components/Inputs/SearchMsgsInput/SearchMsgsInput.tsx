@@ -12,6 +12,7 @@ const SearchMsgsInput: FC<ISearchMsgsInputProps> = ({
     <div className="relative w-full">
       <input
         className="py-2 px-10 h-10 w-full rounded-3xl bg-zinc-500 dark:bg-mySeacrhBcg text-white outline-none border-2 border-transparent focus:border-solid focus:border-cyan-500 placeholder:dark:text-zinc-400 placeholder:text-zinc-200 "
+        autoFocus={true}
         type="text"
         placeholder={placeholderText}
         value={value}
