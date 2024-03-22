@@ -13,8 +13,6 @@ const MessagesSkeleton: FC<IMessagesSkeletonProps> = memo(
     const randomJustify = () =>
       Math.random() < 0.5 ? 'justify-start' : 'justify-end';
 
-    console.log('MessagesSkeleton');
-
     return (
       <>
         {!isLoadedContent && (

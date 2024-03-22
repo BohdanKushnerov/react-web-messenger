@@ -91,7 +91,7 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
             [&::-webkit-slider-thumb]:h-[10px] 
             [&::-webkit-slider-thumb]:w-[10px] 
             [&::-webkit-slider-thumb]:rounded-full 
-             [&::-webkit-slider-thumb]:bg-zinc-950
+            [&::-webkit-slider-thumb]:bg-zinc-950
             dark:[&::-webkit-slider-thumb]:bg-zinc-500"
               type="range"
               min="0"

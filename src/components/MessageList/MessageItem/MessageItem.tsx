@@ -41,7 +41,7 @@ const MessageItem: FC<IMessageItemProps> = ({
 
   const isLink = isLinkMsg(textContentMsg);
 
-  console.log('msg.data().file', msg.data().file);
+  // console.log('msg.data().file', msg.data().file);
 
   return (
     <div

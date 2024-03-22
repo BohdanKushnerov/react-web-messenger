@@ -30,8 +30,6 @@ const SearchChatList: FC = () => {
     updateSearchValue('');
   };
 
-  console.log('searchChatList', searchChatList);
-
   return (
     <div className="px-2">
       {isLoading && <LoaderUIActions size={50} />}

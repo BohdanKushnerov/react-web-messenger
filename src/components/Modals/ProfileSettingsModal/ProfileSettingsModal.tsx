@@ -29,13 +29,17 @@ const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
         <div className="relative w-full sm:w-1/2 xl:w-1/3 h-2/3 flex flex-col gap-6 justify-center items-center bg-gray-200 dark:bg-myBlackBcg rounded-3xl shadow-mainShadow">
           <ButtonClose handleClickButtonClose={handleToggleProfilePhotoModal} />
           {photoProfileInputRef.current?.files && (
-            <img
-              className="rounded-full max-h-[200px] max-w-[200px]"
-              src={URL.createObjectURL(photoProfileInputRef.current?.files[0])}
-              alt={photoProfileInputRef.current?.files[0].name}
-              width={200}
-              height={200}
-            />
+            <div className="w-[200px] h-[200px]">
+              <img
+                className="rounded-full w-full h-full object-cover"
+                src={URL.createObjectURL(
+                  photoProfileInputRef.current?.files[0]
+                )}
+                alt={photoProfileInputRef.current?.files[0].name}
+                width={200}
+                height={200}
+              />
+            </div>
           )}
           <p className="w-80 text-center text-black dark:text-white text-xs">
             {t('Modal.ChangeProfilePhotoPrompt')}
