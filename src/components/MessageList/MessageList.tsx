@@ -2,9 +2,12 @@ import { useEffect, useState, useRef, FC, Suspense, lazy } from 'react';
 import {
   DocumentData,
   collection,
+  getDocs,
+  limit,
   onSnapshot,
   orderBy,
   query,
+  startAfter,
 } from 'firebase/firestore';
 import { useTranslation } from 'react-i18next';
 
@@ -27,6 +30,22 @@ import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
 
+function mergeObjects(obj1, obj2) {
+  const merged = { ...obj1 }; // Создаем копию первого объекта
+
+  for (const key in obj2) {
+    if (merged[key]) {
+      // Если ключ существует в первом объекте, объединяем массивы
+      merged[key] = [...merged[key], ...obj2[key]];
+    } else {
+      // Если ключ не существует в первом объекте, добавляем его
+      merged[key] = obj2[key];
+    }
+  }
+
+  return merged;
+}
+
 const MessageList: FC = () => {
   const [groupedMessages, setGroupedMessages] =
     useState<IGroupedMessages | null>(null);
@@ -34,11 +53,17 @@ const MessageList: FC = () => {
     useState(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [isLoadedContent, setIsLoadedContent] = useState(false);
+  const [isNearTop, setIsNearTop] = useState(false);
+  // const [isStartListen, setIsStartListen] = useState(false);
+  const [lastVisibleMsg, setLastVisibleMsg] = useState<DocumentData | null>(
+    null
+  );
   const scrollbarsRef = useRef<HTMLDivElement>(null);
-  // const scrollbarsRef = useRef<HTMLUListElement>(null);
 
   const msgListRef = useRef<HTMLUListElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef2 = useRef<NodeJS.Timeout | null>(null);
+  const isReadyListenMsgs = useRef<boolean | null>(null);
   const { t } = useTranslation();
 
   const { chatUID } = useChatStore(state => state.currentChatInfo);
@@ -114,6 +139,7 @@ const MessageList: FC = () => {
 
   // скелетон сообщений
   useEffect(() => {
+    isReadyListenMsgs.current = null;
     setIsLoadedContent(false);
 
     return () => {
@@ -124,42 +150,140 @@ const MessageList: FC = () => {
   useEffect(() => {
     if (chatUID === null) return;
 
+    function fetchStartsMsgs() {
+      const queryParams = query(
+        collection(db, `chats/${chatUID}/messages`),
+        orderBy('date', 'desc'),
+        limit(10)
+      );
+
+      getDocs(queryParams)
+        .then(snapshot => {
+          if (!snapshot.empty) {
+            const updatedMessages: DocumentData[] = snapshot.docs;
+
+            console.log(updatedMessages);
+
+            const lastVisible = updatedMessages[updatedMessages.length - 1];
+            setLastVisibleMsg(lastVisible);
+
+            const groupedMsgs = updatedMessages.reduce((acc, message) => {
+              const messageData = message.data();
+              if (messageData && messageData.date) {
+                const date = messageData.date.toDate();
+                const dateString = date.toISOString().split('T')[0];
+
+                acc[dateString] = acc[dateString] || [];
+                acc[dateString].push(message);
+              }
+
+              return acc;
+            }, {});
+
+            const entries = Object.entries(groupedMsgs);
+            entries.forEach(arr => arr[1].reverse());
+            entries.sort(
+              ([dateA], [dateB]) =>
+                new Date(dateA).getTime() - new Date(dateB).getTime()
+            );
+
+            const sortedData = Object.fromEntries(entries);
+
+            setGroupedMessages(sortedData);
+          }
+        })
+        .then(() => (isReadyListenMsgs.current = true));
+    }
+
+    fetchStartsMsgs();
+  }, [chatUID]);
+
+  //=========================================================
+  useEffect(() => {
+    if (chatUID === null) return;
+
     const queryParams = query(
       collection(db, `chats/${chatUID}/messages`),
-      orderBy('date', 'asc')
+      orderBy('date', 'desc')
     );
 
     const unsubChatMessages = onSnapshot(queryParams, snapshot => {
-      // console.log('snapshot.metadata.fromCache', snapshot.metadata.fromCache);
-      // console.log(snapshot.docs, snapshot.metadata.fromCache);
-      // if (snapshot.metadata.fromCache === false) {
-      //   setIsLoadedContent(false);
-      // }
-      const updatedMessages: DocumentData[] = snapshot.docs;
-
-      // Группировка сообщений по дате (та что sticky)
-      const groupedMsgs = updatedMessages.reduce((acc, message) => {
-        const messageData = message.data();
-        if (messageData && messageData.date) {
-          const date = messageData.date.toDate();
-          const dateString = date.toISOString().split('T')[0];
-
-          acc[dateString] = acc[dateString] || [];
-          acc[dateString].push(message);
+      // console.log(snapshot.docChanges().length);
+      // console.log(snapshot.size);
+      // console.log(snapshot.docChanges() === snapshot.size);
+      snapshot.docChanges().forEach(change => {
+        if (change.type === 'added') {
+          if (snapshot.size !== 1 && snapshot.docChanges().length === 1) {
+            console.log('New msg: ', change.doc.data());
+          }
         }
-
-        return acc;
-      }, {});
-
-      // console.log('groupedMsgs', groupedMsgs);
-
-      setGroupedMessages(groupedMsgs);
+        if (change.type === 'modified') {
+          console.log('Modified msg: ', change.doc.data());
+        }
+        if (change.type === 'removed') {
+          console.log('Removed msg: ', change.doc.data());
+        }
+      });
     });
 
     return () => {
       unsubChatMessages();
     };
   }, [chatUID]);
+  //=========================================================
+
+  useEffect(() => {
+    if (chatUID && isNearTop && lastVisibleMsg && isLoadedContent) {
+      console.log('inside load moreeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+
+      const loadMoreMessages = async () => {
+        console.log('=================================');
+
+        const queryParams = query(
+          collection(db, `chats/${chatUID}/messages`),
+          orderBy('date', 'desc'),
+          startAfter(lastVisibleMsg),
+          limit(10)
+        );
+
+        const snapshot = await getDocs(queryParams);
+
+        if (!snapshot.empty) {
+          const updatedMessages: DocumentData[] = snapshot.docs;
+
+          const lastVisible = updatedMessages[updatedMessages.length - 1];
+          setLastVisibleMsg(lastVisible);
+
+          const groupedMsgs = updatedMessages.reduce((acc, message) => {
+            const messageData = message.data();
+            if (messageData && messageData.date) {
+              const date = messageData.date.toDate();
+              const dateString = date.toISOString().split('T')[0];
+
+              acc[dateString] = acc[dateString] || [];
+              acc[dateString].push(message);
+            }
+
+            return acc;
+          }, {});
+
+          const entries = Object.entries(groupedMsgs);
+          entries.forEach(arr => arr[1].reverse());
+          entries.sort(
+            ([dateA], [dateB]) =>
+              new Date(dateA).getTime() - new Date(dateB).getTime()
+          );
+          const sortedData = Object.fromEntries(entries);
+
+          setGroupedMessages(prev => mergeObjects(sortedData, prev));
+          setIsNearTop(false);
+        }
+      };
+
+      loadMoreMessages();
+    }
+  }, [chatUID, isLoadedContent, isNearTop, lastVisibleMsg]);
+  //=========================================================
 
   // Добавляет currentChatId в локалСторидж, чтобы при перезагрузке врнуться на текущий чат
   useEffect(() => {
@@ -179,13 +303,36 @@ const MessageList: FC = () => {
 
   // надо тротл добавить чтобы не так часто срабатывало
   const handleScroll = () => {
-    const scrollHeight = scrollbarsRef.current?.scrollHeight || 0;
-    const clientHeight = scrollbarsRef.current?.clientHeight || 0;
-    const scrollTop = scrollbarsRef.current?.scrollTop || 0;
+    // Throttle time in milliseconds
+    const throttleTime = 300;
 
-    const isNearBottom = scrollHeight - scrollTop - clientHeight > 100;
+    // If already throttled, ignore
+    if (timeoutRef2.current) {
+      return;
+    }
 
-    setIsScrollDownButtonVisible(isNearBottom);
+    // Set a timeout to reset the throttling after throttleTime milliseconds
+    timeoutRef2.current = setTimeout(() => {
+      timeoutRef2.current = null;
+
+      const scrollHeight = scrollbarsRef.current?.scrollHeight || 0;
+      const clientHeight = scrollbarsRef.current?.clientHeight || 0;
+      const scrollTop = scrollbarsRef.current?.scrollTop || 0;
+
+      const isNearBottom = scrollHeight - scrollTop - clientHeight > 100;
+
+      const top = scrollTop <= 100;
+
+      console.log('scrollHeight', scrollHeight);
+      console.log('clientHeight', clientHeight);
+      console.log('scrollTop', scrollTop);
+
+      // console.log('top in handler', top);
+
+      top ? setIsNearTop(true) : setIsNearTop(false);
+
+      setIsScrollDownButtonVisible(isNearBottom);
+    }, throttleTime);
   };
 
   const handleClickRigthButtonMessage = (
