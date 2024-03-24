@@ -27,7 +27,7 @@ const HomePage = memo(() => {
   useIsOnlineMyStatus();
   useIsRedirectToCurrentChat();
 
-  console.log('screen --> HomePage');
+  // console.log('screen --> HomePage');
 
   return (
     <div

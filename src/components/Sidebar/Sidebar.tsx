@@ -16,7 +16,7 @@ const Sidebar: FC = () => {
 
   const sidebarScreen = useChatStore(state => state.sidebarScreen);
 
-  console.log('screen --> Sidebar');
+  // console.log('screen --> Sidebar');
 
   return (
     <div className="relative w-full h-full bg-gray-200 dark:bg-myBlackBcg sm:min-w-[400px] sm:w-1/4 border-r border-r-zinc-800">
