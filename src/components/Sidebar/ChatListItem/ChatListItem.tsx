@@ -21,7 +21,7 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
 
   const userInfo = useChatInfo(chatInfo[1].userUID); // обновляет инфо о текущем юзере в списке чата
 
-  console.log('screen --> ChatListItem');
+  // console.log('screen --> ChatListItem');
 
   const handleManageSelectChat = () => {
     if (chatInfo[0]) {
