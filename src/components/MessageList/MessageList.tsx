@@ -11,7 +11,7 @@ import {
 } from 'firebase/firestore';
 import { useTranslation } from 'react-i18next';
 
-// import MessagesSkeleton from './MessagesSkeleton/MessagesSkeleton';
+import MessagesSkeleton from './MessagesSkeleton/MessagesSkeleton';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
 import MessageItem from '@components/MessageList/MessageItem/MessageItem';
@@ -48,7 +48,7 @@ const MessageList: FC = memo(() => {
   const [groupedMessages, setGroupedMessages] =
     useState<IGroupedMessages | null>(null);
   const [lastLoadedMsg, setLastLoadedMsg] = useState<DocumentData | null>(null);
-  // const [isLoadedContent, setIsLoadedContent] = useState(false);
+  const [isLoadedContent, setIsLoadedContent] = useState(false);
   const [isNearTop, setIsNearTop] = useState(false);
   const [isReadyFirstMsg, setIsReadyFirstMsg] = useState(false);
   const [isReadyLoadingNextMsgs, setIsReadyLoadingNextMsgs] = useState(false);
@@ -57,11 +57,12 @@ const MessageList: FC = memo(() => {
     useState(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
 
-  // const isReadyToFetch = useRef<boolean>(false);
   const scrollbarsRef = useRef<HTMLDivElement>(null);
   const msgListRef = useRef<HTMLUListElement>(null);
-  // const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const handleScrollTimeout = useRef<NodeJS.Timeout | null>(null);
+  const isReadyToFetch = useRef<boolean>(false);
+  const isInfinityScrollLoading = useRef<boolean>(false);
+
   const { t } = useTranslation();
 
   const { chatUID } = useChatStore(state => state.currentChatInfo);
@@ -84,30 +85,38 @@ const MessageList: FC = memo(() => {
     false
   );
 
-  const isChangeChatUID = useRef<boolean>(false);
+  // console.log('groupedMessages', groupedMessages);
+  // console.log('isNearTop', isNearTop);
 
-  console.log('groupedMessages', groupedMessages);
-  console.log('lastLoadedMsg', lastLoadedMsg);
-  // console.log('isChangeChatUID.current', isChangeChatUID.current);
-  // console.log(1234567890000000000)
+  // useEffect(() => {
+  //   // isReadyToFetch.current = false;
+  //   return () => {
+  //     if (isReadyToFetch.current === false && isNearTop) {
+  //       console.log('................useEffect.......................');
+  //       setIsNearTop(false);
+  //     }
+  //   };
+  // }, [isNearTop]);
 
   useEffect(() => {
     return () => {
-      // console.log('=>>>>>>> БЫЛ СБРОС');
-      isChangeChatUID.current = false;
+      // console.log('......unmount.......');
+      isReadyToFetch.current = false;
+
       setGroupedMessages(null);
       setIsReadyFirstMsg(false);
       setIsReadyLoadingNextMsgs(false);
       setLastLoadedMsg(null);
       setIsNearTop(false);
+      setIsLoadedContent(false);
     };
   }, [chatUID]);
 
   // загрузка первого сообщения
   useEffect(() => {
-    // if (isChangeChatUID.current === true) {
-    //   return;
-    // }
+    if (isReadyToFetch.current === true) {
+      return;
+    }
 
     function fetchFirstMsg() {
       setIsReadyLoadingNextMsgs(false);
@@ -142,11 +151,12 @@ const MessageList: FC = memo(() => {
           setGroupedMessages(groupedMsgs);
           setIsReadyFirstMsg(true);
 
-          isChangeChatUID.current = true;
+          isReadyToFetch.current = true;
         } else {
           setGroupedMessages({} as IGroupedMessages);
           setLastLoadedMsg(null);
           setIsReadyFirstMsg(true);
+          setIsLoadedContent(true);
         }
       });
     }
@@ -164,17 +174,11 @@ const MessageList: FC = memo(() => {
       return;
     }
 
-    // console.log('2 isChangeChatUID.current', isChangeChatUID.current);
-
-    if (isChangeChatUID.current === false) {
+    if (isReadyToFetch.current === false) {
       return;
     }
 
-    // console.log('2 chatUID', chatUID);
-    // console.log('2 isReadyFirstMsg', isReadyFirstMsg);
-    // console.log('2 lastLoadedMsg', lastLoadedMsg);
-
-    function fetchFirstChatMsgs() {
+    async function fetchFirstChatMsgs() {
       console.log('************************************2 fetchFirstChatMsgs');
 
       const queryParams = query(
@@ -213,8 +217,6 @@ const MessageList: FC = memo(() => {
 
           const sortedData = Object.fromEntries(entries);
 
-          // setTimeout(() => {
-          // }, 100);
           setGroupedMessages(prev => {
             return mergeChatMessages(sortedData, prev as IGroupedMessages);
           });
@@ -223,7 +225,7 @@ const MessageList: FC = memo(() => {
       });
     }
 
-    fetchFirstChatMsgs();
+    fetchFirstChatMsgs().then(() => setIsLoadedContent(true));
   }, [chatUID, isReadyFirstMsg, isReadyLoadingNextMsgs, lastLoadedMsg]);
 
   // infinite loading msgs
@@ -237,20 +239,24 @@ const MessageList: FC = memo(() => {
       return;
     }
 
-    if (isChangeChatUID.current === false) {
+    if (isReadyToFetch.current === false) {
       return;
     }
 
     console.log('////////////////////////////');
-    // console.log('3 isChangeChatUID.current', isChangeChatUID.current);
-    // console.log('3 isNearTop', isNearTop);
-    // console.log('3 isReadyFirstMsg', isReadyFirstMsg);
-    // console.log('3 isReadyLoadingNextMsgs', isReadyLoadingNextMsgs);
 
     const loadMoreMessages = async () => {
+      console.log(chatUID, isNearTop, isReadyFirstMsg, isReadyLoadingNextMsgs);
+
+      if (isInfinityScrollLoading.current === false) {
+        return;
+      }
+
       console.log('333 loadMoreMessages');
-      // console.log('333 groupedMessages', groupedMessages);
-      // console.log('333 lastLoadedMsg', lastLoadedMsg);
+
+      // isInfinityScrollLoading.current = true;
+
+      // isInfinityScrollLoading.current = true;
 
       const queryParams = query(
         collection(db, `chats/${chatUID}/messages`),
@@ -261,8 +267,6 @@ const MessageList: FC = memo(() => {
 
       const snapshot = await getDocs(queryParams);
 
-      console.log(3333333333333, snapshot);
-
       if (!snapshot.empty) {
         const updatedMessages: DocumentData[] = snapshot.docs;
 
@@ -271,10 +275,6 @@ const MessageList: FC = memo(() => {
         const lastVisible = updatedMessages[updatedMessages.length - 1];
 
         setLastLoadedMsg(lastVisible);
-
-        console.log('33333 => lastVisible', lastVisible);
-        console.log('33333 => lastVisible.id', lastVisible.id);
-        console.log('33333 => lastLoadedMsg.id', lastLoadedMsg?.id);
 
         if (lastLoadedMsg?.id === lastVisible.id) {
           return;
@@ -302,14 +302,15 @@ const MessageList: FC = memo(() => {
         const sortedData = Object.fromEntries(entries);
 
         setGroupedMessages(prev => {
-          console.log('prev', prev);
-          console.log('sortedData', sortedData);
+          // console.log('prev', prev);
+          // console.log('sortedData', sortedData);
           return mergeChatMessages(sortedData, prev as IGroupedMessages);
         });
       }
     };
 
-    loadMoreMessages();
+    loadMoreMessages().then(() => (isInfinityScrollLoading.current = false));
+    // loadMoreMessages();
     console.log('=======================================');
   }, [
     chatUID,
@@ -459,8 +460,10 @@ const MessageList: FC = memo(() => {
 
   //       if (isNearBottom) {
   //         scrollToBottom();
+  //         console.log(111111111111111111);
   //       } else {
   //         quickScrollBottom();
+  //         console.log(222222222222222222);
   //       }
   //     }
   //   }
@@ -480,24 +483,6 @@ const MessageList: FC = memo(() => {
     }
   }, [selectedDocDataMessage, updateIsSelectedMessages]);
 
-  // еффект ждет пока загрузятся контент на странице, чтобы не было скачков,
-  // useEffect(() => {
-  //   // Проверяем, был ли таймер уже запущен
-  //   if (!isLoadedContent && groupedMessages && !timeoutRef.current) {
-  //     timeoutRef.current = setTimeout(() => {
-  //       quickScrollBottom();
-  //       // setIsLoadedContent(true);
-  //     }, 300);
-  //   }
-
-  //   return () => {
-  //     if (timeoutRef.current) {
-  //       clearTimeout(timeoutRef.current);
-  //       timeoutRef.current = null; // Сбрасываем таймер
-  //     }
-  //   };
-  // }, [groupedMessages, isLoadedContent]);
-
   // Добавляет currentChatId в локалСторидж, чтобы при перезагрузке вернуться на текущий чат
   useEffect(() => {
     if (chatUID) {
@@ -514,24 +499,10 @@ const MessageList: FC = memo(() => {
     resetSelectedMessages();
   }, [chatUID, resetSelectedMessages]);
 
-  useEffect(() => {
-    if (scrollbarsRef.current) {
-      // console.log('////////////////////');
-      const scrollTop = scrollbarsRef.current?.scrollTop || 0;
-
-      const top = scrollTop <= 500;
-
-      // console.log('scrollTop', scrollTop);
-
-      top ? setIsNearTop(true) : setIsNearTop(false);
-    }
-
-    // const top = scrollTop <= 500;
-    // console.log(first)
-  }, [groupedMessages]);
-
   const handleScroll = () => {
     const throttleTime = 100;
+
+    console.log('handleScroll');
 
     if (handleScrollTimeout.current) {
       return;
@@ -545,17 +516,36 @@ const MessageList: FC = memo(() => {
       const scrollTop = scrollbarsRef.current?.scrollTop || 0;
 
       const isNearBottom = scrollHeight - scrollTop - clientHeight > 100;
-
       const top = scrollTop <= 500;
 
-      // console.log('isNearTop', isNearTop);
-      // console.log('handleScroll', scrollHeight, clientHeight, scrollTop);
-
-      top ? setIsNearTop(true) : setIsNearTop(false);
+      if (top) {
+        setIsNearTop(true);
+        isInfinityScrollLoading.current = true;
+      } else {
+        setIsNearTop(false);
+      }
 
       setIsScrollDownButtonVisible(isNearBottom);
     }, throttleTime);
   };
+
+  // еффект подскроливает сообщения если ты внизу
+  useEffect(() => {
+    if (!isScrollDownButtonVisible) {
+      quickScrollBottom();
+      // setIsNearTop(false);
+    }
+  }, [groupedMessages, isScrollDownButtonVisible]);
+
+  // когда после самого верха сообщений в предидущем чате мы переходим на новый чат,
+  //  то мы будем не внизу а на 10 сообщении(не внизу)
+  useEffect(() => {
+    if (isReadyLoadingNextMsgs) {
+      console.log('.....qweqweqweqweqeqe');
+      quickScrollBottom();
+      // setIsNearTop(false);
+    }
+  }, [isReadyLoadingNextMsgs]);
 
   const handleClickRigthButtonMessage = (
     message: DocumentData,
@@ -647,13 +637,13 @@ const MessageList: FC = memo(() => {
     }
   };
 
-  // const quickScrollBottom = () => {
-  //   const list = msgListRef?.current;
-  //   const lastMessage = list?.lastElementChild;
-  //   if (list && lastMessage) {
-  //     lastMessage.scrollIntoView({ block: 'end' });
-  //   }
-  // };
+  const quickScrollBottom = () => {
+    const list = msgListRef?.current;
+    const lastMessage = list?.lastElementChild;
+    if (list && lastMessage) {
+      lastMessage.scrollIntoView({ block: 'end' });
+    }
+  };
 
   const scrollToBottom = () => {
     const list = msgListRef?.current;
@@ -687,15 +677,15 @@ const MessageList: FC = memo(() => {
           >
             <ul
               ref={msgListRef}
-              // className={`flex flex-col px-6 gap-2 ${
-              //   !isLoadedContent && 'invisible'
-              // }`}
-              className={`flex flex-col px-6 gap-2`}
+              className={`flex flex-col px-6 gap-2 ${
+                !isLoadedContent && 'invisible'
+              }`}
+              // className={`flex flex-col px-6 gap-2`}
               style={{
                 minHeight: '100%',
                 display: 'flex',
                 justifyContent: 'flex-end',
-                scrollBehavior: 'unset',
+                // scrollBehavior: 'unset',
                 // overflowY: 'scroll',
               }}
             >
@@ -763,14 +753,14 @@ const MessageList: FC = memo(() => {
                     })}
                   </li>
                 ))}
+              {/* <div ref={bottomElementRef} className="h-0 w-0"></div> */}
             </ul>
           </div>
         </div>
 
-        {/* <MessagesSkeleton isLoadedContent={isLoadedContent} /> */}
+        <MessagesSkeleton isLoadedContent={isLoadedContent} />
 
-        {/* {isScrollDownButtonVisible && isLoadedContent && ( */}
-        {isScrollDownButtonVisible && (
+        {isScrollDownButtonVisible && isLoadedContent && (
           <ButtonScrollDown
             scrollToBottom={scrollToBottom}
             lengthOfUnreadMsgs={lengthOfUnreadMsgs}
