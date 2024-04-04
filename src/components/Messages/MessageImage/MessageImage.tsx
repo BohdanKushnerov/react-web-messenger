@@ -39,7 +39,9 @@ const MessageImage: FC<IMessageImageProps> = ({
       }}
     >
       <img
-        className="cursor-pointer object-cover rounded-md"
+        className={`${
+          loading ? 'invisible' : 'block'
+        } cursor-pointer object-cover rounded-md`}
         src={file.url}
         alt={file.type}
         style={{

@@ -46,7 +46,7 @@ const Sidebar: FC = () => {
             <div
               style={{
                 position: 'relative',
-                overflowY: 'scroll',
+                overflow: 'scroll',
                 width: '100%',
                 height: 'calc(100% - 48px)',
               }}

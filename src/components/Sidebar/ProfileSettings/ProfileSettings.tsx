@@ -96,7 +96,7 @@ const ProfileSettings: FC = () => {
               className="relative group rounded-full cursor-pointer"
               onClick={handleImageClick}
             >
-              {auth.currentUser?.photoURL && auth.currentUser.displayName ? (
+              {auth.currentUser && (
                 <>
                   <AvatarProfile
                     photoURL={auth.currentUser.photoURL}
@@ -110,28 +110,6 @@ const ProfileSettings: FC = () => {
                   >
                     <use href={sprite + '#icon-photo-focus'} />
                   </svg>
-                </>
-              ) : (
-                <>
-                  {auth.currentUser && (
-                    <>
-                      <AvatarProfile
-                        photoURL={auth.currentUser.photoURL}
-                        displayName={auth.currentUser.displayName}
-                        size="200"
-                      />
-                      <svg
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-105"
-                        width={48}
-                        height={48}
-                      >
-                        <use
-                          href={sprite + '#icon-photo-focus'}
-                          fill="#000000"
-                        />
-                      </svg>
-                    </>
-                  )}
                 </>
               )}
             </div>
