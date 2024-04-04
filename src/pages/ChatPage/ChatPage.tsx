@@ -2,7 +2,7 @@ import { FC, Suspense, lazy, useState } from 'react';
 
 import ChatForm from '../../components/ChatForm/ChatForm';
 import ChatHeader from '../../components/ChatHeader/ChatHeader';
-import MessageList from '@components/MessageList/MessageList';
+import Messages from '@components/Messages/Messages';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 const SearchMessages = lazy(
   () => import('@components/ChatHeader/SearchMessages/SearchMessages')
@@ -18,7 +18,7 @@ const ChatPage: FC = () => {
       <div className="relative h-full w-screen xl:flex xl:flex-col xl:items-center bg-transparent overflow-hidden">
         <ChatHeader setIsShowSearchMessages={setIsShowSearchMessages} />
 
-        <MessageList />
+        <Messages />
 
         <ChatForm />
       </div>

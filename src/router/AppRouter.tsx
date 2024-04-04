@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import PrivateRoute from './PrivateRoute';
 import RestrictedRoute from './RestrictedRoute';
-const Auth = lazy(() => import('@components/Auth/Auth'));
+const Auth = lazy(() => import('@pages/AuthPage/AuthPage'));
 const HomePage = lazy(() => import('@pages/HomePage/HomePage'));
 const ChatPage = lazy(() => import('@pages/ChatPage/ChatPage'));
 
