@@ -38,11 +38,11 @@ const MessageList: FC<IMessageListProps> = memo(
               }`}
               key={date}
             >
-              <div className="flex justify-center sticky top-1 z-10 ">
+              <li className="flex justify-center sticky top-1 z-10 ">
                 <p className="px-2 py-0.5 w-min-0 whitespace-no-wrap rounded-xl bg-zinc-200/40 text-green-100 text-center">
                   {formatDateForGroupMessages(date, t)}
                 </p>
-              </div>
+              </li>
               {groupedMessages[date].map((message: DocumentData) => {
                 const currentItem = selectedDocDataMessage?.find(
                   msg => msg.id === message.id

@@ -40,13 +40,15 @@ import '@i18n';
 const Messages: FC = () => {
   const [groupedMessages, setGroupedMessages] =
     useState<IGroupedMessages | null>(null);
-  const [lastLoadedMsg, setLastLoadedMsg] = useState<DocumentData | null>(null);
+  // const [lastLoadedMsg, setLastLoadedMsg] = useState<DocumentData | null>(null);
   const [isLoadedContent, setIsLoadedContent] = useState(false);
-  const [isNearTop, setIsNearTop] = useState(false);
+  // const [isNearTop, setIsNearTop] = useState(false);
   const [isReadyFirstMsgs, setIsReadyFirstMsgs] = useState(false);
   const [isScrollDownButtonVisible, setIsScrollDownButtonVisible] =
     useState(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+
+  // console.log('isNearTop', isNearTop);
 
   const scrollbarsRef = useRef<HTMLDivElement>(null);
   const msgListRef = useRef<HTMLDivElement>(null);
@@ -54,6 +56,9 @@ const Messages: FC = () => {
   const handleScrollTimeout = useRef<NodeJS.Timeout | null>(null);
   const isReadyToFetchFirstNewChatMsgs = useRef<boolean>(true);
   const isInfinityScrollLoading = useRef<boolean>(false);
+  const lastLoadedMsg = useRef<DocumentData | null>(null);
+
+  console.log('lastLoadedMsg', lastLoadedMsg.current);
 
   const { chatUID } = useChatStore(state => state.currentChatInfo);
   const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
@@ -87,18 +92,19 @@ const Messages: FC = () => {
   //   lengthOfUnreadMsgs
   // );
 
-  console.log('screen --> Messages');
+  // console.log('screen --> Messages');
 
-  console.log('///////////////////////');
+  // console.log('///////////////////////');
 
   // reset
   useEffect(() => {
     isReadyToFetchFirstNewChatMsgs.current = true;
+    lastLoadedMsg.current = null;
 
     setGroupedMessages(null);
     setIsReadyFirstMsgs(false);
-    setLastLoadedMsg(null);
-    setIsNearTop(false);
+    // setLastLoadedMsg(null);
+    // setIsNearTop(false);
   }, [chatUID]);
 
   // загрузка первого сообщения
@@ -123,7 +129,8 @@ const Messages: FC = () => {
           const updatedMessages: DocumentData[] = snapshot.docs;
           const lastVisible = updatedMessages[updatedMessages.length - 1];
 
-          setLastLoadedMsg(lastVisible);
+          // setLastLoadedMsg(lastVisible);
+          lastLoadedMsg.current = lastVisible;
 
           const groupedMsgs = updatedMessages.reduce((acc, message) => {
             const messageData = message.data();
@@ -152,7 +159,8 @@ const Messages: FC = () => {
           isReadyToFetchFirstNewChatMsgs.current = false;
         } else {
           setGroupedMessages({} as IGroupedMessages);
-          setLastLoadedMsg(null);
+          // setLastLoadedMsg(null);
+          lastLoadedMsg.current = null;
           setIsReadyFirstMsgs(true);
         }
       });
@@ -162,75 +170,75 @@ const Messages: FC = () => {
   }, [chatUID]);
 
   // infinite loading msgs
-  useEffect(() => {
-    if (chatUID === null || !isNearTop || !isReadyFirstMsgs || !lastLoadedMsg) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (chatUID === null || !isNearTop || !isReadyFirstMsgs || !lastLoadedMsg) {
+  //     return;
+  //   }
 
-    if (isReadyToFetchFirstNewChatMsgs.current === true) {
-      return;
-    }
+  //   if (isReadyToFetchFirstNewChatMsgs.current === true) {
+  //     return;
+  //   }
 
-    const loadMoreMessages = async () => {
-      if (isInfinityScrollLoading.current === false) {
-        return;
-      }
+  //   const loadMoreMessages = async () => {
+  //     if (isInfinityScrollLoading.current === false) {
+  //       return;
+  //     }
 
-      console.log('==> 222 loadMoreMessages');
+  //     console.log('==> 222 loadMoreMessages');
 
-      const queryParams = query(
-        collection(db, `chats/${chatUID}/messages`),
-        orderBy('date', 'desc'),
-        startAfter(lastLoadedMsg),
-        limit(10)
-      );
+  //     const queryParams = query(
+  //       collection(db, `chats/${chatUID}/messages`),
+  //       orderBy('date', 'desc'),
+  //       startAfter(lastLoadedMsg),
+  //       limit(10)
+  //     );
 
-      const snapshot = await getDocs(queryParams);
+  //     const snapshot = await getDocs(queryParams);
 
-      if (!snapshot.empty) {
-        const updatedMessages: DocumentData[] = snapshot.docs;
+  //     if (!snapshot.empty) {
+  //       const updatedMessages: DocumentData[] = snapshot.docs;
 
-        // console.log('33333 --------> updatedMessages', updatedMessages);
+  //       // console.log('33333 --------> updatedMessages', updatedMessages);
 
-        const lastVisible = updatedMessages[updatedMessages.length - 1];
+  //       const lastVisible = updatedMessages[updatedMessages.length - 1];
 
-        setLastLoadedMsg(lastVisible);
+  //       setLastLoadedMsg(lastVisible);
 
-        if (lastLoadedMsg?.id === lastVisible.id) {
-          return;
-        }
+  //       if (lastLoadedMsg?.id === lastVisible.id) {
+  //         return;
+  //       }
 
-        const groupedMsgs = updatedMessages.reduce((acc, message) => {
-          const messageData = message.data();
-          if (messageData && messageData.date) {
-            const date = messageData.date.toDate();
-            const dateString = date.toISOString().split('T')[0];
+  //       const groupedMsgs = updatedMessages.reduce((acc, message) => {
+  //         const messageData = message.data();
+  //         if (messageData && messageData.date) {
+  //           const date = messageData.date.toDate();
+  //           const dateString = date.toISOString().split('T')[0];
 
-            acc[dateString] = acc[dateString] || [];
-            acc[dateString].push(message);
-          }
+  //           acc[dateString] = acc[dateString] || [];
+  //           acc[dateString].push(message);
+  //         }
 
-          return acc;
-        }, {});
+  //         return acc;
+  //       }, {});
 
-        const entries = Object.entries(groupedMsgs);
-        entries.forEach(arr => arr[1].reverse());
-        entries.sort(
-          ([dateA], [dateB]) =>
-            new Date(dateA).getTime() - new Date(dateB).getTime()
-        );
-        const sortedData = Object.fromEntries(entries);
+  //       const entries = Object.entries(groupedMsgs);
+  //       entries.forEach(arr => arr[1].reverse());
+  //       entries.sort(
+  //         ([dateA], [dateB]) =>
+  //           new Date(dateA).getTime() - new Date(dateB).getTime()
+  //       );
+  //       const sortedData = Object.fromEntries(entries);
 
-        setGroupedMessages(prev => {
-          // console.log('prev', prev);
-          // console.log('sortedData', sortedData);
-          return mergeChatMessages(sortedData, prev as IGroupedMessages);
-        });
-      }
-    };
+  //       setGroupedMessages(prev => {
+  //         // console.log('prev', prev);
+  //         // console.log('sortedData', sortedData);
+  //         return mergeChatMessages(sortedData, prev as IGroupedMessages);
+  //       });
+  //     }
+  //   };
 
-    loadMoreMessages().then(() => (isInfinityScrollLoading.current = false));
-  }, [chatUID, isNearTop, isReadyFirstMsgs, lastLoadedMsg]);
+  //   loadMoreMessages().then(() => (isInfinityScrollLoading.current = false));
+  // }, [chatUID, isNearTop, isReadyFirstMsgs, lastLoadedMsg]);
 
   // когда после самого верха сообщений в предидущем чате мы переходим на новый чат,
   //  то мы будем не внизу а на 10 сообщении(не внизу)
@@ -433,6 +441,7 @@ const Messages: FC = () => {
   }, [chatUID, resetSelectedMessages]);
 
   const handleScroll = useCallback(() => {
+    console.log('==> handleScroll');
     const throttleTime = 100;
 
     if (handleScrollTimeout.current) {
@@ -440,6 +449,74 @@ const Messages: FC = () => {
     }
 
     handleScrollTimeout.current = setTimeout(() => {
+      const loadMoreMessages = async () => {
+        if (isInfinityScrollLoading.current === true) {
+          return;
+        }
+
+        isInfinityScrollLoading.current = true;
+        // console.log(']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]');
+
+        console.log('==> 222 loadMoreMessages');
+
+        const queryParams = query(
+          collection(db, `chats/${chatUID}/messages`),
+          orderBy('date', 'desc'),
+          startAfter(lastLoadedMsg.current),
+          limit(10)
+        );
+
+        const snapshot = await getDocs(queryParams);
+
+        console.log('snapshot.empty', snapshot.empty);
+
+        if (!snapshot.empty) {
+          const updatedMessages: DocumentData[] = snapshot.docs;
+
+          console.log('222 --------> updatedMessages', updatedMessages);
+
+          const lastVisible = updatedMessages[updatedMessages.length - 1];
+
+          console.log('lastVisible', lastVisible);
+          console.log('lastLoadedMsg', lastLoadedMsg);
+
+          // await setLastLoadedMsg(lastVisible);
+          
+          if (lastLoadedMsg.current?.id === lastVisible.id) {
+            return;
+          }
+
+          lastLoadedMsg.current = lastVisible;
+          
+          const groupedMsgs = updatedMessages.reduce((acc, message) => {
+            const messageData = message.data();
+            if (messageData && messageData.date) {
+              const date = messageData.date.toDate();
+              const dateString = date.toISOString().split('T')[0];
+
+              acc[dateString] = acc[dateString] || [];
+              acc[dateString].push(message);
+            }
+
+            return acc;
+          }, {});
+
+          const entries = Object.entries(groupedMsgs);
+          entries.forEach(arr => arr[1].reverse());
+          entries.sort(
+            ([dateA], [dateB]) =>
+              new Date(dateA).getTime() - new Date(dateB).getTime()
+          );
+          const sortedData = Object.fromEntries(entries);
+
+          setGroupedMessages(prev => {
+            // console.log('prev', prev);
+            // console.log('sortedData', sortedData);
+            return mergeChatMessages(sortedData, prev as IGroupedMessages);
+          });
+        }
+      };
+
       handleScrollTimeout.current = null;
 
       const scrollHeight = scrollbarsRef.current?.scrollHeight || 0;
@@ -449,16 +526,19 @@ const Messages: FC = () => {
       const isNearBottom = scrollHeight - scrollTop - clientHeight > 100;
       const top = scrollTop <= 500;
 
-      if (top) {
-        setIsNearTop(true);
-        isInfinityScrollLoading.current = true;
+      if (top && isScrollDownButtonVisible) {
+        // setIsNearTop(true);
+        // isInfinityScrollLoading.current = false;
+        loadMoreMessages().then(
+          () => (isInfinityScrollLoading.current = false)
+        );
       } else {
-        setIsNearTop(false);
+        // setIsNearTop(false);
       }
 
       setIsScrollDownButtonVisible(isNearBottom);
     }, throttleTime);
-  }, []);
+  }, [chatUID, isScrollDownButtonVisible]);
 
   const handleClickRigthButtonMessage = useCallback(
     (message: DocumentData, e?: React.MouseEvent) => {
