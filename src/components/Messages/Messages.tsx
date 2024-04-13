@@ -40,15 +40,11 @@ import '@i18n';
 const Messages: FC = () => {
   const [groupedMessages, setGroupedMessages] =
     useState<IGroupedMessages | null>(null);
-  // const [lastLoadedMsg, setLastLoadedMsg] = useState<DocumentData | null>(null);
   const [isLoadedContent, setIsLoadedContent] = useState(false);
-  // const [isNearTop, setIsNearTop] = useState(false);
   const [isReadyFirstMsgs, setIsReadyFirstMsgs] = useState(false);
   const [isScrollDownButtonVisible, setIsScrollDownButtonVisible] =
     useState(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
-
-  // console.log('isNearTop', isNearTop);
 
   const scrollbarsRef = useRef<HTMLDivElement>(null);
   const msgListRef = useRef<HTMLDivElement>(null);
@@ -80,22 +76,6 @@ const Messages: FC = () => {
     false
   );
 
-  // console.log(
-  //   groupedMessages,
-  //   lastLoadedMsg,
-  //   isLoadedContent,
-  //   isNearTop,
-  //   isReadyFirstMsgs,
-  //   isScrollDownButtonVisible,
-  //   chatUID,
-  //   isSelectedMessages,
-  //   lengthOfUnreadMsgs
-  // );
-
-  // console.log('screen --> Messages');
-
-  // console.log('///////////////////////');
-
   // reset
   useEffect(() => {
     isReadyToFetchFirstNewChatMsgs.current = true;
@@ -103,8 +83,6 @@ const Messages: FC = () => {
 
     setGroupedMessages(null);
     setIsReadyFirstMsgs(false);
-    // setLastLoadedMsg(null);
-    // setIsNearTop(false);
   }, [chatUID]);
 
   // загрузка первого сообщения
@@ -169,90 +147,16 @@ const Messages: FC = () => {
     fetchFirstMsg();
   }, [chatUID]);
 
-  // infinite loading msgs
-  // useEffect(() => {
-  //   if (chatUID === null || !isNearTop || !isReadyFirstMsgs || !lastLoadedMsg) {
-  //     return;
-  //   }
-
-  //   if (isReadyToFetchFirstNewChatMsgs.current === true) {
-  //     return;
-  //   }
-
-  //   const loadMoreMessages = async () => {
-  //     if (isInfinityScrollLoading.current === false) {
-  //       return;
-  //     }
-
-  //     console.log('==> 222 loadMoreMessages');
-
-  //     const queryParams = query(
-  //       collection(db, `chats/${chatUID}/messages`),
-  //       orderBy('date', 'desc'),
-  //       startAfter(lastLoadedMsg),
-  //       limit(10)
-  //     );
-
-  //     const snapshot = await getDocs(queryParams);
-
-  //     if (!snapshot.empty) {
-  //       const updatedMessages: DocumentData[] = snapshot.docs;
-
-  //       // console.log('33333 --------> updatedMessages', updatedMessages);
-
-  //       const lastVisible = updatedMessages[updatedMessages.length - 1];
-
-  //       setLastLoadedMsg(lastVisible);
-
-  //       if (lastLoadedMsg?.id === lastVisible.id) {
-  //         return;
-  //       }
-
-  //       const groupedMsgs = updatedMessages.reduce((acc, message) => {
-  //         const messageData = message.data();
-  //         if (messageData && messageData.date) {
-  //           const date = messageData.date.toDate();
-  //           const dateString = date.toISOString().split('T')[0];
-
-  //           acc[dateString] = acc[dateString] || [];
-  //           acc[dateString].push(message);
-  //         }
-
-  //         return acc;
-  //       }, {});
-
-  //       const entries = Object.entries(groupedMsgs);
-  //       entries.forEach(arr => arr[1].reverse());
-  //       entries.sort(
-  //         ([dateA], [dateB]) =>
-  //           new Date(dateA).getTime() - new Date(dateB).getTime()
-  //       );
-  //       const sortedData = Object.fromEntries(entries);
-
-  //       setGroupedMessages(prev => {
-  //         // console.log('prev', prev);
-  //         // console.log('sortedData', sortedData);
-  //         return mergeChatMessages(sortedData, prev as IGroupedMessages);
-  //       });
-  //     }
-  //   };
-
-  //   loadMoreMessages().then(() => (isInfinityScrollLoading.current = false));
-  // }, [chatUID, isNearTop, isReadyFirstMsgs, lastLoadedMsg]);
-
   // когда после самого верха сообщений в предидущем чате мы переходим на новый чат,
   //  то мы будем не внизу а на 10 сообщении(не внизу)
   useEffect(() => {
     if (isLoadedContent) {
-      // setTimeout(() => {
-      //   quickScrollBottom();
-      // }, 100);\
       console.log('==11111111111');
       quickScrollBottom();
     }
   }, [isLoadedContent]);
 
-  // на мобилке изза анимации 200мс не скроляться сообщения вниз
+  // на мобилке изза анимации 300мс не скроляться сообщения вниз
   useEffect(() => {
     const isMobileScreen = window.innerWidth <= 639;
 
@@ -448,75 +352,70 @@ const Messages: FC = () => {
       return;
     }
 
-    handleScrollTimeout.current = setTimeout(() => {
-      const loadMoreMessages = async () => {
-        if (isInfinityScrollLoading.current === true) {
+    const loadMoreMessages = async () => {
+      if (isInfinityScrollLoading.current === true) {
+        return;
+      }
+
+      isInfinityScrollLoading.current = true;
+
+      console.log('==> 222 loadMoreMessages');
+
+      const queryParams = query(
+        collection(db, `chats/${chatUID}/messages`),
+        orderBy('date', 'desc'),
+        startAfter(lastLoadedMsg.current),
+        limit(10)
+      );
+
+      const snapshot = await getDocs(queryParams);
+
+      console.log('snapshot.empty', snapshot.empty);
+
+      if (!snapshot.empty) {
+        const updatedMessages: DocumentData[] = snapshot.docs;
+
+        console.log('222 --------> updatedMessages', updatedMessages);
+
+        const lastVisible = updatedMessages[updatedMessages.length - 1];
+
+        console.log('lastVisible', lastVisible);
+        console.log('lastLoadedMsg', lastLoadedMsg);
+
+        if (lastLoadedMsg.current?.id === lastVisible.id) {
           return;
         }
 
-        isInfinityScrollLoading.current = true;
-        // console.log(']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]');
+        lastLoadedMsg.current = lastVisible;
 
-        console.log('==> 222 loadMoreMessages');
+        const groupedMsgs = updatedMessages.reduce((acc, message) => {
+          const messageData = message.data();
+          if (messageData && messageData.date) {
+            const date = messageData.date.toDate();
+            const dateString = date.toISOString().split('T')[0];
 
-        const queryParams = query(
-          collection(db, `chats/${chatUID}/messages`),
-          orderBy('date', 'desc'),
-          startAfter(lastLoadedMsg.current),
-          limit(10)
-        );
-
-        const snapshot = await getDocs(queryParams);
-
-        console.log('snapshot.empty', snapshot.empty);
-
-        if (!snapshot.empty) {
-          const updatedMessages: DocumentData[] = snapshot.docs;
-
-          console.log('222 --------> updatedMessages', updatedMessages);
-
-          const lastVisible = updatedMessages[updatedMessages.length - 1];
-
-          console.log('lastVisible', lastVisible);
-          console.log('lastLoadedMsg', lastLoadedMsg);
-
-          // await setLastLoadedMsg(lastVisible);
-          
-          if (lastLoadedMsg.current?.id === lastVisible.id) {
-            return;
+            acc[dateString] = acc[dateString] || [];
+            acc[dateString].push(message);
           }
 
-          lastLoadedMsg.current = lastVisible;
-          
-          const groupedMsgs = updatedMessages.reduce((acc, message) => {
-            const messageData = message.data();
-            if (messageData && messageData.date) {
-              const date = messageData.date.toDate();
-              const dateString = date.toISOString().split('T')[0];
+          return acc;
+        }, {});
 
-              acc[dateString] = acc[dateString] || [];
-              acc[dateString].push(message);
-            }
+        const entries = Object.entries(groupedMsgs);
+        entries.forEach(arr => arr[1].reverse());
+        entries.sort(
+          ([dateA], [dateB]) =>
+            new Date(dateA).getTime() - new Date(dateB).getTime()
+        );
+        const sortedData = Object.fromEntries(entries);
 
-            return acc;
-          }, {});
+        setGroupedMessages(prev =>
+          mergeChatMessages(sortedData, prev as IGroupedMessages)
+        );
+      }
+    };
 
-          const entries = Object.entries(groupedMsgs);
-          entries.forEach(arr => arr[1].reverse());
-          entries.sort(
-            ([dateA], [dateB]) =>
-              new Date(dateA).getTime() - new Date(dateB).getTime()
-          );
-          const sortedData = Object.fromEntries(entries);
-
-          setGroupedMessages(prev => {
-            // console.log('prev', prev);
-            // console.log('sortedData', sortedData);
-            return mergeChatMessages(sortedData, prev as IGroupedMessages);
-          });
-        }
-      };
-
+    handleScrollTimeout.current = setTimeout(() => {
       handleScrollTimeout.current = null;
 
       const scrollHeight = scrollbarsRef.current?.scrollHeight || 0;
@@ -527,13 +426,9 @@ const Messages: FC = () => {
       const top = scrollTop <= 500;
 
       if (top && isScrollDownButtonVisible) {
-        // setIsNearTop(true);
-        // isInfinityScrollLoading.current = false;
         loadMoreMessages().then(
           () => (isInfinityScrollLoading.current = false)
         );
-      } else {
-        // setIsNearTop(false);
       }
 
       setIsScrollDownButtonVisible(isNearBottom);
@@ -640,18 +535,18 @@ const Messages: FC = () => {
 
   const quickScrollBottom = () => {
     console.log('quickScrollBottom');
-    const bottomItemEl = document.getElementById('bottomItem');
 
-    if (bottomItemEl) {
-      bottomItemEl.scrollIntoView({ block: 'end' });
+    if (bottomElementRef.current) {
+      bottomElementRef.current.scrollIntoView({ block: 'end' });
     }
   };
 
   const scrollToBottom = () => {
-    const bottomItemEl = document.getElementById('bottomItem');
-
-    if (bottomItemEl) {
-      bottomItemEl.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    if (bottomElementRef.current) {
+      bottomElementRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+      });
     }
   };
 
