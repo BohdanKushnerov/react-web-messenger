@@ -14,6 +14,7 @@ import handleClickChangeDisplayName from '@utils/profileSettings/handleClickChan
 import sprite from '@assets/sprite.svg';
 import '@i18n';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import FileInput from '@components/Inputs/FileInput/FileInput';
 
 const ProfileSettings: FC = () => {
   const [newDisplayName, setNewDisplayName] = useState(
@@ -85,12 +86,9 @@ const ProfileSettings: FC = () => {
             handleClickButtonArrow={handleClickTurnBackToDefaultScreen}
           />
           <div className="flex flex-col justify-center items-center gap-4">
-            <input
-              style={{ display: 'none' }}
-              type="file"
-              accept="image/png, image/jpeg"
-              ref={photoProfileInputRef}
-              onChange={handleChooseProfilePhoto}
+            <FileInput
+              handleChangeFileInput={handleChooseProfilePhoto}
+              fileInputRef={photoProfileInputRef}
             />
             <div
               className="relative group rounded-full cursor-pointer"

@@ -1,7 +1,7 @@
 import { FC, Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import FileInput from '@components/Inputs/FileInput/FileInput';
+import FileAttachment from '@components/ChatForm/FileAttachment/FileAttachment';
 import Emoji from '@components/ChatForm/Emoji/Emoji';
 const RecordingAudio = lazy(
   () => import('@components/ChatForm/RecordingAudio/RecordingAudio')
@@ -165,7 +165,7 @@ const ChatForm: FC = () => {
                 </>
               )}
             </form>
-            <FileInput />
+            <FileAttachment />
             <Emoji />
           </>
         </div>

@@ -1,87 +1,19 @@
-import { FC, Suspense, lazy, useRef, useState } from 'react';
+import { FC } from 'react';
 
-const FileInputModal = lazy(
-  () => import('@components/Modals/FileInputModal/FileInputModal')
-);
-import useChatStore from '@zustand/store';
-import sprite from '@assets/sprite.svg';
-import '@i18n';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import { IFileInputProps } from '@interfaces/IFileInputProps';
 
-const FileInput: FC = () => {
-  const [isModalAddFileOpen, setIsModalAddFileOpen] = useState(false);
-  const hiddenFileInput = useRef<HTMLInputElement>(null);
-
-  const editingMessageInfo = useChatStore(state => state.editingMessageInfo);
-
-  const handleToggleModal = () => {
-    setIsModalAddFileOpen(prev => !prev);
-  };
-
-  const handleClickFileInput = (e: React.MouseEvent) => {
-    const target = e.target as HTMLElement;
-
-    if (
-      target.nodeName !== 'svg' &&
-      target.nodeName !== 'use' &&
-      target.nodeName !== 'input'
-    ) {
-      return;
-    }
-
-    if (hiddenFileInput.current) {
-      hiddenFileInput.current.click();
-    }
-  };
-
-  const handleChangeFileInput = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (event.target.files) {
-      handleToggleModal();
-    }
-  };
-
+const FileInput: FC<IFileInputProps> = ({
+  handleChangeFileInput,
+  fileInputRef,
+}) => {
   return (
-    <>
-      <button
-        className={`absolute ${
-          editingMessageInfo ? 'bottom-1' : 'top-7'
-        } right-16 w-10 h-10 flex justify-center items-center bg-transparent transition-all duration-300 hover:bg-zinc-400 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer`}
-        onClick={handleClickFileInput}
-        aria-label="Attach file to message"
-      >
-        <svg
-          width={24}
-          height={24}
-          className="fill-zinc-800 dark:fill-zinc-400"
-        >
-          <use href={sprite + '#icon-paper-clip'} />
-        </svg>
-        <input
-          style={{ display: 'none' }}
-          type="file"
-          multiple
-          onChange={handleChangeFileInput}
-          ref={hiddenFileInput}
-        />
-      </button>
-      {isModalAddFileOpen && (
-        <Suspense
-          fallback={
-            <div className="absolute top-6 right-14">
-              <LoaderUIActions size={50} />
-            </div>
-          }
-        >
-          <FileInputModal
-            hiddenFileInput={hiddenFileInput}
-            setIsModalAddFileOpen={setIsModalAddFileOpen}
-            handleToggleModal={handleToggleModal}
-          />
-        </Suspense>
-      )}
-    </>
+    <input
+      style={{ display: 'none' }}
+      type="file"
+      multiple
+      onChange={handleChangeFileInput}
+      ref={fileInputRef}
+    />
   );
 };
 

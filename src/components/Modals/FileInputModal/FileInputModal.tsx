@@ -23,7 +23,7 @@ import { FilesUploadStatuses } from 'types/FilesUploadStatuses';
 import '@i18n';
 
 const FileInputModal: FC<IFileInputModalProps> = ({
-  hiddenFileInput,
+  fileInputRef,
   setIsModalAddFileOpen,
   handleToggleModal,
 }) => {
@@ -43,18 +43,18 @@ const FileInputModal: FC<IFileInputModalProps> = ({
       setFileDescription('');
     }
     // сброс инпута на закрытие
-    if (hiddenFileInput.current) {
-      hiddenFileInput.current.value = '';
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
   const handleManageSendFile = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (hiddenFileInput.current?.files && currentUserUID) {
+    if (fileInputRef.current?.files && currentUserUID) {
       try {
         const promiseArrayURLsOfFiles = Array.from(
-          hiddenFileInput.current.files
+          fileInputRef.current.files
         ).map(async file => {
           //=========================================================
           const metadata = {
@@ -172,7 +172,7 @@ const FileInputModal: FC<IFileInputModalProps> = ({
       <div className="h-full flex justify-center items-center">
         <div className="relative w-full sm:w-1/2 xl:w-1/3 h-1/2 flex flex-col gap-8 justify-between items-center p-2 bg-gray-200 dark:bg-myBlackBcg rounded-3xl shadow-mainShadow">
           <p className="text-black dark:text-white font-extrabold">
-            {`${t('Send')} ${hiddenFileInput.current?.files?.length} ${t(
+            {`${t('Send')} ${fileInputRef.current?.files?.length} ${t(
               'Files'
             )}`}
           </p>
@@ -187,8 +187,8 @@ const FileInputModal: FC<IFileInputModalProps> = ({
             // }}
           >
             <ul className="flex flex-col gap-2">
-              {hiddenFileInput.current?.files &&
-                Array.from(hiddenFileInput.current.files).map(file => {
+              {fileInputRef.current?.files &&
+                Array.from(fileInputRef.current.files).map(file => {
                   // console.log('file', file);
                   if (file.type.includes('image')) {
                     return (
