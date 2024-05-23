@@ -7,7 +7,7 @@ import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import useChatStore from '@zustand/store';
 import useSearchUsers from '@hooks/useSearchUsers';
-import handleCreateChat from '@utils/chatListItem/handleCreateChat';
+import handleCreateAndNavigateToChat from '@utils/chatListItem/handleCreateAndNavigateToChat';
 
 const SearchChatList: FC = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const SearchChatList: FC = () => {
   // console.log('screen --> SearchChatList');
 
   const handleManageCreateChat = (docData: DocumentData) => {
-    handleCreateChat(docData, updateCurrentChatInfo, navigate);
+    handleCreateAndNavigateToChat(docData, updateCurrentChatInfo, navigate);
 
     setSearchChatList(null);
     updateSearchValue('');

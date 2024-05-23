@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { downloadFileFromStorage } from '@api/firestore/downloadFileFromStorage';
+import { downloadFileFromStorage } from '@api/storage/downloadFileFromStorage';
 import { FileFromStorage } from 'types/FileFromStorage';
 
 export const useFileLinkFromStorage = (file: FileFromStorage) => {
