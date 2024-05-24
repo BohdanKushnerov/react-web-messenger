@@ -2,8 +2,8 @@ import { DocumentData } from 'firebase/firestore';
 
 import { IFile } from '@interfaces/IFile';
 
-function getFilesWithoutImages(msg: DocumentData) {
-  return (
+const getFilesWithoutImages = (msg: DocumentData) => {
+  const files =
     msg.data().file &&
     msg
       .data()
@@ -11,10 +11,11 @@ function getFilesWithoutImages(msg: DocumentData) {
         if (!file.type.includes('image')) {
           return file;
         }
-        return null; // or handle other types if needed
+        return null;
       })
-      .filter((slideOfFile: IFile | null) => slideOfFile !== null)
-  );
-}
+      .filter((slideOfFile: IFile | null) => slideOfFile !== null);
+
+  return files;
+};
 
 export default getFilesWithoutImages;

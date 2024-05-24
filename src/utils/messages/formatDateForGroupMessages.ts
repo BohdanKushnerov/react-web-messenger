@@ -1,9 +1,6 @@
 import { TFunction } from 'i18next';
 
-function formatDateForGroupMessages(
-  inputDate: string,
-  t: TFunction
-) {
+const formatDateForGroupMessages = (inputDate: string, t: TFunction) => {
   const dateObject = new Date(inputDate);
   const day = dateObject.getDate();
 
@@ -26,6 +23,6 @@ function formatDateForGroupMessages(
   const formattedDate = `${day} ${monthName}`;
 
   return formattedDate;
-}
+};
 
 export default formatDateForGroupMessages;

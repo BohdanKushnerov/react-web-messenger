@@ -1,4 +1,4 @@
-function changeFaviconBrowserTab(newFaviconPath: string) {
+const changeFaviconBrowserTab = (newFaviconPath: string) => {
   const link =
     document.querySelector("link[rel='icon']") ||
     document.createElement('link');
@@ -9,6 +9,6 @@ function changeFaviconBrowserTab(newFaviconPath: string) {
   linkElement.href = newFaviconPath;
 
   document.head.appendChild(link);
-}
+};
 
 export default changeFaviconBrowserTab;

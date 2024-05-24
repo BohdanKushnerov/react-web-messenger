@@ -1,5 +1,6 @@
-import { doc, updateDoc } from 'firebase/firestore';
+import { Dispatch, RefObject, SetStateAction } from 'react';
 import { User, updateProfile } from 'firebase/auth';
+import { doc, updateDoc } from 'firebase/firestore';
 import {
   deleteObject,
   getDownloadURL,
@@ -7,13 +8,12 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
-
-import { auth, db, storage } from '@myfirebase/config';
 import { toast } from 'react-toastify';
-import { Dispatch, RefObject, SetStateAction } from 'react';
 import { TFunction } from 'i18next';
 
-export const handleUpdateProfilePhoto = async (
+import { auth, db, storage } from '@myfirebase/config';
+
+const handleUpdateProfilePhoto = async (
   photoProfileInputRef: RefObject<HTMLInputElement>,
   currentUserUID: string | null,
   setProfilePhotoUploadStatus: Dispatch<SetStateAction<number | null>>,
@@ -105,3 +105,5 @@ export const handleUpdateProfilePhoto = async (
     }
   }
 };
+
+export default handleUpdateProfilePhoto;

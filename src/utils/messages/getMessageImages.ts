@@ -2,8 +2,8 @@ import { DocumentData } from 'firebase/firestore';
 
 import { IFile } from '@interfaces/IFile';
 
-function getMessageImages(msg: DocumentData) {
-  return (
+const getMessageImages = (msg: DocumentData) => {
+  const images =
     msg.data().file &&
     msg
       .data()
@@ -11,10 +11,11 @@ function getMessageImages(msg: DocumentData) {
         if (file.type.includes('image')) {
           return file;
         }
-        return null; // or handle other types if needed
+        return null;
       })
-      .filter((slide: IFile | null) => slide !== null)
-  );
-}
+      .filter((slide: IFile | null) => slide !== null);
+
+  return images;
+};
 
 export default getMessageImages;

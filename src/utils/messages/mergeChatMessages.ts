@@ -1,6 +1,6 @@
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 
-function mergeChatMessages(obj1: IGroupedMessages, obj2: IGroupedMessages) {
+const mergeChatMessages = (obj1: IGroupedMessages, obj2: IGroupedMessages) => {
   const merged = { ...obj1 };
 
   for (const key in obj2) {
@@ -12,6 +12,6 @@ function mergeChatMessages(obj1: IGroupedMessages, obj2: IGroupedMessages) {
   }
 
   return merged;
-}
+};
 
 export default mergeChatMessages;

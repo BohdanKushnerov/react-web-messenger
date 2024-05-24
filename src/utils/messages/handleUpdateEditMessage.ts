@@ -6,7 +6,7 @@ import { db } from '@myfirebase/config';
 import makeCursorOnProgress from '@utils/makeCursorOnProgress';
 import resetCursorOnDefault from '@utils/resetCursorOnDefault';
 
-async function handleUpdateEditMessage(
+const handleUpdateEditMessage = async (
   editingMessageInfo: {
     selectedMessage: DocumentData;
     isLastMessage: boolean;
@@ -16,7 +16,7 @@ async function handleUpdateEditMessage(
   currentUserUID: string | null,
   userUID: string | null,
   t: TFunction
-) {
+) => {
   try {
     if (editingMessageInfo && chatUID) {
       makeCursorOnProgress();
@@ -79,6 +79,6 @@ async function handleUpdateEditMessage(
   } finally {
     resetCursorOnDefault();
   }
-}
+};
 
 export default handleUpdateEditMessage;

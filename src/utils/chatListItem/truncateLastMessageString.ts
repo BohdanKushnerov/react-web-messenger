@@ -1,4 +1,4 @@
-function truncateLastMessageString(inputString: string, maxLength: number) {
+const truncateLastMessageString = (inputString: string, maxLength: number) => {
   if (!inputString) {
     return;
   }
@@ -8,6 +8,6 @@ function truncateLastMessageString(inputString: string, maxLength: number) {
   } else {
     return inputString.substring(0, maxLength) + '...';
   }
-}
+};
 
 export default truncateLastMessageString;

@@ -1,4 +1,4 @@
-function formatTimeSearchMsg(dateString: string) {
+const formatTimeSearchMsg = (dateString: string) => {
   const currentLanguage = localStorage.getItem('language');
 
   if (currentLanguage) {
@@ -15,8 +15,9 @@ function formatTimeSearchMsg(dateString: string) {
     const formattedTime = `${day} ${month} ${year}, ${hours}:${
       minutes < 10 ? '0' : ''
     }${minutes}`;
+    
     return formattedTime;
   }
-}
+};
 
 export default formatTimeSearchMsg;

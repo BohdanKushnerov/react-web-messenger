@@ -2,8 +2,8 @@ import { DocumentData } from 'firebase/firestore';
 
 import { IFile } from '@interfaces/IFile';
 
-function getSlidesForLightbox(msg: DocumentData) {
-  return (
+const getSlidesForLightbox = (msg: DocumentData) => {
+  const slides =
     msg.data().file &&
     msg
       .data()
@@ -13,8 +13,9 @@ function getSlidesForLightbox(msg: DocumentData) {
         }
         return null;
       })
-      .filter((slide: IFile | null) => slide !== null)
-  );
-}
+      .filter((slide: IFile | null) => slide !== null);
+
+  return slides;
+};
 
 export default getSlidesForLightbox;

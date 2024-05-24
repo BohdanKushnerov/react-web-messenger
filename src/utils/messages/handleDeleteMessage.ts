@@ -81,9 +81,9 @@ export const handleDeleteMessage = async (
     try {
       makeCursorOnProgress();
 
-      await deleteFilesAndDocs(selectedDocDataMessage, db, chatUID).then(() => {
-        closeModal();
-      });
+      await deleteFilesAndDocs(selectedDocDataMessage, db, chatUID);
+
+      closeModal();
 
       const lastMessageFromStorage = await getLastMessage(chatUID, db);
 

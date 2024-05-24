@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
 import useChatStore from '@zustand/store';
-import { handleUpdateProfilePhoto } from '@utils/profileSettings/handleUpdateProfilePhoto';
+import handleUpdateProfilePhoto from '@utils/profileSettings/handleUpdateProfilePhoto';
 import { IProfileSettingsModalProps } from '@interfaces/IProfileSettingsModalProps';
 import '@i18n';
 
