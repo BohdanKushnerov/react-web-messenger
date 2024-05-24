@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Search from '../../Inputs/SearchMsgsInput/SearchMsgsInput';
+import SearchMsgsInput from '@components/Inputs/SearchMsgsInput/SearchMsgsInput';
 import useChatStore from '@zustand/store';
 import '@i18n';
 
@@ -16,7 +16,7 @@ const SearchUsers: FC = () => {
   };
 
   return (
-    <Search
+    <SearchMsgsInput
       value={searchValue}
       handleChange={handleChangeSearchValue}
       placeholderText={t('Search')}

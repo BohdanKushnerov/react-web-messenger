@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 
-import { IFile } from '@interfaces/IFile';
-import { IMessageImageProps } from '@interfaces/IMessageImageProps';
 import calculateMsgImageWidth from '@utils/messages/calculateMsgImageWidth';
 import calculateMsgImageHeight from '@utils/messages/calculateMsgImageHeight';
+import { IFile } from '@interfaces/IFile';
+import { IMessageImageProps } from '@interfaces/IMessageImageProps';
 
 const MessageImage: FC<IMessageImageProps> = ({
   msg,

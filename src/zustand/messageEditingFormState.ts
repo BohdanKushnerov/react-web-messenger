@@ -1,6 +1,6 @@
+import { DocumentData } from 'firebase/firestore';
 import { StateCreator } from 'zustand';
 import { produce } from 'immer';
-import { DocumentData } from 'firebase/firestore';
 
 import { IMessageEditingState } from '@interfaces/zustand/IMessageEditingState';
 

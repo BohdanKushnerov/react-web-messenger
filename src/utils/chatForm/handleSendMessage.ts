@@ -1,7 +1,7 @@
 import { doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
-import { createAndSaveTextMsgDoc } from '@api/firestore/createAndSaveTextMsgDoc';
+import createAndSaveTextMsgDoc from '@api/firestore/createAndSaveTextMsgDoc';
 
 const updateUserChats = async (
   chatUID: string,

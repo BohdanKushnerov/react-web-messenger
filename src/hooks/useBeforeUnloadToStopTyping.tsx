@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import useChatStore from '@zustand/store';
-import { updateTypingIsFalse } from '@api/firestore/updateTypingIsFalse';
+import updateTypingIsFalse from '@api/firestore/updateTypingIsFalse';
 
 const useBeforeUnloadToStopTyping = () => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
@@ -27,6 +27,6 @@ const useBeforeUnloadToStopTyping = () => {
       handleWindowUnmountBeforeUnload();
     };
   }, [chatUID, currentUserUID]);
-}
+};
 
 export default useBeforeUnloadToStopTyping;

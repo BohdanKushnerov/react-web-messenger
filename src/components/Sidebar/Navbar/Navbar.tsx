@@ -1,9 +1,9 @@
 import { FC, Suspense, lazy, useState } from 'react';
 
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 const NavbarModal = lazy(
   () => import('@components/Modals/NavbarModal/NavbarModal')
 );
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import sprite from '@assets/sprite.svg';
 
 const Navbar: FC = () => {

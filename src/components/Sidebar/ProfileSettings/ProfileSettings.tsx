@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 
 import ButtonArrow from '@components/Buttons/ButtonArrow/ButtonArrow';
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import FileInput from '@components/Inputs/FileInput/FileInput';
 const ProfileSettingsModal = lazy(
   () => import('@components/Modals/ProfileSettingsModal/ProfileSettingsModal')
 );
@@ -13,8 +15,6 @@ import useStartTransition from '@hooks/useStartTransition';
 import handleClickChangeDisplayName from '@utils/profileSettings/handleClickChangeDisplayName';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
-import FileInput from '@components/Inputs/FileInput/FileInput';
 
 const ProfileSettings: FC = () => {
   const [newDisplayName, setNewDisplayName] = useState(

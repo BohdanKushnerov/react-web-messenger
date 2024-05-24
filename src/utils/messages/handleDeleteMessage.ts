@@ -63,7 +63,7 @@ const getLastMessage = async (chatUID: string, db: Firestore) => {
   return lastMessageData;
 };
 
-export const handleDeleteMessage = async (
+const handleDeleteMessage = async (
   selectedDocDataMessage: DocumentData[] | null,
   chatUID: string | null,
   currentUserUID: string | null,
@@ -141,3 +141,5 @@ export const handleDeleteMessage = async (
     }
   }
 };
+
+export default handleDeleteMessage;

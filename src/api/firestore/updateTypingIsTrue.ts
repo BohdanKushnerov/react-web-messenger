@@ -1,8 +1,8 @@
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from 'firebase/firestore';
 
-import { db } from "@myfirebase/config";
+import { db } from '@myfirebase/config';
 
-export const updateTypingIsTrue = async (chatUID: string, currentUserUID: string) => {
+const updateTypingIsTrue = async (chatUID: string, currentUserUID: string) => {
   const chatDocRef = doc(db, 'chats', chatUID);
 
   const updateTypingTrue = {
@@ -13,3 +13,5 @@ export const updateTypingIsTrue = async (chatUID: string, currentUserUID: string
 
   await updateDoc(chatDocRef, updateTypingTrue);
 };
+
+export default updateTypingIsTrue;

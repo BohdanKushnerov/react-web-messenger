@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-import { IUseUnreadMessages } from '@interfaces/hooks/IUseUnreadMessages';
 import useChatStore from '@zustand/store';
+import { IUseUnreadMessages } from '@interfaces/hooks/IUseUnreadMessages';
 
 const useUnreadMessages: IUseUnreadMessages = (
   lengthOfMyUnreadMsgs,

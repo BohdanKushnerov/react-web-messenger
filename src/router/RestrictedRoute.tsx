@@ -4,10 +4,10 @@ import useChatStore from '@zustand/store';
 import { IRestrictedRouteProps } from '@interfaces/routes/IRestrictedRouteProps';
 import { Suspense } from 'react';
 
-function RestrictedRoute({
+const RestrictedRoute = ({
   component: Component,
   redirectTo = '/',
-}: IRestrictedRouteProps) {
+}: IRestrictedRouteProps) => {
   const isLoggedIn = useChatStore(state => state.isLoggedIn);
   const currentUser = useChatStore(state => state.currentUser);
 
@@ -23,6 +23,6 @@ function RestrictedRoute({
       )}
     </>
   );
-}
+};
 
 export default RestrictedRoute;

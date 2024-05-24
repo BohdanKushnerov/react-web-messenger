@@ -5,11 +5,11 @@ import ChatList from '@components/Sidebar/ChatList/ChatList';
 import Navbar from '@components/Sidebar/Navbar/Navbar';
 import SearchUsers from '@components/Sidebar/SearchUsers/SearchUsers';
 import SearchChatList from '@components/Sidebar/SearchChatList/SearchChatList';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 const ProfileSettings = lazy(
   () => import('@components/Sidebar/ProfileSettings/ProfileSettings')
 );
 import useChatStore from '@zustand/store';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const Sidebar: FC = () => {
   const nodeRefSidebarDefault = useRef(null);

@@ -1,7 +1,8 @@
-import { db } from '@myfirebase/config';
 import { DocumentData, doc, updateDoc } from 'firebase/firestore';
 
-export const makeReadMsg = async (chatUID: string, msg: DocumentData) => {
+import { db } from '@myfirebase/config';
+
+const makeReadMsg = async (chatUID: string, msg: DocumentData) => {
   if (chatUID === null) {
     return;
   }
@@ -10,3 +11,5 @@ export const makeReadMsg = async (chatUID: string, msg: DocumentData) => {
     ['isRead']: true,
   });
 };
+
+export default makeReadMsg;

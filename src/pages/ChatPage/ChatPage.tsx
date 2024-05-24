@@ -1,7 +1,7 @@
 import { FC, Suspense, lazy, useState } from 'react';
 
-import ChatForm from '../../components/ChatForm/ChatForm';
-import ChatHeader from '../../components/ChatHeader/ChatHeader';
+import ChatForm from '@components/ChatForm/ChatForm';
+import ChatHeader from '@components/ChatHeader/ChatHeader';
 import Messages from '@components/Messages/Messages';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 const SearchMessages = lazy(

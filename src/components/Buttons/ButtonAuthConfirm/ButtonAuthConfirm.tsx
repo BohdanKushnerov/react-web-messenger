@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import LoaderUIActions from '../../LoaderUIActions/LoaderUIActions';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import { IAuthConfirmButtonProps } from '@interfaces/IAuthConfirmButtonProps';
 
 const AuthConfirmButton: FC<IAuthConfirmButtonProps> = ({ isLoading }) => {

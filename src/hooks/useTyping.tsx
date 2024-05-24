@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 
 import useChatStore from '@zustand/store';
-import { updateTypingIsFalse } from '@api/firestore/updateTypingIsFalse';
-import { updateTypingIsTrue } from '@api/firestore/updateTypingIsTrue';
+import updateTypingIsFalse from '@api/firestore/updateTypingIsFalse';
+import updateTypingIsTrue from '@api/firestore/updateTypingIsTrue';
 import { IUseTyping } from '@interfaces/hooks/IUseTyping';
 
 const useTyping: IUseTyping = message => {

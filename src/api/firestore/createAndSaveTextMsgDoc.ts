@@ -2,7 +2,7 @@ import { addDoc, collection, Timestamp } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 
-export const createAndSaveTextMsgDoc = async (
+const createAndSaveTextMsgDoc = async (
   chatUID: string,
   message: string,
   currentUserUID: string
@@ -15,3 +15,5 @@ export const createAndSaveTextMsgDoc = async (
     isShowNotification: true,
   });
 };
+
+export default createAndSaveTextMsgDoc;

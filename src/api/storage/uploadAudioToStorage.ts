@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { storage } from '@myfirebase/config';
 
-export const uploadAudioToStorage = async (
+const uploadAudioToStorage = async (
   audioBlob: Blob,
   userUID: string
 ): Promise<string> => {
@@ -17,3 +17,5 @@ export const uploadAudioToStorage = async (
 
   return downloadURL;
 };
+
+export default uploadAudioToStorage;

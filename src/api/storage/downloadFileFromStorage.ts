@@ -1,8 +1,8 @@
-import { getDownloadURL, ref } from "firebase/storage";
+import { getDownloadURL, ref } from 'firebase/storage';
 
-import { storage } from "@myfirebase/config";
+import { storage } from '@myfirebase/config';
 
-export const downloadFileFromStorage = async (url: string) => {
+const downloadFileFromStorage = async (url: string) => {
   const httpsReference = ref(storage, url);
 
   try {
@@ -13,3 +13,5 @@ export const downloadFileFromStorage = async (url: string) => {
     return null;
   }
 };
+
+export default downloadFileFromStorage;

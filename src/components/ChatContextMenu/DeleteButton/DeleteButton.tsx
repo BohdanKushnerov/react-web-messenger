@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useChatStore from '@zustand/store';
-import { handleDeleteMessage } from '@utils/messages/handleDeleteMessage';
+import handleDeleteMessage from '@utils/messages/handleDeleteMessage';
 import sprite from '@assets/sprite.svg';
 
 interface IDeleteButtonProps {

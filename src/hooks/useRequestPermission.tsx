@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 
 const useRequestPermission = () => {
-  // requestPermission
   useEffect(() => {
     const requestPermission = async () => {
       // console.log('Requesting permission...');

@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next';
 
 import FileAttachment from '@components/ChatForm/FileAttachment/FileAttachment';
 import Emoji from '@components/ChatForm/Emoji/Emoji';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import SendMessage from '@components/Buttons/ButtonSendMessage/ButtonSendMessage';
+import ButtonRecordAudio from '@components/Buttons/ButtonRecordAudio/ButtonRecordAudio';
 const RecordingAudio = lazy(
   () => import('@components/ChatForm/RecordingAudio/RecordingAudio')
 );
@@ -12,9 +15,6 @@ const ButtonClose = lazy(
 const ChatFormSelectedMsgs = lazy(
   () => import('@components/ChatForm/ChatFormSelectedMsgs/ChatFormSelectedMsgs')
 );
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
-import SendMessage from '@components/Buttons/ButtonSendMessage/ButtonSendMessage';
-import ButtonRecordAudio from '@components/Buttons/ButtonRecordAudio/ButtonRecordAudio';
 import useChatStore from '@zustand/store';
 import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
 import useTyping from '@hooks/useTyping';

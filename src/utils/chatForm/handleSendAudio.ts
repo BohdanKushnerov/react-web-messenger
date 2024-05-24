@@ -1,8 +1,8 @@
 import { doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
-import { createAndSaveFileMsgDoc } from '@api/firestore/createAndSaveFileMsgDoc';
-import { uploadAudioToStorage } from '@api/storage/uploadAudioToStorage';
+import createAndSaveFileMsgDoc from '@api/firestore/createAndSaveFileMsgDoc';
+import uploadAudioToStorage from '@api/storage/uploadAudioToStorage';
 
 const updateUserChats = async (
   chatUID: string,

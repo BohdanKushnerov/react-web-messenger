@@ -2,10 +2,10 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
+import useChatStore from '@zustand/store';
 import useChatInfo from '@hooks/useChatInfo';
 import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
 import useShowTyping from '@hooks/useShowTyping';
-import useChatStore from '@zustand/store';
 import '@i18n';
 
 const ChatHeaderOponentInfo: FC = () => {

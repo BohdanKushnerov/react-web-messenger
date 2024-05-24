@@ -1,8 +1,8 @@
+import { DocumentData } from 'firebase/firestore';
 import { StateCreator } from 'zustand';
 import { produce } from 'immer';
 
 import { ICreateisSelectedMessagesState } from '@interfaces/zustand/ICreateisSelectedMessagesState';
-import { DocumentData } from 'firebase/firestore';
 
 const createIsSelectedMessagesState: StateCreator<
   ICreateisSelectedMessagesState

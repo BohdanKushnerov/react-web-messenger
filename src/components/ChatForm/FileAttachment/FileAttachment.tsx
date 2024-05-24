@@ -1,10 +1,10 @@
 import { FC, Suspense, lazy, useRef, useState } from 'react';
 
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import FileInput from '@components/Inputs/FileInput/FileInput';
 const FileInputModal = lazy(
   () => import('@components/Modals/FileInputModal/FileInputModal')
 );
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
-import FileInput from '@components/Inputs/FileInput/FileInput';
 import useChatStore from '@zustand/store';
 import sprite from '@assets/sprite.svg';
 import '@i18n';
