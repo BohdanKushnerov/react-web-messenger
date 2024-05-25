@@ -54,7 +54,7 @@ const Messages: FC = () => {
   const isInfinityScrollLoading = useRef<boolean>(false);
   const lastLoadedMsg = useRef<DocumentData | null>(null);
 
-  console.log('lastLoadedMsg', lastLoadedMsg.current);
+  // console.log('lastLoadedMsg', lastLoadedMsg.current);
 
   const { chatUID } = useChatStore(state => state.currentChatInfo);
   const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
@@ -94,7 +94,7 @@ const Messages: FC = () => {
     setIsLoadedContent(false);
 
     async function fetchFirstMsg() {
-      console.log('**1 fetchFirstMsg');
+      // console.log('**1 fetchFirstMsg');
 
       const queryParams = query(
         collection(db, `chats/${chatUID}/messages`),
@@ -151,7 +151,7 @@ const Messages: FC = () => {
   //  то мы будем не внизу а на 10 сообщении(не внизу)
   useEffect(() => {
     if (isLoadedContent) {
-      console.log('==11111111111');
+      // console.log('==11111111111');
       quickScrollBottom();
     }
   }, [isLoadedContent]);
@@ -207,8 +207,8 @@ const Messages: FC = () => {
               const obj = { [dateString]: [change.doc] };
 
               setGroupedMessages(prev => {
-                console.log('add prev', prev);
-                console.log('add obj', obj);
+                // console.log('add prev', prev);
+                // console.log('add obj', obj);
                 return mergeChatMessages(prev as IGroupedMessages, obj);
               });
             }
@@ -242,7 +242,7 @@ const Messages: FC = () => {
               const dateString = date.toISOString().split('T')[0];
 
               setGroupedMessages(prev => {
-                console.log('modified prev', prev);
+                // console.log('modified prev', prev);
 
                 if (prev) {
                   const updatedMessages = { ...prev };
@@ -282,7 +282,7 @@ const Messages: FC = () => {
               const dateString = date.toISOString().split('T')[0];
 
               setGroupedMessages(prev => {
-                console.log('removed prev', prev);
+                // console.log('removed prev', prev);
                 if (prev) {
                   const updatedMessages = { ...prev };
 
@@ -359,7 +359,7 @@ const Messages: FC = () => {
 
       isInfinityScrollLoading.current = true;
 
-      console.log('==> 222 loadMoreMessages');
+      // console.log('==> 222 loadMoreMessages');
 
       const queryParams = query(
         collection(db, `chats/${chatUID}/messages`),
@@ -370,17 +370,17 @@ const Messages: FC = () => {
 
       const snapshot = await getDocs(queryParams);
 
-      console.log('snapshot.empty', snapshot.empty);
+      // console.log('snapshot.empty', snapshot.empty);
 
       if (!snapshot.empty) {
         const updatedMessages: DocumentData[] = snapshot.docs;
 
-        console.log('222 --------> updatedMessages', updatedMessages);
+        // console.log('222 --------> updatedMessages', updatedMessages);
 
         const lastVisible = updatedMessages[updatedMessages.length - 1];
 
-        console.log('lastVisible', lastVisible);
-        console.log('lastLoadedMsg', lastLoadedMsg);
+        // console.log('lastVisible', lastVisible);
+        // console.log('lastLoadedMsg', lastLoadedMsg);
 
         if (lastLoadedMsg.current?.id === lastVisible.id) {
           return;
@@ -534,7 +534,7 @@ const Messages: FC = () => {
   };
 
   const quickScrollBottom = () => {
-    console.log('quickScrollBottom');
+    // console.log('quickScrollBottom');
 
     if (bottomElementRef.current) {
       bottomElementRef.current.scrollIntoView({ block: 'end' });

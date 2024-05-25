@@ -3,16 +3,21 @@ import { FC, useEffect, useRef, useState } from 'react';
 import useChatStore from '@zustand/store';
 import handleSendAudio from '@utils/chatForm/handleSendAudio';
 import setupAudioAnalyzer from '@utils/chatForm/setupAudioAnalyzer';
+import startRecordingTimer from '@utils/chatForm/startRecordingTimer';
 import { IRecordingAudioProps } from '@interfaces/IRecordingAudioProps';
 import sprite from '@assets/sprite.svg';
+import cleanUpRecordingResources from '@utils/chatForm/cleanupRecordingResources';
 
 const RecordingAudio: FC<IRecordingAudioProps> = ({
   isRecording,
   handleToggleRecordingStatus,
 }) => {
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
+  const [recordingDuration, setRecordingDuration] = useState(0);
+  const intervalIdrecordingRef = useRef<ReturnType<typeof setInterval> | null>(
+    null
+  );
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const animationIdRef = useRef<number | null>(null);
@@ -22,17 +27,14 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
 
   const mimeType = 'audio/webm';
 
-  const stopRecordingAndDisconnectAnalyser = () => {
-    if (mediaRecorderRef.current) {
-      const tracks = mediaRecorderRef.current.stream.getTracks();
-      tracks?.forEach(track => track.stop());
-      setAudioChunks([]);
-    }
-
-    if (analyserRef.current) {
-      analyserRef.current.disconnect();
-    }
-  };
+  useEffect(() => {
+    return () => {
+      if (intervalIdrecordingRef.current) {
+        clearInterval(intervalIdrecordingRef.current);
+        intervalIdrecordingRef.current = null;
+      }
+    };
+  }, [isRecording]);
 
   useEffect(() => {
     return () => {
@@ -41,7 +43,7 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
         animationIdRef.current = null;
       }
 
-      stopRecordingAndDisconnectAnalyser();
+      cleanUpRecordingResources(mediaRecorderRef, analyserRef, setAudioChunks);
     };
   }, []);
 
@@ -54,7 +56,8 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
         });
 
         if (streamData) {
-          // setRecordingStatus('recording');
+          startRecordingTimer(intervalIdrecordingRef, setRecordingDuration);
+
           const media = new MediaRecorder(streamData, { mimeType: mimeType });
           mediaRecorderRef.current = media;
           mediaRecorderRef.current.start();
@@ -81,7 +84,6 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
   }, [isRecording]);
 
   const stopRecording = () => {
-    // setRecordingStatus('inactive');
     if (animationIdRef.current) {
       cancelAnimationFrame(animationIdRef.current);
       animationIdRef.current = null;
@@ -94,11 +96,15 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
 
         if (chatUID && userUID && currentUserUID) {
           try {
-            await handleSendAudio(audioBlob, chatUID, userUID, currentUserUID);
-            stopRecordingAndDisconnectAnalyser();
+            cleanUpRecordingResources(
+              mediaRecorderRef,
+              analyserRef,
+              setAudioChunks
+            );
             handleToggleRecordingStatus();
-          } catch (e) {
-            console.log('stopRecording error', e);
+            await handleSendAudio(audioBlob, chatUID, userUID, currentUserUID);
+          } catch (error) {
+            console.log('stopRecording error', error);
           }
         }
       };
@@ -109,14 +115,22 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
     <>
       {
         <div
-          className={`absolute top-1/2 right-28 -translate-y-1/2 z-20 flex p-1 gap-2 bg-red-200 rounded-full ${
+          className={`absolute top-1/2 right-28 -translate-y-1/2 z-20 flex items-center py-1 px-3 gap-2 bg-red-200 rounded-full ${
             isRecording ? 'block' : 'hidden'
           }`}
         >
-          <svg width={24} height={24} className="fill-red-700 ">
+          <svg width={24} height={24} className="fill-red-700 animate-pulse">
             <use href={sprite + '#icon-rec'} />
           </svg>
-          <canvas ref={canvasRef} width={200} height={20}></canvas>
+          <canvas
+            className="w-40 h-5 sm:w-8 md:w-40 lg:w-52"
+            ref={canvasRef}
+            width={192}
+            height={20}
+          ></canvas>
+          {isRecording && recordingDuration && (
+            <span className="w-8">{recordingDuration.toFixed(1)}</span>
+          )}
         </div>
       }
       {isRecording && (

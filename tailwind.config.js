@@ -62,6 +62,21 @@ export default {
           '0rem -0.6875rem 0.4375rem -0.4375rem rgba(255, 255, 255, 0.612)',
         bottomShadow: '0 0.5rem 0.75rem 0.125rem rgba(16, 16, 16, 0.612)',
       },
+
+      keyframes: {
+        blink: {
+          '0%, 100%': { opacity: 1 },
+          '50%': { opacity: 0 },
+        },
+        pulse: {
+          '0%, 100%': { transform: 'scale(0.8)' },
+          '50%': { transform: 'scale(1.4)' },
+        },
+      },
+      animation: {
+        blink: 'blink 1s infinite',
+        pulse: 'pulse 1s infinite',
+      },
     },
   },
   plugins: [],
