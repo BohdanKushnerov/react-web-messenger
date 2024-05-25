@@ -1,17 +1,12 @@
 import { Dispatch, RefObject, SetStateAction } from 'react';
-import { User, updateProfile } from 'firebase/auth';
-import { doc, updateDoc } from 'firebase/firestore';
-import {
-  deleteObject,
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from 'firebase/storage';
-import { v4 as uuidv4 } from 'uuid';
+import { User } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { TFunction } from 'i18next';
 
-import { auth, db, storage } from '@myfirebase/config';
+import { auth } from '@myfirebase/config';
+import updateUserProfile from '@api/firestore/updateUserProfile';
+import deletePreviousProfilePhotoFromStorage from '@api/storage/deletePreviousProfilePhotoFromStorage';
+import uploadProfilePhotoFile from '@api/storage/uploadProfilePhotoFile';
 
 const handleUpdateProfilePhoto = async (
   photoProfileInputRef: RefObject<HTMLInputElement>,
@@ -21,87 +16,41 @@ const handleUpdateProfilePhoto = async (
   photoURL: string | null,
   updateCurrentUser: (user: User | null) => void,
   handleToggleProfilePhotoModal: () => void
-) => {
+): Promise<void> => {
   if (
-    photoProfileInputRef.current?.files &&
-    auth.currentUser &&
-    currentUserUID
+    !photoProfileInputRef.current?.files ||
+    !auth.currentUser ||
+    !currentUserUID
   ) {
-    const file = photoProfileInputRef.current.files[0];
+    return;
+  }
 
-    if (file) {
-      try {
-        const metadata = {
-          contentType: file.type,
-        };
+  const file = photoProfileInputRef.current.files[0];
 
-        const storageRef = ref(
-          storage,
-          `${file.type}/${currentUserUID}/${uuidv4()}-${file.name}`
-        );
+  if (file) {
+    try {
+      const newPhotoURL = await uploadProfilePhotoFile(
+        file,
+        currentUserUID,
+        setProfilePhotoUploadStatus
+      );
 
-        const fileBlob = new Blob([file]);
+      await deletePreviousProfilePhotoFromStorage(photoURL);
 
-        const uploadTask = uploadBytesResumable(storageRef, fileBlob, metadata);
+      await updateUserProfile(
+        auth.currentUser,
+        newPhotoURL,
+        currentUserUID,
+        updateCurrentUser
+      );
 
-        const profilePhotoUrlFromStorage: string = await new Promise(
-          (resolve, reject) => {
-            uploadTask.on(
-              'state_changed',
-              snapshot => {
-                const progress =
-                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      handleToggleProfilePhotoModal();
+      setProfilePhotoUploadStatus(null);
 
-                setProfilePhotoUploadStatus(progress);
-              },
-              error => {
-                console.log('uploadTask.on error', error);
-              },
-              async () => {
-                try {
-                  const downloadURL = await getDownloadURL(
-                    uploadTask.snapshot.ref
-                  );
-
-                  resolve(downloadURL);
-                } catch (error) {
-                  reject(error);
-                }
-              }
-            );
-          }
-        );
-
-        if (photoURL) {
-          const desertRef = ref(storage, photoURL);
-
-          await deleteObject(desertRef);
-        }
-
-        await updateProfile(auth.currentUser, {
-          photoURL: profilePhotoUrlFromStorage,
-        })
-          .then(() => {
-            updateCurrentUser(auth.currentUser);
-          })
-          .catch(error => {
-            console.log('handleUpdateProfilePhoto error', error);
-            // An error occurred
-          });
-
-        // update doc user чтобы появилась ссылка в photoURL
-        await updateDoc(doc(db, 'users', currentUserUID), {
-          photoURL: profilePhotoUrlFromStorage,
-        });
-
-        handleToggleProfilePhotoModal();
-        setProfilePhotoUploadStatus(null);
-
-        toast.success(t('ChangePhotoToastSuccess'));
-      } catch (error) {
-        toast.error(t('ChangePhotoToastError'));
-        console.log('handleUpdateProfilePhoto error', error);
-      }
+      toast.success(t('ChangePhotoToastSuccess'));
+    } catch (error) {
+      toast.error(t('ChangePhotoToastError'));
+      console.error('Error updating profile photo:', error);
     }
   }
 };

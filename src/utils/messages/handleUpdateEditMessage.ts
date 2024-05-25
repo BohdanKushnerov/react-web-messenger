@@ -1,8 +1,9 @@
-import { DocumentData, doc, updateDoc } from 'firebase/firestore';
+import { DocumentData } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { TFunction } from 'i18next';
 
-import { db } from '@myfirebase/config';
+import updateEditedUserChatLastMessage from '@api/firestore/updateEditedUserChatLastMessage';
+import updateEditedMessageTextContent from '@api/firestore/updateEditedMessageTextContent';
 import makeCursorOnProgress from '@utils/makeCursorOnProgress';
 import resetCursorOnDefault from '@utils/resetCursorOnDefault';
 
@@ -16,60 +17,34 @@ const handleUpdateEditMessage = async (
   currentUserUID: string | null,
   userUID: string | null,
   t: TFunction
-) => {
+): Promise<void> => {
+  if (!editingMessageInfo || !chatUID || !currentUserUID || !userUID) {
+    return;
+  }
+
   try {
-    if (editingMessageInfo && chatUID) {
-      makeCursorOnProgress();
+    makeCursorOnProgress();
 
-      await updateDoc(
-        doc(
-          db,
-          'chats',
-          chatUID,
-          'messages',
-          editingMessageInfo.selectedMessage.id
-        ),
-        {
-          ['message']: newMessage,
-        }
-      );
+    const { selectedMessage, isLastMessage } = editingMessageInfo;
 
-      if (
-        editingMessageInfo.isLastMessage &&
-        currentUserUID &&
-        userUID &&
-        !editingMessageInfo?.selectedMessage.data().file
-      ) {
-        // здесь надо переписывать последнее сообщение мне и напарнику
-        await updateDoc(doc(db, 'userChats', currentUserUID), {
-          [chatUID + '.lastMessage']: newMessage,
-        });
+    await updateEditedMessageTextContent(
+      chatUID,
+      selectedMessage.id,
+      newMessage
+    );
 
-        // =====================================================
-        await updateDoc(doc(db, 'userChats', userUID), {
-          [chatUID + '.lastMessage']: newMessage,
-        });
-      }
-    }
+    if (isLastMessage) {
+      const hasFiles = Boolean(selectedMessage.data().file);
+      const fileMessage = hasFiles
+        ? `${String.fromCodePoint(128206)} ${
+            selectedMessage.data().file.length
+          } file(s) ${newMessage}`
+        : newMessage;
 
-    if (
-      editingMessageInfo?.isLastMessage &&
-      currentUserUID &&
-      userUID &&
-      editingMessageInfo?.selectedMessage.data().file
-    ) {
-      await updateDoc(doc(db, 'userChats', currentUserUID), {
-        [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
-          editingMessageInfo?.selectedMessage.data().file.length
-        } file(s) ${newMessage}`,
-      });
-
-      // =====================================================
-      await updateDoc(doc(db, 'userChats', userUID), {
-        [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
-          editingMessageInfo?.selectedMessage.data().file.length
-        } file(s) ${newMessage}`,
-      });
+      await Promise.all([
+        updateEditedUserChatLastMessage(chatUID, currentUserUID, fileMessage),
+        updateEditedUserChatLastMessage(chatUID, userUID, fileMessage),
+      ]);
     }
 
     toast.success(t('Toasts.EditingMessageSuccess'));
