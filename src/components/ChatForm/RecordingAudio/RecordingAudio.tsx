@@ -37,6 +37,38 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
   }, [isRecording]);
 
   useEffect(() => {
+    const stopRecording = () => {
+      if (animationIdRef.current) {
+        cancelAnimationFrame(animationIdRef.current);
+        animationIdRef.current = null;
+      }
+
+      if (mediaRecorderRef.current) {
+        mediaRecorderRef.current.stop();
+        mediaRecorderRef.current.onstop = async () => {
+          // const audioBlob = new Blob(audioChunks, { type: mimeType });
+
+          if (chatUID && userUID && currentUserUID) {
+            try {
+              cleanUpRecordingResources(
+                mediaRecorderRef,
+                analyserRef,
+                setAudioChunks
+              );
+              handleToggleRecordingStatus();
+              // await handleSendAudio(audioBlob, chatUID, userUID, currentUserUID);
+            } catch (error) {
+              console.log('stopRecording error', error);
+            }
+          }
+        };
+      }
+    };
+
+    stopRecording();
+  }, [chatUID, currentUserUID, handleToggleRecordingStatus, userUID]);
+
+  useEffect(() => {
     return () => {
       if (animationIdRef.current) {
         cancelAnimationFrame(animationIdRef.current);
@@ -83,7 +115,7 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
     }
   }, [isRecording]);
 
-  const stopRecording = () => {
+  const stopRecordingAndSendAudio = () => {
     if (animationIdRef.current) {
       cancelAnimationFrame(animationIdRef.current);
       animationIdRef.current = null;
@@ -104,7 +136,7 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
             handleToggleRecordingStatus();
             await handleSendAudio(audioBlob, chatUID, userUID, currentUserUID);
           } catch (error) {
-            console.log('stopRecording error', error);
+            console.log('stopRecordingAndSendAudio error', error);
           }
         }
       };
@@ -138,7 +170,7 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
           <button
             className="flex justify-center items-center h-12 w-12 bg-transparent transition-all duration-300 hover:bg-zinc-100/20 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
             type="button"
-            onClick={stopRecording}
+            onClick={stopRecordingAndSendAudio}
           >
             <svg
               width={24}
