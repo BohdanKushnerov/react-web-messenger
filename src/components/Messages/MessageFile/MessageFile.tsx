@@ -16,19 +16,25 @@ const MessageFile: FC<IMessageFileProps> = ({ file }) => {
     return <VideoComponent source={file.url} />;
   } else if (file.type.includes('audio')) {
     return <AudioComponent audioUrl={file.url} />;
+  } else {
+    return (
+      <>
+        {storageLink && (
+          <div className="flex gap-1 items-center h-auto w-full max-w-[200px]">
+            <span className="w-10 h-10">
+              <FileIcon extension={fileType} {...defaultStyles[fileType]} />
+            </span>
+            <span className="text-black dark:text-white w-full">
+              {file.name}
+            </span>
+            <a className="w-10" target="blank" href={storageLink}>
+              Link
+            </a>
+          </div>
+        )}
+      </>
+    );
   }
-
-  return (
-    <div className="flex gap-1 items-center h-auto w-full max-w-[200px]">
-      <span className="w-10 h-10">
-        <FileIcon extension={fileType} {...defaultStyles[fileType]} />
-      </span>
-      <span className="text-black dark:text-white w-full">{file.name}</span>
-      <a className="w-10" target="blank" href={storageLink}>
-        Link
-      </a>
-    </div>
-  );
 };
 
 export default MessageFile;

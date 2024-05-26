@@ -13,9 +13,11 @@ const ChatFormSelectedMsgs = () => {
       <div
         className={`relative flex flex-row h-14 px-8 rounded-3xl bg-zinc-300 dark:bg-mySeacrhBcg text-black dark:text-white border-2 border-transparent outline-none`}
       >
-        <ButtonClose
-          handleClickButtonClose={() => updateIsSelectedMessages(false)}
-        />
+        <div className="relative">
+          <ButtonClose
+            handleClickButtonClose={() => updateIsSelectedMessages(false)}
+          />
+        </div>
 
         <div className="flex flex-row gap-x-1 ml-auto">
           <CopyButton textContent={false} white="black" dark="white" />

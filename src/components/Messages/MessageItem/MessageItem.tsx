@@ -18,6 +18,7 @@ const MessageItem: FC<IMessageItemProps> = ({
   isNearBottom,
   isSelectedMessages,
 }) => {
+  console.log('MessageItem');
   const [indexClickedPhoto, setIndexClickedPhoto] = useState(-1);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
@@ -47,7 +48,7 @@ const MessageItem: FC<IMessageItemProps> = ({
     <div
       className={`relative flex w-full items-end xl:w-8/12 ${
         myUID ? 'justify-end' : 'justify-start'
-      }`}
+      } ${isSelectedMessages && 'pointer-events-none'}`}
       id="message"
     >
       <div
