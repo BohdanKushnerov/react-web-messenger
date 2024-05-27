@@ -4,9 +4,9 @@ import useChatStore from '@zustand/store';
 import handleSendAudio from '@utils/chatForm/handleSendAudio';
 import setupAudioAnalyzer from '@utils/chatForm/setupAudioAnalyzer';
 import startRecordingTimer from '@utils/chatForm/startRecordingTimer';
+import cleanUpRecordingResources from '@utils/chatForm/cleanupRecordingResources';
 import { IRecordingAudioProps } from '@interfaces/IRecordingAudioProps';
 import sprite from '@assets/sprite.svg';
-import cleanUpRecordingResources from '@utils/chatForm/cleanupRecordingResources';
 
 const RecordingAudio: FC<IRecordingAudioProps> = ({
   isRecording,
@@ -45,9 +45,7 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
 
       if (mediaRecorderRef.current) {
         mediaRecorderRef.current.stop();
-        mediaRecorderRef.current.onstop = async () => {
-          // const audioBlob = new Blob(audioChunks, { type: mimeType });
-
+        mediaRecorderRef.current.onstop = () => {
           if (chatUID && userUID && currentUserUID) {
             try {
               cleanUpRecordingResources(
@@ -56,7 +54,6 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
                 setAudioChunks
               );
               handleToggleRecordingStatus();
-              // await handleSendAudio(audioBlob, chatUID, userUID, currentUserUID);
             } catch (error) {
               console.log('stopRecording error', error);
             }

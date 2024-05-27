@@ -206,26 +206,33 @@ const Messages: FC = () => {
 
               const obj = { [dateString]: [change.doc] };
 
-              setGroupedMessages(prev => {
-                // console.log('add prev', prev);
-                // console.log('add obj', obj);
-                return mergeChatMessages(prev as IGroupedMessages, obj);
-              });
+              setGroupedMessages(prev =>
+                mergeChatMessages(prev as IGroupedMessages, obj)
+              );
             }
           } else if (
             snapshot.size === 1 &&
             snapshot.docChanges().length === 1
           ) {
+            const addDocId = change.doc.id;
             const messageData = change.doc.data();
+
             if (messageData && messageData.date) {
               const date = messageData.date.toDate();
               const dateString = date.toISOString().split('T')[0];
 
               const obj = { [dateString]: [change.doc] };
 
-              setGroupedMessages(prev =>
-                mergeChatMessages(prev as IGroupedMessages, obj)
-              );
+              setGroupedMessages(prev => {
+                if (prev && Object.keys(prev).length !== 0) {
+                  const prevElId = Object.values(prev)[0][0]?.id;
+
+                  if (addDocId === prevElId) {
+                    return prev;
+                  }
+                }
+                return mergeChatMessages(prev as IGroupedMessages, obj);
+              });
             }
           }
         }
@@ -359,7 +366,7 @@ const Messages: FC = () => {
 
       isInfinityScrollLoading.current = true;
 
-      // console.log('==> 222 loadMoreMessages');
+      console.log('==> 222 loadMoreMessages');
 
       const queryParams = query(
         collection(db, `chats/${chatUID}/messages`),
