@@ -27,55 +27,7 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
 
   const mimeType = 'audio/webm';
 
-  useEffect(() => {
-    return () => {
-      if (intervalIdrecordingRef.current) {
-        clearInterval(intervalIdrecordingRef.current);
-        intervalIdrecordingRef.current = null;
-      }
-    };
-  }, [isRecording]);
-
-  useEffect(() => {
-    const stopRecording = () => {
-      if (animationIdRef.current) {
-        cancelAnimationFrame(animationIdRef.current);
-        animationIdRef.current = null;
-      }
-
-      if (mediaRecorderRef.current) {
-        mediaRecorderRef.current.stop();
-        mediaRecorderRef.current.onstop = () => {
-          if (chatUID && userUID && currentUserUID) {
-            try {
-              cleanUpRecordingResources(
-                mediaRecorderRef,
-                analyserRef,
-                setAudioChunks
-              );
-              handleToggleRecordingStatus();
-            } catch (error) {
-              console.log('stopRecording error', error);
-            }
-          }
-        };
-      }
-    };
-
-    stopRecording();
-  }, [chatUID, currentUserUID, handleToggleRecordingStatus, userUID]);
-
-  useEffect(() => {
-    return () => {
-      if (animationIdRef.current) {
-        cancelAnimationFrame(animationIdRef.current);
-        animationIdRef.current = null;
-      }
-
-      cleanUpRecordingResources(mediaRecorderRef, analyserRef, setAudioChunks);
-    };
-  }, []);
-
+  // начинает запись
   useEffect(() => {
     if (isRecording) {
       const startRecording = async () => {
@@ -110,7 +62,55 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
 
       startRecording();
     }
+
+    return () => {
+      if (intervalIdrecordingRef.current) {
+        clearInterval(intervalIdrecordingRef.current);
+        intervalIdrecordingRef.current = null;
+      }
+    };
   }, [isRecording]);
+
+  // при смене чата если идет запись остановит запись
+  useEffect(() => {
+    return () => {
+      if (animationIdRef.current) {
+        cancelAnimationFrame(animationIdRef.current);
+        animationIdRef.current = null;
+      }
+
+      if (mediaRecorderRef.current) {
+        mediaRecorderRef.current.stop();
+        mediaRecorderRef.current.onstop = () => {
+          cleanUpRecordingResources(
+            mediaRecorderRef,
+            analyserRef,
+            setAudioChunks
+          );
+          handleToggleRecordingStatus();
+        };
+      }
+    };
+  }, [handleToggleRecordingStatus]);
+
+  const stopRecording = () => {
+    if (animationIdRef.current) {
+      cancelAnimationFrame(animationIdRef.current);
+      animationIdRef.current = null;
+    }
+
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+      mediaRecorderRef.current.onstop = () => {
+        cleanUpRecordingResources(
+          mediaRecorderRef,
+          analyserRef,
+          setAudioChunks
+        );
+        handleToggleRecordingStatus();
+      };
+    }
+  };
 
   const stopRecordingAndSendAudio = () => {
     if (animationIdRef.current) {
@@ -164,6 +164,19 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
       }
       {isRecording && (
         <>
+          <button
+            className="flex justify-center items-center h-12 w-12 bg-transparent transition-all duration-300 hover:bg-zinc-100/20 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
+            type="button"
+            onClick={stopRecording}
+          >
+            <svg
+              width={24}
+              height={24}
+              className="fill-zinc-200 dark:fill-zinc-400"
+            >
+              <use href={sprite + '#icon-delete-button'} />
+            </svg>
+          </button>
           <button
             className="flex justify-center items-center h-12 w-12 bg-transparent transition-all duration-300 hover:bg-zinc-100/20 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
             type="button"

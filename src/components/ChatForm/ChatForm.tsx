@@ -149,9 +149,13 @@ const ChatForm: FC = () => {
               ) : (
                 <>
                   {!isRecording ? (
-                    <ButtonRecordAudio
-                      handleToggleRecordingStatus={handleToggleRecordingStatus}
-                    />
+                    <>
+                      <ButtonRecordAudio
+                        handleToggleRecordingStatus={
+                          handleToggleRecordingStatus
+                        }
+                      />
+                    </>
                   ) : (
                     <Suspense fallback={<LoaderUIActions size={40} />}>
                       <RecordingAudio
@@ -165,7 +169,7 @@ const ChatForm: FC = () => {
                 </>
               )}
             </form>
-            <FileAttachment />
+            {!isRecording && <FileAttachment />}
             <Emoji />
           </>
         </div>
