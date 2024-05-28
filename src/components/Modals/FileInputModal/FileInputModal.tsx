@@ -135,6 +135,7 @@ const FileInputModal: FC<IFileInputModalProps> = ({
           senderUserID: currentUserUID,
           date: Timestamp.now(),
           isRead: false,
+          isShowNotification: true,
         });
 
         if (currentUserUID && userUID) {
