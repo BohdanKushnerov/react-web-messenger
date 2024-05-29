@@ -1,44 +1,38 @@
-import { db } from '@myfirebase/config';
-import useChatStore from '@zustand/store';
-import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
-import { doc, DocumentData, updateDoc } from 'firebase/firestore';
 import { FC } from 'react';
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 
-interface IReactions {}
+import useChatStore from '@zustand/store';
+import updateMsgReaction from '@api/firestore/updateMsgReaction';
 
-const Reactions: FC<IReactions> = () => {
-  // const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
+const Reactions: FC = () => {
+  const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID } = useChatStore(state => state.currentChatInfo);
   const selectedDocDataMessage = useChatStore(
     state => state.selectedDocDataMessage
   );
-
-  // console.log('selectedDocDataMessage', selectedDocDataMessage[0].id);
-
-  const updateMsgReaction = async (
-    emojiData: EmojiClickData,
-    chatUID: string | null,
-    selectedDocDataMessage: DocumentData[] | null
-  ): Promise<void> => {
-    if (chatUID && selectedDocDataMessage) {
-      const msgId = selectedDocDataMessage[0].id;
-      console.log(msgId, emojiData.emoji);
-      const messageDocRef = doc(db, 'chats', chatUID, 'messages', msgId);
-      await updateDoc(messageDocRef, {
-        reaction: emojiData.emoji,
-      });
-    }
-  };
+  const resetSelectedMessages = useChatStore(
+    state => state.resetSelectedMessages
+  );
 
   const handleEmojiClick = (emojiData: EmojiClickData) => {
-    updateMsgReaction(emojiData, chatUID, selectedDocDataMessage);
+    if (currentUserUID) {
+      updateMsgReaction(
+        emojiData,
+        chatUID,
+        currentUserUID,
+        selectedDocDataMessage,
+        resetSelectedMessages
+      );
+    }
   };
 
   return (
     <EmojiPicker
       className="pointer-events-auto"
+      lazyLoadEmojis={true}
       reactionsDefaultOpen={true}
       allowExpandReactions={false}
+      searchDisabled={true}
       onEmojiClick={handleEmojiClick}
     />
   );

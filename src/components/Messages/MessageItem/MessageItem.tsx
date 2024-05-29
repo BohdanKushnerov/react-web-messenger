@@ -4,6 +4,7 @@ import urlParser from 'js-video-url-parser';
 import MessageImagesWithLightBox from '../MessageImagesWithLightBox/MessageImagesWithLightBox';
 import MessageFiles from '../MessageFiles/MessageFiles';
 import VideoComponent from '../VideoComponent/VideoComponent';
+import ReactionsDisplay from '../MessageReactions/ReactionsDisplay';
 import MessageTriangle from '@components/Messages/MessageTriangle/MessageTriangle';
 import IsReadMsg from '@components/Messages/IsReadMsg/IsReadMsg';
 import useChatStore from '@zustand/store';
@@ -111,8 +112,10 @@ const MessageItem: FC<IMessageItemProps> = ({
 
         {/* date + read/unread */}
         <div className="w-full flex items-center justify-between gap-2">
-          {/* reaction */}
-          <p>{msg.data().reaction}</p>
+          {/* reactions */}
+          {/* <p>{msg.data().reactions}</p> */}
+          <ReactionsDisplay reactions={msg.data().reactions} />
+
           {/* date /// read/unread */}
           <div className="flex items-center gap-2">
             <p className="text-green-950 dark:text-zinc-100">

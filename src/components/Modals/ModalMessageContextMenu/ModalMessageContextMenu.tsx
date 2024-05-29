@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
+import useChatStore from '@zustand/store';
 import useCloseModal from '@hooks/useCloseModal';
 import { IModalMessageContextMenuProps } from '@interfaces/IModalMessageContextMenuProps';
-import useChatStore from '@zustand/store';
 
 const MessageContextMenuModal: FC<IModalMessageContextMenuProps> = ({
   closeModal,
@@ -28,7 +28,6 @@ const MessageContextMenuModal: FC<IModalMessageContextMenuProps> = ({
           className="z-10 w-screen h-screen bg-transparent pointer-events-none"
         >
           <div className="flex flex-col items-center w-[250px]">{children}</div>
-          {/* {children} */}
         </div>
       )}
     </>
