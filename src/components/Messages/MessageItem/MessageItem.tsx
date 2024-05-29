@@ -110,15 +110,18 @@ const MessageItem: FC<IMessageItemProps> = ({
         )}
 
         {/* date + read/unread */}
-        <div className="w-full flex justify-end items-center gap-2">
-          {/* date */}
-          <p className="text-green-950 dark:text-zinc-100">
-            {msg.data().date &&
-              formatTimeMsg(msg.data().date.toDate().toString())}
-          </p>
+        <div className="w-full flex items-center justify-between gap-2">
+          {/* reaction */}
+          <p>{msg.data().reaction}</p>
+          {/* date /// read/unread */}
+          <div className="flex items-center gap-2">
+            <p className="text-green-950 dark:text-zinc-100">
+              {msg.data().date &&
+                formatTimeMsg(msg.data().date.toDate().toString())}
+            </p>
 
-          {/* read/unread */}
-          <IsReadMsg msg={msg} />
+            <IsReadMsg msg={msg} />
+          </div>
         </div>
       </div>
       {/* triangle */}

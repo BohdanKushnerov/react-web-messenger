@@ -14,33 +14,26 @@ interface IChatContextMenuProps {
 const ChatContextMenu: FC<IChatContextMenuProps> = ({ groupedMessages }) => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 
-  const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
   const selectedDocDataMessage = useChatStore(
     state => state.selectedDocDataMessage
   );
 
   return (
-    <>
-      {!isSelectedMessages && selectedDocDataMessage && (
-        <div
-          className={`w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto ${
-            isSelectedMessages && 'hidden'
-          }`}
-        >
-          {selectedDocDataMessage.length === 1 &&
-            selectedDocDataMessage[0]?.data()?.senderUserID ===
-              currentUserUID && (
-              <ButtonEdit groupedMessages={groupedMessages} color="white" />
-            )}
+    <div
+      className={`w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto`}
+    >
+      {selectedDocDataMessage &&
+        selectedDocDataMessage.length === 1 &&
+        selectedDocDataMessage[0]?.data()?.senderUserID === currentUserUID && (
+          <ButtonEdit groupedMessages={groupedMessages} color="white" />
+        )}
 
-          <CopyButton white="white" dark="white" />
+      <CopyButton white="white" dark="white" />
 
-          <DeleteButton color="white" />
+      <DeleteButton color="white" />
 
-          <ButtonSelect color="white" />
-        </div>
-      )}
-    </>
+      <ButtonSelect color="white" />
+    </div>
   );
 };
 

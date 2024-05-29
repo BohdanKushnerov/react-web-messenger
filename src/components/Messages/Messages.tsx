@@ -23,12 +23,15 @@ import MessageList from './MessagesList/MessageList';
 import MessagesSkeleton from './MessagesSkeleton/MessagesSkeleton';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
-const ChatContextMenu = lazy(
-  () => import('../ChatContextMenu/ChatContextMenu')
-);
 const MessageContextMenuModal = lazy(
   () =>
     import('@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu')
+);
+const ChatContextMenu = lazy(
+  () => import('../ChatContextMenu/ChatContextMenu')
+);
+const Reactions = lazy(
+  () => import('@components/ChatContextMenu/Reactions/Reactions')
 );
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
@@ -590,7 +593,7 @@ const Messages: FC = () => {
         <Suspense
           fallback={
             <div
-              className="z-50 w-screen h-screen bg-transparent pointer-events-none"
+              className="z-10 w-screen h-screen bg-transparent pointer-events-none"
               style={{
                 position: 'absolute',
                 top: modalPosition.top + 'px',
@@ -609,6 +612,7 @@ const Messages: FC = () => {
             closeModal={handleCloseModal}
             modalPosition={modalPosition}
           >
+            <Reactions />
             <ChatContextMenu groupedMessages={groupedMessages} />
           </MessageContextMenuModal>
         </Suspense>
