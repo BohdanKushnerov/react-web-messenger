@@ -6,6 +6,7 @@ import {
   Suspense,
   lazy,
   useCallback,
+  useDeferredValue,
 } from 'react';
 import {
   DocumentData,
@@ -56,8 +57,7 @@ const Messages: FC = () => {
   const isReadyToFetchFirstNewChatMsgs = useRef<boolean>(true);
   const isInfinityScrollLoading = useRef<boolean>(false);
   const lastLoadedMsg = useRef<DocumentData | null>(null);
-
-  // console.log('lastLoadedMsg', lastLoadedMsg.current);
+  const isFinishMsgs = useRef<boolean>(false);
 
   const { chatUID } = useChatStore(state => state.currentChatInfo);
   const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
@@ -76,13 +76,18 @@ const Messages: FC = () => {
 
   const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(
     [chatUID, { lastMessage: '', senderUserID: '', userUID: '' }],
-    false
+    true
+  );
+
+  const deferredIsShowMenuModal = useDeferredValue(
+    groupedMessages && selectedDocDataMessage
   );
 
   // reset
   useEffect(() => {
     isReadyToFetchFirstNewChatMsgs.current = true;
     lastLoadedMsg.current = null;
+    isFinishMsgs.current = false;
 
     setGroupedMessages(null);
     setIsReadyFirstMsgs(false);
@@ -355,7 +360,7 @@ const Messages: FC = () => {
   }, [chatUID, resetSelectedMessages]);
 
   const handleScroll = useCallback(() => {
-    console.log('==> handleScroll');
+    // console.log('==> handleScroll');
     const throttleTime = 100;
 
     if (handleScrollTimeout.current) {
@@ -363,7 +368,10 @@ const Messages: FC = () => {
     }
 
     const loadMoreMessages = async () => {
-      if (isInfinityScrollLoading.current === true) {
+      if (
+        isInfinityScrollLoading.current === true ||
+        isFinishMsgs.current === true
+      ) {
         return;
       }
 
@@ -380,17 +388,10 @@ const Messages: FC = () => {
 
       const snapshot = await getDocs(queryParams);
 
-      // console.log('snapshot.empty', snapshot.empty);
-
       if (!snapshot.empty) {
         const updatedMessages: DocumentData[] = snapshot.docs;
 
-        // console.log('222 --------> updatedMessages', updatedMessages);
-
         const lastVisible = updatedMessages[updatedMessages.length - 1];
-
-        // console.log('lastVisible', lastVisible);
-        // console.log('lastLoadedMsg', lastLoadedMsg);
 
         if (lastLoadedMsg.current?.id === lastVisible.id) {
           return;
@@ -422,6 +423,8 @@ const Messages: FC = () => {
         setGroupedMessages(prev =>
           mergeChatMessages(sortedData, prev as IGroupedMessages)
         );
+      } else {
+        isFinishMsgs.current = true;
       }
     };
 
@@ -589,7 +592,8 @@ const Messages: FC = () => {
           />
         )}
       </div>
-      {groupedMessages && selectedDocDataMessage && (
+
+      {deferredIsShowMenuModal && (
         <Suspense
           fallback={
             <div

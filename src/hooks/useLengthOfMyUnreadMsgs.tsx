@@ -21,12 +21,11 @@ const useLengthOfMyUnreadMsgs = (
   const processedMessages = useRef<string[]>([]);
 
   const { uid } = useChatStore(state => state.currentUser);
+  const chatID = chatInfo[0];
 
   useEffect(() => {
     if (lengthOfMyUnreadMsgs === 0) {
       processedMessages.current = [];
-    } else {
-      // console.log('processedMessages.current', processedMessages.current);
     }
 
     return () => {
@@ -38,7 +37,7 @@ const useLengthOfMyUnreadMsgs = (
 
   useEffect(() => {
     const queryParams = query(
-      collection(db, `chats/${chatInfo[0]}/messages`),
+      collection(db, `chats/${chatID}/messages`),
       orderBy('senderUserID'), // Add orderBy for senderUserID
       orderBy('date', 'asc'),
       where('isRead', '==', false),
@@ -51,13 +50,10 @@ const useLengthOfMyUnreadMsgs = (
 
         isNotify &&
           querySnapshot.docs.forEach(msg => {
-            if (msg.data().isShowNotification && chatInfo[0]) {
-              updateDoc(
-                doc(db, 'chats', chatInfo[0], 'messages', `${msg.id}`),
-                {
-                  ['isShowNotification']: false,
-                }
-              ).then(() => {
+            if (msg.data().isShowNotification && chatID) {
+              updateDoc(doc(db, 'chats', chatID, 'messages', `${msg.id}`), {
+                ['isShowNotification']: false,
+              }).then(() => {
                 if (processedMessages.current.includes(msg.id)) {
                   return;
                 }
@@ -78,7 +74,6 @@ const useLengthOfMyUnreadMsgs = (
                 }
 
                 return;
-                // setProcessedMessages(prev => [...prev, msg.id]);
               });
             }
           });
@@ -87,55 +82,7 @@ const useLengthOfMyUnreadMsgs = (
     return () => {
       unsubMyUnreadMsgs();
     };
-  }, [chatInfo, isNotify, uid]);
-
-  // useEffect(() => {
-  //   const queryParams = query(
-  //     collection(db, `chats/${chatInfo[0]}/messages`),
-  //     where('isRead', '==', false),
-  //     where('senderUserID', '!=', uid)
-  //   );
-  //   const unsubMyUnreadMsgs = onSnapshot(queryParams, querySnapshot => {
-  //     if (querySnapshot.docs && querySnapshot.docs.length) {
-  //       setLengthOfMyUnreadMsgs(querySnapshot.docs.length);
-
-  //       isNotify &&
-  //         querySnapshot.docs.forEach(msg => {
-  //           console.log('msg.data', msg.data());
-  //           console.log(
-  //             'msg.data.isShowNotification',
-  //             msg.data().isShowNotification
-  //           );
-  //           console.log('msg.data.message', msg.data().message);
-
-  //           if (msg.data().isShowNotification && chatInfo[0]) {
-  //             new Notification('new Message', {
-  //               body: msg.data().message,
-  //             });
-
-  //             updateDoc(
-  //               doc(db, 'chats', chatInfo[0], 'messages', `${msg.id}`),
-  //               {
-  //                 ['isShowNotification']: false,
-  //               }
-  //             );
-
-  //             const audio = document.getElementById(
-  //               'notify'
-  //             ) as HTMLAudioElement;
-
-  //             // Воспроизводим звук
-  //             if (audio) {
-  //               audio.play();
-  //             }
-  //           }
-  //         });
-  //     }
-  //   });
-  //   return () => {
-  //     unsubMyUnreadMsgs();
-  //   };
-  // }, [chatInfo, isNotify, uid]);
+  }, [chatID, isNotify, uid]);
 
   return lengthOfMyUnreadMsgs;
 };

@@ -19,7 +19,7 @@ const MessageItem: FC<IMessageItemProps> = ({
   isNearBottom,
   isSelectedMessages,
 }) => {
-  console.log('MessageItem');
+  // console.log('MessageItem');
   const [indexClickedPhoto, setIndexClickedPhoto] = useState(-1);
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
