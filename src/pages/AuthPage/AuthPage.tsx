@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 import { ConfirmationResult, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { E164Number } from 'libphonenumber-js';
 import { toast } from 'react-toastify';
 
 import MyPhoneInput from '@components/Inputs/MyPhoneInput/MyPhoneInput';
@@ -18,7 +17,7 @@ import authStep3 from '@assets/auth-step3.webp';
 
 const Auth: FC = () => {
   const [step, setStep] = useState<AuthSteps>('Step 1/3');
-  const [phone, setPhone] = useState<E164Number | string>('');
+  const [phone, setPhone] = useState<string>('');
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');

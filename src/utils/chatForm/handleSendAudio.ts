@@ -3,6 +3,8 @@ import { doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db } from '@myfirebase/config';
 import createAndSaveFileMsgDoc from '@api/firestore/createAndSaveFileMsgDoc';
 import uploadAudioToStorage from '@api/storage/uploadAudioToStorage';
+import makeCursorOnProgress from '@utils/makeCursorOnProgress';
+import resetCursorOnDefault from '@utils/resetCursorOnDefault';
 
 const updateUserChats = async (
   chatUID: string,
@@ -29,6 +31,7 @@ const handleSendAudio = async (
   currentUserUID: string
 ): Promise<void> => {
   try {
+    makeCursorOnProgress();
     const downloadURL = await uploadAudioToStorage(audioBlob, userUID);
 
     const fileArr = [
@@ -40,6 +43,7 @@ const handleSendAudio = async (
     ];
 
     await createAndSaveFileMsgDoc(chatUID, fileArr, currentUserUID);
+    resetCursorOnDefault();
     await updateUserChats(chatUID, userUID, currentUserUID);
   } catch (error) {
     console.error('Error sending audio message:', error);
