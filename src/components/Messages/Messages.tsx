@@ -471,13 +471,16 @@ const Messages: FC = () => {
         if (containerTop && containerLeft && chatContainerEl) {
           const left =
             e.clientX - containerLeft + menuWidth > chatContainerEl.clientWidth
-              ? e.clientX - containerLeft - menuWidth
-              : e.clientX - containerLeft;
+              ? e.clientX - containerLeft - menuWidth - 13
+              : e.clientX - containerLeft - 13;
 
+          console.log(
+            e.clientY - containerTop + menuHeight > chatContainerEl.clientHeight
+          );
           const top =
             e.clientY - containerTop + menuHeight > chatContainerEl.clientHeight
-              ? e.clientY - containerTop - menuHeight + 50
-              : e.clientY - containerTop + 50;
+              ? e.clientY - containerTop - menuHeight + 70 - 50
+              : e.clientY - containerTop + 60 - 50;
 
           setModalPosition({ top, left });
         } else {
@@ -605,7 +608,7 @@ const Messages: FC = () => {
               }}
             >
               <div
-                className={`w-56 h-56 p-2 bg-myBlackBcg rounded-3xl pointer-events-auto`}
+                className={`w-56 h-56 p-2 bg-zinc-500/10 rounded-3xl pointer-events-auto`}
               >
                 <LoaderUIActions size={200} />
               </div>
