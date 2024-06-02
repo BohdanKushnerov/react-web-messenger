@@ -7,11 +7,16 @@ const uploadAudioToStorage = async (
   audioBlob: Blob,
   userUID: string
 ): Promise<string> => {
+  const format = 'mpeg';
+
   const metadata = {
-    contentType: 'audio/webm',
+    contentType: `audio/${format}`,
   };
 
-  const storageRef = ref(storage, `audio/webm/${userUID}/${uuidv4()}.webm`);
+  const storageRef = ref(
+    storage,
+    `${metadata.contentType}/${userUID}/${uuidv4()}.${format}`
+  );
   await uploadBytes(storageRef, audioBlob, metadata);
   const downloadURL = await getDownloadURL(storageRef);
 
