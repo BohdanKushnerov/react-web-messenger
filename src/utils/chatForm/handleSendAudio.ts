@@ -1,28 +1,28 @@
-import { doc, serverTimestamp, updateDoc } from 'firebase/firestore';
+// import { doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 
-import { db } from '@myfirebase/config';
-import createAndSaveFileMsgDoc from '@api/firestore/createAndSaveFileMsgDoc';
+// import { db } from '@myfirebase/config';
+import createAndSaveVoiceMsgDoc from '@api/firestore/createAndSaveVoiceMsgDoc';
 import uploadAudioToStorage from '@api/storage/uploadAudioToStorage';
 import makeCursorOnProgress from '@utils/makeCursorOnProgress';
 import resetCursorOnDefault from '@utils/resetCursorOnDefault';
 
-const updateUserChats = async (
-  chatUID: string,
-  userUID: string,
-  currentUserUID: string
-): Promise<void> => {
-  await updateDoc(doc(db, 'userChats', currentUserUID), {
-    [`${chatUID}.lastMessage`]: `${String.fromCodePoint(127908)} Voice message`,
-    [`${chatUID}.senderUserID`]: currentUserUID,
-    [`${chatUID}.date`]: serverTimestamp(),
-  });
+// const updateUserChats = async (
+//   chatUID: string,
+//   userUID: string,
+//   currentUserUID: string
+// ): Promise<void> => {
+//   await updateDoc(doc(db, 'userChats', currentUserUID), {
+//     [`${chatUID}.lastMessage`]: `${String.fromCodePoint(127908)} Voice message`,
+//     [`${chatUID}.senderUserID`]: currentUserUID,
+//     [`${chatUID}.date`]: serverTimestamp(),
+//   });
 
-  await updateDoc(doc(db, 'userChats', userUID), {
-    [`${chatUID}.lastMessage`]: `${String.fromCodePoint(127908)} Voice message`,
-    [`${chatUID}.senderUserID`]: currentUserUID,
-    [`${chatUID}.date`]: serverTimestamp(),
-  });
-};
+//   await updateDoc(doc(db, 'userChats', userUID), {
+//     [`${chatUID}.lastMessage`]: `${String.fromCodePoint(127908)} Voice message`,
+//     [`${chatUID}.senderUserID`]: currentUserUID,
+//     [`${chatUID}.date`]: serverTimestamp(),
+//   });
+// };
 
 const handleSendAudio = async (
   audioBlob: Blob,
@@ -34,17 +34,17 @@ const handleSendAudio = async (
     makeCursorOnProgress();
     const downloadURL = await uploadAudioToStorage(audioBlob, userUID);
 
-    const fileArr = [
+    const fileData = [
       {
-        type: 'audio/webm',
+        type: 'audio/mpeg',
         name: 'voice audio',
         url: downloadURL,
       },
     ];
 
-    await createAndSaveFileMsgDoc(chatUID, fileArr, currentUserUID);
+    await createAndSaveVoiceMsgDoc(chatUID, fileData, currentUserUID);
     resetCursorOnDefault();
-    await updateUserChats(chatUID, userUID, currentUserUID);
+    // await updateUserChats(chatUID, userUID, currentUserUID);
   } catch (error) {
     console.error('Error sending audio message:', error);
   }

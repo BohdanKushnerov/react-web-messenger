@@ -12,6 +12,7 @@
       "@zustand/*": ["zustand/*"],
       "@utils/*": ["utils/*"],
       "@interfaces/*": ["interfaces/*"],
+      "@enums/*": ["enums/*"],
       "@hooks/*": ["hooks/*"],
       "@i18n": ["/i18n"]
     },

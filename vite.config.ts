@@ -14,6 +14,7 @@ export default defineConfig({
       '@zustand': '/src/zustand',
       '@utils': '/src/utils',
       '@interfaces': '/src/interfaces',
+      '@enums': '/src/enums',
       '@hooks': '/src/hooks',
       '@i18n': '/i18n',
     },

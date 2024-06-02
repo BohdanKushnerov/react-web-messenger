@@ -1,6 +1,14 @@
-import { FC } from 'react';
-import { DocumentData } from 'firebase/firestore';
+import { FC, useEffect, useState } from 'react';
+import {
+  collection,
+  DocumentData,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+} from 'firebase/firestore';
 
+import { db } from '@myfirebase/config';
 import truncateLastMessageString from '@utils/chatListItem/truncateLastMessageString';
 import { ChatListItemType } from 'types/ChatListItemType';
 
@@ -15,6 +23,37 @@ const UserChatName: FC<IUserChatNameProps> = ({
   chatInfo,
   userInfo,
 }) => {
+  // console.log('chatInfo', chatInfo);
+  const [lastMsg, setLastMsg] = useState<DocumentData | null>(null);
+
+  const itemChatUID = chatInfo[0];
+
+  useEffect(() => {
+    // (async () => {
+    const queryParams = query(
+      collection(db, `chats/${itemChatUID}/messages`),
+      orderBy('date', 'desc'),
+      limit(1)
+    );
+
+    const unsubChatMessages = onSnapshot(queryParams, snapshot => {
+      if (!snapshot.empty) {
+        const lastMsg: DocumentData = snapshot.docs[0].data();
+        setLastMsg(lastMsg);
+      } else {
+        console.log('emptyyyyyyyyyyyy');
+      }
+    });
+
+    // const lastMsg = await getLastMessage(currentChatUID, db);
+    // setLastMsg(lastMsg);
+    // console.log('lastMsg', lastMsg);
+    // })();
+    return () => {
+      unsubChatMessages();
+    };
+  }, [itemChatUID]);
+
   return (
     <div className="w-full">
       <p
@@ -33,7 +72,7 @@ const UserChatName: FC<IUserChatNameProps> = ({
             : 'text-zinc-600 dark:text-zinc-100'
         }`}
       >
-        {truncateLastMessageString(chatInfo[1].lastMessage, 25)}
+        {lastMsg && truncateLastMessageString(lastMsg, 25)}
       </p>
     </div>
   );

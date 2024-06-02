@@ -1,12 +1,14 @@
-const truncateLastMessageString = (inputString: string, maxLength: number) => {
-  if (!inputString) {
-    return;
-  }
+import { DocumentData } from 'firebase/firestore';
 
-  if (inputString.length <= maxLength) {
-    return inputString;
+const truncateLastMessageString = (msg: DocumentData, maxLength: number) => {
+  const messageContent = msg.fileDescription
+    ? `${msg.fileDescription} ${msg.message}`
+    : msg.message;
+
+  if (messageContent.length <= maxLength) {
+    return messageContent;
   } else {
-    return inputString.substring(0, maxLength) + '...';
+    return messageContent.substring(0, maxLength) + '...';
   }
 };
 
