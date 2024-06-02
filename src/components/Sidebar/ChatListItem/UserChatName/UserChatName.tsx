@@ -45,10 +45,7 @@ const UserChatName: FC<IUserChatNameProps> = ({
       }
     });
 
-    // const lastMsg = await getLastMessage(currentChatUID, db);
-    // setLastMsg(lastMsg);
-    // console.log('lastMsg', lastMsg);
-    // })();
+
     return () => {
       unsubChatMessages();
     };

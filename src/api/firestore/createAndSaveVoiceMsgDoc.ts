@@ -8,16 +8,17 @@ const createAndSaveVoiceMsgDoc = async (
   fileData: Array<{ type: string; name: string; url: string }>,
   currentUserUID: string
 ): Promise<void> => {
-  // const fileDescription = `${String.fromCodePoint(127908)} Voice message`;
+  const additionalMsg = `${String.fromCodePoint(127908)} Voice message`;
 
   await addDoc(collection(db, `chats/${chatUID}/messages`), {
     type: messageTypes.VoiceMessage,
     file: fileData,
-    fileDescription: `${String.fromCodePoint(127908)} Voice message`,
+    fileDescription: additionalMsg,
     message: '',
     senderUserID: currentUserUID,
     date: Timestamp.now(),
     isRead: false,
+    isEdited: false,
     isShowNotification: true,
   });
 };

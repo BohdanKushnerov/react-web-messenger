@@ -13,8 +13,8 @@ const createAndSaveTextMsgDoc = async (
     message,
     senderUserID: currentUserUID,
     date: Timestamp.now(),
-    isEdited: false,
     isRead: false,
+    isEdited: false,
     isShowNotification: true,
   });
 };
