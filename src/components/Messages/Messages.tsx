@@ -83,6 +83,8 @@ const Messages: FC = () => {
     groupedMessages && selectedDocDataMessage
   );
 
+  console.log('screen --> Messages');
+
   // reset
   useEffect(() => {
     isReadyToFetchFirstNewChatMsgs.current = true;
@@ -213,10 +215,18 @@ const Messages: FC = () => {
               const dateString = date.toISOString().split('T')[0];
 
               const obj = { [dateString]: [change.doc] };
+              const docID = change.doc.id;
 
-              setGroupedMessages(prev =>
-                mergeChatMessages(prev as IGroupedMessages, obj)
-              );
+              setGroupedMessages(prev => {
+                if (
+                  prev &&
+                  Object.values(prev)[0].some(msg => msg.id === docID)
+                ) {
+                  return prev
+                } else {
+                  return mergeChatMessages(prev as IGroupedMessages, obj);
+                }
+              });
             }
           } else if (
             snapshot.size === 1 &&

@@ -41,10 +41,9 @@ const UserChatName: FC<IUserChatNameProps> = ({
         const lastMsg: DocumentData = snapshot.docs[0].data();
         setLastMsg(lastMsg);
       } else {
-        console.log('emptyyyyyyyyyyyy');
+        setLastMsg(null);
       }
     });
-
 
     return () => {
       unsubChatMessages();

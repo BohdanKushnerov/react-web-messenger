@@ -5,8 +5,8 @@ const calculateMsgImageHeight = (
   file: IFile,
   index: number
 ) => {
-  const height = file.height;
-  const width = file.width;
+  const height = file.height ?? 0;
+  const width = file.width ?? 0;
 
   if (height / width > 1.4) {
     return files.length === 1 ? 336 : index === 0 || index === 1 ? 159 : 78.5;

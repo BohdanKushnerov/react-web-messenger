@@ -18,7 +18,6 @@ const useMyUserChatList = () => {
       doc(db, 'userChats', auth?.currentUser?.uid),
       doc => {
         const data = doc.data();
-        console.log(data)
 
         // Флаг, который определяет, нужно ли обновлять список чатов
         let shouldUpdateChatList = true;
