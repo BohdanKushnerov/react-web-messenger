@@ -46,11 +46,11 @@ const ButtonEdit: FC<IButtonEditProps> = ({
     ) {
       const editingMessageInfo = {
         selectedMessage: selectedDocDataMessage[0],
-        isLastMessage:
-          selectedDocDataMessage[0].id ===
-          mergedArray[mergedArray.length - 1].id
-            ? true
-            : false,
+        // isLastMessage:
+        //   selectedDocDataMessage[0].id ===
+        //   mergedArray[mergedArray.length - 1].id
+        //     ? true
+        //     : false,
       };
 
       updateEditingMessage(editingMessageInfo);

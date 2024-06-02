@@ -10,7 +10,7 @@ const createMessageEditingFormState: StateCreator<
   editingMessageInfo: null,
   updateEditingMessage: (messageInfo: {
     selectedMessage: DocumentData;
-    isLastMessage: boolean;
+    // isLastMessage: boolean;
   }) => {
     set(
       produce(state => {

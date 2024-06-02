@@ -1,5 +1,6 @@
 import { FC, useCallback, useState } from 'react';
 import urlParser from 'js-video-url-parser';
+import { useTranslation } from 'react-i18next';
 
 import MessageImagesWithLightBox from '../MessageImagesWithLightBox/MessageImagesWithLightBox';
 import MessageFiles from '../MessageFiles/MessageFiles';
@@ -21,6 +22,7 @@ const MessageItem: FC<IMessageItemProps> = ({
 }) => {
   // console.log('MessageItem');
   const [indexClickedPhoto, setIndexClickedPhoto] = useState(-1);
+  const { t } = useTranslation('translation');
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 
@@ -115,6 +117,9 @@ const MessageItem: FC<IMessageItemProps> = ({
           {/* reactions */}
           {/* <p>{msg.data().reactions}</p> */}
           <ReactionsDisplay reactions={msg.data().reactions} />
+
+          {/* {isEdited} */}
+          {msg.data().isEdited && <p>{t('Edited')}</p>}
 
           {/* date /// read/unread */}
           <div className="flex items-center gap-2">
