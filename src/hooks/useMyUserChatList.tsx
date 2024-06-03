@@ -4,7 +4,7 @@ import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '@myfirebase/config';
 
 const useMyUserChatList = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [myUserChatList, setMyUserChatList] = useState<DocumentData | null>(
     null
   );

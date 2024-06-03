@@ -83,7 +83,7 @@ const Messages: FC = () => {
     groupedMessages && selectedDocDataMessage
   );
 
-  console.log('screen --> Messages');
+  // console.log('screen --> Messages');
 
   // reset
   useEffect(() => {

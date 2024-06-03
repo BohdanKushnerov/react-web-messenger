@@ -1,4 +1,4 @@
-import { FC, Suspense, lazy, useRef } from 'react';
+import { FC, Suspense, lazy, memo, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 
 import ChatList from '@components/Sidebar/ChatList/ChatList';
@@ -11,12 +11,12 @@ const ProfileSettings = lazy(
 );
 import useChatStore from '@zustand/store';
 
-const Sidebar: FC = () => {
+const Sidebar: FC = memo(() => {
   const nodeRefSidebarDefault = useRef(null);
 
   const sidebarScreen = useChatStore(state => state.sidebarScreen);
 
-  // console.log('screen --> Sidebar');
+  console.log('screen --> Sidebar');
 
   return (
     <div className="relative w-full h-full bg-gray-200 dark:bg-myBlackBcg sm:min-w-[400px] sm:w-1/4 border-r border-r-zinc-800">
@@ -71,6 +71,6 @@ const Sidebar: FC = () => {
       )}
     </div>
   );
-};
+});
 
 export default Sidebar;

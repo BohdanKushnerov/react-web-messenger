@@ -10,23 +10,20 @@ import {
 
 import { db } from '@myfirebase/config';
 import truncateLastMessageString from '@utils/chatListItem/truncateLastMessageString';
-import { ChatListItemType } from 'types/ChatListItemType';
+// import { ChatListItemType } from 'types/ChatListItemType';
 
 interface IUserChatNameProps {
-  chatUID: string | null;
-  chatInfo: ChatListItemType;
+  currentChatUID: string | null;
+  itemChatUID: string | null;
   userInfo: DocumentData | null;
 }
 
 const UserChatName: FC<IUserChatNameProps> = ({
-  chatUID,
-  chatInfo,
+  currentChatUID,
+  itemChatUID,
   userInfo,
 }) => {
-  // console.log('chatInfo', chatInfo);
   const [lastMsg, setLastMsg] = useState<DocumentData | null>(null);
-
-  const itemChatUID = chatInfo[0];
 
   useEffect(() => {
     // (async () => {
@@ -54,7 +51,7 @@ const UserChatName: FC<IUserChatNameProps> = ({
     <div className="w-full">
       <p
         className={`font-bold ${
-          chatUID === chatInfo[0]
+          currentChatUID === itemChatUID
             ? 'text-white'
             : 'text-zinc-900 dark:text-white'
         }`}
@@ -63,7 +60,7 @@ const UserChatName: FC<IUserChatNameProps> = ({
       </p>
       <p
         className={`${
-          chatUID === chatInfo[0]
+          currentChatUID === itemChatUID
             ? 'text-white'
             : 'text-zinc-600 dark:text-zinc-100'
         }`}

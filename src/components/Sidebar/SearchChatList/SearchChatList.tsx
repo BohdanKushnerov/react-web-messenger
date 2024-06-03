@@ -13,20 +13,19 @@ const SearchChatList: FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation('translation', { keyPrefix: 'Sidebar' });
 
-  const updateSearchValue = useChatStore(state => state.updateSearchValue);
   const currentUser = useChatStore(state => state.currentUser);
+  const updateSearchValue = useChatStore(state => state.updateSearchValue);
   const updateCurrentChatInfo = useChatStore(
     state => state.updateCurrentChatInfo
   );
 
-  const { searchChatList, setSearchChatList, isLoading } = useSearchUsers(); // поиск контактов(юзеров) в поисковой строке
-
-  // console.log('screen --> SearchChatList');
+  const { isLoading, searchChatList, handleResetSearchChatList } =
+    useSearchUsers(); // поиск контактов(юзеров) в поисковой строке
 
   const handleManageCreateChat = (docData: DocumentData) => {
     handleCreateAndNavigateToChat(docData, updateCurrentChatInfo, navigate);
 
-    setSearchChatList(null);
+    handleResetSearchChatList();
     updateSearchValue('');
   };
 

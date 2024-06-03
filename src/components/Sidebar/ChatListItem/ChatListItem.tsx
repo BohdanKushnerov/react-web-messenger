@@ -51,8 +51,8 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
         />
 
         <UserChatName
-          chatUID={chatUID}
-          chatInfo={chatInfo}
+          currentChatUID={chatUID}
+          itemChatUID={chatInfo[0]}
           userInfo={userInfo}
         />
 

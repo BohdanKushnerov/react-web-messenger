@@ -1,4 +1,4 @@
-import { useRef, memo, Suspense } from 'react';
+import { useRef, Suspense } from 'react';
 import { Transition } from 'react-transition-group';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,7 @@ import useIsOnlineMyStatus from '@hooks/useIsOnlineMyStatus';
 import useBrowserTabVisibilityChange from '@hooks/useBrowserTabVisibilityChange';
 import audio from '@assets/notify.mp3';
 
-const HomePage = memo(() => {
+const HomePage = () => {
   const { pathname } = useLocation();
   const nodeRefSidebar = useRef(null);
   const nodeRefChat = useRef(null);
@@ -27,7 +27,7 @@ const HomePage = memo(() => {
   useIsOnlineMyStatus();
   useIsRedirectToCurrentChat();
 
-  // console.log('screen --> HomePage');
+  console.log('screen --> HomePage');
 
   return (
     <div
@@ -126,6 +126,6 @@ const HomePage = memo(() => {
       <audio src={audio} id="notify"></audio>
     </div>
   );
-});
+};
 
 export default HomePage;
