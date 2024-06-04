@@ -31,9 +31,6 @@ const MessageContextMenuModal = lazy(
 const ChatContextMenu = lazy(
   () => import('../ChatContextMenu/ChatContextMenu')
 );
-const Reactions = lazy(
-  () => import('@components/ChatContextMenu/Reactions/Reactions')
-);
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
@@ -222,7 +219,7 @@ const Messages: FC = () => {
                   prev &&
                   Object.values(prev)[0].some(msg => msg.id === docID)
                 ) {
-                  return prev
+                  return prev;
                 } else {
                   return mergeChatMessages(prev as IGroupedMessages, obj);
                 }
@@ -629,7 +626,6 @@ const Messages: FC = () => {
             closeModal={handleCloseModal}
             modalPosition={modalPosition}
           >
-            <Reactions />
             <ChatContextMenu groupedMessages={groupedMessages} />
           </MessageContextMenuModal>
         </Suspense>

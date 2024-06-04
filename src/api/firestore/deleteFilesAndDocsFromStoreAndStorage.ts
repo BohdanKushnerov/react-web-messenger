@@ -9,11 +9,8 @@ const deleteFilesAndDocsFromStoreAndStorage = async (
   db: Firestore,
   chatUID: string
 ): Promise<void> => {
-  console.log('deleteFilesAndDocsFromStoreAndStorage.ts');
   const deletionPromises = selectedDocDataMessage.map(async msg => {
     const arrayURLsOfFiles = msg.data()?.file;
-
-    console.log('=========arrayURLsOfFiles=========', arrayURLsOfFiles);
 
     if (arrayURLsOfFiles) {
       const fileDeletionPromises = arrayURLsOfFiles.map((file: IFile) => {
