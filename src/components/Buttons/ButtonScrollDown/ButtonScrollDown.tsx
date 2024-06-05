@@ -1,11 +1,7 @@
 import { FC } from 'react';
 
+import { IButtonScrollDownProps } from '@interfaces/IButtonScrollDownProps';
 import sprite from '@assets/sprite.svg';
-
-interface IButtonScrollDownProps {
-  scrollToBottom: () => void;
-  lengthOfUnreadMsgs: number;
-}
 
 const ButtonScrollDown: FC<IButtonScrollDownProps> = ({
   scrollToBottom,

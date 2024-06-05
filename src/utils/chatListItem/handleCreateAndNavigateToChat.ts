@@ -10,7 +10,7 @@ import { NavigateFunction } from 'react-router-dom';
 
 import { auth, db } from '@myfirebase/config';
 import handleSelectChat from '@utils/chatListItem/handleSelectChat';
-import { ChatListItemType } from 'types/ChatListItemType';
+import { ChatListItem } from 'types/ChatListItemType';
 
 const createNewChat = async (chatID: string): Promise<void> => {
   await setDoc(doc(db, 'chats', chatID), {});
@@ -42,7 +42,7 @@ const getChatData = async (
 
 const handleCreateAndNavigateToChat = async (
   user: DocumentData,
-  updateCurrentChatInfo: (chat: ChatListItemType) => void,
+  updateCurrentChatInfo: (chat: ChatListItem) => void,
   navigate: NavigateFunction
 ): Promise<void> => {
   if (!auth?.currentUser?.uid) return;
@@ -79,7 +79,7 @@ const handleCreateAndNavigateToChat = async (
     const chatData = await getChatData(currentUserUID, combinedUsersChatID);
 
     if (chatData) {
-      const chatItem: ChatListItemType = [
+      const chatItem: ChatListItem = [
         combinedUsersChatID,
         {
           lastMessage: chatData.lastMessage,

@@ -10,13 +10,7 @@ import {
 
 import { db } from '@myfirebase/config';
 import truncateLastMessageString from '@utils/chatListItem/truncateLastMessageString';
-// import { ChatListItemType } from 'types/ChatListItemType';
-
-interface IUserChatNameProps {
-  currentChatUID: string | null;
-  itemChatUID: string | null;
-  userInfo: DocumentData | null;
-}
+import { IUserChatNameProps } from '@interfaces/IUserChatNameProps';
 
 const UserChatName: FC<IUserChatNameProps> = ({
   currentChatUID,

@@ -1,10 +1,7 @@
 import { FC } from 'react';
 
+import { IButtonRecordAudioProps } from '@interfaces/IButtonRecordAudioProps';
 import sprite from '@assets/sprite.svg';
-
-interface IButtonRecordAudioProps {
-  handleToggleRecordingStatus: () => void;
-}
 
 const ButtonRecordAudio: FC<IButtonRecordAudioProps> = ({
   handleToggleRecordingStatus,

@@ -3,14 +3,8 @@ import { DocumentData } from 'firebase/firestore';
 import { useTranslation } from 'react-i18next';
 
 import useChatStore from '@zustand/store';
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import { IButtonEditProps } from '@interfaces/IButtonEditProps';
 import sprite from '@assets/sprite.svg';
-
-interface IButtonEditProps {
-  groupedMessages: IGroupedMessages | null;
-  textContent?: boolean;
-  color: string;
-}
 
 const ButtonEdit: FC<IButtonEditProps> = ({
   groupedMessages,
@@ -46,11 +40,6 @@ const ButtonEdit: FC<IButtonEditProps> = ({
     ) {
       const editingMessageInfo = {
         selectedMessage: selectedDocDataMessage[0],
-        // isLastMessage:
-        //   selectedDocDataMessage[0].id ===
-        //   mergedArray[mergedArray.length - 1].id
-        //     ? true
-        //     : false,
       };
 
       updateEditingMessage(editingMessageInfo);

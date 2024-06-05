@@ -5,13 +5,8 @@ import { useTranslation } from 'react-i18next';
 
 import useChatStore from '@zustand/store';
 import copyTextSelectedMsgs from '@utils/messages/copyTextSelectedMsgs';
+import { ICopyButtonProps } from '@interfaces/ICopyButtonProps';
 import sprite from '@assets/sprite.svg';
-
-interface ICopyButtonProps {
-  textContent?: boolean;
-  white?: string;
-  dark?: string;
-}
 
 const CopyButton: FC<ICopyButtonProps> = ({
   textContent = true,
@@ -27,7 +22,7 @@ const CopyButton: FC<ICopyButtonProps> = ({
     state => state.resetSelectedMessages
   );
 
-  const handleSuccessClickCopyTextMsg = () => {
+  const handleClickCopyTextMsg = () => {
     toast.success(t('Toasts.CopyToClipboard'));
     resetSelectedMessages();
 
@@ -40,7 +35,7 @@ const CopyButton: FC<ICopyButtonProps> = ({
       {selectedDocDataMessage && (
         <CopyToClipboard
           text={copyTextSelectedMsgs(selectedDocDataMessage) || ''}
-          onCopy={handleSuccessClickCopyTextMsg}
+          onCopy={handleClickCopyTextMsg}
         >
           <div
             className={`flex items-center ${

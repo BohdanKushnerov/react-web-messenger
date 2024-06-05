@@ -2,12 +2,8 @@ import { FC } from 'react';
 
 import useChatStore from '@zustand/store';
 import useIsReadMyLastMessage from '@hooks/useIsReadMyLastMessage';
-import { ChatListItemType } from 'types/ChatListItemType';
+import { IReadStatusProps } from '@interfaces/IReadStatusProps';
 import sprite from '@assets/sprite.svg';
-
-interface IReadStatusProps {
-  chatInfo: ChatListItemType;
-}
 
 const ReadStatus: FC<IReadStatusProps> = ({ chatInfo }) => {
   const { chatUID } = useChatStore(state => state.currentChatInfo);

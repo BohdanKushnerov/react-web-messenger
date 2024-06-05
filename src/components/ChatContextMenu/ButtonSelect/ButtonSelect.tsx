@@ -2,12 +2,8 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useChatStore from '@zustand/store';
+import { IButtonSelectProps } from '@interfaces/IButtonSelectProps';
 import sprite from '@assets/sprite.svg';
-
-interface IButtonSelectProps {
-  textContent?: boolean;
-  color: string;
-}
 
 const ButtonSelect: FC<IButtonSelectProps> = ({ textContent = true }) => {
   const { t } = useTranslation();
@@ -19,7 +15,7 @@ const ButtonSelect: FC<IButtonSelectProps> = ({ textContent = true }) => {
   const updateSelectedDocDataMessage = useChatStore(
     state => state.updateSelectedDocDataMessage
   );
-  const handleToggleSelectOn = () => {
+  const handleToggleSelect = () => {
     if (isSelectedMessages) {
       updateSelectedDocDataMessage(null);
       updateIsSelectedMessages(false);
@@ -30,7 +26,7 @@ const ButtonSelect: FC<IButtonSelectProps> = ({ textContent = true }) => {
   return (
     <button
       className="flex items-center justify-between w-full px-8 py-2 text-white transition-all duration-150 hover:cursor-pointer hover:bg-zinc-600/90 hover:rounded-md"
-      onClick={handleToggleSelectOn}
+      onClick={handleToggleSelect}
       aria-label="Select message"
     >
       <svg width={16} height={16}>

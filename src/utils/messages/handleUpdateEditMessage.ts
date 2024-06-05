@@ -11,7 +11,6 @@ import updateEditedStatusMsgDoc from '@api/firestore/updateEditedStatusMsgDoc';
 const handleUpdateEditMessage = async (
   editingMessageInfo: {
     selectedMessage: DocumentData;
-    // isLastMessage: boolean;
   } | null,
   chatUID: string | null,
   newMessage: string,
@@ -26,27 +25,12 @@ const handleUpdateEditMessage = async (
   try {
     makeCursorOnProgress();
 
-    // const { selectedMessage, isLastMessage } = editingMessageInfo;
     const { selectedMessage } = editingMessageInfo;
 
     await Promise.all([
       updateEditedMessageTextContent(chatUID, selectedMessage.id, newMessage),
       updateEditedStatusMsgDoc(chatUID, selectedMessage),
     ]);
-
-    // if (isLastMessage) {
-    //   const hasFiles = Boolean(selectedMessage.data().file);
-    //   const fileMessage = hasFiles
-    //     ? `${String.fromCodePoint(128206)} ${
-    //         selectedMessage.data().file.length
-    //       } file(s) ${newMessage}`
-    //     : newMessage;
-
-    //   await Promise.all([
-    //     updateEditedUserChatLastMessage(chatUID, currentUserUID, fileMessage),
-    //     updateEditedUserChatLastMessage(chatUID, userUID, fileMessage),
-    //   ]);
-    // }
 
     toast.success(t('Toasts.EditingMessageSuccess'));
   } catch (error) {

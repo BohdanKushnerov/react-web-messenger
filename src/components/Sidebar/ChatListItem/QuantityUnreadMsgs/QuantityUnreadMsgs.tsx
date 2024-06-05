@@ -2,11 +2,7 @@ import { FC } from 'react';
 
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
 import useUnreadMessagesInChatListItem from '@hooks/useUnreadMessages';
-import { ChatListItemType } from 'types/ChatListItemType';
-
-interface IQuantityUnreadMsgsProps {
-  chatInfo: ChatListItemType;
-}
+import { IQuantityUnreadMsgsProps } from '@interfaces/IQuantityUnreadMsgsProps';
 
 const QuantityUnreadMsgs: FC<IQuantityUnreadMsgsProps> = ({ chatInfo }) => {
   const lengthOfMyUnreadMsgs = useLengthOfMyUnreadMsgs(chatInfo); // следим за количеством моих непрочитаных сообщений в ChatItem

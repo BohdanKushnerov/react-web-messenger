@@ -2,12 +2,8 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
-import { ChatListItemType } from 'types/ChatListItemType';
+import { IIsOnlineUserProps } from '@interfaces/IIsOnlineUserProps';
 import '@i18n';
-
-interface IIsOnlineUserProps {
-  chatInfo: ChatListItemType;
-}
 
 const IsOnlineUser: FC<IIsOnlineUserProps> = ({ chatInfo }) => {
   const { t } = useTranslation();

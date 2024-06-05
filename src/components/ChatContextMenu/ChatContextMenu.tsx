@@ -7,12 +7,8 @@ import ButtonEdit from './ButtonEdit/ButtonEdit';
 const Reactions = lazy(
   () => import('@components/ChatContextMenu/Reactions/Reactions')
 );
+import { IChatContextMenuProps } from '@interfaces/IChatContextMenuProps';
 import useChatStore from '@zustand/store';
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
-
-interface IChatContextMenuProps {
-  groupedMessages: IGroupedMessages | null;
-}
 
 const ChatContextMenu: FC<IChatContextMenuProps> = ({ groupedMessages }) => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);

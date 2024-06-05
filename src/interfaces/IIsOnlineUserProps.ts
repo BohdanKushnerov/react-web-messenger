@@ -1,5 +1,5 @@
 import { ChatListItemType } from 'types/ChatListItemType';
 
-export interface IChatListItemProps {
+export interface IIsOnlineUserProps {
   chatInfo: ChatListItemType;
 }

@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import ChatListItem from '../ChatListItem/ChatListItem';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
-import ChatListItem from '@components/Sidebar/ChatListItem/ChatListItem';
 import useMyUserChatList from '@hooks/useMyUserChatList';
 import { ChatListItemType } from 'types/ChatListItemType';
 

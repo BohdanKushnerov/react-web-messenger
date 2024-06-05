@@ -1,6 +1,5 @@
 import { FC, lazy, Suspense, useDeferredValue, useState } from 'react';
 
-// import EmojiPickerWindow from '../EmojiPickerWindow/EmojiPickerWindow';
 const EmojiPickerWindow = lazy(
   () => import('../EmojiPickerWindow/EmojiPickerWindow')
 );
@@ -70,33 +69,3 @@ const Emoji: FC = () => {
 };
 
 export default Emoji;
-
-{
-  /* <Transition
-        nodeRef={nodeRefEmoji}
-        in={isShowEmoji}
-        timeout={100}
-        unmountOnExit
-      >
-        {state => (
-          <div
-            ref={nodeRefEmoji}
-            className={`absolute bottom-12 left-0
-            transform origin-bottom-left transition-transform 
-            ${state === 'exited' ? 'hidden' : ''} 
-                ${
-                  state === 'entered'
-                    ? 'scale-100 opacity-100'
-                    : 'translate-x-4 translate-y-10 scale-0 opacity-50'
-                }`}
-          >
-            <EmojiPicker
-              height={400}
-              onEmojiClick={handleSelectEmoji}
-              searchDisabled
-              previewConfig={{ showPreview: false }}
-            />
-          </div>
-        )}
-      </Transition> */
-}

@@ -11,12 +11,9 @@ import {
 
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import { ChatListItemType } from 'types/ChatListItemType';
+import { ChatListItem } from 'types/ChatListItemType';
 
-const useLengthOfMyUnreadMsgs = (
-  chatInfo: ChatListItemType,
-  isNotify = true
-) => {
+const useLengthOfMyUnreadMsgs = (chatInfo: ChatListItem, isNotify = true) => {
   const [lengthOfMyUnreadMsgs, setLengthOfMyUnreadMsgs] = useState<number>(0);
   const processedMessages = useRef<string[]>([]);
 
