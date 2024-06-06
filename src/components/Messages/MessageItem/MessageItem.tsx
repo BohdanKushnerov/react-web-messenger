@@ -26,7 +26,7 @@ const MessageItem: FC<IMessageItemProps> = ({
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 
-  useMakeReadMsg(msg, isNearBottom); // делает при монтировании чата прочитаные мои сообщения
+  useMakeReadMsg(msg, isNearBottom);
 
   const handleClickPhoto = useCallback(
     (index: number) => {

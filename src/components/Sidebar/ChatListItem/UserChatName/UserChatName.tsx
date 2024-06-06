@@ -20,7 +20,6 @@ const UserChatName: FC<IUserChatNameProps> = ({
   const [lastMsg, setLastMsg] = useState<DocumentData | null>(null);
 
   useEffect(() => {
-    // (async () => {
     const queryParams = query(
       collection(db, `chats/${itemChatUID}/messages`),
       orderBy('date', 'desc'),

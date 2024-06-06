@@ -20,7 +20,7 @@ const SearchChatList: FC = () => {
   );
 
   const { isLoading, searchChatList, handleResetSearchChatList } =
-    useSearchUsers(); // поиск контактов(юзеров) в поисковой строке
+    useSearchUsers();
 
   const handleManageCreateChat = (docData: DocumentData) => {
     handleCreateAndNavigateToChat(docData, updateCurrentChatInfo, navigate);
@@ -34,7 +34,6 @@ const SearchChatList: FC = () => {
       {isLoading && <LoaderUIActions size={50} />}
       {!isLoading && searchChatList && searchChatList.size > 0 ? (
         <ul>
-          {/* тут список юзеров в поиске */}
           {searchChatList.docs.map(doc => {
             // фильтруем себя
             if (doc.data().uid === currentUser.uid) return null;

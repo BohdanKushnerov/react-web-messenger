@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 
 import { db } from '@myfirebase/config';
 import deleteFilesAndDocsFromStoreAndStorage from '@api/firestore/deleteFilesAndDocsFromStoreAndStorage';
-// import updateUserChatLastMessage from '@api/firestore/updateUserChatLastMessage';
 import makeCursorOnProgress from '@utils/makeCursorOnProgress';
 import resetCursorOnDefault from '@utils/resetCursorOnDefault';
 
@@ -30,40 +29,6 @@ const handleDeleteMessage = async (
     );
 
     closeModal();
-
-    // const lastFirestoreMessage = await getLastMessage(chatUID, db);
-
-    // let lastMessage = ' ';
-    // let senderUserID = ' ';
-    // let lastDate = ' ';
-
-    // if (lastFirestoreMessage) {
-    //   const lastFiles = lastFirestoreMessage.file;
-    //   lastMessage = lastFiles
-    //     ? `${String.fromCodePoint(128206)} ${lastFiles.length} file(s) ${
-    //         lastFirestoreMessage.message
-    //       }`
-    //     : lastFirestoreMessage.message;
-    //   senderUserID = lastFirestoreMessage.senderUserID;
-    //   lastDate = lastFirestoreMessage.date;
-    // }
-
-    // await Promise.all([
-    //   updateUserChatLastMessage(
-    //     chatUID,
-    //     currentUserUID,
-    //     lastMessage,
-    //     senderUserID,
-    //     lastDate
-    //   ),
-    //   updateUserChatLastMessage(
-    //     chatUID,
-    //     userUID,
-    //     lastMessage,
-    //     senderUserID,
-    //     lastDate
-    //   ),
-    // ]);
 
     const inputElement = document.getElementById('chatFormInput');
     inputElement?.focus();

@@ -6,7 +6,6 @@ const useClearMessagesOnChatChange: IUseClearMessagesOnChatChange = (
   chatUID,
   setMessage
 ) => {
-  //  чистит при смене юзера сообщение
   useEffect(() => {
     if (chatUID) {
       setMessage('');

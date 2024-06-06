@@ -70,7 +70,7 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
                   <button
                     className="px-2 py-1 border border-zinc-600 dark:border-zinc-500 rounded-full transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
                     onClick={handleSignOut}
-                    aria-label="Sign Out"
+                    aria-label="Sign out"
                   >
                     {t('SignOut')}
                   </button>

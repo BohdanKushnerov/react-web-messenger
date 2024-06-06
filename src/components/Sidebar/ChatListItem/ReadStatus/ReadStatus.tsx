@@ -9,7 +9,7 @@ const ReadStatus: FC<IReadStatusProps> = ({ chatInfo }) => {
   const { chatUID } = useChatStore(state => state.currentChatInfo);
   const { uid } = useChatStore(state => state.currentUser);
 
-  const isReadMyLastMessage = useIsReadMyLastMessage(chatInfo); // прочитаное мое последнее сообщение или нет
+  const isReadMyLastMessage = useIsReadMyLastMessage(chatInfo);
 
   return (
     <>

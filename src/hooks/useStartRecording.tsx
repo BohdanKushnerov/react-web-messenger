@@ -23,7 +23,6 @@ const useStartRecording = (
   const intervalIdrecordingRef = useRef<ReturnType<typeof setInterval> | null>(
     null
   );
-  // начинает запись
   useEffect(() => {
     if (isRecording) {
       const startRecording = async () => {

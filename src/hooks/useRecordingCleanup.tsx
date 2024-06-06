@@ -3,6 +3,7 @@ import { Dispatch, MutableRefObject, SetStateAction, useEffect } from 'react';
 import cleanUpRecordingResources from '@utils/chatForm/cleanupRecordingResources';
 
 const useRecordingCleanup = (
+  audioChunks: Blob[],
   animationIdRef: MutableRefObject<number | null>,
   mediaRecorderRef: MutableRefObject<MediaRecorder | null>,
   analyserRef: MutableRefObject<AnalyserNode | null>,
@@ -32,6 +33,7 @@ const useRecordingCleanup = (
       }
     };
   }, [
+    audioChunks,
     handleToggleRecordingStatus,
     analyserRef,
     setAudioChunks,

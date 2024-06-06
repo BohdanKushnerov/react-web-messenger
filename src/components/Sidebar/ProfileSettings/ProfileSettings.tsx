@@ -31,8 +31,6 @@ const ProfileSettings: FC = () => {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
   const updateSidebarScreen = useChatStore(state => state.updateSidebarScreen);
 
-  // console.log('screen --> ProfileSettings');
-
   const handleClickTurnBackToDefaultScreen = () => {
     updateSidebarScreen('default');
   };

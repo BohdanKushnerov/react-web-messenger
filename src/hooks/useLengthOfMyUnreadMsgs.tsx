@@ -11,9 +11,12 @@ import {
 
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import { ChatListItem } from 'types/ChatListItemType';
+import { ChatListItemType } from 'types/ChatListItemType';
 
-const useLengthOfMyUnreadMsgs = (chatInfo: ChatListItem, isNotify = true) => {
+const useLengthOfMyUnreadMsgs = (
+  chatInfo: ChatListItemType,
+  isNotify = true
+) => {
   const [lengthOfMyUnreadMsgs, setLengthOfMyUnreadMsgs] = useState<number>(0);
   const processedMessages = useRef<string[]>([]);
 
@@ -35,12 +38,11 @@ const useLengthOfMyUnreadMsgs = (chatInfo: ChatListItem, isNotify = true) => {
   useEffect(() => {
     const queryParams = query(
       collection(db, `chats/${chatID}/messages`),
-      orderBy('senderUserID'), // Add orderBy for senderUserID
+      orderBy('senderUserID'),
       orderBy('date', 'asc'),
       where('isRead', '==', false),
       where('senderUserID', '!=', uid)
     );
-    // ваш код здесь
     const unsubMyUnreadMsgs = onSnapshot(queryParams, querySnapshot => {
       if (querySnapshot.docs) {
         setLengthOfMyUnreadMsgs(querySnapshot.docs.length);
@@ -65,7 +67,6 @@ const useLengthOfMyUnreadMsgs = (chatInfo: ChatListItem, isNotify = true) => {
                   'notify'
                 ) as HTMLAudioElement;
 
-                // Воспроизводим звук
                 if (audio) {
                   audio.play();
                 }

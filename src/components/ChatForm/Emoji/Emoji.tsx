@@ -1,12 +1,12 @@
 import { FC, lazy, Suspense, useDeferredValue, useState } from 'react';
 
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 const EmojiPickerWindow = lazy(
   () => import('../EmojiPickerWindow/EmojiPickerWindow')
 );
 import useChatStore from '@zustand/store';
 import useCloseModal from '@hooks/useCloseModal';
 import sprite from '@assets/sprite.svg';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const Emoji: FC = () => {
   const [isShowEmoji, setIsShowEmoji] = useState(false);
@@ -51,7 +51,7 @@ const Emoji: FC = () => {
             </div>
           }
         >
-          <EmojiPickerWindow isShowEmoji={deferredIsShowEmoji} />
+          <EmojiPickerWindow />
         </Suspense>
       )}
 

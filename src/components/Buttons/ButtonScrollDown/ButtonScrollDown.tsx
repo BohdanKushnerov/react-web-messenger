@@ -11,7 +11,7 @@ const ButtonScrollDown: FC<IButtonScrollDownProps> = ({
     <button
       className="absolute bottom-32 right-10 bg-white p-2 rounded-full group hover:scale-105 hover:outline outline-1 outline-green-500"
       onClick={scrollToBottom}
-      aria-label="Scroll Down"
+      aria-label="Scroll down"
     >
       <div className="relative">
         <svg

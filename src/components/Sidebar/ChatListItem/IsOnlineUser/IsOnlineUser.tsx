@@ -8,9 +8,7 @@ import '@i18n';
 const IsOnlineUser: FC<IIsOnlineUserProps> = ({ chatInfo }) => {
   const { t } = useTranslation();
 
-  const isOnline = useIsOnlineStatus(chatInfo[1].userUID); // следим за состоянием онлайн/офлайн
-
-  // console.log('screen --> IsOnlineUser');
+  const isOnline = useIsOnlineStatus(chatInfo[1].userUID);
 
   return (
     <div className={`${isOnline ? 'text-green-700' : 'text-red-700'}`}>

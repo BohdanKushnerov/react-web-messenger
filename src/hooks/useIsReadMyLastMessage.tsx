@@ -10,7 +10,6 @@ const useIsReadMyLastMessage = (chatInfo: ChatListItemType) => {
 
   const { uid } = useChatStore(state => state.currentUser);
 
-  // прочитаное мое последнее сообщение или нет
   useEffect(() => {
     if (!chatInfo[0] || !uid) return;
 
@@ -22,7 +21,6 @@ const useIsReadMyLastMessage = (chatInfo: ChatListItemType) => {
 
     const unSub = onSnapshot(queryParams, querySnapshot => {
       if (querySnapshot.docs.length > 0) {
-        // setLengthOfUnReadMsgs(querySnapshot.docs.length);
         setIsReadMyLastMessage(false);
       } else {
         setIsReadMyLastMessage(true);

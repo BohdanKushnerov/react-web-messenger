@@ -8,7 +8,6 @@ const useChatInfo = (userUID: string | null) => {
     null
   );
 
-  // обновляет инфо о текущем юзере при монтировании нового чата
   useEffect(() => {
     if (!userUID) return;
     const unsubCurrentChatData = onSnapshot(doc(db, 'users', userUID), doc => {

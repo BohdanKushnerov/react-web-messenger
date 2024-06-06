@@ -9,10 +9,7 @@ import { ChatListItemType } from 'types/ChatListItemType';
 const ChatList: FC = () => {
   const { t } = useTranslation('translation', { keyPrefix: 'Sidebar' });
 
-  const { isLoading, myUserChatList } = useMyUserChatList(); // загрузка списка моих чатов
-
-  // console.log('screen --> ChatList');
-  // console.log('myUserChatList', myUserChatList);
+  const { isLoading, myUserChatList } = useMyUserChatList();
 
   return (
     <div>

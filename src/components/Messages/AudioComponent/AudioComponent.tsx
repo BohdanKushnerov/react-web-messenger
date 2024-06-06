@@ -37,7 +37,7 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
 
   return (
     <div className="flex flex-row items-start gap-2 w-[300px] sm:w-[200px] md:min-w-[220px] md:max-w-md lg:min-w-[360px]">
-      <button onClick={onPlayPause} className="py-3">
+      <button onClick={onPlayPause} className="py-3" aria-label='Stop/Play'>
         {isPlaying ? (
           <svg
             width={24}

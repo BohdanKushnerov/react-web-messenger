@@ -22,7 +22,6 @@ const MessagesScrollBar: FC<IMessagesScrollBarProps> = ({
         style={{
           width: '100%',
           height: '100%',
-          // overflow: 'scroll',
           overflowY: 'scroll',
         }}
         onScroll={handleScroll}

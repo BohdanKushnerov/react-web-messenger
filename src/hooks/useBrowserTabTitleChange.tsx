@@ -20,7 +20,6 @@ const useBrowserTabTitleChange: IUseBrowserTabTitleChange = (
 
     const startChangeChatTitle = () => {
       if (docHidden) {
-        // Вкладка стала неактивной
         if (countChatUnreadMessages) {
           const changeTitleInterval = () => {
             if (document.title === chatOriginalTitle) {
@@ -48,8 +47,6 @@ const useBrowserTabTitleChange: IUseBrowserTabTitleChange = (
           );
         }
       } else {
-        // Вкладка стала активной
-
         changeFaviconBrowserTab(faviconTab);
 
         if (changeTitleIntervalRef.current) {

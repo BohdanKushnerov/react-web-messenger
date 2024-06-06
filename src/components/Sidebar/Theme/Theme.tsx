@@ -11,7 +11,7 @@ const Theme: FC = () => {
   });
   const { t } = useTranslation('translation', { keyPrefix: 'NavBar' });
 
-  useTheme(); // хук следик за кликом на темы
+  useTheme();
 
   const handleChangeTheme = () => {
     setIsLightTheme(prev => !prev);

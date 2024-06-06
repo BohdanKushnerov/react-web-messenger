@@ -1,13 +1,14 @@
 import { FC, useRef, useState } from 'react';
 
 import RecordingStatusField from '../RecordingStatusField/RecordingStatusField';
+import ButtonCancelRecording from '@components/Buttons/ButtonCancelRecording/ButtonCancelRecording';
+import ButtonStopRecordingAndSendAudio from '@components/Buttons/ButtonStopRecordingAndSendAudio/ButtonStopRecordingAndSendAudio';
 import useChatStore from '@zustand/store';
-import handleSendAudio from '@utils/chatForm/handleSendAudio';
 import useStartRecording from '@hooks/useStartRecording';
 import useRecordingCleanup from '@hooks/useRecordingCleanup';
+import handleSendAudio from '@utils/chatForm/handleSendAudio';
 import cleanUpRecordingResources from '@utils/chatForm/cleanupRecordingResources';
 import { IRecordingAudioProps } from '@interfaces/IRecordingAudioProps';
-import sprite from '@assets/sprite.svg';
 
 const RecordingAudio: FC<IRecordingAudioProps> = ({
   isRecording,
@@ -38,6 +39,7 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
   );
 
   useRecordingCleanup(
+    audioChunks,
     animationIdRef,
     mediaRecorderRef,
     analyserRef,
@@ -100,36 +102,10 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
         canvasRef={canvasRef}
       />
 
-      {isRecording && (
-        <>
-          <button
-            className="flex justify-center items-center h-12 w-12 bg-transparent transition-all duration-300 hover:bg-zinc-100/20 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
-            type="button"
-            onClick={cancelRecording}
-          >
-            <svg
-              width={24}
-              height={24}
-              className="fill-zinc-200 dark:fill-zinc-400"
-            >
-              <use href={sprite + '#icon-delete-button'} />
-            </svg>
-          </button>
-          <button
-            className="flex justify-center items-center h-12 w-12 bg-transparent transition-all duration-300 hover:bg-zinc-100/20 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
-            type="button"
-            onClick={stopRecordingAndSendAudio}
-          >
-            <svg
-              width={24}
-              height={24}
-              className="fill-zinc-200 dark:fill-zinc-400"
-            >
-              <use href={sprite + '#icon-stop'} />
-            </svg>
-          </button>
-        </>
-      )}
+      <ButtonCancelRecording cancelRecording={cancelRecording} />
+      <ButtonStopRecordingAndSendAudio
+        stopRecordingAndSendAudio={stopRecordingAndSendAudio}
+      />
     </>
   );
 };

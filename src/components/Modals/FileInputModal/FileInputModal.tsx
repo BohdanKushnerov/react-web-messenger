@@ -32,7 +32,6 @@ const FileInputModal: FC<IFileInputModalProps> = ({
     if (fileDescription) {
       setFileDescription('');
     }
-    // сброс инпута на закрытие
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -70,16 +69,10 @@ const FileInputModal: FC<IFileInputModalProps> = ({
           <div
             ref={scrollbarsRef}
             className="w-full h-full overflow-scroll"
-            // style={{
-            //   overflow: 'scroll',
-            //   width: '100%',
-            //   height: '100%',
-            // }}
           >
             <ul className="flex flex-col gap-2">
               {fileInputRef.current?.files &&
                 Array.from(fileInputRef.current.files).map(file => {
-                  // console.log('file', file);
                   if (file.type.includes('image')) {
                     return (
                       <UploadPhotoFile

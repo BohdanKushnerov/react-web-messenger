@@ -13,11 +13,11 @@ const ChatHeaderOponentInfo: FC = () => {
 
   const userUID = useChatStore(state => state.currentChatInfo.userUID);
 
-  const isOpponentTyping = useShowTyping(); // тут слушатель на изменения печатает/не печатает
-  const currentChatInfo = useChatInfo(userUID); // обновляет инфо о текущем юзере при монтировании нового чата
-  const isOnline = useIsOnlineStatus(userUID); // следим за состоянием онлайн/офлайн
+  const isOpponentTyping = useShowTyping();
+  const currentChatInfo = useChatInfo(userUID);
+  const isOnline = useIsOnlineStatus(userUID);
 
-  // console.log('screen --> ChatHeaderOponentInfo');
+  console.log('screen --> ChatHeaderOponentInfo');
 
   return (
     <>
