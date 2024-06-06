@@ -19,7 +19,7 @@ const Sidebar: FC = memo(() => {
   console.log('screen --> Sidebar');
 
   return (
-    <div className="relative w-full h-full bg-gray-200 dark:bg-myBlackBcg sm:min-w-[400px] sm:w-1/4 border-r border-r-zinc-800">
+    <div className="relative w-full h-full bg-gray-200 dark:bg-myBlackBcg sm:min-w-[300px] md:min-w-[400px] sm:w-1/5 border-r border-r-zinc-800">
       <Transition
         nodeRef={nodeRefSidebarDefault}
         in={sidebarScreen === 'default'}

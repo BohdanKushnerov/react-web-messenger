@@ -53,7 +53,16 @@ const UserChatName: FC<IUserChatNameProps> = ({
         {userInfo?.displayName}
       </p>
       <p
-        className={`${
+        className={`w-full sm:w-[100px] md:hidden ${
+          currentChatUID === itemChatUID
+            ? 'text-white'
+            : 'text-zinc-600 dark:text-zinc-100'
+        }`}
+      >
+        {lastMsg && truncateLastMessageString(lastMsg, 10)}
+      </p>
+      <p
+        className={`hidden md:block ${
           currentChatUID === itemChatUID
             ? 'text-white'
             : 'text-zinc-600 dark:text-zinc-100'

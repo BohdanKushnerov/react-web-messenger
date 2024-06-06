@@ -36,7 +36,7 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   };
 
   return (
-    <div className="flex flex-row items-start gap-2 w-[300px] sm:w-[160px] md:min-w-[300px] md:max-w-md lg:min-w-[360px]">
+    <div className="flex flex-row items-start gap-2 w-[300px] sm:w-[200px] md:min-w-[220px] md:max-w-md lg:min-w-[360px]">
       <button onClick={onPlayPause} className="py-3">
         {isPlaying ? (
           <svg
@@ -63,7 +63,7 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
           ref={containerRef}
         />
 
-        <div className="flex justify-between w-full sm:flex-col md:flex-row">
+        <div className="flex justify-between w-full sm:flex-col lg:flex-row">
           <div className="flex gap-1">
             <p className="text-dark dark:text-white">{t('Time')}</p>
             {isPlaying && (
@@ -78,10 +78,10 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
             )}
           </div>
 
-          <div className="flex gap-1">
+          <div className="flex gap-1 flex-wrap">
             <p className="text-dark dark:text-white">{t('Volume')}</p>
             <input
-              className="w-24 sm:w-16 md:w-24 
+              className="w-24 sm:w-16 lg:w-24 
             appearance-none bg-transparent 
             [&::-webkit-slider-runnable-track]:rounded-full 
             [&::-webkit-slider-runnable-track]:bg-zinc-500
