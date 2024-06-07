@@ -15,9 +15,7 @@ const ChatHeaderOponentInfo: FC = () => {
 
   const isOpponentTyping = useShowTyping();
   const currentChatInfo = useChatInfo(userUID);
-  const isOnline = useIsOnlineStatus(userUID);
-
-  console.log('screen --> ChatHeaderOponentInfo');
+  const isOponentOnline = useIsOnlineStatus(userUID);
 
   return (
     <>
@@ -32,8 +30,8 @@ const ChatHeaderOponentInfo: FC = () => {
       {isOpponentTyping ? (
         <h2 className="text-black dark:text-white">{t('Typing')}...</h2>
       ) : (
-        <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
-          {isOnline ? t('Online') : t('Offline')}
+        <div className={`${isOponentOnline ? 'text-green-600' : 'text-red-700'}`}>
+          {isOponentOnline ? t('Online') : t('Offline')}
         </div>
       )}
     </>

@@ -40,8 +40,6 @@ const ChatForm: FC = () => {
   useEditingMessage(editingMessageInfo, setMessage);
   useClearMessagesOnChatChange(chatUID, setMessage);
 
-  console.log('screen --> ChatForm');
-
   useEffect(() => {
     inputRef.current?.focus();
   }, [chatUID]);

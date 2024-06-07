@@ -71,7 +71,7 @@ const ProfileSettings: FC = () => {
       {state => (
         <div
           ref={nodeRefProfileSettings}
-          className={`absolute top-0 left-0 w-full transform origin-top-left transition-transform 
+          className={`absolute top-0 left-0 w-full h-full transform origin-top-left transition-transform 
                   ${state === 'exited' ? 'hidden' : ''}
                   ${
                     state === 'entered'
@@ -109,17 +109,17 @@ const ProfileSettings: FC = () => {
                 </>
               )}
             </div>
-            <div className="flex gap-2 justify-center items-center text-white">
+            <div className="flex gap-1 justify-center items-center text-white">
               <p className="text-black dark:text-white">{t('Phone')}</p>
-              <p className="py-2 px-4 h-10 rounded-3xl bg-mySeacrhBcg text-white text-center cursor-default">
+              <p className="py-2 px-4 h-10 rounded-3xl text-black dark:text-white text-center cursor-default">
                 {auth?.currentUser?.phoneNumber}
               </p>
             </div>
             {typeof newDisplayName === 'string' && (
               <div className="flex flex-col gap-2 justify-center items-center text-white">
-                <div>
+                <div className="flex flex-col items-center justify-center">
                   <input
-                    className="py-2 px-8 h-10 w-full rounded-3xl bg-mySeacrhBcg text-white text-center outline-none border-2 border-transparent focus:border-solid focus:border-cyan-500"
+                    className="h-10 w-full sm:w-[260px] md:w-full py-2 px-8 rounded-3xl bg-mySeacrhBcg text-white text-center outline-none border-2 border-transparent focus:border-solid focus:border-cyan-500"
                     type="text"
                     value={newDisplayName}
                     onChange={handleChangeDisplayName}

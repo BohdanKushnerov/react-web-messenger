@@ -100,7 +100,6 @@ const handleSendAttachedFilesMessage = async (
         fileInputRef.current.files
       ).map(file => uploadFile(file, userUID, setUploadFilesStatus));
       const filesArr: IFile[] = await Promise.all(promiseArrayURLsOfFiles);
-      console.log('filesArr', filesArr);
 
       await createAndSaveAttachhedFilesMsgDoc(
         filesArr,

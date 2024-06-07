@@ -20,7 +20,6 @@ const MessageItem: FC<IMessageItemProps> = ({
   isNearBottom,
   isSelectedMessages,
 }) => {
-  // console.log('MessageItem');
   const [indexClickedPhoto, setIndexClickedPhoto] = useState(-1);
   const { t } = useTranslation('translation');
 
@@ -44,8 +43,6 @@ const MessageItem: FC<IMessageItemProps> = ({
   const info = urlParser.parse(textContentMsg);
 
   const isLink = isLinkMsg(textContentMsg);
-
-  // console.log('msg.data().file', msg.data().file);
 
   return (
     <div

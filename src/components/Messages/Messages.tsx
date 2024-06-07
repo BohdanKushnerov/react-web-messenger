@@ -80,8 +80,6 @@ const Messages: FC = () => {
     groupedMessages && selectedDocDataMessage
   );
 
-  // console.log('screen --> Messages');
-
   // reset
   useEffect(() => {
     isReadyToFetchFirstNewChatMsgs.current = true;
@@ -101,8 +99,6 @@ const Messages: FC = () => {
     setIsLoadedContent(false);
 
     async function fetchFirstMsg() {
-      // console.log('**1 fetchFirstMsg');
-
       const queryParams = query(
         collection(db, `chats/${chatUID}/messages`),
         orderBy('date', 'desc'),
@@ -158,7 +154,6 @@ const Messages: FC = () => {
   //  то мы будем не внизу а на 10 сообщении(не внизу)
   useEffect(() => {
     if (isLoadedContent) {
-      // console.log('==11111111111');
       quickScrollBottom();
     }
   }, [isLoadedContent]);
@@ -264,8 +259,6 @@ const Messages: FC = () => {
               const dateString = date.toISOString().split('T')[0];
 
               setGroupedMessages(prev => {
-                // console.log('modified prev', prev);
-
                 if (prev) {
                   const updatedMessages = { ...prev };
 
@@ -304,7 +297,6 @@ const Messages: FC = () => {
               const dateString = date.toISOString().split('T')[0];
 
               setGroupedMessages(prev => {
-                // console.log('removed prev', prev);
                 if (prev) {
                   const updatedMessages = { ...prev };
 
@@ -367,7 +359,6 @@ const Messages: FC = () => {
   }, [chatUID, resetSelectedMessages]);
 
   const handleScroll = useCallback(() => {
-    // console.log('==> handleScroll');
     const throttleTime = 100;
 
     if (handleScrollTimeout.current) {
@@ -383,8 +374,6 @@ const Messages: FC = () => {
       }
 
       isInfinityScrollLoading.current = true;
-
-      console.log('==> 222 loadMoreMessages');
 
       const queryParams = query(
         collection(db, `chats/${chatUID}/messages`),
@@ -557,8 +546,6 @@ const Messages: FC = () => {
   };
 
   const quickScrollBottom = () => {
-    // console.log('quickScrollBottom');
-
     if (bottomElementRef.current) {
       bottomElementRef.current.scrollIntoView({ block: 'end' });
     }

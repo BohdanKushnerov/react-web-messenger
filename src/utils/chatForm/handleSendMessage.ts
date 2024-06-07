@@ -6,10 +6,7 @@ const handleSendMessage = async (
   currentUserUID: string | null,
   userUID: string | null
 ): Promise<void> => {
-  if (!chatUID || !currentUserUID || !userUID) {
-    console.log('Invalid parameters');
-    return;
-  }
+  if (!chatUID || !currentUserUID || !userUID) return;
 
   try {
     await createAndSaveTextMsgDoc(chatUID, message, currentUserUID);
