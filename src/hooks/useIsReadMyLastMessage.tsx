@@ -3,18 +3,17 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import { ChatListItemType } from 'types/ChatListItemType';
 
-const useIsReadMyLastMessage = (chatInfo: ChatListItemType) => {
+const useIsReadMyLastMessage = (itemChatUID: string) => {
   const [isReadMyLastMessage, setIsReadMyLastMessage] = useState(true);
 
   const { uid } = useChatStore(state => state.currentUser);
 
   useEffect(() => {
-    if (!chatInfo[0] || !uid) return;
+    if (!itemChatUID || !uid) return;
 
     const queryParams = query(
-      collection(db, `chats/${chatInfo[0]}/messages`),
+      collection(db, `chats/${itemChatUID}/messages`),
       where('isRead', '==', false),
       where('senderUserID', '==', uid)
     );
@@ -30,7 +29,7 @@ const useIsReadMyLastMessage = (chatInfo: ChatListItemType) => {
     return () => {
       unSub();
     };
-  }, [chatInfo, uid]);
+  }, [itemChatUID, uid]);
 
   return isReadMyLastMessage;
 };

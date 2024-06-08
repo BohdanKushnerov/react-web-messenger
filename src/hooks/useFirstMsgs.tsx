@@ -1,14 +1,7 @@
 import { Dispatch, MutableRefObject, SetStateAction, useEffect } from 'react';
-import {
-  DocumentData,
-  collection,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-} from 'firebase/firestore';
+import { DocumentData } from 'firebase/firestore';
 
-import { db } from '@myfirebase/config';
+import getFirstMessages from '@api/firestore/getFirstMessages';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 import '@i18n';
 
@@ -24,16 +17,14 @@ const useGetFirstMsgs = (
       return;
     }
 
-    async function fetchFirstMsgs() {
-      const queryParams = query(
-        collection(db, `chats/${chatUID}/messages`),
-        orderBy('date', 'desc'),
-        limit(20)
-      );
+    const fetchFirstMsgs = async (chatUID: string | null) => {
+      if (!chatUID) return;
 
-      getDocs(queryParams).then(snapshot => {
+      try {
+        const snapshot = await getFirstMessages(chatUID);
+
         if (!snapshot.empty) {
-          const updatedMessages: DocumentData[] = snapshot.docs;
+          const updatedMessages = snapshot.docs;
           const lastVisible = updatedMessages[updatedMessages.length - 1];
 
           lastLoadedMsg.current = lastVisible;
@@ -49,7 +40,7 @@ const useGetFirstMsgs = (
             }
 
             return acc;
-          }, {});
+          }, {} as IGroupedMessages);
 
           const entries = Object.entries(groupedMsgs);
           entries.forEach(arr => arr[1].reverse());
@@ -64,14 +55,16 @@ const useGetFirstMsgs = (
 
           isReadyToFetchFirstNewChatMsgs.current = false;
         } else {
-          setGroupedMessages({} as IGroupedMessages);
+          setGroupedMessages({});
           lastLoadedMsg.current = null;
           setIsReadyFirstMsgs(true);
         }
-      });
-    }
+      } catch (error) {
+        console.error('fetchFirstMsgs error', error);
+      }
+    };
 
-    fetchFirstMsgs();
+    fetchFirstMsgs(chatUID);
   }, [
     chatUID,
     isReadyToFetchFirstNewChatMsgs,
@@ -79,8 +72,6 @@ const useGetFirstMsgs = (
     setGroupedMessages,
     setIsReadyFirstMsgs,
   ]);
-
-  return;
 };
 
 export default useGetFirstMsgs;

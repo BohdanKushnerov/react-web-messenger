@@ -1,10 +1,7 @@
 import { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import UserChatName from './UserChatName/UserChatName';
-import QuantityUnreadMsgs from './QuantityUnreadMsgs/QuantityUnreadMsgs';
-import ReadStatus from './ReadStatus/ReadStatus';
-import IsOnlineUser from './IsOnlineUser/IsOnlineUser';
+import UserChatInfo from './UserChatInfo/UserChatInfo';
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import useChatStore from '@zustand/store';
 import useChatInfo from '@hooks/useChatInfo';
@@ -48,17 +45,11 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
           size="50"
         />
 
-        <UserChatName
+        <UserChatInfo
           currentChatUID={chatUID}
-          itemChatUID={chatInfo[0]}
+          chatInfo={chatInfo}
           userInfo={userInfo}
         />
-
-        <QuantityUnreadMsgs chatInfo={chatInfo} />
-
-        <ReadStatus chatInfo={chatInfo} />
-
-        <IsOnlineUser chatInfo={chatInfo} />
       </Link>
     </li>
   );

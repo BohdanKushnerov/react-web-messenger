@@ -11,7 +11,7 @@ const handleSendMessage = async (
   try {
     await createAndSaveTextMsgDoc(chatUID, message, currentUserUID);
   } catch (error) {
-    console.log('error handleSendMessage', error);
+    console.log('handleSendMessage error', error);
   }
 };
 

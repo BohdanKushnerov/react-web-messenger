@@ -5,10 +5,10 @@ import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
 import { IIsOnlineUserProps } from '@interfaces/IIsOnlineUserProps';
 import '@i18n';
 
-const IsOnlineUser: FC<IIsOnlineUserProps> = ({ chatInfo }) => {
+const IsOnlineUser: FC<IIsOnlineUserProps> = ({ userUID }) => {
   const { t } = useTranslation();
 
-  const isOnline = useIsOnlineStatus(chatInfo[1].userUID);
+  const isOnline = useIsOnlineStatus(userUID);
 
   return (
     <div className={`${isOnline ? 'text-green-700' : 'text-red-700'}`}>

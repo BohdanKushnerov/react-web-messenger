@@ -88,7 +88,7 @@ const handleCreateAndNavigateToChat = async (
       navigate(combinedUsersChatID);
     }
   } catch (error) {
-    console.log('error handleCreateAndNavigateToChat', error);
+    console.log('handleCreateAndNavigateToChat error', error);
   }
 };
 

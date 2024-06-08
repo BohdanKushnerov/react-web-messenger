@@ -5,21 +5,21 @@ import { IUseUnreadMessages } from '@interfaces/hooks/IUseUnreadMessages';
 
 const useUnreadMessages: IUseUnreadMessages = (
   lengthOfMyUnreadMsgs,
-  chatInfo
+  chatUID
 ) => {
   const updateTotalUnreadMessages = useChatStore(
     state => state.updateTotalUnreadMessages
   );
 
   useEffect(() => {
-    if (chatInfo[0]) {
+    if (chatUID) {
       if (lengthOfMyUnreadMsgs) {
-        updateTotalUnreadMessages({ [chatInfo[0]]: lengthOfMyUnreadMsgs });
+        updateTotalUnreadMessages({ [chatUID]: lengthOfMyUnreadMsgs });
       } else {
-        updateTotalUnreadMessages({ [chatInfo[0]]: 0 });
+        updateTotalUnreadMessages({ [chatUID]: 0 });
       }
     }
-  }, [chatInfo, lengthOfMyUnreadMsgs, updateTotalUnreadMessages]);
+  }, [chatUID, lengthOfMyUnreadMsgs, updateTotalUnreadMessages]);
 };
 
 export default useUnreadMessages;

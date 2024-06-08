@@ -74,15 +74,11 @@ const Messages: FC = () => {
     state => state.resetSelectedMessages
   );
 
-  const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(
-    [chatUID, { lastMessage: '', senderUserID: '', userUID: '' }],
-    true
-  );
-
   const deferredIsShowMenuModal = useDeferredValue(
     groupedMessages && selectedDocDataMessage
   );
 
+  const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(chatUID, true);
   useResetMsgsStates(
     chatUID,
     isReadyToFetchFirstNewChatMsgs,

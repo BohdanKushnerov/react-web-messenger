@@ -4,9 +4,9 @@ import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
 import useUnreadMessagesInChatListItem from '@hooks/useUnreadMessages';
 import { IQuantityUnreadMsgsProps } from '@interfaces/IQuantityUnreadMsgsProps';
 
-const QuantityUnreadMsgs: FC<IQuantityUnreadMsgsProps> = ({ chatInfo }) => {
-  const lengthOfMyUnreadMsgs = useLengthOfMyUnreadMsgs(chatInfo);
-  useUnreadMessagesInChatListItem(lengthOfMyUnreadMsgs, chatInfo);
+const QuantityUnreadMsgs: FC<IQuantityUnreadMsgsProps> = ({ chatUID }) => {
+  const lengthOfMyUnreadMsgs = useLengthOfMyUnreadMsgs(chatUID);
+  useUnreadMessagesInChatListItem(lengthOfMyUnreadMsgs, chatUID);
 
   return (
     <>

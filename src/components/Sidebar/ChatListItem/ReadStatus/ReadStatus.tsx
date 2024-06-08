@@ -5,21 +5,22 @@ import useIsReadMyLastMessage from '@hooks/useIsReadMyLastMessage';
 import { IReadStatusProps } from '@interfaces/IReadStatusProps';
 import sprite from '@assets/sprite.svg';
 
-const ReadStatus: FC<IReadStatusProps> = ({ chatInfo }) => {
+const ReadStatus: FC<IReadStatusProps> = ({ senderUserID, itemChatUID }) => {
   const { chatUID } = useChatStore(state => state.currentChatInfo);
   const { uid } = useChatStore(state => state.currentUser);
 
-  const isReadMyLastMessage = useIsReadMyLastMessage(chatInfo);
+  const isReadMyLastMessage = useIsReadMyLastMessage(itemChatUID);
+
 
   return (
     <>
-      {chatInfo[1].senderUserID === uid &&
+      {senderUserID === uid &&
         (isReadMyLastMessage ? (
           <svg
             width={48}
             height={48}
             className={`${
-              chatUID === chatInfo[0]
+              chatUID === itemChatUID
                 ? 'fill-white'
                 : 'fill-zinc-800 dark:fill-white'
             }`}
@@ -34,7 +35,7 @@ const ReadStatus: FC<IReadStatusProps> = ({ chatInfo }) => {
             width={48}
             height={48}
             className={`${
-              chatUID === chatInfo[0]
+              chatUID === itemChatUID
                 ? 'fill-white'
                 : 'fill-zinc-800 dark:fill-white'
             } drop-shadow-2xl`}
