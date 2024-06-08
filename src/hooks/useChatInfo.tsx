@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
@@ -8,7 +8,6 @@ const useChatInfo = (userUID: string | null) => {
     null
   );
 
-  // обновляет инфо о текущем юзере при монтировании нового чата
   useEffect(() => {
     if (!userUID) return;
     const unsubCurrentChatData = onSnapshot(doc(db, 'users', userUID), doc => {

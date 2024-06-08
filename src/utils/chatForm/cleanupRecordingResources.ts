@@ -5,17 +5,14 @@ const cleanUpRecordingResources = (
   analyserRef: MutableRefObject<AnalyserNode | null>,
   setAudioChunks: Dispatch<SetStateAction<Blob[]>>
 ) => {
-  console.log('================================== cleanUpRecordingResources');
-  if (mediaRecorderRef.current) {
-    const tracks = mediaRecorderRef.current.stream.getTracks();
-    tracks?.forEach(track => track.stop());
-    setAudioChunks([]);
-    mediaRecorderRef.current = null;
-  }
+  const tracks = mediaRecorderRef?.current?.stream.getTracks();
+  tracks?.forEach(track => track.stop());
+  setAudioChunks([]);
+  mediaRecorderRef.current = null;
 
   if (analyserRef.current) {
     analyserRef.current.disconnect();
-    analyserRef.current = null
+    analyserRef.current = null;
   }
 };
 

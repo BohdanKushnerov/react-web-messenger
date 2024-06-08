@@ -2,15 +2,15 @@ import { useEffect } from 'react';
 
 const useTheme = () => {
   useEffect(() => {
-    function setDarkTheme() {
+    const setDarkTheme = () => {
       document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
-    }
+    };
 
-    function setLightTheme() {
+    const setLightTheme = () => {
       document.documentElement.classList.remove('dark');
       localStorage.setItem('theme', 'light');
-    }
+    };
 
     const lightThemeEl = document.querySelector('#light-theme-switcher')!;
     const darkThemeEl = document.querySelector('#dark-theme-switcher')!;

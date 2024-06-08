@@ -1,13 +1,12 @@
 import { FC, lazy, Suspense, useDeferredValue, useState } from 'react';
 
-// import EmojiPickerWindow from '../EmojiPickerWindow/EmojiPickerWindow';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 const EmojiPickerWindow = lazy(
   () => import('../EmojiPickerWindow/EmojiPickerWindow')
 );
 import useChatStore from '@zustand/store';
 import useCloseModal from '@hooks/useCloseModal';
 import sprite from '@assets/sprite.svg';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 const Emoji: FC = () => {
   const [isShowEmoji, setIsShowEmoji] = useState(false);
@@ -52,7 +51,7 @@ const Emoji: FC = () => {
             </div>
           }
         >
-          <EmojiPickerWindow isShowEmoji={deferredIsShowEmoji} />
+          <EmojiPickerWindow />
         </Suspense>
       )}
 
@@ -70,33 +69,3 @@ const Emoji: FC = () => {
 };
 
 export default Emoji;
-
-{
-  /* <Transition
-        nodeRef={nodeRefEmoji}
-        in={isShowEmoji}
-        timeout={100}
-        unmountOnExit
-      >
-        {state => (
-          <div
-            ref={nodeRefEmoji}
-            className={`absolute bottom-12 left-0
-            transform origin-bottom-left transition-transform 
-            ${state === 'exited' ? 'hidden' : ''} 
-                ${
-                  state === 'entered'
-                    ? 'scale-100 opacity-100'
-                    : 'translate-x-4 translate-y-10 scale-0 opacity-50'
-                }`}
-          >
-            <EmojiPicker
-              height={400}
-              onEmojiClick={handleSelectEmoji}
-              searchDisabled
-              previewConfig={{ showPreview: false }}
-            />
-          </div>
-        )}
-      </Transition> */
-}

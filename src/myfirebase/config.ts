@@ -2,7 +2,6 @@ import { initializeApp } from 'firebase/app';
 import {
   browserLocalPersistence,
   getAuth,
-  onAuthStateChanged,
   setPersistence,
 } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
@@ -38,16 +37,5 @@ const database = getDatabase(app);
 const storage = getStorage(app, `gs://${VITE_STORAGE_BUCKET}`);
 
 setPersistence(auth, browserLocalPersistence);
-
-onAuthStateChanged(auth, user => {
-  if (user) {
-    // Пользователь уже вошел в систему. Вы можете использовать 'auth' объект.
-    // console.log('Пользователь вошел в систему:', user);
-    // console.log('auth', auth);
-  } else {
-    // Пользователь не вошел в систему.
-    console.log('Пользователь не вошел в систему.');
-  }
-});
 
 export { auth, db, database, storage };

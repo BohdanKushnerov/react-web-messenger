@@ -12,8 +12,6 @@ const deleteFilesAndDocsFromStoreAndStorage = async (
   const deletionPromises = selectedDocDataMessage.map(async msg => {
     const arrayURLsOfFiles = msg.data()?.file;
 
-    console.log('=========arrayURLsOfFiles=========', arrayURLsOfFiles);
-
     if (arrayURLsOfFiles) {
       const fileDeletionPromises = arrayURLsOfFiles.map((file: IFile) => {
         const fileRef = ref(storage, file.url);

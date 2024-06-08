@@ -21,8 +21,6 @@ const MessageList: FC<IMessageListProps> = memo(
   }) => {
     const { t } = useTranslation();
 
-    console.log('screen --> MessageList');
-
     return (
       <div
         ref={msgListRef}

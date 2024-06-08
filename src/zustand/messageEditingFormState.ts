@@ -8,10 +8,7 @@ const createMessageEditingFormState: StateCreator<
   IMessageEditingState
 > = set => ({
   editingMessageInfo: null,
-  updateEditingMessage: (messageInfo: {
-    selectedMessage: DocumentData;
-    isLastMessage: boolean;
-  }) => {
+  updateEditingMessage: (messageInfo: { selectedMessage: DocumentData }) => {
     set(
       produce(state => {
         state.editingMessageInfo = messageInfo;

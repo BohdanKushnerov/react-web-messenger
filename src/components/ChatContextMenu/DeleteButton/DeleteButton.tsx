@@ -3,12 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 import useChatStore from '@zustand/store';
 import handleDeleteMessage from '@utils/messages/handleDeleteMessage';
+import { IDeleteButtonProps } from '@interfaces/IDeleteButtonProps';
 import sprite from '@assets/sprite.svg';
-
-interface IDeleteButtonProps {
-  textContent?: boolean;
-  color: string;
-}
 
 const DeleteButton: FC<IDeleteButtonProps> = ({
   textContent = true,

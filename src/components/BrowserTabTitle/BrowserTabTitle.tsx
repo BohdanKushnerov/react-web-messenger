@@ -9,8 +9,8 @@ const BrowserTabTitle: FC<IBrowserTabTitleProps> = ({ docHidden }) => {
   const totalUnreadMessages = useChatStore(state => state.totalUnreadMessages);
 
   const countChatUnreadMessages =
-    useCountChatUnreadMessages(totalUnreadMessages); // дает количество непрочитаных сообщений вцелом
-  useBrowserTabTitleVisibilityChange(countChatUnreadMessages, docHidden); // смена тайтла вкладки когда вкладка неактивная и есть непрочитанные сообщения
+    useCountChatUnreadMessages(totalUnreadMessages);
+  useBrowserTabTitleVisibilityChange(countChatUnreadMessages, docHidden);
 
   return null;
 };

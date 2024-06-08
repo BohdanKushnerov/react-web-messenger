@@ -1,5 +1,6 @@
 import { FC, useCallback, useState } from 'react';
 import urlParser from 'js-video-url-parser';
+import { useTranslation } from 'react-i18next';
 
 import MessageImagesWithLightBox from '../MessageImagesWithLightBox/MessageImagesWithLightBox';
 import MessageFiles from '../MessageFiles/MessageFiles';
@@ -19,12 +20,12 @@ const MessageItem: FC<IMessageItemProps> = ({
   isNearBottom,
   isSelectedMessages,
 }) => {
-  // console.log('MessageItem');
   const [indexClickedPhoto, setIndexClickedPhoto] = useState(-1);
+  const { t } = useTranslation('translation');
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 
-  useMakeReadMsg(msg, isNearBottom); // делает при монтировании чата прочитаные мои сообщения
+  useMakeReadMsg(msg, isNearBottom);
 
   const handleClickPhoto = useCallback(
     (index: number) => {
@@ -42,8 +43,6 @@ const MessageItem: FC<IMessageItemProps> = ({
   const info = urlParser.parse(textContentMsg);
 
   const isLink = isLinkMsg(textContentMsg);
-
-  // console.log('msg.data().file', msg.data().file);
 
   return (
     <div
@@ -115,6 +114,9 @@ const MessageItem: FC<IMessageItemProps> = ({
           {/* reactions */}
           {/* <p>{msg.data().reactions}</p> */}
           <ReactionsDisplay reactions={msg.data().reactions} />
+
+          {/* {isEdited} */}
+          {msg.data().isEdited && <p>{t('Edited')}</p>}
 
           {/* date /// read/unread */}
           <div className="flex items-center gap-2">

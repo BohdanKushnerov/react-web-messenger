@@ -2,15 +2,14 @@ import { DocumentData } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { TFunction } from 'i18next';
 
-import updateEditedUserChatLastMessage from '@api/firestore/updateEditedUserChatLastMessage';
 import updateEditedMessageTextContent from '@api/firestore/updateEditedMessageTextContent';
+import updateEditedStatusMsgDoc from '@api/firestore/updateEditedStatusMsgDoc';
 import makeCursorOnProgress from '@utils/makeCursorOnProgress';
 import resetCursorOnDefault from '@utils/resetCursorOnDefault';
 
 const handleUpdateEditMessage = async (
   editingMessageInfo: {
     selectedMessage: DocumentData;
-    isLastMessage: boolean;
   } | null,
   chatUID: string | null,
   newMessage: string,
@@ -25,27 +24,12 @@ const handleUpdateEditMessage = async (
   try {
     makeCursorOnProgress();
 
-    const { selectedMessage, isLastMessage } = editingMessageInfo;
+    const { selectedMessage } = editingMessageInfo;
 
-    await updateEditedMessageTextContent(
-      chatUID,
-      selectedMessage.id,
-      newMessage
-    );
-
-    if (isLastMessage) {
-      const hasFiles = Boolean(selectedMessage.data().file);
-      const fileMessage = hasFiles
-        ? `${String.fromCodePoint(128206)} ${
-            selectedMessage.data().file.length
-          } file(s) ${newMessage}`
-        : newMessage;
-
-      await Promise.all([
-        updateEditedUserChatLastMessage(chatUID, currentUserUID, fileMessage),
-        updateEditedUserChatLastMessage(chatUID, userUID, fileMessage),
-      ]);
-    }
+    await Promise.all([
+      updateEditedMessageTextContent(chatUID, selectedMessage.id, newMessage),
+      updateEditedStatusMsgDoc(chatUID, selectedMessage),
+    ]);
 
     toast.success(t('Toasts.EditingMessageSuccess'));
   } catch (error) {

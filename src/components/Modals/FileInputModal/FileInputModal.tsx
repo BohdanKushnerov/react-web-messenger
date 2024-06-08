@@ -1,23 +1,13 @@
 import { FC, useRef, useState } from 'react';
-import {
-  Timestamp,
-  addDoc,
-  collection,
-  doc,
-  serverTimestamp,
-  updateDoc,
-} from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { DefaultExtensionType } from 'react-file-icon';
-import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
 import UploadPhotoFile from '@components/ChatForm/UploadPhotoFile/UploadPhotoFile';
 import UploadDocumentFile from '@components/ChatForm/UploadDocumentFile/UploadDocumentFile';
-import { db, storage } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import handleSendAttachedFilesMessage from '@utils/chatForm/handleSendAttachedFilesMessage';
 import { IFileInputModalProps } from '@interfaces/IFileInputModalProps';
 import { FilesUploadStatuses } from 'types/FilesUploadStatuses';
 import '@i18n';
@@ -42,7 +32,6 @@ const FileInputModal: FC<IFileInputModalProps> = ({
     if (fileDescription) {
       setFileDescription('');
     }
-    // сброс инпута на закрытие
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -51,116 +40,15 @@ const FileInputModal: FC<IFileInputModalProps> = ({
   const handleManageSendFile = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (fileInputRef.current?.files && currentUserUID) {
-      try {
-        const promiseArrayURLsOfFiles = Array.from(
-          fileInputRef.current.files
-        ).map(async file => {
-          //=========================================================
-          const metadata = {
-            contentType: file.type,
-          };
-
-          const storageRef = ref(
-            storage,
-            `${file.type}/${userUID}/${uuidv4()}-${file.name}`
-          );
-
-          const fileBlob = new Blob([file]);
-
-          const uploadTask = uploadBytesResumable(
-            storageRef,
-            fileBlob,
-            metadata
-          );
-
-          return new Promise((resolve, reject) => {
-            uploadTask.on(
-              'state_changed',
-              snapshot => {
-                const progress =
-                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
-                setUploadFilesStatus(prev => ({
-                  ...prev,
-                  [file.name]: progress,
-                }));
-              },
-              error => {
-                console.log('error', error);
-              },
-              async () => {
-                try {
-                  const downloadURL = await getDownloadURL(
-                    uploadTask.snapshot.ref
-                  );
-
-                  if (file.type.includes('image')) {
-                    const image = new Image();
-                    image.src = URL.createObjectURL(fileBlob);
-
-                    image.onload = () => {
-                      const width = image.width;
-                      const height = image.height;
-
-                      resolve({
-                        type: file.type,
-                        name: file.name,
-                        url: downloadURL,
-                        width,
-                        height,
-                      });
-                    };
-                  } else {
-                    resolve({
-                      type: file.type,
-                      name: file.name,
-                      url: downloadURL,
-                    });
-                  }
-                } catch (error) {
-                  reject(error);
-                }
-              }
-            );
-          });
-        });
-
-        const filesArr = await Promise.all(promiseArrayURLsOfFiles);
-
-        // надо создать сообщение с полем файл и отправить на сохранение
-        await addDoc(collection(db, `chats/${chatUID}/messages`), {
-          file: filesArr,
-          message: fileDescription ? fileDescription : '',
-          senderUserID: currentUserUID,
-          date: Timestamp.now(),
-          isRead: false,
-          isShowNotification: true,
-        });
-
-        if (currentUserUID && userUID) {
-          await updateDoc(doc(db, 'userChats', currentUserUID), {
-            [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
-              filesArr.length
-            } file(s) ${fileDescription}`,
-            [chatUID + '.senderUserID']: currentUserUID,
-            [chatUID + '.date']: serverTimestamp(),
-          });
-          // =====================================================
-          await updateDoc(doc(db, 'userChats', userUID), {
-            [chatUID + '.lastMessage']: `${String.fromCodePoint(128206)} ${
-              filesArr.length
-            } file(s) ${fileDescription}`,
-            [chatUID + '.senderUserID']: currentUserUID,
-            [chatUID + '.date']: serverTimestamp(),
-          });
-        }
-      } catch (error) {
-        console.error('error handleManageSendFile', error);
-      }
-      setUploadFilesStatus({});
-      handleCloseAddFileModal();
-    }
+    await handleSendAttachedFilesMessage(
+      fileInputRef,
+      currentUserUID,
+      userUID,
+      chatUID,
+      setUploadFilesStatus,
+      fileDescription,
+      handleCloseAddFileModal
+    );
   };
 
   const handleChangeFileDescription = (
@@ -181,16 +69,10 @@ const FileInputModal: FC<IFileInputModalProps> = ({
           <div
             ref={scrollbarsRef}
             className="w-full h-full overflow-scroll"
-            // style={{
-            //   overflow: 'scroll',
-            //   width: '100%',
-            //   height: '100%',
-            // }}
           >
             <ul className="flex flex-col gap-2">
               {fileInputRef.current?.files &&
                 Array.from(fileInputRef.current.files).map(file => {
-                  // console.log('file', file);
                   if (file.type.includes('image')) {
                     return (
                       <UploadPhotoFile

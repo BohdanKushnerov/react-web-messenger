@@ -13,11 +13,9 @@ const ChatHeaderOponentInfo: FC = () => {
 
   const userUID = useChatStore(state => state.currentChatInfo.userUID);
 
-  const isOpponentTyping = useShowTyping(); // тут слушатель на изменения печатает/не печатает
-  const currentChatInfo = useChatInfo(userUID); // обновляет инфо о текущем юзере при монтировании нового чата
-  const isOnline = useIsOnlineStatus(userUID); // следим за состоянием онлайн/офлайн
-
-  // console.log('screen --> ChatHeaderOponentInfo');
+  const isOpponentTyping = useShowTyping();
+  const currentChatInfo = useChatInfo(userUID);
+  const isOponentOnline = useIsOnlineStatus(userUID);
 
   return (
     <>
@@ -32,8 +30,8 @@ const ChatHeaderOponentInfo: FC = () => {
       {isOpponentTyping ? (
         <h2 className="text-black dark:text-white">{t('Typing')}...</h2>
       ) : (
-        <div className={`${isOnline ? 'text-green-600' : 'text-red-700'}`}>
-          {isOnline ? t('Online') : t('Offline')}
+        <div className={`${isOponentOnline ? 'text-green-600' : 'text-red-700'}`}>
+          {isOponentOnline ? t('Online') : t('Offline')}
         </div>
       )}
     </>

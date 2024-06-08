@@ -2,10 +2,7 @@ import { FC } from 'react';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import useChatInfo from '@hooks/useChatInfo';
-
-interface IReactionsUserProps {
-  userUID: string;
-}
+import { IReactionsUserProps } from '@interfaces/IReactionsUserProps';
 
 const ReactionsUser: FC<IReactionsUserProps> = ({ userUID }) => {
   const currentChatInfo = useChatInfo(userUID);

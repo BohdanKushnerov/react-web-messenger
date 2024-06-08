@@ -3,15 +3,14 @@ import EmojiPicker, { EmojiClickData, EmojiStyle } from 'emoji-picker-react';
 import { Transition } from 'react-transition-group';
 
 import useChatStore from '@zustand/store';
+import useStartTransition from '@hooks/useStartTransition';
 
-interface IEmojiPickerWindowProps {
-  isShowEmoji: boolean;
-}
-
-const EmojiPickerWindow: FC<IEmojiPickerWindowProps> = ({ isShowEmoji }) => {
+const EmojiPickerWindow: FC = () => {
   const nodeRefEmoji = useRef(null);
 
   const setMessage = useChatStore(state => state.setMessage);
+
+  const startTransition = useStartTransition();
 
   const handleSelectEmoji = (emojiData: EmojiClickData) => {
     setMessage(prevState => prevState + emojiData.emoji);
@@ -20,8 +19,8 @@ const EmojiPickerWindow: FC<IEmojiPickerWindowProps> = ({ isShowEmoji }) => {
   return (
     <Transition
       nodeRef={nodeRefEmoji}
-      in={isShowEmoji}
-      timeout={100}
+      in={startTransition}
+      timeout={300}
       unmountOnExit
     >
       {state => (

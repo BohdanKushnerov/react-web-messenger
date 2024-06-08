@@ -39,6 +39,7 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
         <button
           className="flex justify-center items-center h-9 w-10 bg-transparent transition-all duration-300 hover:bg-zinc-400 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
           onClick={handleClickCloseSearchMessage}
+          aria-label="Close"
         >
           <svg
             className="fill-zinc-600 dark:fill-zinc-400"
@@ -60,41 +61,34 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
           {searchMessages.length === 0 && (
             <p className="text-zinc-600 dark:text-white">{t('NotFoundMsg')}</p>
           )}
-          {searchMessages.map(msg => {
-            console.log(msg.data().senderUserID);
-            return (
-              <li
-                key={msg.id}
-                className="flex gap-2 justify-start items-center"
-                // onClick={handleClickSearchMessage}
-              >
-                <div>
-                  <AvatarProfile
-                    photoURL={
-                      msg.data().senderUserID === userUID
-                        ? currentChatInfo?.photoURL
-                        : photoURL
-                    }
-                    displayName={
-                      msg.data().senderUserID === userUID
-                        ? currentChatInfo?.displayName
-                        : displayName
-                    }
-                    size="50"
-                  />
-                </div>
-                <div>
-                  <p className="max-w-xs break-all text-zinc-600 dark:text-zinc-300">
-                    {msg.data().message}
-                  </p>
-                  <p className="text-zinc-600 dark:text-white">
-                    {msg.data().date &&
-                      formatTimeSearchMsg(msg.data().date.toDate().toString())}
-                  </p>
-                </div>
-              </li>
-            );
-          })}
+          {searchMessages.map(msg => (
+            <li key={msg.id} className="flex gap-2 justify-start items-center">
+              <div>
+                <AvatarProfile
+                  photoURL={
+                    msg.data().senderUserID === userUID
+                      ? currentChatInfo?.photoURL
+                      : photoURL
+                  }
+                  displayName={
+                    msg.data().senderUserID === userUID
+                      ? currentChatInfo?.displayName
+                      : displayName
+                  }
+                  size="50"
+                />
+              </div>
+              <div>
+                <p className="max-w-xs break-all text-zinc-600 dark:text-zinc-300">
+                  {msg.data().message}
+                </p>
+                <p className="text-zinc-600 dark:text-white">
+                  {msg.data().date &&
+                    formatTimeSearchMsg(msg.data().date.toDate().toString())}
+                </p>
+              </div>
+            </li>
+          ))}
         </ul>
       )}
     </div>

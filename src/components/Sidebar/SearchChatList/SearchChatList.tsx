@@ -13,20 +13,19 @@ const SearchChatList: FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation('translation', { keyPrefix: 'Sidebar' });
 
-  const updateSearchValue = useChatStore(state => state.updateSearchValue);
   const currentUser = useChatStore(state => state.currentUser);
+  const updateSearchValue = useChatStore(state => state.updateSearchValue);
   const updateCurrentChatInfo = useChatStore(
     state => state.updateCurrentChatInfo
   );
 
-  const { searchChatList, setSearchChatList, isLoading } = useSearchUsers(); // поиск контактов(юзеров) в поисковой строке
-
-  // console.log('screen --> SearchChatList');
+  const { isLoading, searchChatList, handleResetSearchChatList } =
+    useSearchUsers();
 
   const handleManageCreateChat = (docData: DocumentData) => {
     handleCreateAndNavigateToChat(docData, updateCurrentChatInfo, navigate);
 
-    setSearchChatList(null);
+    handleResetSearchChatList();
     updateSearchValue('');
   };
 
@@ -35,7 +34,6 @@ const SearchChatList: FC = () => {
       {isLoading && <LoaderUIActions size={50} />}
       {!isLoading && searchChatList && searchChatList.size > 0 ? (
         <ul>
-          {/* тут список юзеров в поиске */}
           {searchChatList.docs.map(doc => {
             // фильтруем себя
             if (doc.data().uid === currentUser.uid) return null;

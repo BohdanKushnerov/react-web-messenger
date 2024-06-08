@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 import { ConfirmationResult, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-// import { E164Number } from 'libphonenumber-js';
 import { toast } from 'react-toastify';
 
 import MyPhoneInput from '@components/Inputs/MyPhoneInput/MyPhoneInput';
@@ -87,17 +86,14 @@ const Auth: FC = () => {
           displayName: `${name} ${surname}`,
         });
 
-        // =================обновим юзеру имя в стейте============================
         await updateCurrentUser(user);
 
-        // =================создаем юзера для поиска пользователей=======================
         await setDoc(doc(db, 'users', user.uid), {
           displayName: user.displayName,
           uid: user.uid,
           photoURL: null,
         });
 
-        // =================создаем обьект чаты нашего юзера которого мы только создали=======================
         await setDoc(doc(db, 'userChats', user.uid), {});
       }
     } catch (error) {

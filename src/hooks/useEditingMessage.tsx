@@ -6,7 +6,6 @@ const useEditingMessage: IUseEditingMessage = (
   editingMessageInfo,
   setMessage
 ) => {
-  // юзеффект изменения месседжа
   useEffect(() => {
     if (editingMessageInfo) {
       const msg = editingMessageInfo.selectedMessage.data().message;

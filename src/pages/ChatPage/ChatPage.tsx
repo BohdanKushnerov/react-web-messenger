@@ -11,11 +11,9 @@ const SearchMessages = lazy(
 const ChatPage: FC = () => {
   const [isShowSearchMessages, setIsShowSearchMessages] = useState(false);
 
-  // console.log('screen --> Chat');
-
   return (
     <>
-      <div className="relative h-full w-screen xl:flex xl:flex-col xl:items-center bg-transparent overflow-hidden">
+      <div className="relative h-full w-full xl:flex xl:flex-col xl:items-center bg-transparent overflow-hidden">
         <ChatHeader setIsShowSearchMessages={setIsShowSearchMessages} />
 
         <Messages />

@@ -85,6 +85,7 @@ const resources = {
       Typing: 'typing',
       Time: 'Time',
       Volume: 'Volume',
+      Edited: 'edited',
     },
   },
   ua: {
@@ -170,6 +171,7 @@ const resources = {
       Typing: 'друкує',
       Time: 'Час',
       Volume: 'Гучність',
+      Edited: 'змінено',
     },
   },
   ru: {
@@ -255,6 +257,7 @@ const resources = {
       Typing: 'печатает',
       Time: 'Время',
       Volume: 'Громкость',
+      Edited: 'изменено',
     },
   },
 };

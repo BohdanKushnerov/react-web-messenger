@@ -3,12 +3,29 @@ import { useEffect } from 'react';
 const useRequestPermission = () => {
   useEffect(() => {
     const requestPermission = async () => {
-      // console.log('Requesting permission...');
       try {
-        const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-          // console.log('Notification permission granted.');
+        if (!('Notification' in window)) {
+          console.log('This browser does not support notifications.');
+          return;
         }
+
+        if (Notification.permission === 'granted') {
+          return;
+        }
+
+        const handleUserGesture = async () => {
+          try {
+            await Notification.requestPermission();
+          } catch (error) {
+            console.error('Failed to request notification permission:', error);
+          }
+        };
+
+        document.addEventListener('click', handleUserGesture);
+
+        return () => {
+          document.removeEventListener('click', handleUserGesture);
+        };
       } catch (error) {
         console.error('Failed to request notification permission:', error);
       }

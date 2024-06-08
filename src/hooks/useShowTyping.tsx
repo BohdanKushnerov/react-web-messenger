@@ -10,7 +10,6 @@ const useShowTyping = () => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
   
-  // тут слушатель на изменения печатает/не печатает
   useEffect(() => {
     if (!chatUID || !userUID) {
       return;
@@ -24,8 +23,7 @@ const useShowTyping = () => {
         if (docSnapshot.exists()) {
           const chatData = docSnapshot.data();
 
-          // тут проверка, потому что когда создал чат ты первый то у тебя еще нету его обьекта,
-          // он появиться когда он начнет перчатать
+          
           if (
             chatData[userUID]?.isTyping === false ||
             chatData[userUID]?.isTyping === true

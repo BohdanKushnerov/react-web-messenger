@@ -11,17 +11,12 @@ import {
 
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
-import { ChatListItemType } from 'types/ChatListItemType';
 
-const useLengthOfMyUnreadMsgs = (
-  chatInfo: ChatListItemType,
-  isNotify = true
-) => {
+const useLengthOfMyUnreadMsgs = (chatUID: string | null, isNotify = true) => {
   const [lengthOfMyUnreadMsgs, setLengthOfMyUnreadMsgs] = useState<number>(0);
   const processedMessages = useRef<string[]>([]);
 
   const { uid } = useChatStore(state => state.currentUser);
-  const chatID = chatInfo[0];
 
   useEffect(() => {
     if (lengthOfMyUnreadMsgs === 0) {
@@ -36,22 +31,23 @@ const useLengthOfMyUnreadMsgs = (
   }, [lengthOfMyUnreadMsgs]);
 
   useEffect(() => {
+    if (!chatUID) return;
+    
     const queryParams = query(
-      collection(db, `chats/${chatID}/messages`),
-      orderBy('senderUserID'), // Add orderBy for senderUserID
+      collection(db, `chats/${chatUID}/messages`),
+      orderBy('senderUserID'),
       orderBy('date', 'asc'),
       where('isRead', '==', false),
       where('senderUserID', '!=', uid)
     );
-    // ваш код здесь
     const unsubMyUnreadMsgs = onSnapshot(queryParams, querySnapshot => {
       if (querySnapshot.docs) {
         setLengthOfMyUnreadMsgs(querySnapshot.docs.length);
 
         isNotify &&
           querySnapshot.docs.forEach(msg => {
-            if (msg.data().isShowNotification && chatID) {
-              updateDoc(doc(db, 'chats', chatID, 'messages', `${msg.id}`), {
+            if (msg.data().isShowNotification && chatUID) {
+              updateDoc(doc(db, 'chats', chatUID, 'messages', `${msg.id}`), {
                 ['isShowNotification']: false,
               }).then(() => {
                 if (processedMessages.current.includes(msg.id)) {
@@ -68,7 +64,6 @@ const useLengthOfMyUnreadMsgs = (
                   'notify'
                 ) as HTMLAudioElement;
 
-                // Воспроизводим звук
                 if (audio) {
                   audio.play();
                 }
@@ -82,7 +77,7 @@ const useLengthOfMyUnreadMsgs = (
     return () => {
       unsubMyUnreadMsgs();
     };
-  }, [chatID, isNotify, uid]);
+  }, [chatUID, isNotify, uid]);
 
   return lengthOfMyUnreadMsgs;
 };

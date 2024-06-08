@@ -11,22 +11,18 @@ const useTyping: IUseTyping = message => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
 
-  // запуск таймаута при печатании
   useEffect(() => {
     if (chatUID && currentUserUID && message) {
       if (myTypingTimeoutRef.current === null) {
-        // console.log('START TYPING');
         updateTypingIsTrue(chatUID, currentUserUID);
       }
 
       const newTypingTimeout = setTimeout(() => {
-        // console.log('new');
         updateTypingIsFalse(chatUID, currentUserUID);
         myTypingTimeoutRef.current = null;
       }, 3000);
 
       if (myTypingTimeoutRef.current) {
-        // console.log('clear', myTypingTimeoutRef.current);
         clearTimeout(myTypingTimeoutRef.current);
       }
 
@@ -34,11 +30,9 @@ const useTyping: IUseTyping = message => {
     }
   }, [chatUID, currentUserUID, message, myTypingTimeoutRef, userUID]);
 
-  // очистка таймаута при смене чата
   useEffect(() => {
     return () => {
       if (myTypingTimeoutRef.current) {
-        // console.log('cleanup', myTypingTimeoutRef.current);
         clearTimeout(myTypingTimeoutRef.current);
         myTypingTimeoutRef.current = null;
       }

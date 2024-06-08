@@ -7,7 +7,7 @@ import useFileLinkFromStorage from '@hooks/useFileLinkFromStorage';
 import { IMessageFileProps } from '@interfaces/IMessageFileProps';
 
 const MessageFile: FC<IMessageFileProps> = ({ file }) => {
-  const storageLink = useFileLinkFromStorage(file); // получения ссилки на файл
+  const storageLink = useFileLinkFromStorage(file);
 
   const fileType: DefaultExtensionType =
     (file.name.split('.').pop() as DefaultExtensionType) || 'default';

@@ -1,10 +1,7 @@
 import { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import UserChatName from './UserChatName/UserChatName';
-import QuantityUnreadMsgs from './QuantityUnreadMsgs/QuantityUnreadMsgs';
-import ReadStatus from './ReadStatus/ReadStatus';
-import IsOnlineUser from './IsOnlineUser/IsOnlineUser';
+import UserChatInfo from './UserChatInfo/UserChatInfo';
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import useChatStore from '@zustand/store';
 import useChatInfo from '@hooks/useChatInfo';
@@ -19,9 +16,7 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
     state => state.updateCurrentChatInfo
   );
 
-  const userInfo = useChatInfo(chatInfo[1].userUID); // обновляет инфо о текущем юзере в списке чата
-
-  // console.log('screen --> ChatListItem');
+  const userInfo = useChatInfo(chatInfo[1].userUID);
 
   const handleManageSelectChat = () => {
     if (chatInfo[0]) {
@@ -50,17 +45,11 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
           size="50"
         />
 
-        <UserChatName
-          chatUID={chatUID}
+        <UserChatInfo
+          currentChatUID={chatUID}
           chatInfo={chatInfo}
           userInfo={userInfo}
         />
-
-        <QuantityUnreadMsgs chatInfo={chatInfo} />
-
-        <ReadStatus chatInfo={chatInfo} />
-
-        <IsOnlineUser chatInfo={chatInfo} />
       </Link>
     </li>
   );

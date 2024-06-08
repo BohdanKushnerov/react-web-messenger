@@ -1,10 +1,7 @@
 import { FC } from 'react';
 
+import { IButtonSearchMessagesProps } from '@interfaces/IButtonSearchMessagesProps';
 import sprite from '@assets/sprite.svg';
-
-interface IButtonSearchMessagesProps {
-  handleClick: () => void;
-}
 
 const ButtonSearchMessages: FC<IButtonSearchMessagesProps> = ({
   handleClick,

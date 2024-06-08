@@ -9,12 +9,10 @@ import ButtonRecordAudio from '@components/Buttons/ButtonRecordAudio/ButtonRecor
 const RecordingAudio = lazy(
   () => import('@components/ChatForm/RecordingAudio/RecordingAudio')
 );
-const ButtonClose = lazy(
-  () => import('@components/Buttons/ButtonClose/ButtonClose')
-);
 const ChatFormSelectedMsgs = lazy(
   () => import('@components/ChatForm/ChatFormSelectedMsgs/ChatFormSelectedMsgs')
 );
+const EditingMsgInfo = lazy(() => import('./EditingMsgInfo/EditingMsgInfo'));
 import useChatStore from '@zustand/store';
 import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
 import useTyping from '@hooks/useTyping';
@@ -22,7 +20,6 @@ import useClearMessagesOnChatChange from '@hooks/useClearMessagesOnChatChange';
 import useEditingMessage from '@hooks/useEditingMessage';
 import handleUpdateEditMessage from '@utils/messages/handleUpdateEditMessage';
 import handleSendMessage from '@utils/chatForm/handleSendMessage';
-import sprite from '@assets/sprite.svg';
 import '@i18n';
 
 const ChatForm: FC = () => {
@@ -38,14 +35,11 @@ const ChatForm: FC = () => {
   const resetEditingMessage = useChatStore(state => state.resetEditingMessage);
   const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
 
-  useBeforeUnloadToStopTyping(); // еффект beforeunload чтобы прекратить состояние печати
-  useTyping(message); // запуск таймаута при печатании + сброс при смене чата
+  useBeforeUnloadToStopTyping();
+  useTyping(message);
   useEditingMessage(editingMessageInfo, setMessage);
   useClearMessagesOnChatChange(chatUID, setMessage);
 
-  // console.log('screen --> ChatForm');
-
-  // юзеффект держит в фокусе инпут ввода сообщений
   useEffect(() => {
     inputRef.current?.focus();
   }, [chatUID]);
@@ -54,8 +48,7 @@ const ChatForm: FC = () => {
     resetEditingMessage();
     setMessage('');
 
-    const inputElement = document.getElementById('chatFormInput')!;
-    inputElement.focus();
+    inputRef.current?.focus();
   };
 
   const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +56,6 @@ const ChatForm: FC = () => {
   };
 
   const handleManageSendMessage = (e: React.FormEvent) => {
-    // console.log('handleManageSendMessage');
     e.preventDefault();
 
     if (message.trim() === '') {
@@ -97,37 +89,18 @@ const ChatForm: FC = () => {
         <div className="relative flex flex-col justify-center w-full h-full shadow-whiteTopShadow xl:w-8/12">
           <>
             {editingMessageInfo && (
-              <div className="relative flex items-center gap-3 ml-3 mr-16 px-5 rounded-3xl bg-zinc-300 dark:bg-mySeacrhBcg">
-                <svg
-                  width={20}
-                  height={20}
-                  className="fill-zinc-600 dark:fill-white"
-                >
-                  <use href={sprite + '#icon-pencil'} />
-                </svg>
-                <div>
-                  <p className="flex text-violet-500">
-                    {t('ChatForm.EditMessage')}
-                  </p>
-                  <p className="text-black dark:text-white">
-                    {editingMessageInfo.selectedMessage.data().message ||
-                      t('ChatForm.EmptyMessage')}
-                  </p>
-                </div>
-                <div className="absolute top-0 right-12">
-                  <Suspense
-                    fallback={
-                      <div className="absolute top-1 left-2">
-                        <LoaderUIActions size={40} />
-                      </div>
-                    }
-                  >
-                    <ButtonClose
-                      handleClickButtonClose={handleCancelEditingMessage}
-                    />
-                  </Suspense>
-                </div>
-              </div>
+              <Suspense
+                fallback={
+                  <div className="mx-auto">
+                    <LoaderUIActions size={48} />
+                  </div>
+                }
+              >
+                <EditingMsgInfo
+                  selectedMessage={editingMessageInfo.selectedMessage}
+                  handleCancelEditingMessage={handleCancelEditingMessage}
+                />
+              </Suspense>
             )}
             <form
               className="flex justify-center items-center gap-2 px-3"

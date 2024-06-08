@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   DocumentData,
   QuerySnapshot,
@@ -58,7 +58,11 @@ const useSearchUsers = () => {
     };
   }, [debauncedSearchValue]);
 
-  return { searchChatList, setSearchChatList, isLoading };
+  const handleResetSearchChatList = useCallback(() => {
+    setSearchChatList(null);
+  }, []);
+
+  return { isLoading, searchChatList, handleResetSearchChatList };
 };
 
 export default useSearchUsers;

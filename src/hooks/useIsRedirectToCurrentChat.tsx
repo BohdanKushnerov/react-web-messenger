@@ -17,14 +17,14 @@ const useIsRedirectToCurrentChat = () => {
   );
 
   useEffect(() => {
-    async function isRedirectToCurrentChat(
+    const isRedirectToCurrentChat = async (
       currentUserUID: string | null,
       handleSelectChat: (
         chat: ChatListItemType,
         updateCurrentChatInfo: (chat: ChatListItemType) => void
       ) => void,
       updateCurrentChatInfo: (chat: CurrentChatInfo) => void
-    ) {
+    ) => {
       const combinedUsersChatUID = localStorage.getItem('currentChatId');
 
       if (combinedUsersChatUID && currentUserUID) {
@@ -42,7 +42,7 @@ const useIsRedirectToCurrentChat = () => {
         handleSelectChat(chatItem, updateCurrentChatInfo);
         navigate(combinedUsersChatUID);
       }
-    }
+    };
 
     isRedirectToCurrentChat(
       currentUserUID,
