@@ -223,6 +223,9 @@ const Messages: FC = () => {
               ? e.clientX - containerLeft - menuWidth - 13
               : e.clientX - containerLeft - 13;
 
+          console.log(
+            e.clientY - containerTop + menuHeight > chatContainerEl.clientHeight
+          );
           const top =
             e.clientY - containerTop + menuHeight > chatContainerEl.clientHeight
               ? e.clientY - containerTop - menuHeight + 70 - 50
