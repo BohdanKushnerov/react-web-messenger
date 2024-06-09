@@ -1,13 +1,12 @@
-import { FC } from 'react';
+import { forwardRef } from 'react';
 
 import { IRecordingStatusFieldProps } from '@interfaces/IRecordingStatusFieldProps';
 import sprite from '@assets/sprite.svg';
 
-const RecordingStatusField: FC<IRecordingStatusFieldProps> = ({
-  isRecording,
-  recordingDuration,
-  canvasRef,
-}) => {
+const RecordingStatusField = forwardRef<
+  HTMLCanvasElement,
+  IRecordingStatusFieldProps
+>(({ isRecording, recordingDuration }, ref) => {
   return (
     <div
       className={`absolute top-1/2 right-28 -translate-y-1/2 z-20 flex items-center py-1 px-3 gap-2 bg-red-200 rounded-full ${
@@ -19,7 +18,7 @@ const RecordingStatusField: FC<IRecordingStatusFieldProps> = ({
       </svg>
       <canvas
         className="w-40 h-5 sm:w-8 md:w-40 lg:w-52"
-        ref={canvasRef}
+        ref={ref}
         width={192}
         height={20}
       ></canvas>
@@ -28,6 +27,6 @@ const RecordingStatusField: FC<IRecordingStatusFieldProps> = ({
       )}
     </div>
   );
-};
+});
 
 export default RecordingStatusField;

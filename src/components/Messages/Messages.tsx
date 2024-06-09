@@ -18,10 +18,8 @@ import {
 } from 'firebase/firestore';
 
 import MessagesScrollBar from './MessagesScrollBar/MessagesScrollBar';
-import MessageList from './MessagesList/MessageList';
 import MessagesSkeleton from './MessagesSkeleton/MessagesSkeleton';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
-import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
 const MessageContextMenuModal = lazy(
   () =>
     import('@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu')
@@ -29,15 +27,14 @@ const MessageContextMenuModal = lazy(
 const ChatContextMenu = lazy(
   () => import('../ChatContextMenu/ChatContextMenu')
 );
+import MessageList from './MessagesList/MessageList';
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import useGetFirstMsgs from '@hooks/useFirstMsgs';
 import useResetMsgsStates from '@hooks/useResetMsgsStates';
-import useQuickScrollToBottom from '@hooks/useQuickScrollToBottom';
 import useChatMessageUpdates from '@hooks/useChatMessageUpdates';
 import useSelectedMessagesHandling from '@hooks/useSelectedMessagesHandling';
 import usePersistchatUID from '@hooks/usePersistChatUID';
-import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
 import mergeChatMessages from '@utils/messages/mergeChatMessages';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 import '@i18n';
@@ -51,8 +48,7 @@ const Messages: FC = () => {
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
 
   const scrollbarsRef = useRef<HTMLDivElement>(null);
-  const msgListRef = useRef<HTMLDivElement>(null);
-  const bottomElementRef = useRef<HTMLDivElement>(null);
+  const msgListWrapRef = useRef<HTMLDivElement>(null);
   const handleScrollTimeout = useRef<NodeJS.Timeout | null>(null);
   const isReadyToFetchFirstNewChatMsgs = useRef<boolean>(true);
   const isInfinityScrollLoading = useRef<boolean>(false);
@@ -78,7 +74,8 @@ const Messages: FC = () => {
     groupedMessages && selectedDocDataMessage
   );
 
-  const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(chatUID, true);
+  console.log('screen == Messages');
+
   useResetMsgsStates(
     chatUID,
     isReadyToFetchFirstNewChatMsgs,
@@ -93,12 +90,6 @@ const Messages: FC = () => {
     lastLoadedMsg,
     setIsReadyFirstMsgs,
     setGroupedMessages
-  );
-  useQuickScrollToBottom(
-    bottomElementRef,
-    isReadyFirstMsgs,
-    isScrollDownButtonVisible,
-    groupedMessages
   );
   useChatMessageUpdates(chatUID, setGroupedMessages);
   useSelectedMessagesHandling(
@@ -202,7 +193,6 @@ const Messages: FC = () => {
       if (e) {
         e.preventDefault();
 
-        // сброс предидущего значения перед слудующим
         if (isSelectedMessages) {
           updateIsSelectedMessages(false);
         }
@@ -216,7 +206,6 @@ const Messages: FC = () => {
         const menuWidth = 224;
         const menuHeight = 224;
 
-        // тут получаеться есть и сайдбар и тут идет подчет позиции контекстного меню
         if (containerTop && containerLeft && chatContainerEl) {
           const left =
             e.clientX - containerLeft + menuWidth > chatContainerEl.clientWidth
@@ -233,7 +222,6 @@ const Messages: FC = () => {
 
           setModalPosition({ top, left });
         } else {
-          // тут получаеться нету сайдбара и подсчет координат идет без него
           if (chatContainerEl) {
             const left =
               e.clientX + menuWidth > chatContainerEl.clientWidth
@@ -298,43 +286,24 @@ const Messages: FC = () => {
     }
   };
 
-  const scrollToBottom = () => {
-    if (bottomElementRef.current) {
-      bottomElementRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'end',
-      });
-    }
-  };
-
   return (
     <>
       <div className="h-full w-full py-1" onClick={handleCloseModal}>
-        <MessagesScrollBar
-          scrollbarsRef={scrollbarsRef}
-          handleScroll={handleScroll}
-        >
+        <MessagesScrollBar ref={scrollbarsRef} handleScroll={handleScroll}>
           <MessageList
-            msgListRef={msgListRef}
-            bottomElementRef={bottomElementRef}
+            chatUID={chatUID}
             groupedMessages={groupedMessages}
-            isLoadedContent={isReadyFirstMsgs}
+            isReadyFirstMsgs={isReadyFirstMsgs}
             isSelectedMessages={isSelectedMessages}
             selectedDocDataMessage={selectedDocDataMessage}
+            isScrollDownButtonVisible={isScrollDownButtonVisible}
             handleClickRigthButtonMessage={handleClickRigthButtonMessage}
             handleToggleSelectedMessage={handleToggleSelectedMessage}
-            isScrollDownButtonVisible={isScrollDownButtonVisible}
+            ref={msgListWrapRef}
           />
         </MessagesScrollBar>
 
         <MessagesSkeleton isLoadedContent={isReadyFirstMsgs} />
-
-        {isScrollDownButtonVisible && isReadyFirstMsgs && (
-          <ButtonScrollDown
-            scrollToBottom={scrollToBottom}
-            lengthOfUnreadMsgs={lengthOfUnreadMsgs}
-          />
-        )}
       </div>
 
       {deferredIsShowMenuModal && (

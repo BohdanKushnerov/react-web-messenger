@@ -37,6 +37,7 @@ const Emoji: FC = () => {
 
   return (
     <div
+      role="button"
       className={`absolute ${
         editingMessageInfo ? 'bottom-1' : 'top-7'
       } left-3 cursor-pointer`}

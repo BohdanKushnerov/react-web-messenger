@@ -86,7 +86,7 @@ const ProfileSettings: FC = () => {
           <div className="flex flex-col justify-center items-center gap-4">
             <FileInput
               handleChangeFileInput={handleChooseProfilePhoto}
-              fileInputRef={photoProfileInputRef}
+              ref={photoProfileInputRef}
             />
             <div
               className="relative group rounded-full cursor-pointer"

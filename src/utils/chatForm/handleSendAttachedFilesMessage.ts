@@ -1,4 +1,4 @@
-import { Dispatch, RefObject, SetStateAction } from 'react';
+import { Dispatch, ForwardedRef, SetStateAction } from 'react';
 import {
   getDownloadURL,
   ref,
@@ -86,7 +86,7 @@ const getFileDetails = (
 };
 
 const handleSendAttachedFilesMessage = async (
-  fileInputRef: RefObject<HTMLInputElement>,
+  fileInputRef: ForwardedRef<HTMLInputElement>,
   currentUserUID: string | null,
   userUID: string | null,
   chatUID: string | null,
@@ -94,7 +94,12 @@ const handleSendAttachedFilesMessage = async (
   fileDescriptionUser: string,
   handleCloseFileModal: () => void
 ): Promise<void> => {
-  if (fileInputRef.current?.files && currentUserUID) {
+  if (
+    fileInputRef &&
+    'current' in fileInputRef &&
+    fileInputRef.current?.files &&
+    currentUserUID
+  ) {
     try {
       const promiseArrayURLsOfFiles = Array.from(
         fileInputRef.current.files

@@ -18,7 +18,7 @@ const createAndSaveAttachhedFilesMsgDoc = async (
     type: messageTypes.AttachedFiles,
     file: filesArr,
     fileDescription: additionalMsg,
-    message: fileDescriptionUser ? fileDescriptionUser : '',
+    message: fileDescriptionUser || '',
     senderUserID: currentUserUID,
     date: Timestamp.now(),
     isRead: false,

@@ -1,35 +1,33 @@
-import { FC } from 'react';
+import { forwardRef } from 'react';
 
 import { IMessagesScrollBarProps } from '@interfaces/IMessagesScrollBarProps';
 
-const MessagesScrollBar: FC<IMessagesScrollBarProps> = ({
-  scrollbarsRef,
-  handleScroll,
-  children,
-}) => {
-  return (
-    <div
-      style={{
-        marginTop: 56,
-        width: '100%',
-        height: 'calc(100% - 152px)',
-        overflow: 'hidden',
-      }}
-    >
+const MessagesScrollBar = forwardRef<HTMLDivElement, IMessagesScrollBarProps>(
+  ({ handleScroll, children }, ref) => {
+    return (
       <div
-        id="scrollbars"
-        ref={scrollbarsRef}
         style={{
+          marginTop: 56,
           width: '100%',
-          height: '100%',
-          overflowY: 'scroll',
+          height: 'calc(100% - 152px)',
+          overflow: 'hidden',
         }}
-        onScroll={handleScroll}
       >
-        {children}
+        <div
+          id="scrollbars"
+          ref={ref}
+          style={{
+            width: '100%',
+            height: '100%',
+            overflowY: 'scroll',
+          }}
+          onScroll={handleScroll}
+        >
+          {children}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
 
 export default MessagesScrollBar;

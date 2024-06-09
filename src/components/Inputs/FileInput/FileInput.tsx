@@ -1,20 +1,19 @@
-import { FC } from 'react';
+import { forwardRef } from 'react';
 
 import { IFileInputProps } from '@interfaces/IFileInputProps';
 
-const FileInput: FC<IFileInputProps> = ({
-  handleChangeFileInput,
-  fileInputRef,
-}) => {
-  return (
-    <input
-      style={{ display: 'none' }}
-      type="file"
-      multiple
-      onChange={handleChangeFileInput}
-      ref={fileInputRef}
-    />
-  );
-};
+const FileInput = forwardRef<HTMLInputElement, IFileInputProps>(
+  ({ handleChangeFileInput }, ref) => {
+    return (
+      <input
+        style={{ display: 'none' }}
+        type="file"
+        multiple
+        onChange={handleChangeFileInput}
+        ref={ref}
+      />
+    );
+  }
+);
 
 export default FileInput;
