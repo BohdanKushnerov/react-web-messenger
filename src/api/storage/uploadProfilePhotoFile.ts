@@ -36,15 +36,20 @@ const uploadProfilePhotoFile = async (
         setProfilePhotoUploadStatus(progress);
       },
       error => {
-        console.error('Error uploading file:', error);
-        reject(error);
+        reject(new Error(`Error uploading file: ${error.message}`));
       },
       async () => {
         try {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           resolve(downloadURL);
-        } catch (error) {
-          reject(error);
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            reject(new Error(`Failed to get download URL: ${error.message}`));
+          } else {
+            reject(
+              new Error('Failed to get download URL: An unknown error occurred')
+            );
+          }
         }
       }
     );

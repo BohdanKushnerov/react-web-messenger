@@ -1,13 +1,11 @@
-import { RefObject } from 'react';
 import { DocumentData } from 'firebase/firestore';
 
 import { IGroupedMessages } from './IGroupedMessages';
 
 export interface IMessageListProps {
-  msgListRef: RefObject<HTMLDivElement>;
-  bottomElementRef: RefObject<HTMLDivElement>;
+  chatUID: string | null;
   groupedMessages: IGroupedMessages | null;
-  isLoadedContent: boolean;
+  isReadyFirstMsgs: boolean;
   isSelectedMessages: boolean;
   selectedDocDataMessage: DocumentData[] | null;
   isScrollDownButtonVisible: boolean;

@@ -99,7 +99,7 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
       <RecordingStatusField
         isRecording={isRecording}
         recordingDuration={recordingDuration}
-        canvasRef={canvasRef}
+        ref={canvasRef}
       />
 
       <ButtonCancelRecording cancelRecording={cancelRecording} />

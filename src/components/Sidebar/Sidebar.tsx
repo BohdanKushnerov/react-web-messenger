@@ -71,4 +71,6 @@ const Sidebar: FC = memo(() => {
   );
 });
 
+Sidebar.displayName = 'Sidebar';
+
 export default Sidebar;

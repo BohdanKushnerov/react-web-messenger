@@ -45,4 +45,6 @@ const MessagesSkeleton: FC<IMessagesSkeletonProps> = memo(
   }
 );
 
+MessagesSkeleton.displayName = 'MessagesSkeleton';
+
 export default MessagesSkeleton;

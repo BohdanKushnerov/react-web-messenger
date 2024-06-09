@@ -51,7 +51,7 @@ const FileAttachment: FC = () => {
       >
         <FileInput
           handleChangeFileInput={handleChangeFileInput}
-          fileInputRef={fileInputRef}
+          ref={fileInputRef}
         />
       </ButtonAttachFile>
       {isModalAddFileOpen && (
@@ -63,9 +63,9 @@ const FileAttachment: FC = () => {
           }
         >
           <FileInputModal
-            fileInputRef={fileInputRef}
             setIsModalAddFileOpen={setIsModalAddFileOpen}
             handleToggleModal={handleToggleModal}
+            ref={fileInputRef}
           />
         </Suspense>
       )}

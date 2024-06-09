@@ -84,7 +84,6 @@ const MessageItem: FC<IMessageItemProps> = ({
 
         {msg.data().file && <MessageFiles msg={msg} />}
 
-        {/* message */}
         {isLink ? (
           <>
             <a
@@ -109,16 +108,11 @@ const MessageItem: FC<IMessageItemProps> = ({
           </p>
         )}
 
-        {/* date + read/unread */}
         <div className="w-full flex items-center justify-between gap-2">
-          {/* reactions */}
-          {/* <p>{msg.data().reactions}</p> */}
           <ReactionsDisplay reactions={msg.data().reactions} />
 
-          {/* {isEdited} */}
           {msg.data().isEdited && <p>{t('Edited')}</p>}
 
-          {/* date /// read/unread */}
           <div className="flex items-center gap-2">
             <p className="text-green-950 dark:text-zinc-100">
               {msg.data().date &&
@@ -129,7 +123,6 @@ const MessageItem: FC<IMessageItemProps> = ({
           </div>
         </div>
       </div>
-      {/* triangle */}
       <MessageTriangle myUID={myUID} />
     </div>
   );

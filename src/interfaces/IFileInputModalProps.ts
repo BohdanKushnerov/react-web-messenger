@@ -1,7 +1,6 @@
-import { Dispatch, RefObject, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 export interface IFileInputModalProps {
-  fileInputRef: RefObject<HTMLInputElement>;
   setIsModalAddFileOpen: Dispatch<SetStateAction<boolean>>;
   handleToggleModal: () => void;
 }

@@ -35,7 +35,6 @@ const SearchChatList: FC = () => {
       {!isLoading && searchChatList && searchChatList.size > 0 ? (
         <ul>
           {searchChatList.docs.map(doc => {
-            // фильтруем себя
             if (doc.data().uid === currentUser.uid) return null;
 
             const docData: DocumentData = doc.data();

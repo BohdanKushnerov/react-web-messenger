@@ -18,4 +18,6 @@ const MessageFiles: FC<IMessageFilesProps> = memo(({ msg }) => {
   );
 });
 
+MessageFiles.displayName = 'MessageFiles';
+
 export default MessageFiles;
