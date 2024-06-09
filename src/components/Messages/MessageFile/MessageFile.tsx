@@ -8,9 +8,11 @@ import { IMessageFileProps } from '@interfaces/IMessageFileProps';
 
 const MessageFile: FC<IMessageFileProps> = ({ file }) => {
   const storageLink = useFileLinkFromStorage(file);
-
   const fileType: DefaultExtensionType =
     (file.name.split('.').pop() as DefaultExtensionType) || 'default';
+
+  console.log(storageLink);
+  console.log(file.type);
 
   if (file.type.includes('video')) {
     return <VideoComponent source={file.url} />;
@@ -18,9 +20,9 @@ const MessageFile: FC<IMessageFileProps> = ({ file }) => {
     return <AudioComponent audioUrl={file.url} />;
   } else {
     return (
-      <>
+      <div className="flex gap-1 items-center h-[40px] w-full max-w-[200px]">
         {storageLink && (
-          <div className="flex gap-1 items-center h-auto w-full max-w-[200px]">
+          <>
             <span className="w-10 h-10">
               <FileIcon extension={fileType} {...defaultStyles[fileType]} />
             </span>
@@ -30,9 +32,9 @@ const MessageFile: FC<IMessageFileProps> = ({ file }) => {
             <a className="w-10" target="blank" href={storageLink}>
               Link
             </a>
-          </div>
+          </>
         )}
-      </>
+      </div>
     );
   }
 };

@@ -36,6 +36,7 @@ import useChatMessageUpdates from '@hooks/useChatMessageUpdates';
 import useSelectedMessagesHandling from '@hooks/useSelectedMessagesHandling';
 import usePersistchatUID from '@hooks/usePersistChatUID';
 import mergeChatMessages from '@utils/messages/mergeChatMessages';
+import calculateMenuPosition from '@utils/messages/calculateMenuPosition';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 import '@i18n';
 
@@ -73,8 +74,6 @@ const Messages: FC = () => {
   const deferredIsShowMenuModal = useDeferredValue(
     groupedMessages && selectedDocDataMessage
   );
-
-  console.log('screen == Messages');
 
   useResetMsgsStates(
     chatUID,
@@ -190,53 +189,21 @@ const Messages: FC = () => {
 
   const handleClickRigthButtonMessage = useCallback(
     (message: DocumentData, e?: React.MouseEvent) => {
-      if (e) {
-        e.preventDefault();
+      if (!e) return;
 
-        if (isSelectedMessages) {
-          updateIsSelectedMessages(false);
-        }
+      e.preventDefault();
 
-        const chatContainerEl = document.getElementById('scrollbars');
+      const chatContainerEl = document.getElementById('scrollbars')!;
 
-        const rect = chatContainerEl?.getBoundingClientRect();
-        const containerTop = rect?.top;
-        const containerLeft = rect?.left;
-
-        const menuWidth = 224;
-        const menuHeight = 224;
-
-        if (containerTop && containerLeft && chatContainerEl) {
-          const left =
-            e.clientX - containerLeft + menuWidth > chatContainerEl.clientWidth
-              ? e.clientX - containerLeft - menuWidth - 13
-              : e.clientX - containerLeft - 13;
-
-          console.log(
-            e.clientY - containerTop + menuHeight > chatContainerEl.clientHeight
-          );
-          const top =
-            e.clientY - containerTop + menuHeight > chatContainerEl.clientHeight
-              ? e.clientY - containerTop - menuHeight + 70 - 50
-              : e.clientY - containerTop + 60 - 50;
-
-          setModalPosition({ top, left });
-        } else {
-          if (chatContainerEl) {
-            const left =
-              e.clientX + menuWidth > chatContainerEl.clientWidth
-                ? e.clientX - menuWidth
-                : e.clientX;
-
-            const top =
-              e.clientY + menuHeight > chatContainerEl.clientHeight
-                ? e.clientY - menuHeight
-                : e.clientY;
-
-            setModalPosition({ top, left });
-          }
-        }
+      if (isSelectedMessages) {
+        updateIsSelectedMessages(false);
       }
+
+      const { clientX, clientY } = e;
+
+      setModalPosition(
+        calculateMenuPosition(chatContainerEl, clientX, clientY)
+      );
 
       if (
         selectedDocDataMessage !== null &&

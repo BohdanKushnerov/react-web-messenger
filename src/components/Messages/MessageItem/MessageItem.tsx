@@ -62,25 +62,24 @@ const MessageItem: FC<IMessageItemProps> = ({
             : 'bg-zinc-100 dark:bg-green-600 rounded-bl-none'
         } shadow-secondaryShadow`}
       >
-        {msg.data().file &&
-          msg
-            .data()
-            .file.some((file: IFile) => file.type.includes('image')) && (
-            <div
-              className={`flex flex-wrap sm:justify-center lg:justify-normal gap-0.5 ${
-                msg.data().file?.length === 1
-                  ? 'max-w-md'
-                  : 'w-[160px] lg:w-full max-w-xs'
-              }`}
-              id="file-container"
-            >
-              <MessageImagesWithLightBox
-                msg={msg}
-                indexClickedPhoto={indexClickedPhoto}
-                handleClickPhoto={handleClickPhoto}
-              />
-            </div>
-          )}
+        {msg
+          .data()
+          .file?.some((file: IFile) => file.type.includes('image')) && (
+          <div
+            className={`flex flex-wrap sm:justify-center lg:justify-normal gap-0.5 ${
+              msg.data().file?.length === 1
+                ? 'max-w-md'
+                : 'w-[160px] lg:w-full max-w-xs'
+            }`}
+            id="file-container"
+          >
+            <MessageImagesWithLightBox
+              msg={msg}
+              indexClickedPhoto={indexClickedPhoto}
+              handleClickPhoto={handleClickPhoto}
+            />
+          </div>
+        )}
 
         {msg.data().file && <MessageFiles msg={msg} />}
 

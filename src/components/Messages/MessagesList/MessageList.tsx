@@ -3,12 +3,12 @@ import { DocumentData } from 'firebase/firestore';
 import { useTranslation } from 'react-i18next';
 
 import MessageItem from '../MessageItem/MessageItem';
+import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
+import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
+import useQuickScrollToBottom from '@hooks/useQuickScrollToBottom';
 import formatDateForGroupMessages from '@utils/messages/formatDateForGroupMessages';
 import { IMessageListProps } from '@interfaces/IMessageListProps';
 import sprite from '@assets/sprite.svg';
-import useQuickScrollToBottom from '@hooks/useQuickScrollToBottom';
-import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
-import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
 
 const MessageList = memo(
   forwardRef<HTMLDivElement, IMessageListProps>((props, ref) => {
@@ -22,8 +22,6 @@ const MessageList = memo(
       handleToggleSelectedMessage,
       isScrollDownButtonVisible,
     } = props;
-
-    console.log('screen == MessageList');
 
     const bottomElementRef = useRef<HTMLDivElement>(null);
 
@@ -63,7 +61,7 @@ const MessageList = memo(
                 }`}
                 key={date}
               >
-                <li className="flex justify-center sticky top-1 z-10 ">
+                <li className="flex justify-center sticky top-1 z-20 pointer-events-none">
                   <p className="px-2 py-0.5 w-min-0 whitespace-no-wrap rounded-xl bg-zinc-200/40 text-green-100 text-center">
                     {formatDateForGroupMessages(date, t)}
                   </p>
@@ -75,11 +73,11 @@ const MessageList = memo(
 
                   return (
                     <li
-                      className={`flex justify-center items-center gap-x-5 m-0.5 rounded-xl transition-all duration-150  ${
+                      className={`flex justify-center items-center gap-x-5 rounded-xl transition-all duration-150  ${
                         currentItem && 'bg-currentContextMenuMessage'
                       } ${
                         isSelectedMessages &&
-                        'hover:cursor-pointer hover:outline hover:outline-1 hover:outline-white'
+                        'hover:cursor-pointer hover:outline hover:outline-1 hover:outline-white hover:z-10'
                       }`}
                       key={message.id}
                       onContextMenu={e =>

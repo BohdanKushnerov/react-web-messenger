@@ -15,7 +15,7 @@ const Navbar: FC = () => {
 
   return (
     <div>
-      <div
+      <button
         className="relative w-12 h-10 flex justify-center items-center bg-transparent transition-all duration-300 hover:bg-zinc-400 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
         onClick={handleToggleModal}
       >
@@ -26,7 +26,7 @@ const Navbar: FC = () => {
         >
           <use href={sprite + '#icon-menu'} />
         </svg>
-      </div>
+      </button>
       <Suspense
         fallback={
           <div className="absolute top-2 left-4">

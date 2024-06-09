@@ -1,16 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   collection,
-  doc,
   onSnapshot,
   orderBy,
   query,
-  updateDoc,
   where,
 } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import manageNotifyMessage from '@utils/manageNotifyMessage';
 
 const useLengthOfMyUnreadMsgs = (chatUID: string | null, isNotify = true) => {
   const [lengthOfMyUnreadMsgs, setLengthOfMyUnreadMsgs] = useState<number>(0);
@@ -32,7 +31,7 @@ const useLengthOfMyUnreadMsgs = (chatUID: string | null, isNotify = true) => {
 
   useEffect(() => {
     if (!chatUID) return;
-    
+
     const queryParams = query(
       collection(db, `chats/${chatUID}/messages`),
       orderBy('senderUserID'),
@@ -40,40 +39,18 @@ const useLengthOfMyUnreadMsgs = (chatUID: string | null, isNotify = true) => {
       where('isRead', '==', false),
       where('senderUserID', '!=', uid)
     );
+
     const unsubMyUnreadMsgs = onSnapshot(queryParams, querySnapshot => {
       if (querySnapshot.docs) {
         setLengthOfMyUnreadMsgs(querySnapshot.docs.length);
 
         isNotify &&
-          querySnapshot.docs.forEach(msg => {
-            if (msg.data().isShowNotification && chatUID) {
-              updateDoc(doc(db, 'chats', chatUID, 'messages', `${msg.id}`), {
-                ['isShowNotification']: false,
-              }).then(() => {
-                if (processedMessages.current.includes(msg.id)) {
-                  return;
-                }
-
-                processedMessages.current.push(msg.id);
-
-                new Notification('new Message', {
-                  body: msg.data().message,
-                });
-
-                const audio = document.getElementById(
-                  'notify'
-                ) as HTMLAudioElement;
-
-                if (audio) {
-                  audio.play();
-                }
-
-                return;
-              });
-            }
-          });
+          querySnapshot.docs.forEach(msg =>
+            manageNotifyMessage(msg, chatUID, processedMessages)
+          );
       }
     });
+
     return () => {
       unsubMyUnreadMsgs();
     };

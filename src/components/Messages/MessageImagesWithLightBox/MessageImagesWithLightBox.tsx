@@ -20,21 +20,20 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
 
   return (
     <>
-      {imagesForMessage &&
-        imagesForMessage.map((fileInside: IFile, index: number) => {
-          if (fileInside.type.includes('image')) {
-            return (
-              <MessageImage
-                key={index}
-                msg={msg}
-                file={fileInside}
-                index={index}
-                handleClickPhoto={handleClickPhoto}
-              />
-            );
-          }
-          return null;
-        })}
+      {imagesForMessage.map((fileInside: IFile, index: number) => {
+        if (fileInside.type.includes('image')) {
+          return (
+            <MessageImage
+              key={`${fileInside.name}-${fileInside.type}`}
+              msg={msg}
+              file={fileInside}
+              index={index}
+              handleClickPhoto={handleClickPhoto}
+            />
+          );
+        }
+        return null;
+      })}
       {indexClickedPhoto >= 0 && (
         <Suspense
           fallback={

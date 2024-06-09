@@ -18,7 +18,7 @@ const AvatarProfile: FC<IAvatarProfileProps> = ({
       }}
     >
       <img
-        className="w-full h-full object-cover rounded-full shadow-secondaryShadow transition-all duration-150 group-hover:scale-105 "
+        className="w-full h-full object-cover rounded-full shadow-secondaryShadow transition-all duration-150 group-hover:scale-105"
         width={size}
         height={size}
         src={photoURL}

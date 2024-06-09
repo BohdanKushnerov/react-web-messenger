@@ -1,4 +1,11 @@
-import { FC, lazy, Suspense, useDeferredValue, useState } from 'react';
+import {
+  FC,
+  KeyboardEvent,
+  lazy,
+  Suspense,
+  useDeferredValue,
+  useState,
+} from 'react';
 
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 const EmojiPickerWindow = lazy(
@@ -35,14 +42,20 @@ const Emoji: FC = () => {
     setEmojiTimeOutId(timeoutId);
   };
 
+  const handleEnterKeyPress = (event: KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === 'Enter') {
+      setIsShowEmoji(true);
+    }
+  };
+
   return (
-    <div
-      role="button"
+    <button
       className={`absolute ${
         editingMessageInfo ? 'bottom-1' : 'top-7'
       } left-3 cursor-pointer`}
       onMouseEnter={handleMouseEnterEmoji}
       onMouseLeave={handleMouseLeaveEmoji}
+      onKeyDown={handleEnterKeyPress}
     >
       {deferredIsShowEmoji && (
         <Suspense
@@ -65,7 +78,7 @@ const Emoji: FC = () => {
           <use href={sprite + '#icon-emoticon'} />
         </svg>
       </div>
-    </div>
+    </button>
   );
 };
 

@@ -88,7 +88,7 @@ const ProfileSettings: FC = () => {
               handleChangeFileInput={handleChooseProfilePhoto}
               ref={photoProfileInputRef}
             />
-            <div
+            <button
               className="relative group rounded-full cursor-pointer"
               onClick={handleImageClick}
             >
@@ -108,7 +108,7 @@ const ProfileSettings: FC = () => {
                   </svg>
                 </>
               )}
-            </div>
+            </button>
             <div className="flex gap-1 justify-center items-center text-white">
               <p className="text-black dark:text-white">{t('Phone')}</p>
               <p className="py-2 px-4 h-10 rounded-3xl text-black dark:text-white text-center cursor-default">

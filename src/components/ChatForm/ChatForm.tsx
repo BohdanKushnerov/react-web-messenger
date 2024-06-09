@@ -87,64 +87,58 @@ const ChatForm: FC = () => {
     <div className="absolute bottom-0 left-0 z-10 w-full h-24 flex flex-col items-center">
       {!isSelectedMessages ? (
         <div className="relative flex flex-col justify-center w-full h-full shadow-whiteTopShadow xl:w-8/12">
-          <>
-            {editingMessageInfo && (
-              <Suspense
-                fallback={
-                  <div className="mx-auto">
-                    <LoaderUIActions size={48} />
-                  </div>
-                }
-              >
-                <EditingMsgInfo
-                  selectedMessage={editingMessageInfo.selectedMessage}
-                  handleCancelEditingMessage={handleCancelEditingMessage}
-                />
-              </Suspense>
-            )}
-            <form
-              className="flex justify-center items-center gap-2 px-3"
-              onSubmit={handleManageSendMessage}
+          {editingMessageInfo && (
+            <Suspense
+              fallback={
+                <div className="mx-auto">
+                  <LoaderUIActions size={48} />
+                </div>
+              }
             >
-              <input
-                id="chatFormInput"
-                autoFocus={true}
-                autoComplete="off"
-                className="w-full h-10 py-1 pl-10 pr-14 rounded-3xl bg-zinc-300 dark:bg-mySeacrhBcg text-black dark:text-white placeholder:text-zinc-900 placeholder:dark:text-zinc-400 border-2 border-transparent outline-none focus:border-solid focus:dark:border-cyan-500"
-                type="text"
-                placeholder={t('ChatForm.ChatInputPlaceholder')}
-                ref={inputRef}
-                value={message}
-                onChange={handleChangeMessage}
+              <EditingMsgInfo
+                selectedMessage={editingMessageInfo.selectedMessage}
+                handleCancelEditingMessage={handleCancelEditingMessage}
               />
-              {message ? (
-                <SendMessage />
-              ) : (
-                <>
-                  {!isRecording ? (
-                    <>
-                      <ButtonRecordAudio
-                        handleToggleRecordingStatus={
-                          handleToggleRecordingStatus
-                        }
-                      />
-                    </>
-                  ) : (
-                    <Suspense fallback={<LoaderUIActions size={40} />}>
-                      <RecordingAudio
-                        isRecording={isRecording}
-                        handleToggleRecordingStatus={
-                          handleToggleRecordingStatus
-                        }
-                      />
-                    </Suspense>
-                  )}
-                </>
-              )}
-            </form>
-            {!isRecording && <FileAttachment />}
-            <Emoji />
-          </>
+            </Suspense>
+          )}
+          <form
+            className="flex justify-center items-center gap-2 px-3"
+            onSubmit={handleManageSendMessage}
+          >
+            <input
+              id="chatFormInput"
+              autoFocus={true}
+              autoComplete="off"
+              className="w-full h-10 py-1 pl-10 pr-14 rounded-3xl bg-zinc-300 dark:bg-mySeacrhBcg text-black dark:text-white placeholder:text-zinc-900 placeholder:dark:text-zinc-400 border-2 border-transparent outline-none focus:border-solid focus:dark:border-cyan-500"
+              type="text"
+              placeholder={t('ChatForm.ChatInputPlaceholder')}
+              ref={inputRef}
+              value={message}
+              onChange={handleChangeMessage}
+            />
+            {message ? (
+              <SendMessage />
+            ) : (
+              <>
+                {!isRecording ? (
+                  <>
+                    <ButtonRecordAudio
+                      handleToggleRecordingStatus={handleToggleRecordingStatus}
+                    />
+                  </>
+                ) : (
+                  <Suspense fallback={<LoaderUIActions size={40} />}>
+                    <RecordingAudio
+                      isRecording={isRecording}
+                      handleToggleRecordingStatus={handleToggleRecordingStatus}
+                    />
+                  </Suspense>
+                )}
+              </>
+            )}
+          </form>
+          {!isRecording && <FileAttachment />}
+          <Emoji />
         </div>
       ) : (
         <Suspense>

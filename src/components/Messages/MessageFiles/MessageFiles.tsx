@@ -10,10 +10,12 @@ const MessageFiles: FC<IMessageFilesProps> = memo(({ msg }) => {
 
   return (
     <>
-      {filteredFiles &&
-        filteredFiles.map((fileInside: IFile, index: number) => (
-          <MessageFile key={index} file={fileInside} />
-        ))}
+      {filteredFiles?.map((fileInside: IFile) => (
+        <MessageFile
+          key={`${fileInside.name}-${fileInside.type}`}
+          file={fileInside}
+        />
+      ))}
     </>
   );
 });

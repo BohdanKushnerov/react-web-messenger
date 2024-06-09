@@ -64,7 +64,7 @@ const HomePage = () => {
         {state => (
           <div
             ref={nodeRefChat}
-            className={`w-full transform transition-transform 
+            className={`relative w-full transform transition-transform 
                   ${state === 'exited' ? 'hidden' : ''}
                   ${
                     state === 'entered'
@@ -86,7 +86,9 @@ const HomePage = () => {
         )}
       </Transition>
       {docHidden && <BrowserTabTitle docHidden={docHidden} />}
-      <audio src={audio} id="notify"></audio>
+      <audio src={audio} id="notify">
+        <track kind="captions" src="" srcLang="en" label="English captions" />
+      </audio>
     </main>
   );
 };

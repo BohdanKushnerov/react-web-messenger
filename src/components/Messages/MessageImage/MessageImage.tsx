@@ -38,22 +38,20 @@ const MessageImage: FC<IMessageImageProps> = ({
         transition: '500ms filter linear',
       }}
     >
-      <img
+      <button
         className={`${
           loading ? 'invisible' : 'block'
         } cursor-pointer object-cover rounded-md`}
-        src={file.url}
-        alt={file.type}
         style={{
           height: imgHeight,
           width: imgWidth,
           filter: `${loading ? 'blur(20px)' : ''}`,
           transition: '1s filter linear',
         }}
-        loading="lazy"
         onClick={() => handleClickPhoto(index)}
-        id="img"
-      />
+      >
+        <img src={file.url} alt={file.type} loading="lazy" id="img" />
+      </button>
     </div>
   );
 };

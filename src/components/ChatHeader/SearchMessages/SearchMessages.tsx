@@ -34,7 +34,7 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
   };
 
   return (
-    <div>
+    <>
       <div className="flex justify-around items-center gap-1">
         <button
           className="flex justify-center items-center h-9 w-10 bg-transparent transition-all duration-300 hover:bg-zinc-400 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
@@ -91,7 +91,7 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
           ))}
         </ul>
       )}
-    </div>
+    </>
   );
 };
 

@@ -14,7 +14,6 @@ const useGetLastMessage = (itemChatUID: string | null) => {
   const [lastMsg, setLastMsg] = useState<DocumentData | null>(null);
 
   useEffect(() => {
-    console.log('-->>> useGetLastMessage');
     const queryParams = query(
       collection(db, `chats/${itemChatUID}/messages`),
       orderBy('date', 'desc'),
