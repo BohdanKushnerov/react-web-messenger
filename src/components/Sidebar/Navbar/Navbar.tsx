@@ -7,10 +7,10 @@ const NavbarModal = lazy(
 import sprite from '@assets/sprite.svg';
 
 const Navbar: FC = () => {
-  const [isModalOpen, setIsModelOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleToggleModal = () => {
-    setIsModelOpen(prev => !prev);
+    setIsModalOpen(prev => !prev);
   };
 
   return (

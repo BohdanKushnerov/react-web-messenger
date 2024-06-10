@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-import { IUseClearMessagesOnChatChange } from '@interfaces/hooks/IUseClearMessagesOnChatChange';
+import { UseClearMessagesOnChatChange } from 'types/hooks/UseClearMessagesOnChatChange';
 
-const useClearMessagesOnChatChange: IUseClearMessagesOnChatChange = (
+const useClearMessagesOnChatChange: UseClearMessagesOnChatChange = (
   chatUID,
   setMessage
 ) => {

@@ -3,8 +3,9 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
+import { UseIsReadMyLastMessage } from 'types/hooks/UseIsReadMyLastMessage';
 
-const useIsReadMyLastMessage = (itemChatUID: string) => {
+const useIsReadMyLastMessage: UseIsReadMyLastMessage = itemChatUID => {
   const [isReadMyLastMessage, setIsReadMyLastMessage] = useState(true);
 
   const { uid } = useChatStore(state => state.currentUser);

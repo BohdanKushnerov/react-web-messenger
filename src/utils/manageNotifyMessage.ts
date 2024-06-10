@@ -26,8 +26,6 @@ const manageNotifyMessage = async (
     processedMessages.current.push(msg.id);
 
     makeNotification(msg);
-
-    return;
   }
 };
 

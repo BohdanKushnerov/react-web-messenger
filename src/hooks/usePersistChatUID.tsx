@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
+import { UsePersistChatUID } from 'types/hooks/UsePersistChatUID';
 
-const usePersistchatUID = (chatUID: string | null) => {
+const usePersistChatUID: UsePersistChatUID = chatUID => {
   useEffect(() => {
     if (chatUID) {
       localStorage.setItem('currentChatId', chatUID);
@@ -12,4 +13,4 @@ const usePersistchatUID = (chatUID: string | null) => {
   }, [chatUID]);
 };
 
-export default usePersistchatUID;
+export default usePersistChatUID;

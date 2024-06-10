@@ -9,6 +9,7 @@ import useRecordingCleanup from '@hooks/useRecordingCleanup';
 import handleSendAudio from '@utils/chatForm/handleSendAudio';
 import cleanUpRecordingResources from '@utils/chatForm/cleanupRecordingResources';
 import { IRecordingAudioProps } from '@interfaces/IRecordingAudioProps';
+import { MimeType } from 'types/MimeType';
 
 const RecordingAudio: FC<IRecordingAudioProps> = ({
   isRecording,
@@ -25,11 +26,10 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
 
-  const mimeType = 'audio/webm';
+  const mimeType: MimeType = 'audio/webm';
 
   useStartRecording(
     isRecording,
-    mimeType,
     mediaRecorderRef,
     canvasRef,
     analyserRef,

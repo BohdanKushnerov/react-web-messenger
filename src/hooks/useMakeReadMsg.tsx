@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { DocumentData } from 'firebase/firestore';
 
 import useChatStore from '@zustand/store';
 import makeReadMsg from '@api/firestore/makeReadMsg';
+import { UseMakeReadMsg } from 'types/hooks/UseMakeReadMsg';
 
-const useMakeReadMsg = (msg: DocumentData, isNearBottom: boolean) => {
+const useMakeReadMsg: UseMakeReadMsg = (msg, isNearBottom) => {
   const { chatUID } = useChatStore(state => state.currentChatInfo);
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 

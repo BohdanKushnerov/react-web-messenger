@@ -3,9 +3,9 @@ import { useWavesurfer } from '@wavesurfer/react';
 import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'use-debounce';
 
+import ButtonAudio from '@components/Buttons/ButtonAudio/ButtonAudio';
 import convertAudioMsgTime from '@utils/messages/convertAudioMsgTime';
 import { IAudioComponentProps } from '@interfaces/IAudioComponentProps';
-import sprite from '@assets/sprite.svg';
 
 const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   const [volume, setVolume] = useState<number>(100);
@@ -37,25 +37,7 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
 
   return (
     <div className="flex flex-row items-start gap-2 w-[300px] sm:w-[200px] md:min-w-[220px] md:max-w-md lg:min-w-[360px]">
-      <button onClick={onPlayPause} className="py-3" aria-label="Stop/Play">
-        {isPlaying ? (
-          <svg
-            width={24}
-            height={24}
-            className="fill-zinc-600 dark:fill-zinc-200 "
-          >
-            <use href={sprite + '#icon-stop'} />
-          </svg>
-        ) : (
-          <svg
-            width={24}
-            height={24}
-            className="fill-zinc-600 dark:fill-zinc-200"
-          >
-            <use href={sprite + '#icon-play'} />
-          </svg>
-        )}
-      </button>
+      <ButtonAudio isPlaying={isPlaying} onPlayPause={onPlayPause} />
 
       <div className="flex flex-1 flex-col items-start w-full">
         <div

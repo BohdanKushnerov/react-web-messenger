@@ -9,6 +9,7 @@ const VideoComponent: FC<IVideoComponentProps> = ({ source }) => {
     return (
       <iframe
         id="player"
+        title={getYouTubeVideoId(source)}
         width="100%"
         height={300}
         allowFullScreen

@@ -29,14 +29,26 @@ const uploadFile = (
     uploadTask.on(
       'state_changed',
       snapshot => uploadProgress(snapshot, file.name, setUploadFilesStatus),
-      error => reject(error),
+      error => reject(new Error(`Error uploadTask.on: ${error.message}`)),
       async () => {
         try {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           const fileDetails = await getFileDetails(file, fileBlob, downloadURL);
           resolve(fileDetails);
-        } catch (error) {
-          reject(error);
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            reject(
+              new Error(
+                `Failed to get download URL and fileDetails: ${error.message}`
+              )
+            );
+          } else {
+            reject(
+              new Error(
+                'Failed to get download URL and fileDetails: An unknown error occurred'
+              )
+            );
+          }
         }
       }
     );

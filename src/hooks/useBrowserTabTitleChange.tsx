@@ -2,11 +2,11 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import changeFaviconBrowserTab from '@utils/changeFaviconBrowserTab';
-import { IUseBrowserTabTitleChange } from '@interfaces/hooks/IUseBrowserTabTitleChange';
 import faviconTab from '@assets/faviconTab.ico';
 import faviconMessageTab from '@assets/faviconMessageTab.ico';
+import { UseBrowserTabTitleChange } from 'types/hooks/UseBrowserTabTitleChange';
 
-const useBrowserTabTitleChange: IUseBrowserTabTitleChange = (
+const useBrowserTabTitleChange: UseBrowserTabTitleChange = (
   countChatUnreadMessages,
   docHidden
 ) => {
@@ -56,8 +56,6 @@ const useBrowserTabTitleChange: IUseBrowserTabTitleChange = (
 
         document.title = chatOriginalTitle;
       }
-
-      return;
     };
 
     startChangeChatTitle();

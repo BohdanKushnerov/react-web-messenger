@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
+import { UseChatInfo } from 'types/hooks/UseChatInfo';
 
-const useChatInfo = (userUID: string | null) => {
+const useChatInfo: UseChatInfo = userUID => {
   const [currentChatInfo, setCurrentChatInfo] = useState<DocumentData | null>(
     null
   );

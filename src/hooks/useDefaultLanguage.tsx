@@ -15,10 +15,7 @@ const useDefaultLanguage = () => {
 
     const userLanguage = navigator.language;
 
-    if (userLanguage === 'en-US') {
-      localStorage.setItem('language', 'en');
-      i18n.changeLanguage('en');
-    } else if (userLanguage === 'uk-UA') {
+    if (userLanguage === 'uk-UA') {
       localStorage.setItem('language', 'ua');
       i18n.changeLanguage('ua');
     } else if (userLanguage === 'ru-RU') {

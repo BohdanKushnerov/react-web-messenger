@@ -1,15 +1,14 @@
-import { Dispatch, MutableRefObject, SetStateAction, useEffect } from 'react';
-import { DocumentData } from 'firebase/firestore';
+import { useEffect } from 'react';
 
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import { UseResetMsgsStates } from 'types/hooks/UseResetMsgsStates';
 
-const useResetMsgsStates = (
-  chatUID: string | null,
-  isReadyToFetchFirstNewChatMsgs: MutableRefObject<boolean>,
-  lastLoadedMsg: MutableRefObject<DocumentData | null>,
-  isFinishMsgs: MutableRefObject<boolean>,
-  setIsReadyFirstMsgs: Dispatch<SetStateAction<boolean>>,
-  setGroupedMessages: Dispatch<SetStateAction<IGroupedMessages | null>>
+const useResetMsgsStates: UseResetMsgsStates = (
+  chatUID,
+  isReadyToFetchFirstNewChatMsgs,
+  lastLoadedMsg,
+  isFinishMsgs,
+  setIsReadyFirstMsgs,
+  setGroupedMessages
 ) => {
   useEffect(() => {
     isReadyToFetchFirstNewChatMsgs.current = true;

@@ -1,14 +1,15 @@
-import { Dispatch, MutableRefObject, SetStateAction, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import cleanUpRecordingResources from '@utils/chatForm/cleanupRecordingResources';
+import { UseRecordingCleanup } from 'types/hooks/UseRecordingCleanup';
 
-const useRecordingCleanup = (
-  audioChunks: Blob[],
-  animationIdRef: MutableRefObject<number | null>,
-  mediaRecorderRef: MutableRefObject<MediaRecorder | null>,
-  analyserRef: MutableRefObject<AnalyserNode | null>,
-  setAudioChunks: Dispatch<SetStateAction<Blob[]>>,
-  handleToggleRecordingStatus: () => void
+const useRecordingCleanup: UseRecordingCleanup = (
+  audioChunks,
+  animationIdRef,
+  mediaRecorderRef,
+  analyserRef,
+  setAudioChunks,
+  handleToggleRecordingStatus
 ) => {
   useEffect(() => {
     const animationId = animationIdRef.current;

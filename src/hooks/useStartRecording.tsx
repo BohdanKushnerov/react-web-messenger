@@ -9,10 +9,11 @@ import {
 
 import setupAudioAnalyzer from '@utils/chatForm/setupAudioAnalyzer';
 import startRecordingTimer from '@utils/chatForm/startRecordingTimer';
+import { UseStartRecording } from 'types/hooks/UseStartRecording';
+import { MimeType } from 'types/MimeType';
 
-const useStartRecording = (
+const useStartRecording: UseStartRecording = (
   isRecording: boolean,
-  mimeType: string,
   mediaRecorderRef: MutableRefObject<MediaRecorder | null>,
   canvasRef: RefObject<HTMLCanvasElement>,
   analyserRef: MutableRefObject<AnalyserNode | null>,
@@ -23,6 +24,9 @@ const useStartRecording = (
   const intervalIdrecordingRef = useRef<ReturnType<typeof setInterval> | null>(
     null
   );
+
+  const mimeType: MimeType = 'audio/webm';
+
   useEffect(() => {
     if (isRecording) {
       const startRecording = async () => {
@@ -70,7 +74,6 @@ const useStartRecording = (
     canvasRef,
     isRecording,
     mediaRecorderRef,
-    mimeType,
     setAudioChunks,
     setRecordingDuration,
   ]);

@@ -1,16 +1,16 @@
-import { Dispatch, MutableRefObject, SetStateAction, useEffect } from 'react';
-import { DocumentData } from 'firebase/firestore';
+import { useEffect } from 'react';
 
 import getFirstMessages from '@api/firestore/getFirstMessages';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import { UseGetFirstMsgs } from 'types/hooks/UseGetFirstMsgs';
 import '@i18n';
 
-const useGetFirstMsgs = (
-  chatUID: string | null,
-  isReadyToFetchFirstNewChatMsgs: MutableRefObject<boolean>,
-  lastLoadedMsg: MutableRefObject<DocumentData | null>,
-  setIsReadyFirstMsgs: Dispatch<SetStateAction<boolean>>,
-  setGroupedMessages: Dispatch<SetStateAction<IGroupedMessages | null>>
+const useGetFirstMsgs: UseGetFirstMsgs = (
+  chatUID,
+  isReadyToFetchFirstNewChatMsgs,
+  lastLoadedMsg,
+  setIsReadyFirstMsgs,
+  setGroupedMessages
 ) => {
   useEffect(() => {
     if (isReadyToFetchFirstNewChatMsgs.current === false) {
@@ -31,7 +31,7 @@ const useGetFirstMsgs = (
 
           const groupedMsgs = updatedMessages.reduce((acc, message) => {
             const messageData = message.data();
-            if (messageData && messageData.date) {
+            if (messageData?.date) {
               const date = messageData.date.toDate();
               const dateString = date.toISOString().split('T')[0];
 

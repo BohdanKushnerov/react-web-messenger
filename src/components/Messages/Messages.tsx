@@ -34,7 +34,7 @@ import useGetFirstMsgs from '@hooks/useFirstMsgs';
 import useResetMsgsStates from '@hooks/useResetMsgsStates';
 import useChatMessageUpdates from '@hooks/useChatMessageUpdates';
 import useSelectedMessagesHandling from '@hooks/useSelectedMessagesHandling';
-import usePersistchatUID from '@hooks/usePersistChatUID';
+import usePersistChatUID from '@hooks/usePersistChatUID';
 import mergeChatMessages from '@utils/messages/mergeChatMessages';
 import calculateMenuPosition from '@utils/messages/calculateMenuPosition';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
@@ -99,7 +99,7 @@ const Messages: FC = () => {
     updateSelectedDocDataMessage,
     resetSelectedMessages
   );
-  usePersistchatUID(chatUID);
+  usePersistChatUID(chatUID);
 
   const handleScroll = useCallback(() => {
     const throttleTime = 100;
@@ -140,7 +140,7 @@ const Messages: FC = () => {
 
         const groupedMsgs = updatedMessages.reduce((acc, message) => {
           const messageData = message.data();
-          if (messageData && messageData.date) {
+          if (messageData?.date) {
             const date = messageData.date.toDate();
             const dateString = date.toISOString().split('T')[0];
 

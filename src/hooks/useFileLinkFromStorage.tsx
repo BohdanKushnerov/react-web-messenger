@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import downloadFileFromStorage from '@api/storage/downloadFileFromStorage';
-import { FileFromStorage } from 'types/FileFromStorage';
+import { UseFileLinkFromStorage } from 'types/hooks/UseFileLinkFromStorage';
 
-const useFileLinkFromStorage = (file: FileFromStorage) => {
+const useFileLinkFromStorage: UseFileLinkFromStorage = file => {
   const [linkFile, setLinkFile] = useState<string | null>(null);
   useEffect(() => {
     const fetchFileAndSetLink = async () => {

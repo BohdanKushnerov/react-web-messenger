@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-import { IUseEditingMessage } from '@interfaces/hooks/IUseEditingMessage';
+import { UseEditingMessage } from 'types/hooks/UseEditingMessage';
 
-const useEditingMessage: IUseEditingMessage = (
+const useEditingMessage: UseEditingMessage = (
   editingMessageInfo,
   setMessage
 ) => {

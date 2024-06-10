@@ -13,6 +13,7 @@ import {
 import { db } from '@myfirebase/config';
 import mergeChatMessages from '@utils/messages/mergeChatMessages';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import { UseChatMessageUpdates } from 'types/hooks/UseChatMessageUpdates';
 
 const extractDateString = (timestamp: Timestamp): string => {
   const date = timestamp.toDate();
@@ -63,7 +64,7 @@ const handleAddedMessage = (
   setGroupedMessages: Dispatch<SetStateAction<IGroupedMessages | null>>
 ) => {
   const messageData = change.doc.data();
-  if (messageData && messageData.date) {
+  if (messageData?.date) {
     const dateString = extractDateString(messageData.date);
     const docID = change.doc.id;
 
@@ -84,7 +85,7 @@ const handleAddedFirstMessage = (
   setGroupedMessages: Dispatch<SetStateAction<IGroupedMessages | null>>
 ) => {
   const messageData = change.doc.data();
-  if (messageData && messageData.date) {
+  if (messageData?.date) {
     const dateString = extractDateString(messageData.date);
     const docID = change.doc.id;
 
@@ -108,7 +109,7 @@ const handleModifiedMessage = (
   setGroupedMessages: Dispatch<SetStateAction<IGroupedMessages | null>>
 ) => {
   const messageData = change.doc.data();
-  if (messageData && messageData.date) {
+  if (messageData?.date) {
     const dateString = extractDateString(messageData.date);
 
     const doc = change.doc;
@@ -127,7 +128,7 @@ const handleRemovedMessage = (
   setGroupedMessages: Dispatch<SetStateAction<IGroupedMessages | null>>
 ) => {
   const messageData = change.doc.data();
-  if (messageData && messageData.date) {
+  if (messageData?.date) {
     const dateString = extractDateString(messageData.date);
 
     setGroupedMessages(prev => {
@@ -139,9 +140,9 @@ const handleRemovedMessage = (
   }
 };
 
-const useChatMessageUpdates = (
-  chatUID: string | null,
-  setGroupedMessages: Dispatch<SetStateAction<IGroupedMessages | null>>
+const useChatMessageUpdates: UseChatMessageUpdates = (
+  chatUID,
+  setGroupedMessages
 ) => {
   useEffect(() => {
     if (chatUID === null) return;

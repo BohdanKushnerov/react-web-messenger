@@ -9,8 +9,9 @@ import {
 } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
+import { UseGetLastMessage } from 'types/hooks/UseGetLastMessage';
 
-const useGetLastMessage = (itemChatUID: string | null) => {
+const useGetLastMessage: UseGetLastMessage = itemChatUID => {
   const [lastMsg, setLastMsg] = useState<DocumentData | null>(null);
 
   useEffect(() => {

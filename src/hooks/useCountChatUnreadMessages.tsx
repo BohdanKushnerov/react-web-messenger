@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { IUseCountChatUnreadMessages } from '@interfaces/hooks/IUseCountChatUnreadMessages';
+import { UseCountChatUnreadMessages } from 'types/hooks/UseCountChatUnreadMessages';
 
-const useCountChatUnreadMessages: IUseCountChatUnreadMessages =
+const useCountChatUnreadMessages: UseCountChatUnreadMessages =
   chatUnreadMessages => {
     const [countChatUnreadMessages, setCountChatUnreadMessages] =
       useState<number>(0);

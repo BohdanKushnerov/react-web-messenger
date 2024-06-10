@@ -34,7 +34,7 @@ const CopyButton: FC<ICopyButtonProps> = ({
     <>
       {selectedDocDataMessage && (
         <CopyToClipboard
-          text={copyTextSelectedMsgs(selectedDocDataMessage) || ''}
+          text={copyTextSelectedMsgs(selectedDocDataMessage) ?? ''}
           onCopy={handleClickCopyTextMsg}
         >
           <div

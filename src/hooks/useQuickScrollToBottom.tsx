@@ -1,12 +1,12 @@
-import { RefObject, useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import { UseQuickScrollToBottom } from 'types/hooks/UseQuickScrollToBottom';
 
-const useQuickScrollToBottom = (
-  bottomElementRef: RefObject<HTMLDivElement>,
-  isReadyFirstMsgs: boolean,
-  isScrollDownButtonVisible: boolean,
-  groupedMessages: IGroupedMessages | null
+const useQuickScrollToBottom: UseQuickScrollToBottom = (
+  bottomElementRef,
+  isReadyFirstMsgs,
+  isScrollDownButtonVisible,
+  groupedMessages
 ) => {
   const quickScrollBottom = useCallback(() => {
     if (bottomElementRef.current) {
