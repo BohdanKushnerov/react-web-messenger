@@ -6,9 +6,11 @@ import { toast } from 'react-toastify';
 import MyPhoneInput from '@components/Inputs/MyPhoneInput/MyPhoneInput';
 import CodeInput from '@components/Inputs/CodeInput/CodeInput';
 import AuthConfirmButton from '@components/Buttons/ButtonAuthConfirm/ButtonAuthConfirm';
+import ButtonArrow from '@components/Buttons/ButtonArrow/ButtonArrow';
 import { auth, db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 import handleSubmitVerifyCode from '@utils/auth/handleSubmitVerifyCode';
+import isValidPhoneNumber from '@utils/auth/isValidPhoneNumber';
 import setUpRecaptcha from '@utils/auth/setUpRecaptcha';
 import { AuthSteps } from 'types/AuthSteps';
 import authStep1 from '@assets/auth-step1.webp';
@@ -28,23 +30,27 @@ const Auth: FC = () => {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
 
   const handleSubmitPhone = async (e: React.FormEvent): Promise<void> => {
+    console.log('handleSubmitPhone', e);
     e.preventDefault();
 
     if (phone) {
-      try {
-        setIsLoading(true);
-        const response = await setUpRecaptcha(phone, auth);
-        setStep('Step 2/3');
-
-        setConfirmationResult(response);
-      } catch (error) {
-        console.log('handleSubmitPhone error', error);
-        toast.error(String(error));
-      } finally {
-        setIsLoading(false);
+      if (isValidPhoneNumber(`+${phone}`)) {
+        toast.error('Невірний формат номера телефону');
+        return;
       }
-    } else {
-      console.error('Номер телефона не определен');
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await setUpRecaptcha(phone, auth);
+      setStep('Step 2/3');
+
+      setConfirmationResult(response);
+    } catch (error) {
+      console.log('handleSubmitPhone error', error);
+      toast.error(String(error));
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -112,10 +118,28 @@ const Auth: FC = () => {
     setSurname(e.target.value);
   };
 
+  const handleClickBackOneStep = () => {
+    if (step === 'Step 2/3') {
+      setStep('Step 1/3');
+    } else if (step === 'Step 3/3') {
+      setStep('Step 2/3');
+    }
+  };
+
+  const getCodeAgain = async () => {
+    const response = await setUpRecaptcha(phone, auth);
+    setStep('Step 2/3');
+
+    setConfirmationResult(response);
+  };
+
   return (
     <div className="bg-main-bcg bg-no-repeat bg-cover bg-center h-screen">
       <p className="text-white font-bold text-center">{step}</p>
       <div className="bg-mybcg min-w-240px max-w-320px mx-auto my-0 p-4 rounded-md">
+        {step !== 'Step 1/3' && (
+          <ButtonArrow handleClickButtonArrow={handleClickBackOneStep} />
+        )}
         {step === 'Step 1/3' && (
           <>
             <img
@@ -157,6 +181,7 @@ const Auth: FC = () => {
               <CodeInput setCode={setCode} />
               <AuthConfirmButton isLoading={isLoading} />
             </form>
+            <button className='border border-white text-white' onClick={getCodeAgain}>get one more time</button>
           </>
         )}
         {step === 'Step 3/3' && (
