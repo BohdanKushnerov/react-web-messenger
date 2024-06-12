@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
 
+import useResizeWindow from './useResizeWindow';
 import { UseQuickScrollToBottom } from 'types/hooks/UseQuickScrollToBottom';
 
 const useQuickScrollToBottom: UseQuickScrollToBottom = (
@@ -8,6 +9,8 @@ const useQuickScrollToBottom: UseQuickScrollToBottom = (
   isScrollDownButtonVisible,
   groupedMessages
 ) => {
+  const { isFullScreen } = useResizeWindow();
+
   const quickScrollBottom = useCallback(() => {
     if (bottomElementRef.current) {
       bottomElementRef.current.scrollIntoView({ block: 'end' });
@@ -21,14 +24,19 @@ const useQuickScrollToBottom: UseQuickScrollToBottom = (
   }, [isReadyFirstMsgs, quickScrollBottom]);
 
   useEffect(() => {
-    const isMobileScreen = window.innerWidth <= 639;
+    const isMobileScreen = !isFullScreen;
 
     if (isReadyFirstMsgs && !isScrollDownButtonVisible && isMobileScreen) {
       setTimeout(() => {
         quickScrollBottom();
       }, 300);
     }
-  }, [isReadyFirstMsgs, isScrollDownButtonVisible, quickScrollBottom]);
+  }, [
+    isFullScreen,
+    isReadyFirstMsgs,
+    isScrollDownButtonVisible,
+    quickScrollBottom,
+  ]);
 
   useEffect(() => {
     if (!isScrollDownButtonVisible) {

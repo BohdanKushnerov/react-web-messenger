@@ -7,13 +7,21 @@ import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 const SearchMessages = lazy(
   () => import('@components/ChatHeader/SearchMessages/SearchMessages')
 );
+import useResizeWindow from '@hooks/useResizeWindow';
 
 const ChatPage: FC = () => {
   const [isShowSearchMessages, setIsShowSearchMessages] = useState(false);
 
+  const { heightWindow } = useResizeWindow();
+
   return (
     <>
-      <div className="relative h-full w-full xl:flex xl:flex-col xl:items-center bg-transparent overflow-hidden">
+      <div
+        className="relative w-full xl:flex xl:flex-col xl:items-center bg-transparent overflow-hidden"
+        style={{
+          height: heightWindow,
+        }}
+      >
         <ChatHeader setIsShowSearchMessages={setIsShowSearchMessages} />
 
         <Messages />

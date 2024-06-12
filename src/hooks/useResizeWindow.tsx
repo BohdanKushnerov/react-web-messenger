@@ -13,7 +13,9 @@ const useResizeWindow = () => {
       } else {
         setIsFullScreen(true);
       }
-      setHeightWindow(window.innerHeight);
+
+      const height = window?.visualViewport?.height || window.innerHeight;
+      setHeightWindow(height);
     };
 
     window.addEventListener('resize', handleResize);
