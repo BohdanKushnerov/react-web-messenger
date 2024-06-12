@@ -6,7 +6,7 @@ import useChatStore from '@zustand/store';
 import '@i18n';
 
 const SearchUsers: FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('translation', { keyPrefix: 'General' });
 
   const searchValue = useChatStore(state => state.searchValue);
   const updateSearchValue = useChatStore(state => state.updateSearchValue);

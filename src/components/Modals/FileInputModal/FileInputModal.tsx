@@ -10,7 +10,7 @@ import useChatStore from '@zustand/store';
 import handleSendAttachedFilesMessage from '@utils/chatForm/handleSendAttachedFilesMessage';
 import { IFileInputModalProps } from '@interfaces/IFileInputModalProps';
 import { FilesUploadStatuses } from 'types/FilesUploadStatuses';
-import '@i18n';
+import '@i18n'
 
 const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
   ({ setIsModalAddFileOpen, handleToggleModal }, ref) => {

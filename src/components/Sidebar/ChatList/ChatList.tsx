@@ -7,7 +7,7 @@ import useMyUserChatList from '@hooks/useMyUserChatList';
 import { ChatListItemType } from 'types/ChatListItemType';
 
 const ChatList: FC = () => {
-  const { t } = useTranslation('translation', { keyPrefix: 'Sidebar' });
+  const { t } = useTranslation();
 
   const { isLoading, myUserChatList } = useMyUserChatList();
 

@@ -2,12 +2,12 @@ import { FC, Suspense, lazy, useRef, useState } from 'react';
 
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import FileInput from '@components/Inputs/FileInput/FileInput';
+import ButtonAttachFile from '@components/Buttons/ButtonAttachFile/ButtonAttachFile';
 const FileInputModal = lazy(
   () => import('@components/Modals/FileInputModal/FileInputModal')
 );
 import useChatStore from '@zustand/store';
 import '@i18n';
-import ButtonAttachFile from '@components/Buttons/ButtonAttachFile/ButtonAttachFile';
 
 const FileAttachment: FC = () => {
   const [isModalAddFileOpen, setIsModalAddFileOpen] = useState(false);

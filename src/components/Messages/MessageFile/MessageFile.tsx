@@ -11,9 +11,6 @@ const MessageFile: FC<IMessageFileProps> = ({ file }) => {
   const fileType: DefaultExtensionType =
     (file.name.split('.').pop() as DefaultExtensionType) || 'default';
 
-  console.log(storageLink);
-  console.log(file.type);
-
   if (file.type.includes('video')) {
     return <VideoComponent source={file.url} />;
   } else if (file.type.includes('audio')) {

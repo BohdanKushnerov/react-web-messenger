@@ -10,8 +10,10 @@ import { IAudioComponentProps } from '@interfaces/IAudioComponentProps';
 const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   const [volume, setVolume] = useState<number>(100);
   const containerRef = useRef(null);
+
   const [debouncedVolume] = useDebounce(volume, 50);
-  const { t } = useTranslation('translation');
+
+  const { t } = useTranslation('translation', { keyPrefix: 'General' });
 
   const { wavesurfer, isPlaying, currentTime } = useWavesurfer({
     container: containerRef,

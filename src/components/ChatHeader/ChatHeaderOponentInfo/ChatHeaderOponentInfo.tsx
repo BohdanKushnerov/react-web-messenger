@@ -9,7 +9,7 @@ import useShowTyping from '@hooks/useShowTyping';
 import '@i18n';
 
 const ChatHeaderOponentInfo: FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('translation', { keyPrefix: 'General' });
 
   const userUID = useChatStore(state => state.currentChatInfo.userUID);
 
@@ -30,7 +30,9 @@ const ChatHeaderOponentInfo: FC = () => {
       {isOpponentTyping ? (
         <h2 className="text-black dark:text-white">{t('Typing')}...</h2>
       ) : (
-        <div className={`${isOponentOnline ? 'text-green-600' : 'text-red-700'}`}>
+        <div
+          className={`${isOponentOnline ? 'text-green-600' : 'text-red-700'}`}
+        >
           {isOponentOnline ? t('Online') : t('Offline')}
         </div>
       )}
