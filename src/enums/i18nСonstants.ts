@@ -11,6 +11,12 @@ export enum Auth {
   Surname = 'Auth.Surname',
   InvalidPhoneNumber = 'Auth.InvalidPhoneNumber',
   ReloadPage = 'Auth.ReloadPage',
+  EmptyNameSurname = 'Auth.EmptyNameSurname',
+  InvalidVerificationCode = 'Auth.InvalidVerificationCode',
+  UpdateProfileError = 'Auth.UpdateProfileError',
+  TooManyRequests = 'Auth.TooManyRequests',
+  ClearRegistrationForm = 'Auth.ClearRegistrationForm',
+  ResendSMS = 'Auth.ResendSMS',
 }
 
 export enum MonthNames {

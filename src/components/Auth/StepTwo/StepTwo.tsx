@@ -1,56 +1,36 @@
-import { FC, useState } from 'react';
-import { toast } from 'react-toastify';
+import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import AuthConfirmButton from '@components/Buttons/ButtonAuthConfirm/ButtonAuthConfirm';
 import CodeInput from '@components/Inputs/CodeInput/CodeInput';
 import { auth } from '@myfirebase/config';
-import handleSubmitVerifyCode from '@utils/auth/handleSubmitVerifyCode';
+import useAuthResendVerifyCode from '@hooks/useAuthResendVerifyCode';
 import setUpRecaptcha from '@utils/auth/setUpRecaptcha';
 import { IStepTwoProps } from '@interfaces/IStepTwoProps';
 import authStep2 from '@assets/auth-step2.webp';
-import { useTranslation } from 'react-i18next';
+import convertTimeWithZero from '@utils/convertTimeWithZero';
 
 const StepTwo: FC<IStepTwoProps> = ({
   phone,
-  isLoading,
-  confirmationResult,
-  setIsLoading,
-  setStep,
+  recaptcha,
+  setCode,
   setConfirmationResult,
+  setRecaptcha,
 }) => {
-  const [code, setCode] = useState('');
-
   const { t } = useTranslation('translation', { keyPrefix: 'Auth' });
 
-  const handleMannageVerifyCode = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      setIsLoading(true);
-
-      const userCredential = await handleSubmitVerifyCode(
-        confirmationResult,
-        code
-      );
-
-      if (userCredential) {
-        if (userCredential.user.displayName) {
-          return;
-        } else {
-          setStep('Step 3/3');
-        }
-      }
-    } catch (error) {
-      console.log('handleMannageVerifyCode error', error);
-      toast.error(String(error));
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { timer, isButtonDisabled, handleResetTimer } =
+    useAuthResendVerifyCode();
 
   const getCodeAgain = async () => {
-    const response = await setUpRecaptcha(phone, auth);
-    setStep('Step 2/3');
+    handleResetTimer();
+
+    const response = await setUpRecaptcha(
+      phone,
+      auth,
+      recaptcha,
+      setRecaptcha,
+      t
+    );
 
     setConfirmationResult(response);
   };
@@ -64,16 +44,23 @@ const StepTwo: FC<IStepTwoProps> = ({
         width={120}
         height={120}
       />
-      <h1 className="font-bold text-white text-center">{t('Verification')}</h1>
+      <h1 className="font-bold text-black dark:text-white text-center">
+        {t('Verification')}
+      </h1>
       <p className="text-textcolor text-center">{t('EnterDigits')}</p>
 
-      <form onSubmit={handleMannageVerifyCode} className="flex flex-col gap-1">
+      <div className="mb-2">
         <CodeInput setCode={setCode} />
-        <AuthConfirmButton isLoading={isLoading} />
-      </form>
-      <button className="border border-white text-white" onClick={getCodeAgain}>
-        get one more time
-      </button>
+      </div>
+      <div className="flex justify-center mb-2">
+        <button
+          className="w-full p-2 text-black dark:text-white border border-black dark:border-white rounded-md disabled:text-gray-400 disabled:border-gray-400 disabled:dark:text-gray-600 disabled:dark:border-gray-400"
+          onClick={getCodeAgain}
+          disabled={isButtonDisabled}
+        >
+          {t('ResendSMS')} {timer !== 0 && convertTimeWithZero(timer)}
+        </button>
+      </div>
     </>
   );
 };

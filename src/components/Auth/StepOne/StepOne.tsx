@@ -1,48 +1,12 @@
-import { FC, useRef } from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
-import AuthConfirmButton from '@components/Buttons/ButtonAuthConfirm/ButtonAuthConfirm';
 import MyPhoneInput from '@components/Inputs/MyPhoneInput/MyPhoneInput';
-import { auth } from '@myfirebase/config';
-import isValidPhoneNumber from '@utils/auth/isValidPhoneNumber';
-import setUpRecaptcha from '@utils/auth/setUpRecaptcha';
 import { IStepOneProps } from '@interfaces/IStepOneProps';
 import authStep1 from '@assets/auth-step1.webp';
 
-const StepOne: FC<IStepOneProps> = ({
-  isLoading,
-  phone,
-  setPhone,
-  setStep,
-  setIsLoading,
-  setConfirmationResult,
-}) => {
-  const formRef = useRef<HTMLFormElement | null>(null);
-
+const StepOne: FC<IStepOneProps> = ({ phone, setPhone }) => {
   const { t } = useTranslation('translation', { keyPrefix: 'Auth' });
-
-  const handleSubmitPhone = async (e: React.FormEvent): Promise<void> => {
-    e.preventDefault();
-
-    if (!isValidPhoneNumber(`+${phone}`)) {
-      toast.error(t('InvalidPhoneNumber'));
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      const response = await setUpRecaptcha(phone, auth);
-      setStep('Step 2/3');
-
-      setConfirmationResult(response);
-    } catch (error) {
-      toast.error(String(error));
-      toast.error(t('ReloadPage'));
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <>
@@ -58,14 +22,9 @@ const StepOne: FC<IStepOneProps> = ({
       </h1>
       <p className="text-textcolor text-center">{t('EnterNumber')}</p>
 
-      <form
-        ref={formRef}
-        onSubmit={handleSubmitPhone}
-        className="flex flex-col gap-1"
-      >
+      <div className="mb-2">
         <MyPhoneInput phone={phone} setPhone={setPhone} />
-        <AuthConfirmButton isLoading={isLoading} />
-      </form>
+      </div>
     </>
   );
 };

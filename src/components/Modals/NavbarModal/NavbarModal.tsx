@@ -30,6 +30,8 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
     resetCurrentChatInfo();
 
     await signOut(auth);
+
+    localStorage.removeItem('phone');
   };
 
   const handleSettingsClick = () => {
