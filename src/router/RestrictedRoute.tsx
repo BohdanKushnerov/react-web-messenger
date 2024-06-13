@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 
 import useChatStore from '@zustand/store';
 import { IRestrictedRouteProps } from '@interfaces/routes/IRestrictedRouteProps';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 
 const RestrictedRoute = ({
   component: Component,
@@ -10,6 +10,12 @@ const RestrictedRoute = ({
 }: IRestrictedRouteProps) => {
   const isLoggedIn = useChatStore(state => state.isLoggedIn);
   const currentUser = useChatStore(state => state.currentUser);
+
+  useEffect(() => {
+    if (currentUser.displayName) {
+      localStorage.removeItem('step');
+    }
+  }, [currentUser]);
 
   return (
     <>

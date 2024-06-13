@@ -14,7 +14,7 @@ const useResizeWindow = () => {
         setIsFullScreen(true);
       }
 
-      const height = window?.visualViewport?.height || window.innerHeight;
+      const height = window?.visualViewport?.height ?? window.innerHeight;
       setHeightWindow(height);
     };
 

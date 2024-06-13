@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'use-debounce';
 
 import ButtonAudio from '@components/Buttons/ButtonAudio/ButtonAudio';
-import convertAudioMsgTime from '@utils/messages/convertAudioMsgTime';
+import convertTimeWithZero from '@utils/convertTimeWithZero';
 import { IAudioComponentProps } from '@interfaces/IAudioComponentProps';
 
 const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
@@ -52,12 +52,12 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
             <p className="text-dark dark:text-white">{t('Time')}</p>
             {isPlaying && (
               <p className="text-black dark:text-white">
-                {convertAudioMsgTime(currentTime)}
+                {convertTimeWithZero(currentTime)}
               </p>
             )}
             {!isPlaying && wavesurfer && (
               <p className="text-black dark:text-white">
-                {convertAudioMsgTime(wavesurfer.getDuration())}
+                {convertTimeWithZero(wavesurfer.getDuration())}
               </p>
             )}
           </div>

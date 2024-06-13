@@ -14,6 +14,11 @@ const MyPhoneInput: FC<IMyPhoneInputProps> = ({ phone, setPhone }) => {
       containerStyle={{
         height: 50,
       }}
+      inputProps={{
+        name: 'phone',
+        required: true,
+        autoFocus: true,
+      }}
       inputStyle={{
         width: '100%',
         backgroundColor: '#1F2025',

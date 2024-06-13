@@ -1,13 +1,10 @@
 import { Dispatch, SetStateAction } from 'react';
-import { ConfirmationResult } from 'firebase/auth';
-
-import { AuthSteps } from 'types/AuthSteps';
+import { ConfirmationResult, RecaptchaVerifier } from 'firebase/auth';
 
 export interface IStepTwoProps {
   phone: string;
-  isLoading: boolean;
-  confirmationResult: ConfirmationResult | null;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-  setStep: Dispatch<SetStateAction<AuthSteps>>;
+  recaptcha: RecaptchaVerifier | null;
+  setCode: Dispatch<SetStateAction<string>>;
   setConfirmationResult: Dispatch<SetStateAction<ConfirmationResult | null>>;
+  setRecaptcha: Dispatch<SetStateAction<RecaptchaVerifier | null>>;
 }

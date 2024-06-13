@@ -21,6 +21,11 @@ const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (name === '' || surname === '') {
+      toast.error(t('EmptyNameSurname'));
+      return;
+    }
+
     try {
       setIsLoading(true);
       const user = auth.currentUser;
@@ -41,8 +46,8 @@ const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
         await setDoc(doc(db, 'userChats', user.uid), {});
       }
     } catch (error) {
+      toast.error(t('UpdateProfileError'));
       console.log('handleUpdateProfile error', error);
-      toast.error(String(error));
     } finally {
       setIsLoading(false);
     }
@@ -65,10 +70,11 @@ const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
         width={120}
         height={120}
       />
-      <form onSubmit={handleUpdateProfile} className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1">
         <label htmlFor="name" className="font-bold text-textcolor">
           {t('Name')}
           <input
+            autoFocus
             className="w-full h-10 p-2 rounded-md bg-transparent border border-inputChar"
             id="name"
             type="text"
@@ -86,8 +92,11 @@ const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
             onChange={handleChangeSurname}
           />
         </label>
-        <AuthConfirmButton isLoading={isLoading} />
-      </form>
+        <AuthConfirmButton
+          isLoading={isLoading}
+          onSubmit={handleUpdateProfile}
+        />
+      </div>
     </>
   );
 };
