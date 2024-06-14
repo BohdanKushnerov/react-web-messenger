@@ -6,17 +6,18 @@ import { toast } from 'react-toastify';
 import StepOne from '@components/Auth/StepOne/StepOne';
 import StepTwo from '@components/Auth/StepTwo/StepTwo';
 import StepThree from '@components/Auth/StepThree/StepThree';
+import AuthConfirmButton from '@components/Buttons/ButtonAuthConfirm/ButtonAuthConfirm';
 import LanguageSwitcher from '@components/Sidebar/ProfileSettings/LanguageSwitcher/LanguageSwitcher';
 import Theme from '@components/Sidebar/Theme/Theme';
+import TestNumbers from '@components/Auth/TestNumbers/TestNumbers';
+import { auth } from '@myfirebase/config';
 import useStoredConfirmationResult from '@hooks/useStoredConfirmationResult';
 import getStoredPhone from '@utils/auth/getStoredPhone';
 import getStoredAuthStep from '@utils/auth/getStoredAuthStep';
-import { AuthSteps } from 'types/AuthSteps';
-import AuthConfirmButton from '@components/Buttons/ButtonAuthConfirm/ButtonAuthConfirm';
-import { auth } from '@myfirebase/config';
 import setUpRecaptcha from '@utils/auth/setUpRecaptcha';
 import isValidPhoneNumber from '@utils/auth/isValidPhoneNumber';
 import handleSubmitVerifyCode from '@utils/auth/handleSubmitVerifyCode';
+import { AuthSteps } from 'types/AuthSteps';
 
 const Auth: FC = () => {
   const [step, setStep] = useState<AuthSteps>(getStoredAuthStep());
@@ -36,10 +37,10 @@ const Auth: FC = () => {
     setRecaptcha
   );
 
-  const handleSubmitPhone = async (e: React.FormEvent): Promise<void> => {
+  const handleManageSubmitPhone = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
 
-    if (!isValidPhoneNumber(`+${phone}`)) {
+    if (!isValidPhoneNumber(phone)) {
       toast.error(t('InvalidPhoneNumber'));
       return;
     }
@@ -96,11 +97,11 @@ const Auth: FC = () => {
     }
   };
 
-  const handleSubmitAuthStepOneAndTwo = async (
+  const handleSubmitAuthFirstTwoSteps = async (
     e: React.FormEvent
   ): Promise<void> => {
     if (step === 'Step 1/3') {
-      handleSubmitPhone(e);
+      handleManageSubmitPhone(e);
     } else if (step === 'Step 2/3') {
       handleMannageVerifyCode(e);
     }
@@ -116,14 +117,14 @@ const Auth: FC = () => {
 
   return (
     <div className="relative flex flex-col gap-2 h-full py-10 bg-main-bcg bg-no-repeat bg-cover bg-center">
-      <div className="h-full bg-gray-200 dark:bg-myBlackBcg max-w-[300px] mx-auto rounded-md">
+      <div className="h-full bg-main dark:bg-mainBlack max-w-[300px] mx-auto rounded-md">
         <Theme />
         <LanguageSwitcher />
       </div>
       <p className="text-white font-bold text-center">
         {t('Step')} {step.split(' ')[1]}
       </p>
-      <div className="relative bg-gray-200 dark:bg-myBlackBcg min-w-240px max-w-320px mx-auto my-0 p-4 rounded-md">
+      <div className="relative bg-main dark:bg-mainBlack min-w-240px max-w-320px mx-auto my-0 p-4 rounded-md">
         {step === 'Step 1/3' && <StepOne phone={phone} setPhone={setPhone} />}
 
         {step === 'Step 2/3' && (
@@ -139,7 +140,7 @@ const Auth: FC = () => {
         {step !== 'Step 3/3' && (
           <AuthConfirmButton
             isLoading={isLoading}
-            onSubmit={handleSubmitAuthStepOneAndTwo}
+            onSubmit={handleSubmitAuthFirstTwoSteps}
           />
         )}
 
@@ -148,39 +149,14 @@ const Auth: FC = () => {
         )}
 
         <button
-          className="w-full mt-2 p-2 rounded-md bg-red-400 text-white font-bold disabled:text-zinc-700"
+          className="w-full mt-2 p-2 rounded-md bg-mediumRed text-white font-bold disabled:text-veryDarkZinc"
           onClick={handleFullResetFrom}
         >
-          {t("ClearRegistrationForm")}
+          {t('ClearRegistrationForm')}
         </button>
       </div>
 
-      {step === 'Step 1/3' && (
-        <div className="bg-gray-200 dark:bg-myBlackBcg min-w-240px max-w-320px mx-auto rounded-md">
-          <div>
-            <h2 className="text-black dark:text-white font-bold text-center">
-              {t('TestNumber')}: 1
-            </h2>
-            <p className="text-zinc-700 dark:text-gray-400 font-bold text-center">
-              +1 650-555-3434
-            </p>
-            <p className="text-zinc-900 dark:text-gray-400 font-bold text-center">
-              <span>{t('Code')}: </span>111111
-            </p>
-          </div>
-          <div>
-            <h2 className="text-black dark:text-white font-bold text-center">
-              {t('TestNumber')}: 2
-            </h2>
-            <p className="text-zinc-700 dark:text-gray-400 font-bold text-center">
-              +1 650-555-3435
-            </p>
-            <p className="text-zinc-900 dark:text-gray-400 font-bold text-center">
-              <span>{t('Code')}: </span>111111
-            </p>
-          </div>
-        </div>
-      )}
+      {step !== 'Step 3/3' && <TestNumbers />}
     </div>
   );
 };

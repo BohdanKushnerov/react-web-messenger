@@ -10,7 +10,7 @@ import useChatStore from '@zustand/store';
 import handleSendAttachedFilesMessage from '@utils/chatForm/handleSendAttachedFilesMessage';
 import { IFileInputModalProps } from '@interfaces/IFileInputModalProps';
 import { FilesUploadStatuses } from 'types/FilesUploadStatuses';
-import '@i18n'
+import '@i18n';
 
 const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
   ({ setIsModalAddFileOpen, handleToggleModal }, ref) => {
@@ -55,13 +55,16 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
     return (
       <ModalWindow handleToggleModal={handleToggleModal}>
         <div className="h-full flex justify-center items-center">
-          <div className="relative w-full sm:w-1/2 xl:w-1/3 h-1/2 flex flex-col gap-8 justify-between items-center p-2 bg-gray-200 dark:bg-myBlackBcg rounded-3xl shadow-mainShadow">
+          <div className="relative w-full sm:w-1/2 xl:w-1/3 h-1/2 flex flex-col gap-8 justify-between items-center p-2 bg-main dark:bg-mainBlack rounded-3xl shadow-mainShadow">
+            
             <p className="text-black dark:text-white font-extrabold">
               {`${t('Send')} ${
                 ref && 'current' in ref && ref.current?.files?.length
               } ${t('Files')}`}
             </p>
+
             <ButtonClose handleClickButtonClose={handleCloseAddFileModal} />
+
             <div ref={scrollbarsRef} className="w-full h-full overflow-scroll">
               <ul className="flex flex-col gap-2">
                 {ref &&
@@ -99,7 +102,7 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
             >
               <div className="relative w-full h-10 sm:w-8/12 ">
                 <input
-                  className="w-full h-full py-1 px-10 rounded-3xl bg-zinc-500 dark:bg-mySeacrhBcg text-white outline-none border-2 border-transparent focus:border-cyan-500"
+                  className="w-full h-full py-1 px-10 rounded-3xl bg-mediumDarkZinc dark:bg-darkBackground text-white outline-none border-2 border-transparent focus:border-mediumDarkCyan"
                   type="text"
                   placeholder={t('ImageCaptionPlaceholder')}
                   value={fileDescription}
@@ -107,7 +110,7 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
                 />
               </div>
               <button
-                className="px-2 py-1 border border-gray-600 rounded-full text-black dark:text-white transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
+                className="px-2 py-1 border border-veryDarkGray rounded-full text-black dark:text-white transition-all duration-300 hover:shadow-mainShadow hover:bg-mediumZinc hover:dark:bg-extraDarkGray"
                 type="submit"
                 disabled={Object.keys(uploadFilesStatus).length > 0}
                 aria-label="Send"

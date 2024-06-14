@@ -12,7 +12,7 @@ const CodeInput: FC<ICodeInputProps> = ({ setCode }) => {
     <AuthCode
       autoFocus
       containerClassName="flex flex-row justify-center gap-3"
-      inputClassName="w-full h-10 font-bold text-center text-black dark:text-white outline-none bg-transparent border-b-4 border-inputChar focus:border-blue-500"
+      inputClassName="w-full h-10 font-bold text-center text-black dark:text-white outline-none bg-transparent border-b-4 border-charcoal focus:border-mediumDarkBlue"
       allowedCharacters="numeric"
       onChange={handleOnChange}
     />

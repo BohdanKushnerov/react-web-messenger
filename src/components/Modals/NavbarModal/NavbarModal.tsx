@@ -61,7 +61,7 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
                 }
                 `}
             >
-              <div className="absolute top-14 left-5 z-20 flex flex-col gap-2 p-2 bg-gray-200 dark:bg-myBlackBcg rounded-md shadow-mainShadow">
+              <div className="absolute top-14 left-5 z-20 flex flex-col gap-2 p-2 bg-main dark:bg-mainBlack rounded-md shadow-mainShadow">
                 <div className="flex justify-between items-center gap-1 text-black dark:text-white">
                   <AvatarProfile
                     photoURL={currentUser.photoURL}
@@ -70,7 +70,7 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
                   />
                   <p className="flex transf">{currentUser?.displayName}</p>
                   <button
-                    className="px-2 py-1 border border-zinc-600 dark:border-zinc-500 rounded-full transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
+                    className="px-2 py-1 border border-darkZinc dark:border-darkZinc rounded-full transition-all duration-300 hover:shadow-mainShadow hover:bg-mediumZinc hover:dark:bg-extraDarkGray"
                     onClick={handleSignOut}
                     aria-label="Sign out"
                   >
@@ -78,7 +78,7 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
                   </button>
                 </div>
                 <button
-                  className="px-2 py-1 border border-zinc-600 dark:border-zinc-500 rounded-full text-black dark:text-white transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800"
+                  className="px-2 py-1 border border-darkZinc dark:border-darkZinc rounded-full text-black dark:text-white transition-all duration-300 hover:shadow-mainShadow hover:bg-mediumZinc hover:dark:bg-extraDarkGray"
                   onClick={handleSettingsClick}
                   aria-label="Profile settings"
                 >

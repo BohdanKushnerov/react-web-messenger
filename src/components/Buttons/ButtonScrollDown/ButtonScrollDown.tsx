@@ -9,7 +9,7 @@ const ButtonScrollDown: FC<IButtonScrollDownProps> = ({
 }) => {
   return (
     <button
-      className="absolute bottom-32 right-10 bg-white p-2 rounded-full group hover:scale-105 hover:outline outline-1 outline-green-500"
+      className="absolute bottom-32 right-10 bg-white p-2 rounded-full group hover:scale-105 hover:outline outline-1 outline-mediumDarkGreen"
       onClick={scrollToBottom}
       aria-label="Scroll down"
     >
@@ -22,7 +22,7 @@ const ButtonScrollDown: FC<IButtonScrollDownProps> = ({
           <use href={sprite + '#icon-scroll-up'} />
         </svg>
         {lengthOfUnreadMsgs > 0 && (
-          <span className="absolute bottom-0 right-0 transform translate-x-4 -mb-4 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+          <span className="absolute bottom-0 right-0 transform translate-x-4 -mb-4 bg-mediumDarkRed text-white rounded-full w-6 h-6 flex items-center justify-center">
             {lengthOfUnreadMsgs}
           </span>
         )}

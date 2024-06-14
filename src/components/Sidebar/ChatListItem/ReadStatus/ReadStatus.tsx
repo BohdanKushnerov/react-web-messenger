@@ -11,7 +11,6 @@ const ReadStatus: FC<IReadStatusProps> = ({ senderUserID, itemChatUID }) => {
 
   const isReadMyLastMessage = useIsReadMyLastMessage(itemChatUID);
 
-
   return (
     <>
       {senderUserID === uid &&
@@ -22,7 +21,7 @@ const ReadStatus: FC<IReadStatusProps> = ({ senderUserID, itemChatUID }) => {
             className={`${
               chatUID === itemChatUID
                 ? 'fill-white'
-                : 'fill-zinc-800 dark:fill-white'
+                : 'fill-ultraDarkZinc dark:fill-white'
             }`}
           >
             <use
@@ -37,7 +36,7 @@ const ReadStatus: FC<IReadStatusProps> = ({ senderUserID, itemChatUID }) => {
             className={`${
               chatUID === itemChatUID
                 ? 'fill-white'
-                : 'fill-zinc-800 dark:fill-white'
+                : 'fill-ultraDarkZinc dark:fill-white'
             } drop-shadow-2xl`}
           >
             <use

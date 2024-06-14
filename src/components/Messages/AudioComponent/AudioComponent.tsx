@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'use-debounce';
 
 import ButtonAudio from '@components/Buttons/ButtonAudio/ButtonAudio';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import convertTimeWithZero from '@utils/convertTimeWithZero';
 import { IAudioComponentProps } from '@interfaces/IAudioComponentProps';
 
 const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   const [volume, setVolume] = useState<number>(100);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const containerRef = useRef(null);
 
   const [debouncedVolume] = useDebounce(volume, 50);
@@ -25,6 +27,7 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   useEffect(() => {
     if (wavesurfer) {
       wavesurfer.setVolume(debouncedVolume / 100);
+      setIsLoading(false);
     }
   }, [debouncedVolume, wavesurfer]);
 
@@ -38,12 +41,19 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   };
 
   return (
-    <div className="flex flex-row items-start gap-2 w-[300px] sm:w-[200px] md:min-w-[220px] md:max-w-md lg:min-w-[360px]">
+    <div className="relative flex flex-row items-start gap-2 w-[300px] sm:w-[200px] md:min-w-[220px] md:max-w-md lg:min-w-[360px]">
       <ButtonAudio isPlaying={isPlaying} onPlayPause={onPlayPause} />
 
+      {isLoading && (
+        <div className="absolute top-0 left-8">
+          <LoaderUIActions size={50} />
+        </div>
+      )}
       <div className="flex flex-1 flex-col items-start w-full">
         <div
-          className="flex-1 w-full sm:w-[95%] md:w-full"
+          className={`${
+            isLoading && 'opacity-0'
+          } flex-1 w-full sm:w-[95%] md:w-full`}
           ref={containerRef}
         />
 
@@ -68,15 +78,15 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
               className="w-24 sm:w-16 lg:w-24 
             appearance-none bg-transparent 
             [&::-webkit-slider-runnable-track]:rounded-full 
-            [&::-webkit-slider-runnable-track]:bg-zinc-500
-            dark:[&::-webkit-slider-runnable-track]:bg-zinc-100
+            [&::-webkit-slider-runnable-track]:bg-mediumDarkZinc
+            dark:[&::-webkit-slider-runnable-track]:bg-veryLightZinc
 
             [&::-webkit-slider-thumb]:appearance-none 
             [&::-webkit-slider-thumb]:h-[10px] 
             [&::-webkit-slider-thumb]:w-[10px] 
             [&::-webkit-slider-thumb]:rounded-full 
-            [&::-webkit-slider-thumb]:bg-zinc-950
-            dark:[&::-webkit-slider-thumb]:bg-zinc-500"
+            [&::-webkit-slider-thumb]:bg-nearBlackZinc
+            dark:[&::-webkit-slider-thumb]:bg-mediumDarkZinc"
               type="range"
               min="0"
               max="100"

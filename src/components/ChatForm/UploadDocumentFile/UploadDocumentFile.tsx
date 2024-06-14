@@ -17,7 +17,7 @@ const UploadDocumentFile: FC<IUploadDocumentFileProps> = ({
         </span>
         <div className="flex flex-col">
           <p className="text-white w-24 2xl:w-64">{file.name}</p>
-          <p className="text-gray-500">
+          <p className="text-veryDarkGray">
             {(file.size / 1024).toFixed(2) + ' KB'}
           </p>
         </div>

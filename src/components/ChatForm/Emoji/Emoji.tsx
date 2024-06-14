@@ -42,14 +42,15 @@ const Emoji: FC = () => {
     setEmojiTimeOutId(timeoutId);
   };
 
-  const handleEnterKeyPress = (event: KeyboardEvent<HTMLButtonElement>) => {
+  const handleEnterKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter') {
       setIsShowEmoji(true);
     }
   };
 
   return (
-    <button
+    <div
+      role="button"
       className={`absolute ${
         editingMessageInfo ? 'bottom-1' : 'top-7'
       } left-3 cursor-pointer`}
@@ -69,16 +70,16 @@ const Emoji: FC = () => {
         </Suspense>
       )}
 
-      <div className="flex justify-center items-center w-10 h-10 transition-all duration-300 hover:bg-zinc-400 hover:dark:bg-zinc-100/10 rounded-full">
+      <div className="flex justify-center items-center w-10 h-10 transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10 rounded-full">
         <svg
           width={24}
           height={24}
-          className="fill-zinc-800 dark:fill-zinc-400"
+          className="fill-ultraDarkZinc dark:fill-mediumZinc"
         >
           <use href={sprite + '#icon-emoticon'} />
         </svg>
       </div>
-    </button>
+    </div>
   );
 };
 

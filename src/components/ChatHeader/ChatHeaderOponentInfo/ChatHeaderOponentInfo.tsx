@@ -24,14 +24,16 @@ const ChatHeaderOponentInfo: FC = () => {
         displayName={currentChatInfo?.displayName}
         size="40"
       />
-      <p className="font-bold text-zinc-800 dark:text-zinc-400">
+      <p className="font-bold text-ultraDarkZinc dark:text-mediumZinc">
         {currentChatInfo?.displayName}
       </p>
       {isOpponentTyping ? (
         <h2 className="text-black dark:text-white">{t('Typing')}...</h2>
       ) : (
         <div
-          className={`${isOponentOnline ? 'text-green-600' : 'text-red-700'}`}
+          className={`${
+            isOponentOnline ? 'text-darkGreen' : 'text-veryDarkRed'
+          }`}
         >
           {isOponentOnline ? t('Online') : t('Offline')}
         </div>

@@ -119,7 +119,7 @@ const ProfileSettings: FC = () => {
               <div className="flex flex-col gap-2 justify-center items-center text-white">
                 <div className="flex flex-col items-center justify-center">
                   <input
-                    className="h-10 w-full sm:w-[260px] md:w-full py-2 px-8 rounded-3xl bg-mySeacrhBcg text-white text-center outline-none border-2 border-transparent focus:border-solid focus:border-cyan-500"
+                    className="h-10 w-full sm:w-[260px] md:w-full py-2 px-8 rounded-3xl bg-darkBackground text-white text-center outline-none border-2 border-transparent focus:border-solid focus:border-mediumDarkCyan"
                     type="text"
                     value={newDisplayName}
                     onChange={handleChangeDisplayName}
@@ -132,8 +132,8 @@ const ProfileSettings: FC = () => {
                 <button
                   className={`w-48 border-2 rounded-3xl ${
                     displayName === newDisplayName
-                      ? 'bg-transparent border-zinc-500 text-zinc-500'
-                      : 'bg-transparent text-black border-black dark:text-white dark:border-white hover:bg-zinc-400 hover:dark:bg-gray-800 cursor-pointer'
+                      ? 'bg-transparent border-darkZinc text-darkZinc'
+                      : 'bg-transparent text-black border-black dark:text-white dark:border-white hover:bg-mediumZinc hover:dark:bg-extraDarkGray cursor-pointer'
                   } transition-all duration-300 hover:shadow-mainShadow `}
                   onClick={() =>
                     uid !== null &&

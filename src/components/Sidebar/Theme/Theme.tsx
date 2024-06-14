@@ -18,16 +18,16 @@ const Theme: FC = () => {
   };
 
   return (
-    <div className="flex flex-col p-1 border border-zinc-600 dark:border-zinc-500 rounded-md">
+    <div className="flex flex-col p-1 border border-darkZinc dark:border-darkZinc rounded-md">
       <h2 className="text-center font-extrabold text-black dark:text-white">
         {t('Theme')}
       </h2>
       <div className="flex">
         <button
           id="light-theme-switcher"
-          className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-gray-800 dark:text-gray-300 ${
-            isLightTheme && 'bg-gray-400'
-          } transition-all duration-300 hover:dark:text-gray-800 hover:bg-gray-200 rounded-md disabled:pointer-events-none`}
+          className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-extraDarkGray dark:text-mediumGray ${
+            isLightTheme && 'bg-mediumZinc'
+          } transition-all duration-300 hover:dark:text-extraDarkGray hover:bg-main rounded-md disabled:pointer-events-none`}
           data-theme="light"
           disabled={isLightTheme}
           onClick={handleChangeTheme}
@@ -42,9 +42,9 @@ const Theme: FC = () => {
         </button>
         <button
           id="dark-theme-switcher"
-          className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-gray-700 ${
-            !isLightTheme && 'bg-gray-300'
-          } transition-all duration-300 hover:bg-gray-500 rounded-md disabled:pointer-events-none`}
+          className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-veryDarkGray ${
+            !isLightTheme && 'bg-mediumZinc'
+          } transition-all duration-300 hover:bg-mediumDarkGray rounded-md disabled:pointer-events-none`}
           data-theme="dark"
           disabled={!isLightTheme}
           onClick={handleChangeTheme}

@@ -6,7 +6,7 @@ import { IMyPhoneInputProps } from '@interfaces/IMyPhoneInputProps';
 
 const MyPhoneInput: FC<IMyPhoneInputProps> = ({ phone, setPhone }) => {
   const handleChangePhone = (value: string) => {
-    setPhone(value);
+    setPhone(value.startsWith('+') ? value : `+${value}`);
   };
 
   return (

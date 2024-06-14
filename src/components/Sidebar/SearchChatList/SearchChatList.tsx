@@ -41,7 +41,7 @@ const SearchChatList: FC = () => {
 
             return (
               <li
-                className="flex items-center content-center gap-3 h-[72px] p-2 transition-all duration-300 group hover:bg-zinc-400 rounded-md hover:cursor-pointer"
+                className="flex items-center content-center gap-3 h-[72px] p-2 transition-all duration-300 group hover:bg-mediumZinc rounded-md hover:cursor-pointer"
                 key={doc.id}
                 onClick={() => handleManageCreateChat(docData)}
               >
@@ -50,7 +50,7 @@ const SearchChatList: FC = () => {
                   displayName={docData.displayName}
                   size="50"
                 />
-                <p className="text-zinc-600 dark:text-zinc-400 font-semibold">
+                <p className="text-darkZinc dark:text-mediumZinc font-semibold">
                   {docData.displayName}
                 </p>
               </li>

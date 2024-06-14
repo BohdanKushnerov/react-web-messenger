@@ -16,13 +16,13 @@ const Navbar: FC = () => {
   return (
     <div>
       <button
-        className="relative w-12 h-10 flex justify-center items-center bg-transparent transition-all duration-300 hover:bg-zinc-400 hover:dark:bg-zinc-100/10 rounded-full cursor-pointer"
+        className="relative w-12 h-10 flex justify-center items-center bg-transparent transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10 rounded-full cursor-pointer"
         onClick={handleToggleModal}
       >
         <svg
           width={32}
           height={32}
-          className="fill-zinc-800 dark:fill-zinc-400"
+          className="fill-ultraDarkZinc dark:fill-mediumZinc"
         >
           <use href={sprite + '#icon-menu'} />
         </svg>

@@ -11,7 +11,7 @@ const IsOnlineUser: FC<IIsOnlineUserProps> = ({ userUID }) => {
   const isOnline = useIsOnlineStatus(userUID);
 
   return (
-    <div className={`${isOnline ? 'text-green-700' : 'text-red-700'}`}>
+    <div className={`${isOnline ? 'text-veryDarkGreen' : 'text-veryDarkRed'}`}>
       {isOnline ? t('Online') : t('Offline')}
     </div>
   );

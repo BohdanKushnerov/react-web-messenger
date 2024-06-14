@@ -17,7 +17,7 @@ const UploadPhotoFile: FC<IUploadPhotoFileProps> = ({ file, status }) => {
           <p className="text-black dark:text-white w-24 2xl:w-64">
             {file.name}
           </p>
-          <p className="text-gray-500">
+          <p className="text-mediumGray">
             {(file.size / 1024).toFixed(2) + ' KB'}
           </p>
         </div>

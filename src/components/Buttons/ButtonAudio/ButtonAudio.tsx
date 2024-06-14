@@ -5,12 +5,16 @@ import sprite from '@assets/sprite.svg';
 
 const ButtonAudio: FC<IButtonAudioProps> = ({ isPlaying, onPlayPause }) => {
   return (
-    <button onClick={onPlayPause} className="py-3" aria-label="Stop/Play">
+    <button
+      onClick={onPlayPause}
+      className="flex items-center justify-center w-8 h-8 my-3 rounded-full transition-all duration-300 hover:bg-lightZincOpacity40"
+      aria-label="Stop/Play"
+    >
       {isPlaying ? (
         <svg
           width={24}
           height={24}
-          className="fill-zinc-600 dark:fill-zinc-200 "
+          className="fill-darkZinc dark:fill-mediumLightZinc"
         >
           <use href={sprite + '#icon-stop'} />
         </svg>
@@ -18,7 +22,7 @@ const ButtonAudio: FC<IButtonAudioProps> = ({ isPlaying, onPlayPause }) => {
         <svg
           width={24}
           height={24}
-          className="fill-zinc-600 dark:fill-zinc-200"
+          className="fill-darkZinc dark:fill-mediumLightZinc"
         >
           <use href={sprite + '#icon-play'} />
         </svg>

@@ -26,7 +26,7 @@ const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
   return (
     <ModalWindow handleToggleModal={handleToggleProfilePhotoModal}>
       <div className="h-full flex justify-center items-center">
-        <div className="relative w-full sm:w-1/2 xl:w-1/3 h-2/3 flex flex-col gap-6 justify-center items-center bg-gray-200 dark:bg-myBlackBcg rounded-3xl shadow-mainShadow">
+        <div className="relative w-full sm:w-1/2 xl:w-1/3 h-2/3 flex flex-col gap-6 justify-center items-center bg-main dark:bg-mainBlack rounded-3xl shadow-mainShadow">
           <ButtonClose handleClickButtonClose={handleToggleProfilePhotoModal} />
           {photoProfileInputRef.current?.files && (
             <div className="w-[200px] h-[200px]">
@@ -45,7 +45,7 @@ const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
             {t('Modal.ChangeProfilePhotoPrompt')}
           </p>
           <button
-            className="w-48 border-2 rounded-3xl text-black dark:text-white border-black dark:border-white transition-all duration-300 hover:shadow-mainShadow hover:bg-zinc-400 hover:dark:bg-gray-800 disabled:text-zinc-600"
+            className="w-48 border-2 rounded-3xl text-black dark:text-white border-black dark:border-white transition-all duration-300 hover:shadow-mainShadow hover:bg-mediumZinc hover:dark:bg-extraDarkGray disabled:text-darkZinc"
             onClick={() =>
               handleUpdateProfilePhoto(
                 photoProfileInputRef,

@@ -36,7 +36,7 @@ const ChatHeader: FC<IChatHeaderProps> = ({ setIsShowSearchMessages }) => {
   };
 
   return (
-    <div className="absolute top-0 left-0 z-10 flex gap-4 items-center w-full h-14 px-6 bg-gray-200 dark:bg-myBlackBcg shadow-bottomShadow">
+    <div className="absolute top-0 left-0 z-10 flex gap-4 items-center w-full h-14 px-6 bg-main dark:bg-mainBlack shadow-bottomShadow">
       {!isFullScreen && (
         <Suspense
           fallback={

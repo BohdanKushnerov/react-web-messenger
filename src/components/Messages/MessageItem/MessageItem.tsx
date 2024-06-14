@@ -14,6 +14,7 @@ import formatTimeMsg from '@utils/messages/formatTimeMsg';
 import isLinkMsg from '@utils/isLinkMsg';
 import { IMessageItemProps } from '@interfaces/IMessageItemProps';
 import { IFile } from '@interfaces/IFile';
+import sprite from '@assets/sprite.svg';
 
 const MessageItem: FC<IMessageItemProps> = ({
   msg,
@@ -21,7 +22,7 @@ const MessageItem: FC<IMessageItemProps> = ({
   isSelectedMessages,
 }) => {
   const [indexClickedPhoto, setIndexClickedPhoto] = useState(-1);
-  const { t } = useTranslation('translation');
+  const { t } = useTranslation('translation', { keyPrefix: 'General' });
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 
@@ -58,8 +59,8 @@ const MessageItem: FC<IMessageItemProps> = ({
           msg.data().file?.length === 1 ? 'max-w-md' : 'max-w-xl'
         }  ${
           myUID
-            ? 'bg-emerald-400 dark:bg-cyan-600 rounded-br-none'
-            : 'bg-zinc-100 dark:bg-green-600 rounded-bl-none'
+            ? 'bg-mediumEmerald dark:bg-mediumDarkCyan rounded-br-none'
+            : 'bg-veryLightZinc dark:bg-darkGreen rounded-bl-none'
         } shadow-secondaryShadow`}
       >
         {msg
@@ -86,7 +87,7 @@ const MessageItem: FC<IMessageItemProps> = ({
         {isLink ? (
           <>
             <a
-              className="w-full break-all transition-colors duration-150 text-blue-950 hover:text-blue-800 dark:text-zinc-800 text-decoration-line: hover:underline hover:dark:text-zinc-600"
+              className="w-full break-all transition-colors duration-150 text-nearBlackBlue hover:text-extraDarkBlue dark:text-ultraDarkZinc text-decoration-line: hover:underline hover:dark:text-darkZinc"
               href={
                 textContentMsg.startsWith('https://')
                   ? textContentMsg
@@ -107,13 +108,20 @@ const MessageItem: FC<IMessageItemProps> = ({
           </p>
         )}
 
-        <div className="w-full flex items-center justify-between gap-2">
+        <div className="w-full flex items-baseline justify-between gap-2">
           <ReactionsDisplay reactions={msg.data().reactions} />
 
-          {msg.data().isEdited && <p>{t('Edited')}</p>}
+          {msg.data().isEdited && (
+            <>
+              <svg width={8} height={8} className="fill-darkZinc">
+                <use href={sprite + '#icon-pencil'} />
+              </svg>
+              <p className="text-sm text-darkZinc">{t('Edited')}</p>
+            </>
+          )}
 
           <div className="flex items-center gap-2">
-            <p className="text-green-950 dark:text-zinc-100">
+            <p className="text-nearBlackGreen dark:text-veryLightZinc">
               {msg.data().date &&
                 formatTimeMsg(msg.data().date.toDate().toString())}
             </p>

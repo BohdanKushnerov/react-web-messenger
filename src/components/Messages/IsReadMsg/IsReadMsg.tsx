@@ -7,11 +7,19 @@ const IsReadMsg: FC<IIsReadMsgProps> = ({ msg }) => {
   return (
     <p>
       {msg.data().isRead ? (
-        <svg width={24} height={24} className="fill-zinc-800 dark:fill-white">
+        <svg
+          width={24}
+          height={24}
+          className="fill-ultraDarkZinc dark:fill-white"
+        >
           <use href={sprite + '#icon-double-check'} />
         </svg>
       ) : (
-        <svg width={24} height={24} className="fill-zinc-800 dark:fill-white">
+        <svg
+          width={24}
+          height={24}
+          className="fill-ultraDarkZinc dark:fill-white"
+        >
           <use href={sprite + '#icon-single-check'} />
         </svg>
       )}

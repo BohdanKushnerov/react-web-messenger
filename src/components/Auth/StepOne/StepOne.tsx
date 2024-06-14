@@ -20,7 +20,7 @@ const StepOne: FC<IStepOneProps> = ({ phone, setPhone }) => {
       <h1 className="font-bold text-black dark:text-white text-center">
         {t('Registration')}
       </h1>
-      <p className="text-textcolor text-center">{t('EnterNumber')}</p>
+      <p className="text-veryDarkGray text-center">{t('EnterNumber')}</p>
 
       <div className="mb-2">
         <MyPhoneInput phone={phone} setPhone={setPhone} />

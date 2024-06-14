@@ -13,16 +13,16 @@ const LanguageSwitcher: FC = () => {
   const currentLanguage = i18n.language;
 
   return (
-    <div className="flex flex-col p-1 border border-zinc-600 dark:border-zinc-500 rounded-md">
+    <div className="flex flex-col p-1 border border-darkZinc dark:border-darkZinc rounded-md">
       <h2 className="text-center font-extrabold text-black dark:text-white">
         {t('Language')}
       </h2>
       <div className="flex">
         <button
-          className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-gray-800 dark:text-gray-300 dark:hover:text-gray-800 ${
+          className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-extraDarkGray dark:text-mediumGray dark:hover:text-extraDarkGray disabled:dark:text-extraDarkGray ${
             currentLanguage === 'en'
-              ? 'bg-gray-400 dark:bg-gray-300 dark:text-gray-800'
-              : 'hover:bg-gray-500 dark:hover:bg-gray-200'
+              ? 'bg-mediumZinc dark:bg-mediumGray dark:text-extraDarkGray'
+              : 'hover:bg-mediumDarkGray dark:hover:bg-main'
           } disabled:pointer-events-none transition-all duration-300 rounded-md `}
           onClick={() => {
             changeLanguage('en');
@@ -34,10 +34,10 @@ const LanguageSwitcher: FC = () => {
           {t('English')}
         </button>
         <button
-          className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-gray-800 dark:text-gray-300 dark:hover:text-gray-800 ${
+          className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-extraDarkGray dark:text-mediumGray dark:hover:text-extraDarkGray disabled:dark:text-extraDarkGray ${
             currentLanguage === 'ua'
-              ? 'bg-gray-400 dark:bg-gray-300 dark:text-gray-800'
-              : 'hover:bg-gray-500 dark:hover:bg-gray-200'
+              ? 'bg-mediumZinc dark:bg-mediumGray dark:text-extraDarkGray'
+              : 'hover:bg-mediumDarkGray dark:hover:bg-main'
           } disabled:pointer-events-none transition-all duration-300 rounded-md `}
           onClick={() => {
             changeLanguage('ua');
@@ -49,10 +49,10 @@ const LanguageSwitcher: FC = () => {
           {t('Ukrainian')}
         </button>
         <button
-          className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-gray-800 dark:text-gray-300 dark:hover:text-gray-800 ${
+          className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-extraDarkGray dark:text-mediumGray dark:hover:text-extraDarkGray disabled:dark:text-extraDarkGray ${
             currentLanguage === 'ru'
-              ? 'bg-gray-400 dark:bg-gray-300 dark:text-gray-800'
-              : 'hover:bg-gray-500 dark:hover:bg-gray-200'
+              ? 'bg-mediumZinc dark:bg-mediumGray dark:text-extraDarkGray'
+              : 'hover:bg-mediumDarkGray dark:hover:bg-main'
           } disabled:pointer-events-none transition-all duration-300 rounded-md `}
           onClick={() => {
             changeLanguage('ru');

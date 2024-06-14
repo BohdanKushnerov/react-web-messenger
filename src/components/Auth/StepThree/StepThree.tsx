@@ -71,21 +71,21 @@ const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
         height={120}
       />
       <div className="flex flex-col gap-1">
-        <label htmlFor="name" className="font-bold text-textcolor">
+        <label htmlFor="name" className="font-bold text-veryDarkGray">
           {t('Name')}
           <input
             autoFocus
-            className="w-full h-10 p-2 rounded-md bg-transparent border border-inputChar"
+            className="w-full h-10 p-2 rounded-md bg-transparent border border-charcoal"
             id="name"
             type="text"
             value={name}
             onChange={handleChangeName}
           />
         </label>
-        <label htmlFor="lastname" className="font-bold text-textcolor">
+        <label htmlFor="lastname" className="font-bold text-veryDarkGray">
           {t('Surname')}
           <input
-            className="w-full h-10 p-2 rounded-md bg-transparent border border-inputChar"
+            className="w-full h-10 p-2 rounded-md bg-transparent border border-charcoal"
             id="lastname"
             type="text"
             value={surname}

@@ -11,7 +11,7 @@ const QuantityUnreadMsgs: FC<IQuantityUnreadMsgsProps> = ({ chatUID }) => {
   return (
     <>
       {lengthOfMyUnreadMsgs > 0 && (
-        <p className="flex justify-center items-center p-1 px-3 border border-white text-white rounded-full shadow-mainShadow bg-gray-500">
+        <p className="flex justify-center items-center p-1 px-3 border border-white text-white rounded-full shadow-mainShadow bg-veryDarkGray">
           {lengthOfMyUnreadMsgs}
         </p>
       )}

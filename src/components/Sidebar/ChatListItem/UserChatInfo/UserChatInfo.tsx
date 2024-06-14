@@ -25,7 +25,7 @@ const UserChatInfo: FC<IUserChatInfoProps> = ({
           className={`font-bold ${
             currentChatUID === itemChatUID
               ? 'text-white'
-              : 'text-zinc-900 dark:text-white'
+              : 'text-ultraDarkZinc dark:text-white'
           }`}
         >
           {userInfo?.displayName}
@@ -34,7 +34,7 @@ const UserChatInfo: FC<IUserChatInfoProps> = ({
           className={`w-full sm:w-[100px] md:hidden ${
             currentChatUID === itemChatUID
               ? 'text-white'
-              : 'text-zinc-600 dark:text-zinc-100'
+              : 'text-darkZinc dark:text-veryLightZinc'
           }`}
         >
           {lastMsg && truncateLastMessageString(lastMsg, 10)}
@@ -43,7 +43,7 @@ const UserChatInfo: FC<IUserChatInfoProps> = ({
           className={`hidden md:block ${
             currentChatUID === itemChatUID
               ? 'text-white'
-              : 'text-zinc-600 dark:text-zinc-100'
+              : 'text-darkZinc dark:text-veryLightZinc'
           }`}
         >
           {lastMsg && truncateLastMessageString(lastMsg, 25)}

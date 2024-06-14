@@ -41,7 +41,7 @@ const MessageImage: FC<IMessageImageProps> = ({
       <button
         className={`${
           loading ? 'invisible' : 'block'
-        } cursor-pointer object-cover rounded-md`}
+        } cursor-pointer object-cover rounded-md overflow-hidden`}
         style={{
           height: imgHeight,
           width: imgWidth,

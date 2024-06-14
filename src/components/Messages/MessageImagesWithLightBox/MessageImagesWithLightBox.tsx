@@ -42,20 +42,23 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
             </div>
           }
         >
-          <Lightbox
-            index={indexClickedPhoto}
-            slides={slidesForLightbox}
-            open={indexClickedPhoto >= 0}
-            close={() => handleClickPhoto(-1)}
-            carousel={{
-              finite: true,
-            }}
-            styles={{
-              container: {
-                backgroundColor: 'rgb(51 65 85 / 0.7)',
-              },
-            }}
-          />
+          <div onContextMenu={event => event.stopPropagation()}>
+            <Lightbox
+              index={indexClickedPhoto}
+              slides={slidesForLightbox}
+              open={indexClickedPhoto >= 0}
+              close={() => handleClickPhoto(-1)}
+              carousel={{
+                finite: true,
+              }}
+              styles={{
+                container: {
+                  pointerEvents: 'auto',
+                  backgroundColor: 'rgb(51 65 85 / 0.7)',
+                },
+              }}
+            />
+          </div>
         </Suspense>
       )}
     </>

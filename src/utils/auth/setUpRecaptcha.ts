@@ -15,9 +15,10 @@ const setUpRecaptcha = async (
   setRecaptcha: Dispatch<SetStateAction<RecaptchaVerifier | null>>,
   t: TFunction<'translation', 'Auth'>
 ): Promise<ConfirmationResult | null> => {
+  console.log('phone', phone);
   try {
     if (recaptcha) {
-      return await signInWithPhoneNumber(auth, `+${phone}`, recaptcha);
+      return await signInWithPhoneNumber(auth, phone, recaptcha);
     } else {
       const recaptchaVerifier = new RecaptchaVerifier(auth, 'sign-in-button', {
         size: 'invisible',
@@ -25,7 +26,7 @@ const setUpRecaptcha = async (
 
       setRecaptcha(recaptchaVerifier);
 
-      return await signInWithPhoneNumber(auth, `+${phone}`, recaptchaVerifier);
+      return await signInWithPhoneNumber(auth, phone, recaptchaVerifier);
     }
   } catch (error) {
     toast.error(t('TooManyRequests'));
