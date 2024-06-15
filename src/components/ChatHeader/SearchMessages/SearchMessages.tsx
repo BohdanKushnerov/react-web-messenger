@@ -35,9 +35,9 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
 
   return (
     <>
-      <div className="flex justify-around items-center gap-1">
+      <div className="flex items-center justify-around gap-1">
         <button
-          className="flex justify-center items-center h-9 w-10 bg-transparent transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10 rounded-full cursor-pointer"
+          className="flex h-9 w-10 cursor-pointer items-center justify-center rounded-full bg-transparent transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10"
           onClick={handleClickCloseSearchMessage}
           aria-label="Close"
         >
@@ -62,7 +62,7 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
             <p className="text-darkZinc dark:text-white">{t('NotFoundMsg')}</p>
           )}
           {searchMessages.map(msg => (
-            <li key={msg.id} className="flex gap-2 justify-start items-center">
+            <li key={msg.id} className="flex items-center justify-start gap-2">
               <div>
                 <AvatarProfile
                   photoURL={

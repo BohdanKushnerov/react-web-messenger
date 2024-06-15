@@ -24,7 +24,7 @@ const DeleteButton: FC<IDeleteButtonProps> = ({
 
   return (
     <button
-      className="flex items-center justify-between w-full px-8 py-2 text-white transition-all duration-150 hover:cursor-pointer hover:bg-darkZincOpacity90 hover:rounded-md"
+      className="flex w-full items-center justify-between px-8 py-2 text-white transition-all duration-150 hover:cursor-pointer hover:rounded-md hover:bg-darkZincOpacity90"
       onClick={() =>
         handleDeleteMessage(
           selectedDocDataMessage,

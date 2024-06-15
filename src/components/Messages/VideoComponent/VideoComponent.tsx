@@ -21,14 +21,7 @@ const VideoComponent: FC<IVideoComponentProps> = ({ source }) => {
       ></iframe>
     );
   } else {
-    return (
-      <ReactPlayer
-        width="100%"
-        height={300}
-        controls
-        url={source}
-      />
-    );
+    return <ReactPlayer width="100%" height={300} controls url={source} />;
   }
 };
 

@@ -17,13 +17,13 @@ const MessageFile: FC<IMessageFileProps> = ({ file }) => {
     return <AudioComponent audioUrl={file.url} />;
   } else {
     return (
-      <div className="flex gap-1 items-center h-[40px] w-full max-w-[200px]">
+      <div className="flex h-[40px] w-full max-w-[200px] items-center gap-1">
         {storageLink && (
           <>
-            <span className="w-10 h-10">
+            <span className="h-10 w-10">
               <FileIcon extension={fileType} {...defaultStyles[fileType]} />
             </span>
-            <span className="text-black dark:text-white w-full">
+            <span className="w-full text-black dark:text-white">
               {file.name}
             </span>
             <a className="w-10" target="blank" href={storageLink}>

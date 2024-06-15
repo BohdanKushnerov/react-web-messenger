@@ -27,7 +27,7 @@ const HomePage = () => {
 
   return (
     <main
-      className={`flex w-full h-full overflow-hidden bg-main-bcg2 bg-no-repeat bg-cover bg-center`}
+      className={`flex h-full w-full overflow-hidden bg-main-bcg2 bg-cover bg-center bg-no-repeat`}
       style={{
         height: `${heightWindow}px`,
       }}
@@ -64,18 +64,16 @@ const HomePage = () => {
         {state => (
           <div
             ref={nodeRefChat}
-            className={`relative w-full transform transition-transform 
-                  ${state === 'exited' ? 'hidden' : ''}
-                  ${
-                    state === 'entered'
-                      ? 'translate-x-0 scale-100'
-                      : 'translate-x-full scale-0'
-                  }`}
+            className={`relative w-full transform transition-transform ${state === 'exited' ? 'hidden' : ''} ${
+              state === 'entered'
+                ? 'translate-x-0 scale-100'
+                : 'translate-x-full scale-0'
+            }`}
           >
             <EmptyChat isShowNotifyMsg={pathname === '/' && isFullScreen} />
             <Suspense
               fallback={
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                   <LoaderUIActions size={200} />
                 </div>
               }

@@ -21,7 +21,7 @@ const ChatContextMenu: FC<IChatContextMenuProps> = ({ groupedMessages }) => {
     <>
       <Reactions />
       <div
-        className={`w-56 h-56 p-2 bg-mainBlack rounded-3xl pointer-events-auto`}
+        className={`pointer-events-auto h-56 w-56 rounded-3xl bg-mainBlack p-2`}
       >
         {selectedDocDataMessage &&
           selectedDocDataMessage.length === 1 &&

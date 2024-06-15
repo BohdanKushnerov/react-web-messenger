@@ -17,10 +17,10 @@ const StepOne: FC<IStepOneProps> = ({ phone, setPhone }) => {
         width={120}
         height={120}
       />
-      <h1 className="font-bold text-black dark:text-white text-center">
+      <h1 className="text-center font-bold text-black dark:text-white">
         {t('Registration')}
       </h1>
-      <p className="text-veryDarkGray text-center">{t('EnterNumber')}</p>
+      <p className="text-center text-veryDarkGray">{t('EnterNumber')}</p>
 
       <div className="mb-2">
         <MyPhoneInput phone={phone} setPhone={setPhone} />

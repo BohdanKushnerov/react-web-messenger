@@ -1,9 +1,9 @@
 import { FC, Suspense, lazy } from 'react';
+const Lightbox = lazy(() => import('yet-another-react-lightbox'));
+import 'yet-another-react-lightbox/styles.css';
 
 import MessageImage from '../MessageImage/MessageImage';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
-const Lightbox = lazy(() => import('yet-another-react-lightbox'));
-import 'yet-another-react-lightbox/styles.css';
 import getSlidesForLightbox from '@utils/messages/getSlidesForLightbox';
 import getMessageImages from '@utils/messages/getMessageImages';
 import { IMessageImagesWithLightBoxProps } from '@interfaces/IMessageImagesWithLightBoxProps';
@@ -20,46 +20,57 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
 
   return (
     <>
-      {imagesForMessage.map((fileInside: IFile, index: number) => {
-        if (fileInside.type.includes('image')) {
-          return (
-            <MessageImage
-              key={`${fileInside.name}-${fileInside.type}`}
-              msg={msg}
-              file={fileInside}
-              index={index}
-              handleClickPhoto={handleClickPhoto}
-            />
-          );
-        }
-        return null;
-      })}
-      {indexClickedPhoto >= 0 && (
-        <Suspense
-          fallback={
-            <div className="absolute">
-              <LoaderUIActions size={200} />
-            </div>
-          }
+      {msg.data().file?.some((file: IFile) => file.type.includes('image')) && (
+        <div
+          className={`flex flex-wrap gap-0.5 sm:justify-center lg:justify-normal ${
+            msg.data().file?.length === 1
+              ? 'max-w-md'
+              : 'w-[160px] max-w-xs lg:w-full'
+          }`}
+          id="messageImagesWithLightBox-container"
         >
-          <div onContextMenu={event => event.stopPropagation()}>
-            <Lightbox
-              index={indexClickedPhoto}
-              slides={slidesForLightbox}
-              open={indexClickedPhoto >= 0}
-              close={() => handleClickPhoto(-1)}
-              carousel={{
-                finite: true,
-              }}
-              styles={{
-                container: {
-                  pointerEvents: 'auto',
-                  backgroundColor: 'rgb(51 65 85 / 0.7)',
-                },
-              }}
-            />
-          </div>
-        </Suspense>
+          {imagesForMessage.map((fileInside: IFile, index: number) => {
+            if (fileInside.type.includes('image')) {
+              return (
+                <MessageImage
+                  key={`${fileInside.name}-${fileInside.type}`}
+                  msg={msg}
+                  file={fileInside}
+                  index={index}
+                  handleClickPhoto={handleClickPhoto}
+                />
+              );
+            }
+            return null;
+          })}
+          {indexClickedPhoto >= 0 && (
+            <Suspense
+              fallback={
+                <div className="absolute">
+                  <LoaderUIActions size={200} />
+                </div>
+              }
+            >
+              <div onContextMenu={event => event.stopPropagation()}>
+                <Lightbox
+                  index={indexClickedPhoto}
+                  slides={slidesForLightbox}
+                  open={indexClickedPhoto >= 0}
+                  close={() => handleClickPhoto(-1)}
+                  carousel={{
+                    finite: true,
+                  }}
+                  styles={{
+                    container: {
+                      pointerEvents: 'auto',
+                      backgroundColor: 'rgb(51 65 85 / 0.7)',
+                    },
+                  }}
+                />
+              </div>
+            </Suspense>
+          )}
+        </div>
       )}
     </>
   );

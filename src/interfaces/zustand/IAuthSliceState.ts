@@ -1,4 +1,4 @@
-import { User } from "firebase/auth";
+import { User } from 'firebase/auth';
 
 export interface IAuthSliceState {
   isLoggedIn: boolean | null;

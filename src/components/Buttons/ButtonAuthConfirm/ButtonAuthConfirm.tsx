@@ -12,7 +12,7 @@ const AuthConfirmButton: FC<IAuthConfirmButtonProps> = ({
 
   return (
     <button
-      className="w-full p-2 rounded-md bg-mediumDarkCyan text-white font-bold disabled:text-veryDarkZinc"
+      className="w-full rounded-md bg-mediumDarkCyan p-2 font-bold text-white disabled:text-veryDarkZinc"
       id="sign-in-button"
       type="button"
       aria-label="Auth confirm button"

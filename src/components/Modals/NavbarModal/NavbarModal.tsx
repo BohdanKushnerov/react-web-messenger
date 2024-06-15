@@ -5,7 +5,7 @@ import { Transition } from 'react-transition-group';
 
 import ModalWindow from '../ModalWindow/ModalWindow';
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import LanguageSwitcher from '@components/Sidebar/ProfileSettings/LanguageSwitcher/LanguageSwitcher';
+import LanguageSwitcher from '@components/Sidebar/LanguageSwitcher/LanguageSwitcher';
 import Theme from '@components/Sidebar/Theme/Theme';
 import { auth } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
@@ -61,16 +61,16 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
                 }
                 `}
             >
-              <div className="absolute top-14 left-5 z-20 flex flex-col gap-2 p-2 bg-main dark:bg-mainBlack rounded-md shadow-mainShadow">
-                <div className="flex justify-between items-center gap-1 text-black dark:text-white">
+              <div className="absolute left-5 top-14 z-20 flex flex-col gap-2 rounded-md bg-main p-2 shadow-mainShadow dark:bg-mainBlack">
+                <div className="flex items-center justify-between gap-1 text-black dark:text-white">
                   <AvatarProfile
                     photoURL={currentUser.photoURL}
                     displayName={currentUser.displayName}
                     size="50"
                   />
-                  <p className="flex transf">{currentUser?.displayName}</p>
+                  <p className="transf flex">{currentUser?.displayName}</p>
                   <button
-                    className="px-2 py-1 border border-darkZinc dark:border-darkZinc rounded-full transition-all duration-300 hover:shadow-mainShadow hover:bg-mediumZinc hover:dark:bg-extraDarkGray"
+                    className="rounded-full border border-darkZinc px-2 py-1 transition-all duration-300 hover:bg-mediumZinc hover:shadow-mainShadow dark:border-darkZinc hover:dark:bg-extraDarkGray"
                     onClick={handleSignOut}
                     aria-label="Sign out"
                   >
@@ -78,7 +78,7 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
                   </button>
                 </div>
                 <button
-                  className="px-2 py-1 border border-darkZinc dark:border-darkZinc rounded-full text-black dark:text-white transition-all duration-300 hover:shadow-mainShadow hover:bg-mediumZinc hover:dark:bg-extraDarkGray"
+                  className="rounded-full border border-darkZinc px-2 py-1 text-black transition-all duration-300 hover:bg-mediumZinc hover:shadow-mainShadow dark:border-darkZinc dark:text-white hover:dark:border-white hover:dark:bg-extraDarkGray"
                   onClick={handleSettingsClick}
                   aria-label="Profile settings"
                 >

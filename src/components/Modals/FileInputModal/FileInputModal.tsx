@@ -54,10 +54,9 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
     };
     return (
       <ModalWindow handleToggleModal={handleToggleModal}>
-        <div className="h-full flex justify-center items-center">
-          <div className="relative w-full sm:w-1/2 xl:w-1/3 h-1/2 flex flex-col gap-8 justify-between items-center p-2 bg-main dark:bg-mainBlack rounded-3xl shadow-mainShadow">
-            
-            <p className="text-black dark:text-white font-extrabold">
+        <div className="flex h-full items-center justify-center">
+          <div className="relative flex h-1/2 w-full flex-col items-center justify-between gap-8 rounded-3xl bg-main p-2 shadow-mainShadow dark:bg-mainBlack sm:w-1/2 xl:w-1/3">
+            <p className="font-extrabold text-black dark:text-white">
               {`${t('Send')} ${
                 ref && 'current' in ref && ref.current?.files?.length
               } ${t('Files')}`}
@@ -65,7 +64,7 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
 
             <ButtonClose handleClickButtonClose={handleCloseAddFileModal} />
 
-            <div ref={scrollbarsRef} className="w-full h-full overflow-scroll">
+            <div ref={scrollbarsRef} className="h-full w-full overflow-scroll">
               <ul className="flex flex-col gap-2">
                 {ref &&
                   'current' in ref &&
@@ -97,12 +96,12 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
               </ul>
             </div>
             <form
-              className="w-full flex items-center gap-4 h-8 px-6"
+              className="flex h-8 w-full items-center gap-4 px-6"
               onSubmit={handleManageSendFile}
             >
-              <div className="relative w-full h-10 sm:w-8/12 ">
+              <div className="relative h-10 w-full sm:w-8/12">
                 <input
-                  className="w-full h-full py-1 px-10 rounded-3xl bg-mediumDarkZinc dark:bg-darkBackground text-white outline-none border-2 border-transparent focus:border-mediumDarkCyan"
+                  className="h-full w-full rounded-3xl border-2 border-transparent bg-mediumDarkZinc px-10 py-1 text-white outline-none focus:border-mediumDarkCyan dark:bg-darkBackground"
                   type="text"
                   placeholder={t('ImageCaptionPlaceholder')}
                   value={fileDescription}
@@ -110,7 +109,7 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
                 />
               </div>
               <button
-                className="px-2 py-1 border border-veryDarkGray rounded-full text-black dark:text-white transition-all duration-300 hover:shadow-mainShadow hover:bg-mediumZinc hover:dark:bg-extraDarkGray"
+                className="rounded-full border border-veryDarkGray px-2 py-1 text-black transition-all duration-300 hover:bg-mediumZinc hover:shadow-mainShadow dark:text-white hover:dark:bg-extraDarkGray"
                 type="submit"
                 disabled={Object.keys(uploadFilesStatus).length > 0}
                 aria-label="Send"

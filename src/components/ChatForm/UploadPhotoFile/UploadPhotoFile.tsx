@@ -5,7 +5,7 @@ import { IUploadPhotoFileProps } from '@interfaces/IUploadPhotoFileProps';
 
 const UploadPhotoFile: FC<IUploadPhotoFileProps> = ({ file, status }) => {
   return (
-    <li key={file.name} className="flex justify-between items-center gap-4">
+    <li key={file.name} className="flex items-center justify-between gap-4">
       <div className="flex items-center gap-4">
         <img
           src={URL.createObjectURL(file)}
@@ -14,7 +14,7 @@ const UploadPhotoFile: FC<IUploadPhotoFileProps> = ({ file, status }) => {
           height={48}
         />
         <div className="flex flex-col">
-          <p className="text-black dark:text-white w-24 2xl:w-64">
+          <p className="w-24 text-black dark:text-white 2xl:w-64">
             {file.name}
           </p>
           <p className="text-mediumGray">

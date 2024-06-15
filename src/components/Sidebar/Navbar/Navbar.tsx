@@ -16,7 +16,7 @@ const Navbar: FC = () => {
   return (
     <div>
       <button
-        className="relative w-12 h-10 flex justify-center items-center bg-transparent transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10 rounded-full cursor-pointer"
+        className="relative flex h-10 w-12 cursor-pointer items-center justify-center rounded-full bg-transparent transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10"
         onClick={handleToggleModal}
       >
         <svg
@@ -29,7 +29,7 @@ const Navbar: FC = () => {
       </button>
       <Suspense
         fallback={
-          <div className="absolute top-2 left-4">
+          <div className="absolute left-4 top-2">
             <LoaderUIActions size={40} />
           </div>
         }

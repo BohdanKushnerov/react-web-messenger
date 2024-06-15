@@ -17,7 +17,7 @@ const ChatPage: FC = () => {
   return (
     <>
       <div
-        className="relative w-full xl:flex xl:flex-col xl:items-center bg-transparent overflow-hidden"
+        className="relative w-full overflow-hidden bg-transparent xl:flex xl:flex-col xl:items-center"
         style={{
           height: heightWindow,
         }}
@@ -29,7 +29,7 @@ const ChatPage: FC = () => {
         <ChatForm />
       </div>
       {isShowSearchMessages && (
-        <div className="absolute top-0 right-0 z-10 w-2/3 md:w-2/4 p-2 h-full border-l border-ultraDarkZinc bg-main dark:bg-mainBlack">
+        <div className="absolute right-0 top-0 z-10 h-full w-2/3 border-l border-ultraDarkZinc bg-main p-2 dark:bg-mainBlack md:w-2/4">
           <Suspense fallback={<LoaderUIActions size={50} />}>
             <SearchMessages setIsShowSearchMessages={setIsShowSearchMessages} />
           </Suspense>

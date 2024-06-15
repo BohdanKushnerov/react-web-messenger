@@ -4,5 +4,5 @@ export type ChatListItemType = [
     lastMessage: string;
     senderUserID: string;
     userUID: string;
-  }
+  },
 ];

@@ -19,7 +19,7 @@ const ChatList: FC = () => {
         </div>
       )}
       {!isLoading && myUserChatList && myUserChatList.length > 0 ? (
-        <ul className="h-full p-0 m-0">
+        <ul className="m-0 h-full p-0">
           {myUserChatList.map((chatInfo: ChatListItemType) => (
             <ChatListItem key={chatInfo[0]} chatInfo={chatInfo} />
           ))}

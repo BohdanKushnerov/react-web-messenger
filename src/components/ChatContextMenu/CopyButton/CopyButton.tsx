@@ -40,7 +40,7 @@ const CopyButton: FC<ICopyButtonProps> = ({
           <div
             className={`flex items-center ${
               textContent ? 'justify-between' : 'justify-center'
-            }  w-full px-8 py-2 text-white transition-all duration-150 hover:cursor-pointer hover:bg-darkZincOpacity90 hover:rounded-md`}
+            } w-full px-8 py-2 text-white transition-all duration-150 hover:cursor-pointer hover:rounded-md hover:bg-darkZincOpacity90`}
           >
             <svg
               width={20}

@@ -13,7 +13,7 @@ const EditingMsgInfo: FC<IEditingMsgInfoProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div className="relative flex items-center gap-3 ml-3 mr-16 px-5 rounded-3xl bg-mediumLightZinc dark:bg-darkBackground">
+    <div className="relative ml-3 mr-16 flex items-center gap-3 rounded-3xl bg-mediumLightZinc px-5 dark:bg-darkBackground">
       <svg width={20} height={20} className="fill-darkZinc dark:fill-white">
         <use href={sprite + '#icon-pencil'} />
       </svg>
@@ -25,7 +25,7 @@ const EditingMsgInfo: FC<IEditingMsgInfoProps> = ({
           {selectedMessage.data().message || t('ChatForm.EmptyMessage')}
         </p>
       </div>
-      <div className="absolute top-0 right-12">
+      <div className="absolute right-12 top-0">
         <ButtonClose handleClickButtonClose={handleCancelEditingMessage} />
       </div>
     </div>

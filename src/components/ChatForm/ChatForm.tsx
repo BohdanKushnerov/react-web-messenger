@@ -84,9 +84,9 @@ const ChatForm: FC = () => {
   };
 
   return (
-    <div className="absolute bottom-0 left-0 z-10 w-full h-24 flex flex-col items-center">
+    <div className="absolute bottom-0 left-0 z-10 flex h-24 w-full flex-col items-center">
       {!isSelectedMessages ? (
-        <div className="relative flex flex-col justify-center w-full h-full shadow-whiteTopShadow xl:w-8/12">
+        <div className="relative flex h-full w-full flex-col justify-center shadow-whiteTopShadow xl:w-8/12">
           {editingMessageInfo && (
             <Suspense
               fallback={
@@ -102,14 +102,14 @@ const ChatForm: FC = () => {
             </Suspense>
           )}
           <form
-            className="flex justify-center items-center gap-2 px-3"
+            className="flex items-center justify-center gap-2 px-3"
             onSubmit={handleManageSendMessage}
           >
             <input
               id="chatFormInput"
               autoFocus={true}
               autoComplete="off"
-              className="w-full h-10 py-1 pl-10 pr-14 rounded-3xl bg-mediumLightZinc dark:bg-darkBackground text-black dark:text-white placeholder:text-ultraDarkZinc placeholder:dark:text-mediumZinc border-2 border-transparent outline-none focus:border-solid focus:dark:border-mediumDarkCyan"
+              className="h-10 w-full rounded-3xl border-2 border-transparent bg-mediumLightZinc py-1 pl-10 pr-14 text-black outline-none placeholder:text-ultraDarkZinc focus:border-solid dark:bg-darkBackground dark:text-white placeholder:dark:text-mediumZinc focus:dark:border-mediumDarkCyan"
               type="text"
               placeholder={t('ChatForm.ChatInputPlaceholder')}
               ref={inputRef}

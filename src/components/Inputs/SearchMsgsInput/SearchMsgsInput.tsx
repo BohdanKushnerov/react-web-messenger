@@ -11,7 +11,7 @@ const SearchMsgsInput: FC<ISearchMsgsInputProps> = ({
   return (
     <div className="relative w-full">
       <input
-        className="py-2 px-10 h-10 w-full rounded-3xl bg-mediumDarkZinc dark:bg-darkBackground text-white outline-none border-2 border-transparent focus:border-solid focus:border-mediumDarkCyan placeholder:dark:text-mediumZinc placeholder:text-mediumLightZinc "
+        className="h-10 w-full rounded-3xl border-2 border-transparent bg-mediumDarkZinc px-10 py-2 text-white outline-none placeholder:text-mediumLightZinc focus:border-solid focus:border-mediumDarkCyan dark:bg-darkBackground placeholder:dark:text-mediumZinc"
         autoFocus={true}
         type="text"
         placeholder={placeholderText}
@@ -20,7 +20,7 @@ const SearchMsgsInput: FC<ISearchMsgsInputProps> = ({
       />
 
       <svg
-        className="absolute top-2 left-2 fill-darkZinc dark:fill-mediumZinc"
+        className="absolute left-2 top-2 fill-darkZinc dark:fill-mediumZinc"
         width={24}
         height={24}
       >

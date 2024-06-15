@@ -41,23 +41,23 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   };
 
   return (
-    <div className="relative flex flex-row items-start gap-2 w-[300px] sm:w-[200px] md:min-w-[220px] md:max-w-md lg:min-w-[360px]">
+    <div className="relative flex w-[300px] flex-row items-start gap-2 sm:w-[200px] md:min-w-[220px] md:max-w-md lg:min-w-[360px]">
       <ButtonAudio isPlaying={isPlaying} onPlayPause={onPlayPause} />
 
       {isLoading && (
-        <div className="absolute top-0 left-8">
+        <div className="absolute left-8 top-0">
           <LoaderUIActions size={50} />
         </div>
       )}
-      <div className="flex flex-1 flex-col items-start w-full">
+      <div className="flex w-full flex-1 flex-col items-start">
         <div
           className={`${
             isLoading && 'opacity-0'
-          } flex-1 w-full sm:w-[95%] md:w-full`}
+          } w-full flex-1 sm:w-[95%] md:w-full`}
           ref={containerRef}
         />
 
-        <div className="flex justify-between w-full sm:flex-col lg:flex-row">
+        <div className="flex w-full justify-between sm:flex-col lg:flex-row">
           <div className="flex gap-1">
             <p className="text-dark dark:text-white">{t('Time')}</p>
             {isPlaying && (
@@ -72,21 +72,10 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
             )}
           </div>
 
-          <div className="flex gap-1 flex-wrap">
+          <div className="flex flex-wrap gap-1">
             <p className="text-dark dark:text-white">{t('Volume')}</p>
             <input
-              className="w-24 sm:w-16 lg:w-24 
-            appearance-none bg-transparent 
-            [&::-webkit-slider-runnable-track]:rounded-full 
-            [&::-webkit-slider-runnable-track]:bg-mediumDarkZinc
-            dark:[&::-webkit-slider-runnable-track]:bg-veryLightZinc
-
-            [&::-webkit-slider-thumb]:appearance-none 
-            [&::-webkit-slider-thumb]:h-[10px] 
-            [&::-webkit-slider-thumb]:w-[10px] 
-            [&::-webkit-slider-thumb]:rounded-full 
-            [&::-webkit-slider-thumb]:bg-nearBlackZinc
-            dark:[&::-webkit-slider-thumb]:bg-mediumDarkZinc"
+              className="w-24 appearance-none bg-transparent sm:w-16 lg:w-24 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-mediumDarkZinc dark:[&::-webkit-slider-runnable-track]:bg-veryLightZinc [&::-webkit-slider-thumb]:h-[10px] [&::-webkit-slider-thumb]:w-[10px] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-nearBlackZinc dark:[&::-webkit-slider-thumb]:bg-mediumDarkZinc"
               type="range"
               min="0"
               max="100"

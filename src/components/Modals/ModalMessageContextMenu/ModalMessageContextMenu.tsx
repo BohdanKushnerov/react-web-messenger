@@ -24,9 +24,9 @@ const MessageContextMenuModal: FC<IModalMessageContextMenuProps> = ({
             top: modalPosition.top + 'px',
             left: modalPosition.left + 'px',
           }}
-          className="z-10 w-screen h-screen bg-transparent pointer-events-none"
+          className="pointer-events-none z-10 h-screen w-screen bg-transparent"
         >
-          <div className="flex flex-col items-center w-[250px]">{children}</div>
+          <div className="flex w-[250px] flex-col items-center">{children}</div>
         </div>
       )}
     </>

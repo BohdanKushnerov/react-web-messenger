@@ -18,7 +18,7 @@ const MessagesSkeleton: FC<IMessagesSkeletonProps> = memo(
         {!isLoadedContent && (
           <div
             id="skeleton"
-            className="absolute w-full xl:w-8/12 z-10 left-1/2 transform -translate-x-1/2"
+            className="absolute left-1/2 z-10 w-full -translate-x-1/2 transform xl:w-8/12"
             style={{
               top: 56,
               height: 'calc(100% - 56px - 96px)',

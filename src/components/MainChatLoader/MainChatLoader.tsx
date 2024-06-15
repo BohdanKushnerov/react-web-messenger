@@ -8,7 +8,7 @@ const MainChatLoader: FC = () => {
 
   return (
     isLoggedIn === null && (
-      <div className="flex flex-col justify-center items-center bg-loader-bcg bg-cover bg-bottom h-screen w-full">
+      <div className="flex h-screen w-full flex-col items-center justify-center bg-loader-bcg bg-cover bg-bottom">
         <RingLoader
           color={'rgb(180 83 9)'}
           size={250}

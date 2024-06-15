@@ -1,4 +1,4 @@
-import { IReactions } from "./IReactions";
+import { IReactions } from './IReactions';
 
 export interface IReactionsDisplayProps {
   reactions?: IReactions;

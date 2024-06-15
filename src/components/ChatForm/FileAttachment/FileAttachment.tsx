@@ -57,7 +57,7 @@ const FileAttachment: FC = () => {
       {isModalAddFileOpen && (
         <Suspense
           fallback={
-            <div className="absolute top-6 right-14">
+            <div className="absolute right-14 top-6">
               <LoaderUIActions size={50} />
             </div>
           }

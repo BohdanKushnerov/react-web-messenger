@@ -277,7 +277,7 @@ const Messages: FC = () => {
         <Suspense
           fallback={
             <div
-              className="z-10 w-screen h-screen bg-transparent pointer-events-none"
+              className="pointer-events-none z-10 h-screen w-screen bg-transparent"
               style={{
                 position: 'absolute',
                 top: modalPosition.top + 'px',
@@ -285,7 +285,7 @@ const Messages: FC = () => {
               }}
             >
               <div
-                className={`w-56 h-56 p-2 bg-mediumDarkZincOpacity10 rounded-3xl pointer-events-auto`}
+                className={`pointer-events-auto h-56 w-56 rounded-3xl bg-mediumDarkZincOpacity10 p-2`}
               >
                 <LoaderUIActions size={200} />
               </div>

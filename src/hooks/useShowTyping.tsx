@@ -9,7 +9,7 @@ const useShowTyping = () => {
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
-  
+
   useEffect(() => {
     if (!chatUID || !userUID) {
       return;
@@ -23,7 +23,6 @@ const useShowTyping = () => {
         if (docSnapshot.exists()) {
           const chatData = docSnapshot.data();
 
-          
           if (
             chatData[userUID]?.isTyping === false ||
             chatData[userUID]?.isTyping === true

@@ -71,25 +71,22 @@ const ProfileSettings: FC = () => {
       {state => (
         <div
           ref={nodeRefProfileSettings}
-          className={`absolute top-0 left-0 w-full h-full transform origin-top-left transition-transform 
-                  ${state === 'exited' ? 'hidden' : ''}
-                  ${
-                    state === 'entered'
-                      ? 'rotate-0 translate-x-0'
-                      : 'rotate-180 -translate-x-1/2 duration-300'
-                  }
-                  `}
+          className={`absolute left-0 top-0 h-full w-full origin-top-left transform transition-transform ${state === 'exited' ? 'hidden' : ''} ${
+            state === 'entered'
+              ? 'translate-x-0 rotate-0'
+              : '-translate-x-1/2 rotate-180 duration-300'
+          } `}
         >
           <ButtonArrow
             handleClickButtonArrow={handleClickTurnBackToDefaultScreen}
           />
-          <div className="flex flex-col justify-center items-center gap-4">
+          <div className="flex flex-col items-center justify-center gap-4">
             <FileInput
               handleChangeFileInput={handleChooseProfilePhoto}
               ref={photoProfileInputRef}
             />
             <button
-              className="relative group rounded-full cursor-pointer"
+              className="group relative cursor-pointer rounded-full"
               onClick={handleImageClick}
             >
               {auth.currentUser && (
@@ -100,7 +97,7 @@ const ProfileSettings: FC = () => {
                     size="200"
                   />
                   <svg
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-105 fill-white"
+                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 fill-white group-hover:scale-105"
                     width={48}
                     height={48}
                   >
@@ -109,17 +106,17 @@ const ProfileSettings: FC = () => {
                 </>
               )}
             </button>
-            <div className="flex gap-1 justify-center items-center text-white">
+            <div className="flex items-center justify-center gap-1 text-white">
               <p className="text-black dark:text-white">{t('Phone')}</p>
-              <p className="py-2 px-4 h-10 rounded-3xl text-black dark:text-white text-center cursor-default">
+              <p className="h-10 cursor-default rounded-3xl px-4 py-2 text-center text-black dark:text-white">
                 {auth?.currentUser?.phoneNumber}
               </p>
             </div>
             {typeof newDisplayName === 'string' && (
-              <div className="flex flex-col gap-2 justify-center items-center text-white">
+              <div className="flex flex-col items-center justify-center gap-2 text-white">
                 <div className="flex flex-col items-center justify-center">
                   <input
-                    className="h-10 w-full sm:w-[260px] md:w-full py-2 px-8 rounded-3xl bg-darkBackground text-white text-center outline-none border-2 border-transparent focus:border-solid focus:border-mediumDarkCyan"
+                    className="h-10 w-full rounded-3xl border-2 border-transparent bg-darkBackground px-8 py-2 text-center text-white outline-none focus:border-solid focus:border-mediumDarkCyan sm:w-[260px] md:w-full"
                     type="text"
                     value={newDisplayName}
                     onChange={handleChangeDisplayName}
@@ -130,11 +127,11 @@ const ProfileSettings: FC = () => {
                   </p>
                 </div>
                 <button
-                  className={`w-48 border-2 rounded-3xl ${
+                  className={`w-48 rounded-3xl border-2 ${
                     displayName === newDisplayName
-                      ? 'bg-transparent border-darkZinc text-darkZinc'
-                      : 'bg-transparent text-black border-black dark:text-white dark:border-white hover:bg-mediumZinc hover:dark:bg-extraDarkGray cursor-pointer'
-                  } transition-all duration-300 hover:shadow-mainShadow `}
+                      ? 'border-darkZinc bg-transparent text-darkZinc'
+                      : 'cursor-pointer border-black bg-transparent text-black hover:bg-mediumZinc dark:border-white dark:text-white hover:dark:bg-extraDarkGray'
+                  } transition-all duration-300 hover:shadow-mainShadow`}
                   onClick={() =>
                     uid !== null &&
                     handleClickChangeDisplayName(
@@ -155,7 +152,7 @@ const ProfileSettings: FC = () => {
           {isModalPhotoProfileOpen && (
             <Suspense
               fallback={
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                   <LoaderUIActions size={200} />
                 </div>
               }

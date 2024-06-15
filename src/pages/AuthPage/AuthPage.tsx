@@ -7,7 +7,7 @@ import StepOne from '@components/Auth/StepOne/StepOne';
 import StepTwo from '@components/Auth/StepTwo/StepTwo';
 import StepThree from '@components/Auth/StepThree/StepThree';
 import AuthConfirmButton from '@components/Buttons/ButtonAuthConfirm/ButtonAuthConfirm';
-import LanguageSwitcher from '@components/Sidebar/ProfileSettings/LanguageSwitcher/LanguageSwitcher';
+import LanguageSwitcher from '@components/Sidebar/LanguageSwitcher/LanguageSwitcher';
 import Theme from '@components/Sidebar/Theme/Theme';
 import TestNumbers from '@components/Auth/TestNumbers/TestNumbers';
 import { auth } from '@myfirebase/config';
@@ -116,15 +116,15 @@ const Auth: FC = () => {
   };
 
   return (
-    <div className="relative flex flex-col gap-2 h-full py-10 bg-main-bcg bg-no-repeat bg-cover bg-center">
-      <div className="h-full bg-main dark:bg-mainBlack max-w-[300px] mx-auto rounded-md">
+    <div className="relative flex h-full flex-col gap-2 bg-main-bcg bg-cover bg-center bg-no-repeat py-10">
+      <div className="mx-auto h-full max-w-[300px] rounded-md bg-main dark:bg-mainBlack">
         <Theme />
         <LanguageSwitcher />
       </div>
-      <p className="text-white font-bold text-center">
+      <p className="text-center font-bold text-white">
         {t('Step')} {step.split(' ')[1]}
       </p>
-      <div className="relative bg-main dark:bg-mainBlack min-w-240px max-w-320px mx-auto my-0 p-4 rounded-md">
+      <div className="relative mx-auto my-0 min-w-240px max-w-320px rounded-md bg-main p-4 dark:bg-mainBlack">
         {step === 'Step 1/3' && <StepOne phone={phone} setPhone={setPhone} />}
 
         {step === 'Step 2/3' && (
@@ -149,7 +149,7 @@ const Auth: FC = () => {
         )}
 
         <button
-          className="w-full mt-2 p-2 rounded-md bg-mediumRed text-white font-bold disabled:text-veryDarkZinc"
+          className="mt-2 w-full rounded-md bg-mediumRed p-2 font-bold text-white disabled:text-veryDarkZinc"
           onClick={handleFullResetFrom}
         >
           {t('ClearRegistrationForm')}

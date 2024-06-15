@@ -22,7 +22,7 @@ const ModalWindow: FC<IModalWindowProps> = ({
   return createPortal(
     <div
       onClick={handleBackdropClick}
-      className={`absolute top-0 left-0 z-10 w-screen h-screen bg-transparent ${contentClasses}`}
+      className={`absolute left-0 top-0 z-10 h-screen w-screen bg-transparent ${contentClasses}`}
     >
       {children}
     </div>,

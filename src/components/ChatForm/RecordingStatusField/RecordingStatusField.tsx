@@ -9,15 +9,15 @@ const RecordingStatusField = forwardRef<
 >(({ isRecording, recordingDuration }, ref) => {
   return (
     <div
-      className={`absolute top-1/2 right-28 -translate-y-1/2 z-20 flex items-center py-1 px-3 gap-2 bg-lightRed rounded-full ${
+      className={`absolute right-28 top-1/2 z-20 flex -translate-y-1/2 items-center gap-2 rounded-full bg-lightRed px-3 py-1 ${
         isRecording ? 'block' : 'hidden'
       }`}
     >
-      <svg width={24} height={24} className="fill-veryDarkRed animate-pulse">
+      <svg width={24} height={24} className="animate-pulse fill-veryDarkRed">
         <use href={sprite + '#icon-rec'} />
       </svg>
       <canvas
-        className="w-40 h-5 sm:w-8 md:w-40 lg:w-52"
+        className="h-5 w-40 sm:w-8 md:w-40 lg:w-52"
         ref={ref}
         width={192}
         height={20}

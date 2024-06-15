@@ -1,20 +1,18 @@
-import { FC, useCallback, useState } from 'react';
-import urlParser from 'js-video-url-parser';
-import { useTranslation } from 'react-i18next';
+import { FC, useCallback, useState } from "react";
+import urlParser from "js-video-url-parser";
 
-import MessageImagesWithLightBox from '../MessageImagesWithLightBox/MessageImagesWithLightBox';
-import MessageFiles from '../MessageFiles/MessageFiles';
-import VideoComponent from '../VideoComponent/VideoComponent';
-import ReactionsDisplay from '../MessageReactions/ReactionsDisplay';
-import MessageTriangle from '@components/Messages/MessageTriangle/MessageTriangle';
-import IsReadMsg from '@components/Messages/IsReadMsg/IsReadMsg';
-import useChatStore from '@zustand/store';
-import useMakeReadMsg from '@hooks/useMakeReadMsg';
-import formatTimeMsg from '@utils/messages/formatTimeMsg';
-import isLinkMsg from '@utils/isLinkMsg';
-import { IMessageItemProps } from '@interfaces/IMessageItemProps';
-import { IFile } from '@interfaces/IFile';
-import sprite from '@assets/sprite.svg';
+import MessageImagesWithLightBox from "../MessageImagesWithLightBox/MessageImagesWithLightBox";
+import ReactionsDisplay from "../MessageReactions/ReactionsDisplay";
+import IsEdited from "../IsEdited/IsEdited";
+import LinkMessage from "../LinkMessage/LinkMessage";
+import MessageFiles from "../MessageFiles/MessageFiles";
+import MessageTriangle from "@components/Messages/MessageTriangle/MessageTriangle";
+import IsReadMsg from "@components/Messages/IsReadMsg/IsReadMsg";
+import useChatStore from "@zustand/store";
+import useMakeReadMsg from "@hooks/useMakeReadMsg";
+import formatTimeMsg from "@utils/messages/formatTimeMsg";
+import isLinkMsg from "@utils/isLinkMsg";
+import { IMessageItemProps } from "@interfaces/IMessageItemProps";
 
 const MessageItem: FC<IMessageItemProps> = ({
   msg,
@@ -22,9 +20,8 @@ const MessageItem: FC<IMessageItemProps> = ({
   isSelectedMessages,
 }) => {
   const [indexClickedPhoto, setIndexClickedPhoto] = useState(-1);
-  const { t } = useTranslation('translation', { keyPrefix: 'General' });
 
-  const currentUserUID = useChatStore(state => state.currentUser.uid);
+  const currentUserUID = useChatStore((state) => state.currentUser.uid);
 
   useMakeReadMsg(msg, isNearBottom);
 
@@ -48,59 +45,35 @@ const MessageItem: FC<IMessageItemProps> = ({
   return (
     <div
       className={`relative flex w-full items-end xl:w-8/12 ${
-        myUID ? 'justify-end' : 'justify-start'
-      } ${isSelectedMessages && 'pointer-events-none'}`}
+        myUID ? "justify-end" : "justify-start"
+      } ${isSelectedMessages && "pointer-events-none"}`}
       id="message"
     >
       <div
-        className={`flex flex-col items-center py-2 px-4 ${
-          isLink && info?.mediaType === 'video' && 'w-full'
+        className={`flex flex-col items-center px-4 py-2 ${
+          isLink && info?.mediaType === "video" && "w-full"
         } rounded-xl ${
-          msg.data().file?.length === 1 ? 'max-w-md' : 'max-w-xl'
-        }  ${
+          msg.data().file?.length === 1 ? "max-w-md" : "max-w-xl"
+        } ${
           myUID
-            ? 'bg-mediumEmerald dark:bg-mediumDarkCyan rounded-br-none'
-            : 'bg-veryLightZinc dark:bg-darkGreen rounded-bl-none'
+            ? "rounded-br-none bg-mediumEmerald dark:bg-mediumDarkCyan"
+            : "rounded-bl-none bg-veryLightZinc dark:bg-darkGreen"
         } shadow-secondaryShadow`}
       >
-        {msg
-          .data()
-          .file?.some((file: IFile) => file.type.includes('image')) && (
-          <div
-            className={`flex flex-wrap sm:justify-center lg:justify-normal gap-0.5 ${
-              msg.data().file?.length === 1
-                ? 'max-w-md'
-                : 'w-[160px] lg:w-full max-w-xs'
-            }`}
-            id="file-container"
-          >
-            <MessageImagesWithLightBox
-              msg={msg}
-              indexClickedPhoto={indexClickedPhoto}
-              handleClickPhoto={handleClickPhoto}
-            />
-          </div>
-        )}
+        <MessageImagesWithLightBox
+          msg={msg}
+          indexClickedPhoto={indexClickedPhoto}
+          handleClickPhoto={handleClickPhoto}
+        />
 
-        {msg.data().file && <MessageFiles msg={msg} />}
+        <MessageFiles msg={msg} />
 
         {isLink ? (
           <>
-            <a
-              className="w-full break-all transition-colors duration-150 text-nearBlackBlue hover:text-extraDarkBlue dark:text-ultraDarkZinc text-decoration-line: hover:underline hover:dark:text-darkZinc"
-              href={
-                textContentMsg.startsWith('https://')
-                  ? textContentMsg
-                  : 'https://' + textContentMsg
-              }
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              {textContentMsg}
-            </a>
-            {info?.mediaType === 'video' && (
-              <VideoComponent source={textContentMsg} />
-            )}
+            <LinkMessage
+              textContentMsg={textContentMsg}
+              isVideo={info?.mediaType === "video"}
+            />
           </>
         ) : (
           <p className="w-full break-all text-black dark:text-white">
@@ -108,17 +81,10 @@ const MessageItem: FC<IMessageItemProps> = ({
           </p>
         )}
 
-        <div className="w-full flex items-baseline justify-between gap-2">
+        <div className="flex w-full items-baseline justify-between gap-2">
           <ReactionsDisplay reactions={msg.data().reactions} />
 
-          {msg.data().isEdited && (
-            <>
-              <svg width={8} height={8} className="fill-darkZinc">
-                <use href={sprite + '#icon-pencil'} />
-              </svg>
-              <p className="text-sm text-darkZinc">{t('Edited')}</p>
-            </>
-          )}
+          <IsEdited isEdited={msg.data().isEdited} />
 
           <div className="flex items-center gap-2">
             <p className="text-nearBlackGreen dark:text-veryLightZinc">

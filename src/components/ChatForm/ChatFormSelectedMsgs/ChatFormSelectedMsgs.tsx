@@ -9,9 +9,9 @@ const ChatFormSelectedMsgs = () => {
   );
 
   return (
-    <div className="flex flex-col justify-center w-full h-full shadow-whiteTopShadow xl:w-8/12">
+    <div className="flex h-full w-full flex-col justify-center shadow-whiteTopShadow xl:w-8/12">
       <div
-        className={`relative flex flex-row h-14 px-8 rounded-3xl bg-mediumLightZinc dark:bg-darkBackground text-black dark:text-white border-2 border-transparent outline-none`}
+        className={`relative flex h-14 flex-row rounded-3xl border-2 border-transparent bg-mediumLightZinc px-8 text-black outline-none dark:bg-darkBackground dark:text-white`}
       >
         <div className="relative">
           <ButtonClose
@@ -19,7 +19,7 @@ const ChatFormSelectedMsgs = () => {
           />
         </div>
 
-        <div className="flex flex-row gap-x-1 ml-auto">
+        <div className="ml-auto flex flex-row gap-x-1">
           <CopyButton textContent={false} white="black" dark="white" />
           <DeleteButton textContent={false} color="red" />
         </div>

@@ -10,7 +10,6 @@ import {
 import { db } from '@myfirebase/config';
 import useChatStore from '@zustand/store';
 
-
 const useSearchMessageValue = () => {
   const [searchMessageValue, setSearchMessageValue] = useState('');
   const [searchMessages, setSearchMessages] = useState<DocumentData[] | null>(

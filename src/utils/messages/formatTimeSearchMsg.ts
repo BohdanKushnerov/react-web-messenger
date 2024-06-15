@@ -15,7 +15,7 @@ const formatTimeSearchMsg = (dateString: string) => {
     const formattedTime = `${day} ${month} ${year}, ${hours}:${
       minutes < 10 ? '0' : ''
     }${minutes}`;
-    
+
     return formattedTime;
   }
 };

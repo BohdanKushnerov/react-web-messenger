@@ -1,4 +1,4 @@
-import { IGroupedMessages } from "./IGroupedMessages";
+import { IGroupedMessages } from './IGroupedMessages';
 
 export interface IButtonEditProps {
   groupedMessages: IGroupedMessages | null;

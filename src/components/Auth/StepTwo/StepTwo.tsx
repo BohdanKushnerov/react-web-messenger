@@ -44,17 +44,17 @@ const StepTwo: FC<IStepTwoProps> = ({
         width={120}
         height={120}
       />
-      <h1 className="font-bold text-black dark:text-white text-center">
+      <h1 className="text-center font-bold text-black dark:text-white">
         {t('Verification')}
       </h1>
-      <p className="text-veryDarkGray text-center">{t('EnterDigits')}</p>
+      <p className="text-center text-veryDarkGray">{t('EnterDigits')}</p>
 
       <div className="mb-2">
         <CodeInput setCode={setCode} />
       </div>
-      <div className="flex justify-center mb-2">
+      <div className="mb-2 flex justify-center">
         <button
-          className="w-full p-2 text-black dark:text-white border border-black dark:border-white rounded-md disabled:text-mediumGray disabled:border-mediumGray disabled:dark:text-veryDarkGray disabled:dark:border-mediumGray"
+          className="w-full rounded-md border border-black p-2 text-black disabled:border-mediumGray disabled:text-mediumGray dark:border-white dark:text-white disabled:dark:border-mediumGray disabled:dark:text-veryDarkGray"
           onClick={getCodeAgain}
           disabled={isButtonDisabled}
         >

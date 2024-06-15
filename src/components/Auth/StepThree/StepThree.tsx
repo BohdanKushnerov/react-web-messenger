@@ -75,7 +75,7 @@ const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
           {t('Name')}
           <input
             autoFocus
-            className="w-full h-10 p-2 rounded-md bg-transparent border border-charcoal"
+            className="h-10 w-full rounded-md border border-charcoal bg-transparent p-2"
             id="name"
             type="text"
             value={name}
@@ -85,7 +85,7 @@ const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
         <label htmlFor="lastname" className="font-bold text-veryDarkGray">
           {t('Surname')}
           <input
-            className="w-full h-10 p-2 rounded-md bg-transparent border border-charcoal"
+            className="h-10 w-full rounded-md border border-charcoal bg-transparent p-2"
             id="lastname"
             type="text"
             value={surname}

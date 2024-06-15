@@ -49,7 +49,7 @@ const MessageList = memo(
       <>
         <div
           ref={ref}
-          className={`flex flex-col justify-end min-h-full px-6 gap-2 ${
+          className={`flex min-h-full flex-col justify-end gap-2 px-6 ${
             !isReadyFirstMsgs && 'invisible'
           }`}
         >
@@ -61,8 +61,8 @@ const MessageList = memo(
                 }`}
                 key={date}
               >
-                <li className="flex justify-center sticky top-1 z-10 pointer-events-none">
-                  <p className="px-2 py-0.5 w-min-0 whitespace-no-wrap rounded-xl bg-lightZincOpacity40 text-veryLightGreen text-center">
+                <li className="pointer-events-none sticky top-1 z-10 flex justify-center">
+                  <p className="w-min-0 whitespace-no-wrap rounded-xl bg-lightZincOpacity40 px-2 py-0.5 text-center text-veryLightGreen">
                     {formatDateForGroupMessages(date, t)}
                   </p>
                 </li>
@@ -73,11 +73,11 @@ const MessageList = memo(
 
                   return (
                     <li
-                      className={`flex justify-center items-center gap-x-5 rounded-xl transition-all duration-150  ${
+                      className={`flex items-center justify-center gap-x-5 rounded-xl transition-all duration-150 ${
                         currentItem && 'bg-ultraDarkZinc'
                       } ${
                         isSelectedMessages &&
-                        'hover:cursor-pointer hover:outline hover:outline-1 hover:outline-white hover:z-10'
+                        'hover:z-10 hover:cursor-pointer hover:outline hover:outline-1 hover:outline-white'
                       }`}
                       key={message.id}
                       onContextMenu={e =>

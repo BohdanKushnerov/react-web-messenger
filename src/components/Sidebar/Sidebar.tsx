@@ -17,7 +17,7 @@ const Sidebar: FC = memo(() => {
   const sidebarScreen = useChatStore(state => state.sidebarScreen);
 
   return (
-    <div className="relative w-full h-full sm:w-[300px] md:w-[400px] bg-main dark:bg-mainBlack border-r border-r-ultraDarkZinc">
+    <div className="relative h-full w-full border-r border-r-ultraDarkZinc bg-main dark:bg-mainBlack sm:w-[300px] md:w-[400px]">
       <Transition
         nodeRef={nodeRefSidebarDefault}
         in={sidebarScreen === 'default'}
@@ -27,14 +27,11 @@ const Sidebar: FC = memo(() => {
         {state => (
           <div
             ref={nodeRefSidebarDefault}
-            className={`w-full h-full transform origin-top-left transition-transform 
-                  ${state === 'exited' ? 'hidden' : ''}
-                  ${
-                    state === 'entered'
-                      ? 'rotate-0 translate-x-0'
-                      : 'rotate-180 -translate-x-1/2 duration-300'
-                  }
-                  `}
+            className={`h-full w-full origin-top-left transform transition-transform ${state === 'exited' ? 'hidden' : ''} ${
+              state === 'entered'
+                ? 'translate-x-0 rotate-0'
+                : '-translate-x-1/2 rotate-180 duration-300'
+            } `}
           >
             <div className="flex gap-2 px-3 py-2">
               <Navbar />
