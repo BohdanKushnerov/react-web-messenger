@@ -16,7 +16,6 @@ const setUpRecaptcha = async (
   setRecaptcha: Dispatch<SetStateAction<RecaptchaVerifier | null>>,
   t: TFunction<'translation', 'Auth'>
 ): Promise<ConfirmationResult | null> => {
-  console.log('phone', phone);
   try {
     if (recaptcha) {
       return await signInWithPhoneNumber(auth, phone, recaptcha);

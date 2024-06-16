@@ -1,5 +1,3 @@
-import { EmojiClickData } from 'emoji-picker-react';
-
 import { DocumentData, doc, updateDoc } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
@@ -7,7 +5,7 @@ import { db } from '@myfirebase/config';
 import updateReactions from '@utils/messages/updateReactions';
 
 const updateMsgReaction = async (
-  emojiData: EmojiClickData,
+  emojiValue: string,
   chatUID: string | null,
   currentUserUID: string,
   selectedDocDataMessage: DocumentData[] | null,
@@ -21,11 +19,10 @@ const updateMsgReaction = async (
 
   closeModal();
 
-  const emojiKey = emojiData.emoji;
-  const existingIds = reactions[emojiKey] || [];
+  const existingIds = reactions[emojiValue] || [];
 
   const newReactions = updateReactions(
-    emojiKey,
+    emojiValue,
     existingIds,
     currentUserUID,
     reactions

@@ -19,7 +19,7 @@ const Sidebar: FC = memo(() => {
   const sidebarScreen = useChatStore(state => state.sidebarScreen);
 
   return (
-    <div className="relative h-full w-full border-r border-r-ultraDarkZinc bg-main dark:bg-mainBlack sm:w-[300px] md:w-[400px]">
+    <div className="relative h-full w-full border-r border-r-ultraDarkZinc bg-main dark:bg-mainBlack sm:w-300px md:w-400px">
       <Transition
         nodeRef={nodeRefSidebarDefault}
         in={sidebarScreen === 'default'}

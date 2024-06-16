@@ -1,9 +1,10 @@
 import { FC } from 'react';
-import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 
 import useChatStore from '@zustand/store';
 
 import updateMsgReaction from '@api/firestore/updateMsgReaction';
+
+import defaultEmojiData from '@constants/defaultEmojiData';
 
 const Reactions: FC = () => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
@@ -15,10 +16,10 @@ const Reactions: FC = () => {
     state => state.resetSelectedMessages
   );
 
-  const handleEmojiClick = (emojiData: EmojiClickData) => {
+  const handleEmojiClick = (emoji: string) => {
     if (currentUserUID) {
       updateMsgReaction(
-        emojiData,
+        emoji,
         chatUID,
         currentUserUID,
         selectedDocDataMessage,
@@ -28,14 +29,18 @@ const Reactions: FC = () => {
   };
 
   return (
-    <EmojiPicker
-      className="pointer-events-auto"
-      lazyLoadEmojis={true}
-      reactionsDefaultOpen={true}
-      allowExpandReactions={false}
-      searchDisabled={true}
-      onEmojiClick={handleEmojiClick}
-    />
+    <ul className="pointer-events-auto flex h-12 w-260px items-center justify-center gap-1 rounded-full border border-white bg-[#ffffff90] p-2 backdrop-blur-lg">
+      {defaultEmojiData.map(emoji => (
+        <li key={emoji.id} className="h-full w-full">
+          <button
+            className="cursor-pointer transition-all duration-100 ease-in-out hover:scale-125"
+            onClick={() => handleEmojiClick(emoji.emoji)}
+          >
+            <img className="object-cover" src={emoji.src} alt={emoji.alt} />
+          </button>
+        </li>
+      ))}
+    </ul>
   );
 };
 

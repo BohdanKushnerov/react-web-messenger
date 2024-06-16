@@ -2,6 +2,11 @@
 
 A simple web messenger implemented with React.
 
+# Live Demo
+
+Check out the live demo at
+[https://chat-vercel-snowy.vercel.app](https://chat-vercel-snowy.vercel.app)
+
 ## Overview
 
 React Web Messenger is a lightweight tool for real-time messaging built on the
@@ -48,6 +53,7 @@ Before getting started, make sure you have:
   content and deleting messages.
 - Search for messages in the chat (case-sensitive).
 - Emoji support for text messages in the chat.
+- Reactions to messages.
 - Modify the Browser Tab Title and Icon upon Receiving a New Unread Message.
 
 ## Running Instructions:
@@ -55,4 +61,6 @@ Before getting started, make sure you have:
 1. Clone the project repository.
 2. Run the command `npm install` to install the necessary dependencies.
 3. Execute `npm run dev` to start the project.
-4. Open a web browser and go to http://localhost:5173 to view the application.
+4. Open a web browser and go to
+   [http://localhost:5173/react-web-messenger](http://localhost:5173/react-web-messenger)
+   to view the application.

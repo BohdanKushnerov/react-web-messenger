@@ -122,7 +122,7 @@ const Auth: FC = () => {
 
   return (
     <div className="relative flex h-full flex-col gap-2 bg-main-bcg bg-cover bg-center bg-no-repeat py-10">
-      <div className="mx-auto h-full max-w-[300px] rounded-md bg-main dark:bg-mainBlack">
+      <div className="max-w-300px mx-auto h-full rounded-md bg-main dark:bg-mainBlack">
         <Theme />
         <LanguageSwitcher />
       </div>

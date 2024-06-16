@@ -34,7 +34,7 @@ const UserChatInfo: FC<IUserChatInfoProps> = ({
           {userInfo?.displayName}
         </p>
         <p
-          className={`w-full sm:w-[100px] md:hidden ${
+          className={`w-full sm:w-100px md:hidden ${
             currentChatUID === itemChatUID
               ? 'text-white'
               : 'text-darkZinc dark:text-veryLightZinc'

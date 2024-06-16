@@ -45,7 +45,7 @@ const HomePage = () => {
         {state => (
           <div
             ref={nodeRefSidebar}
-            className={`w-full sm:w-[300px] md:w-[400px] ${
+            className={`w-full sm:w-300px md:w-400px ${
               state === 'exited' ? 'hidden' : ''
             } transform transition-transform ${
               state === 'entered'

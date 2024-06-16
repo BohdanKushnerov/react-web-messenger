@@ -15,7 +15,7 @@ const MainChatLoader: FC = () => {
           aria-label="Loading Spinner"
           data-testid="loader"
         />
-        <h1 className="font-bold text-mediumGray">
+        <h1 className="font-bold text-veryLightZinc">
           Waiting messenger is loading...
         </h1>
       </div>

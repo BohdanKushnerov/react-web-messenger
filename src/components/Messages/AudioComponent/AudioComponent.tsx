@@ -44,7 +44,7 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   };
 
   return (
-    <div className="relative flex w-[300px] flex-row items-start gap-2 sm:w-[200px] md:min-w-[220px] md:max-w-md lg:min-w-[360px]">
+    <div className="w-300px sm:w-200px md:min-w-220px lg:min-w-360px relative flex flex-row items-start gap-2 md:max-w-md">
       <ButtonAudio isPlaying={isPlaying} onPlayPause={onPlayPause} />
 
       {isLoading && (
@@ -78,7 +78,7 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
           <div className="flex flex-wrap gap-1">
             <p className="text-dark dark:text-white">{t('Volume')}</p>
             <input
-              className="w-24 appearance-none bg-transparent sm:w-16 lg:w-24 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-mediumDarkZinc dark:[&::-webkit-slider-runnable-track]:bg-veryLightZinc [&::-webkit-slider-thumb]:h-[10px] [&::-webkit-slider-thumb]:w-[10px] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-nearBlackZinc dark:[&::-webkit-slider-thumb]:bg-mediumDarkZinc"
+              className="w-24 appearance-none bg-transparent sm:w-16 lg:w-24 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-mediumDarkZinc dark:[&::-webkit-slider-runnable-track]:bg-veryLightZinc [&::-webkit-slider-thumb]:h-10px [&::-webkit-slider-thumb]:w-10px [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-nearBlackZinc dark:[&::-webkit-slider-thumb]:bg-mediumDarkZinc"
               type="range"
               min="0"
               max="100"

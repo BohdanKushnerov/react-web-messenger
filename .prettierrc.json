@@ -1,7 +1,7 @@
 {
   "plugins": [
-    "prettier-plugin-tailwindcss",
-    "@trivago/prettier-plugin-sort-imports"
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
   ],
   "importOrder": [
     "react",
@@ -17,10 +17,11 @@
     "@api/",
     "@hooks/",
     "@utils/",
-    "@interface",
-    "@enums",
-    "types",
-    "@assets",
+    "@interfaces/",
+    "@enums/",
+    "types/",
+    "@constants/",
+    "@assets/",
     "@i18n"
   ],
   "importOrderSeparation": true,

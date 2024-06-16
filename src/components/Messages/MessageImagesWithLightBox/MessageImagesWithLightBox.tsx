@@ -29,7 +29,7 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
           className={`flex flex-wrap gap-0.5 sm:justify-center lg:justify-normal ${
             msg.data().file?.length === 1
               ? 'max-w-md'
-              : 'w-[160px] max-w-xs lg:w-full'
+              : 'w-160px max-w-xs lg:w-full'
           }`}
           id="messageImagesWithLightBox-container"
         >

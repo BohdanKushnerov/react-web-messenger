@@ -45,7 +45,7 @@ const SearchChatList: FC = () => {
 
             return (
               <li
-                className="group flex h-[72px] content-center items-center gap-3 rounded-md p-2 transition-all duration-300 hover:cursor-pointer hover:bg-mediumZinc"
+                className="group flex h-72px content-center items-center gap-3 rounded-md p-2 transition-all duration-300 hover:cursor-pointer hover:bg-mediumZinc"
                 key={doc.id}
                 onClick={() => handleManageCreateChat(docData)}
               >

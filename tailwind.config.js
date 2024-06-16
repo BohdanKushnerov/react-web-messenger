@@ -1,21 +1,37 @@
 /** @type {import('tailwindcss').Config} */
 import colors from 'tailwindcss/colors';
 
+
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
       height: {
-        // '72px': '72px',
+        '10px': '10px',
+        '40px': '40px',
+        '72px': '72px',
+        '200px': '200px',
       },
       width: {
-        // '60px': '60px',
+        '10px': '10px',
+        '100px': '100px',
+        '160px': '160px',
+        '200px': '200px',
+        '250px': '250px',
+        '260px': '260px',
+        '300px': '300px',
+        '400px': '400px',
       },
       minWidth: {
+        '200px': '200px',
+        '220px': '220px',
         '240px': '240px',
+        '360px': '360px',
       },
       maxWidth: {
+        '200px': '200px',
+        '300px': '300px',
         '320px': '320px',
       },
       fontFamily: {
@@ -97,18 +113,6 @@ export default {
         mediumDarkGray: 'rgb(107 114 128)', // gray-500
         veryDarkGray: 'rgb(55 65 81)', // gray-700
         extraDarkGray: 'rgb(31 41 55)', // gray-800
-
-        // 50: extraLight
-        // 100: veryLight
-        // 200: light
-        // 300: mediumLight
-        // 400: medium
-        // 500: mediumDark
-        // 600: dark
-        // 700: veryDark
-        // 800: extraDark
-        // 900: ultraDark
-        // 950: nearBlack
       },
       boxShadow: {
         mainShadow: '0 0.25rem 0.5rem 0.125rem rgb(16,16,16,0.612)',

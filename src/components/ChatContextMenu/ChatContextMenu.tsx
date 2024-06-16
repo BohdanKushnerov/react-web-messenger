@@ -23,6 +23,7 @@ const ChatContextMenu: FC<IChatContextMenuProps> = ({ groupedMessages }) => {
   return (
     <>
       <Reactions />
+
       <div
         className={`pointer-events-auto h-56 w-56 rounded-3xl bg-mainBlack p-2`}
       >

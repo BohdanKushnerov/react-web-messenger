@@ -25,13 +25,13 @@ const handleDeleteMessage = async (
   try {
     makeCursorOnProgress();
 
+    closeModal();
+
     await deleteFilesAndDocsFromStoreAndStorage(
       selectedDocDataMessage,
       db,
       chatUID
     );
-
-    closeModal();
 
     const inputElement = document.getElementById('chatFormInput');
     inputElement?.focus();

@@ -35,7 +35,7 @@ const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
         <div className="relative flex h-2/3 w-full flex-col items-center justify-center gap-6 rounded-3xl bg-main shadow-mainShadow dark:bg-mainBlack sm:w-1/2 xl:w-1/3">
           <ButtonClose handleClickButtonClose={handleToggleProfilePhotoModal} />
           {photoProfileInputRef.current?.files && (
-            <div className="h-[200px] w-[200px]">
+            <div className="h-200px w-200px">
               <img
                 className="h-full w-full rounded-full object-cover"
                 src={URL.createObjectURL(
