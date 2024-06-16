@@ -1,4 +1,5 @@
 import { DocumentData } from 'firebase/firestore';
+
 import { IFile } from './IFile';
 
 export interface IMessageImageProps {

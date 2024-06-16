@@ -1,12 +1,14 @@
 import { MutableRefObject } from 'react';
+
 import {
-  doc,
   DocumentData,
   QueryDocumentSnapshot,
+  doc,
   updateDoc,
 } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
+
 import makeNotification from '@utils/messages/makeNotification';
 
 const manageNotifyMessage = async (

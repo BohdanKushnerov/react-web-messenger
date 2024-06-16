@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
+
 import {
-  collection,
   DocumentData,
+  collection,
   limit,
   onSnapshot,
   orderBy,
@@ -9,6 +10,7 @@ import {
 } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
+
 import { UseGetLastMessage } from 'types/hooks/UseGetLastMessage';
 
 const useGetLastMessage: UseGetLastMessage = itemChatUID => {

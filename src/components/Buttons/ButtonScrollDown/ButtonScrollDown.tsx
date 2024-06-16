@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { IButtonScrollDownProps } from '@interfaces/IButtonScrollDownProps';
+
 import sprite from '@assets/sprite.svg';
 
 const ButtonScrollDown: FC<IButtonScrollDownProps> = ({

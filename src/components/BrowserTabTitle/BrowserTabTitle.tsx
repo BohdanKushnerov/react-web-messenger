@@ -1,8 +1,10 @@
 import { FC } from 'react';
 
 import useChatStore from '@zustand/store';
+
 import useBrowserTabTitleVisibilityChange from '@hooks/useBrowserTabTitleChange';
 import useCountChatUnreadMessages from '@hooks/useCountChatUnreadMessages';
+
 import { IBrowserTabTitleProps } from '@interfaces/IBrowserTabTitleProps';
 
 const BrowserTabTitle: FC<IBrowserTabTitleProps> = ({ docHidden }) => {

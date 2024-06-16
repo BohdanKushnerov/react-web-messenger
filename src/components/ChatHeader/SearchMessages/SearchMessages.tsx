@@ -3,12 +3,18 @@ import { useTranslation } from 'react-i18next';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import SearchMsgsInput from '@components/Inputs/SearchMsgsInput/SearchMsgsInput';
+
 import useChatStore from '@zustand/store';
-import useSearchMessageValue from '@hooks/useSearchMessageValue';
+
 import useChatInfo from '@hooks/useChatInfo';
+import useSearchMessageValue from '@hooks/useSearchMessageValue';
+
 import formatTimeSearchMsg from '@utils/messages/formatTimeSearchMsg';
+
 import { ISearchMessagesProps } from '@interfaces/ISearchMessagesProps';
+
 import sprite from '@assets/sprite.svg';
+
 import '@i18n';
 
 const SearchMessages: FC<ISearchMessagesProps> = ({

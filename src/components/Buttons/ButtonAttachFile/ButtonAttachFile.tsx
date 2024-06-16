@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { IButtonAttachFileProps } from '@interfaces/IButtonAttachFileProps';
+
 import sprite from '@assets/sprite.svg';
 
 const ButtonAttachFile: FC<IButtonAttachFileProps> = ({

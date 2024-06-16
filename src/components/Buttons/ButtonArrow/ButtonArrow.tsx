@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { IButtonArrowProps } from '@interfaces/IButtonArrowProps';
+
 import sprite from '@assets/sprite.svg';
 
 const ButtonArrow: FC<IButtonArrowProps> = ({

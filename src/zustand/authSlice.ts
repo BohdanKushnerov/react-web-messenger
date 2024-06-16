@@ -1,5 +1,5 @@
-import { StateCreator } from 'zustand';
 import { produce } from 'immer';
+import { StateCreator } from 'zustand';
 
 import { IAuthSliceState } from '@interfaces/zustand/IAuthSliceState';
 

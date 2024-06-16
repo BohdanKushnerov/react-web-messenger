@@ -1,13 +1,18 @@
 import { FC, useState } from 'react';
-import { updateProfile } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+import { updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+
 import AuthConfirmButton from '@components/Buttons/ButtonAuthConfirm/ButtonAuthConfirm';
+
 import { auth, db } from '@myfirebase/config';
+
 import useChatStore from '@zustand/store';
+
 import { IStepThreeProps } from '@interfaces/IStepThreeProps';
+
 import authStep3 from '@assets/auth-step3.webp';
 
 const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {

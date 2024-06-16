@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { FileIcon, defaultStyles } from 'react-file-icon';
+
 import { Line } from 'rc-progress';
 
 import { IUploadDocumentFileProps } from '@interfaces/IUploadDocumentFileProps';

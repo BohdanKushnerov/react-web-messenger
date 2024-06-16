@@ -1,20 +1,27 @@
 import { FC, Suspense, lazy, useRef, useState } from 'react';
-import { Transition } from 'react-transition-group';
 import { useTranslation } from 'react-i18next';
+import { Transition } from 'react-transition-group';
 
-import ButtonArrow from '@components/Buttons/ButtonArrow/ButtonArrow';
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import ButtonArrow from '@components/Buttons/ButtonArrow/ButtonArrow';
 import FileInput from '@components/Inputs/FileInput/FileInput';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+
+import { auth } from '@myfirebase/config';
+
+import useChatStore from '@zustand/store';
+
+import useStartTransition from '@hooks/useStartTransition';
+
+import handleClickChangeDisplayName from '@utils/profileSettings/handleClickChangeDisplayName';
+
+import sprite from '@assets/sprite.svg';
+
+import '@i18n';
+
 const ProfileSettingsModal = lazy(
   () => import('@components/Modals/ProfileSettingsModal/ProfileSettingsModal')
 );
-import { auth } from '@myfirebase/config';
-import useChatStore from '@zustand/store';
-import useStartTransition from '@hooks/useStartTransition';
-import handleClickChangeDisplayName from '@utils/profileSettings/handleClickChangeDisplayName';
-import sprite from '@assets/sprite.svg';
-import '@i18n';
 
 const ProfileSettings: FC = () => {
   const [newDisplayName, setNewDisplayName] = useState(

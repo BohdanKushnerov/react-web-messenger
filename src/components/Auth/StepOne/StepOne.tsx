@@ -2,7 +2,9 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import MyPhoneInput from '@components/Inputs/MyPhoneInput/MyPhoneInput';
+
 import { IStepOneProps } from '@interfaces/IStepOneProps';
+
 import authStep1 from '@assets/auth-step1.webp';
 
 const StepOne: FC<IStepOneProps> = ({ phone, setPhone }) => {

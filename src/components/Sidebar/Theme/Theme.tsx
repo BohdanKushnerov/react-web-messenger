@@ -2,7 +2,9 @@ import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useTheme from '@hooks/useTheme';
+
 import sprite from '@assets/sprite.svg';
+
 import '@i18n';
 
 const Theme: FC = () => {

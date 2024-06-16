@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import { Line } from 'rc-progress';
 
 import { IUploadPhotoFileProps } from '@interfaces/IUploadPhotoFileProps';

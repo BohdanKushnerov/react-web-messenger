@@ -2,6 +2,7 @@ import { FC } from 'react';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 
 import useChatStore from '@zustand/store';
+
 import updateMsgReaction from '@api/firestore/updateMsgReaction';
 
 const Reactions: FC = () => {

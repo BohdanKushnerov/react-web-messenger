@@ -1,11 +1,14 @@
 import { FC } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import useChatStore from '@zustand/store';
+
 import copyTextSelectedMsgs from '@utils/messages/copyTextSelectedMsgs';
+
 import { ICopyButtonProps } from '@interfaces/ICopyButtonProps';
+
 import sprite from '@assets/sprite.svg';
 
 const CopyButton: FC<ICopyButtonProps> = ({

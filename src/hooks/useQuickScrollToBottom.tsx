@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react';
 
 import useResizeWindow from './useResizeWindow';
+
 import { UseQuickScrollToBottom } from 'types/hooks/UseQuickScrollToBottom';
 
 const useQuickScrollToBottom: UseQuickScrollToBottom = (

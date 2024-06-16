@@ -1,14 +1,17 @@
 import { FC, lazy } from 'react';
 
+import ButtonEdit from './ButtonEdit/ButtonEdit';
+import ButtonSelect from './ButtonSelect/ButtonSelect';
 import CopyButton from './CopyButton/CopyButton';
 import DeleteButton from './DeleteButton/DeleteButton';
-import ButtonSelect from './ButtonSelect/ButtonSelect';
-import ButtonEdit from './ButtonEdit/ButtonEdit';
+
+import useChatStore from '@zustand/store';
+
+import { IChatContextMenuProps } from '@interfaces/IChatContextMenuProps';
+
 const Reactions = lazy(
   () => import('@components/ChatContextMenu/Reactions/Reactions')
 );
-import useChatStore from '@zustand/store';
-import { IChatContextMenuProps } from '@interfaces/IChatContextMenuProps';
 
 const ChatContextMenu: FC<IChatContextMenuProps> = ({ groupedMessages }) => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);

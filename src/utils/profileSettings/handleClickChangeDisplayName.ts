@@ -1,7 +1,8 @@
+import { toast } from 'react-toastify';
+
 import { User, updateProfile } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 import { TFunction } from 'i18next';
-import { toast } from 'react-toastify';
 
 import { auth, db } from '@myfirebase/config';
 

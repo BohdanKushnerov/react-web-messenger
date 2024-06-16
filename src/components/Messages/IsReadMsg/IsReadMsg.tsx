@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { IIsReadMsgProps } from '@interfaces/IIsReadMsgProps';
+
 import sprite from '@assets/sprite.svg';
 
 const IsReadMsg: FC<IIsReadMsgProps> = ({ msg }) => {

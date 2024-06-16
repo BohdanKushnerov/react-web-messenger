@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+
 import { IAuthConfirmButtonProps } from '@interfaces/IAuthConfirmButtonProps';
 
 const AuthConfirmButton: FC<IAuthConfirmButtonProps> = ({

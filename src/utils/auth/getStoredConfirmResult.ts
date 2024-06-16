@@ -1,10 +1,11 @@
 import { Dispatch, SetStateAction } from 'react';
-import { ConfirmationResult, RecaptchaVerifier } from 'firebase/auth';
 
-import { auth } from '@myfirebase/config';
+import { ConfirmationResult, RecaptchaVerifier } from 'firebase/auth';
 import { TFunction } from 'i18next';
 
 import setUpRecaptcha from './setUpRecaptcha';
+
+import { auth } from '@myfirebase/config';
 
 const getStoredConfirmResult = async (
   recaptcha: RecaptchaVerifier | null,

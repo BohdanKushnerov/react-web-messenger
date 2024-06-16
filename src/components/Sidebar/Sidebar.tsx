@@ -1,15 +1,17 @@
 import { FC, Suspense, lazy, memo, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import ChatList from '@components/Sidebar/ChatList/ChatList';
 import Navbar from '@components/Sidebar/Navbar/Navbar';
-import SearchUsers from '@components/Sidebar/SearchUsers/SearchUsers';
 import SearchChatList from '@components/Sidebar/SearchChatList/SearchChatList';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import SearchUsers from '@components/Sidebar/SearchUsers/SearchUsers';
+
+import useChatStore from '@zustand/store';
+
 const ProfileSettings = lazy(
   () => import('@components/Sidebar/ProfileSettings/ProfileSettings')
 );
-import useChatStore from '@zustand/store';
 
 const Sidebar: FC = memo(() => {
   const nodeRefSidebarDefault = useRef(null);

@@ -1,7 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 
-import calculateMsgImageWidth from '@utils/messages/calculateMsgImageWidth';
 import calculateMsgImageHeight from '@utils/messages/calculateMsgImageHeight';
+import calculateMsgImageWidth from '@utils/messages/calculateMsgImageWidth';
+
 import { IFile } from '@interfaces/IFile';
 import { IMessageImageProps } from '@interfaces/IMessageImageProps';
 

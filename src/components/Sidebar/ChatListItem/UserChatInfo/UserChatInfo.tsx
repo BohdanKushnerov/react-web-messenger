@@ -1,10 +1,13 @@
 import { FC } from 'react';
 
+import IsOnlineUser from '../IsOnlineUser/IsOnlineUser';
 import QuantityUnreadMsgs from '../QuantityUnreadMsgs/QuantityUnreadMsgs';
 import ReadStatus from '../ReadStatus/ReadStatus';
-import IsOnlineUser from '../IsOnlineUser/IsOnlineUser';
+
 import useGetLastMessage from '@hooks/useGetLastMessage';
+
 import truncateLastMessageString from '@utils/chatListItem/truncateLastMessageString';
+
 import { IUserChatInfoProps } from '@interfaces/IUserChatInfoProps';
 
 const UserChatInfo: FC<IUserChatInfoProps> = ({

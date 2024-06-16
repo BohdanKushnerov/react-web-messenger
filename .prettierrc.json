@@ -1,5 +1,30 @@
 {
-  "plugins": ["prettier-plugin-tailwindcss"],
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "@trivago/prettier-plugin-sort-imports"
+  ],
+  "importOrder": [
+    "react",
+    "<THIRD_PARTY_MODULES>",
+    "^./(.*)$",
+    "^../(.*)$",
+    "@pages/",
+    "@router/",
+    "@routes/",
+    "@components/",
+    "@myfirebase/",
+    "@zustand/",
+    "@api/",
+    "@hooks/",
+    "@utils/",
+    "@interface",
+    "@enums",
+    "types",
+    "@assets",
+    "@i18n"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
   "printWidth": 80,
   "tabWidth": 2,
   "useTabs": false,

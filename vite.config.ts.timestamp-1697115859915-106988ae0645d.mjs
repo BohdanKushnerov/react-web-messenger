@@ -1,6 +1,7 @@
 // vite.config.ts
-import { defineConfig } from 'file:///C:/Users/%D0%91%D0%BE%D0%B3%D0%B4%D0%B0%D0%BD/Desktop/react-web-messenger/node_modules/vite/dist/node/index.js';
 import react from 'file:///C:/Users/%D0%91%D0%BE%D0%B3%D0%B4%D0%B0%D0%BD/Desktop/react-web-messenger/node_modules/@vitejs/plugin-react/dist/index.mjs';
+import { defineConfig } from 'file:///C:/Users/%D0%91%D0%BE%D0%B3%D0%B4%D0%B0%D0%BD/Desktop/react-web-messenger/node_modules/vite/dist/node/index.js';
+
 const vite_config_default = defineConfig({
   resolve: {
     alias: {

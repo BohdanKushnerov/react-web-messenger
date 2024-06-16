@@ -1,9 +1,12 @@
 import { FC } from 'react';
-import { DocumentData } from 'firebase/firestore';
 import { useTranslation } from 'react-i18next';
 
+import { DocumentData } from 'firebase/firestore';
+
 import useChatStore from '@zustand/store';
+
 import { IButtonEditProps } from '@interfaces/IButtonEditProps';
+
 import sprite from '@assets/sprite.svg';
 
 const ButtonEdit: FC<IButtonEditProps> = ({

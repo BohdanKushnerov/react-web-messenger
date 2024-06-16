@@ -1,16 +1,18 @@
-import { useRef, Suspense } from 'react';
-import { Transition } from 'react-transition-group';
+import { Suspense, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
+import { Transition } from 'react-transition-group';
 
-import Sidebar from '@components/Sidebar/Sidebar';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
-import EmptyChat from '@components/EmptyChat/EmptyChat';
 import BrowserTabTitle from '@components/BrowserTabTitle/BrowserTabTitle';
-import useRequestPermission from '@hooks/useRequestPermission';
-import useIsRedirectToCurrentChat from '@hooks/useIsRedirectToCurrentChat';
-import useResizeWindow from '@hooks/useResizeWindow';
-import useIsOnlineMyStatus from '@hooks/useIsOnlineMyStatus';
+import EmptyChat from '@components/EmptyChat/EmptyChat';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import Sidebar from '@components/Sidebar/Sidebar';
+
 import useBrowserTabVisibilityChange from '@hooks/useBrowserTabVisibilityChange';
+import useIsOnlineMyStatus from '@hooks/useIsOnlineMyStatus';
+import useIsRedirectToCurrentChat from '@hooks/useIsRedirectToCurrentChat';
+import useRequestPermission from '@hooks/useRequestPermission';
+import useResizeWindow from '@hooks/useResizeWindow';
+
 import audio from '@assets/notify.mp3';
 
 const HomePage = () => {

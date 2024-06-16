@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+
 import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
+
 import { UseChatInfo } from 'types/hooks/UseChatInfo';
 
 const useChatInfo: UseChatInfo = userUID => {

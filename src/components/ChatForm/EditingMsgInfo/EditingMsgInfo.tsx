@@ -2,8 +2,11 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
+
 import { IEditingMsgInfoProps } from '@interfaces/IEditingMsgInfoProps';
+
 import sprite from '@assets/sprite.svg';
+
 import '@i18n';
 
 const EditingMsgInfo: FC<IEditingMsgInfoProps> = ({

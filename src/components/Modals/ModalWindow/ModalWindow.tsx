@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { createPortal } from 'react-dom';
 
 import useCloseModal from '@hooks/useCloseModal';
+
 import { IModalWindowProps } from '@interfaces/IModalWindowProps';
 
 const modalRoot = document.querySelector('#modal-root')!;

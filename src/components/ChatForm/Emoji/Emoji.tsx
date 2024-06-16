@@ -1,19 +1,23 @@
 import {
   FC,
   KeyboardEvent,
-  lazy,
   Suspense,
+  lazy,
   useDeferredValue,
   useState,
 } from 'react';
 
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+
+import useChatStore from '@zustand/store';
+
+import useCloseModal from '@hooks/useCloseModal';
+
+import sprite from '@assets/sprite.svg';
+
 const EmojiPickerWindow = lazy(
   () => import('../EmojiPickerWindow/EmojiPickerWindow')
 );
-import useChatStore from '@zustand/store';
-import useCloseModal from '@hooks/useCloseModal';
-import sprite from '@assets/sprite.svg';
 
 const Emoji: FC = () => {
   const [isShowEmoji, setIsShowEmoji] = useState(false);

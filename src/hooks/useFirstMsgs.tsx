@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 
 import getFirstMessages from '@api/firestore/getFirstMessages';
+
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+
 import { UseGetFirstMsgs } from 'types/hooks/UseGetFirstMsgs';
+
 import '@i18n';
 
 const useGetFirstMsgs: UseGetFirstMsgs = (

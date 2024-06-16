@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import useChatStore from '@zustand/store';
+
 import updateTypingIsFalse from '@api/firestore/updateTypingIsFalse';
 
 const useBeforeUnloadToStopTyping = () => {

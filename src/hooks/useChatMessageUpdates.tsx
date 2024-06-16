@@ -1,18 +1,22 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
+
 import {
-  collection,
-  query,
-  orderBy,
-  onSnapshot,
   DocumentChange,
   DocumentData,
   QueryDocumentSnapshot,
   Timestamp,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
 } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
+
 import mergeChatMessages from '@utils/messages/mergeChatMessages';
+
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+
 import { UseChatMessageUpdates } from 'types/hooks/UseChatMessageUpdates';
 
 const extractDateString = (timestamp: Timestamp): string => {

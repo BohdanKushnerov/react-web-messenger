@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import VideoComponent from '../VideoComponent/VideoComponent';
+
 import { ILinkMessageProps } from '@interfaces/ILinkMessageProps';
 
 const LinkMessage: FC<ILinkMessageProps> = ({ textContentMsg, isVideo }) => {

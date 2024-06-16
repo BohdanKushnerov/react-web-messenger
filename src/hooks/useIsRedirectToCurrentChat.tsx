@@ -1,10 +1,14 @@
 import { useEffect } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
+import { doc, getDoc } from 'firebase/firestore';
+
 import { db } from '@myfirebase/config';
+
 import useChatStore from '@zustand/store';
+
 import handleSelectChat from '@utils/chatListItem/handleSelectChat';
+
 import { ChatListItemType } from 'types/ChatListItemType';
 import { CurrentChatInfo } from 'types/CurrentChatInfo';
 

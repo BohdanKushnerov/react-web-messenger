@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import ReactionsUser from './ReactionsUser';
+
 import { IReactionsDisplayProps } from '@interfaces/IReactionsDisplayProps';
 
 const ReactionsDisplay: FC<IReactionsDisplayProps> = ({ reactions }) => {

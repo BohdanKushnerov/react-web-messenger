@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { IButtonAudioProps } from '@interfaces/IButtonAudioProps';
+
 import sprite from '@assets/sprite.svg';
 
 const ButtonAudio: FC<IButtonAudioProps> = ({ isPlaying, onPlayPause }) => {

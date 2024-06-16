@@ -1,7 +1,9 @@
-import { addDoc, collection, Timestamp } from 'firebase/firestore';
+import { Timestamp, addDoc, collection } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
+
 import { IFile } from '@interfaces/IFile';
+
 import { messageTypes } from '@enums/messageTypes';
 
 const createAndSaveAttachhedFilesMsgDoc = async (

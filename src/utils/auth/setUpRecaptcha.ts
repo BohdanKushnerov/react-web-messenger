@@ -1,4 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
+import { toast } from 'react-toastify';
+
 import {
   Auth,
   ConfirmationResult,
@@ -6,7 +8,6 @@ import {
   signInWithPhoneNumber,
 } from 'firebase/auth';
 import { TFunction } from 'i18next';
-import { toast } from 'react-toastify';
 
 const setUpRecaptcha = async (
   phone: string,

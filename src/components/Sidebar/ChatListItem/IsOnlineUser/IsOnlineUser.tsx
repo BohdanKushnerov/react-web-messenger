@@ -2,7 +2,9 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
+
 import { IIsOnlineUserProps } from '@interfaces/IIsOnlineUserProps';
+
 import '@i18n';
 
 const IsOnlineUser: FC<IIsOnlineUserProps> = ({ userUID }) => {

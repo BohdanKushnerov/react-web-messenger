@@ -2,10 +2,15 @@ import { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import UserChatInfo from './UserChatInfo/UserChatInfo';
+
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
+
 import useChatStore from '@zustand/store';
+
 import useChatInfo from '@hooks/useChatInfo';
+
 import handleSelectChat from '@utils/chatListItem/handleSelectChat';
+
 import { IChatListItemProps } from '@interfaces/IChatListItemProps';
 
 const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {

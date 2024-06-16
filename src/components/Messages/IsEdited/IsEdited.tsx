@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { IIsEditedProps } from '@interfaces/IIsEditedProps';
+
 import sprite from '@assets/sprite.svg';
 
 const IsEdited: FC<IIsEditedProps> = ({ isEdited }) => {

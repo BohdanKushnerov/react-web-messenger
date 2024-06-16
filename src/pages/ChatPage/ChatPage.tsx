@@ -2,12 +2,14 @@ import { FC, Suspense, lazy, useState } from 'react';
 
 import ChatForm from '@components/ChatForm/ChatForm';
 import ChatHeader from '@components/ChatHeader/ChatHeader';
-import Messages from '@components/Messages/Messages';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import Messages from '@components/Messages/Messages';
+
+import useResizeWindow from '@hooks/useResizeWindow';
+
 const SearchMessages = lazy(
   () => import('@components/ChatHeader/SearchMessages/SearchMessages')
 );
-import useResizeWindow from '@hooks/useResizeWindow';
 
 const ChatPage: FC = () => {
   const [isShowSearchMessages, setIsShowSearchMessages] = useState(false);

@@ -1,8 +1,11 @@
 import { FC } from 'react';
 
 import useChatStore from '@zustand/store';
+
 import useIsReadMyLastMessage from '@hooks/useIsReadMyLastMessage';
+
 import { IReadStatusProps } from '@interfaces/IReadStatusProps';
+
 import sprite from '@assets/sprite.svg';
 
 const ReadStatus: FC<IReadStatusProps> = ({ senderUserID, itemChatUID }) => {

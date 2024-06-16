@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { IButtonRecordAudioProps } from '@interfaces/IButtonRecordAudioProps';
+
 import sprite from '@assets/sprite.svg';
 
 const ButtonRecordAudio: FC<IButtonRecordAudioProps> = ({

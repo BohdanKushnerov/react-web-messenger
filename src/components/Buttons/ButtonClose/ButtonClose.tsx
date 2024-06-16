@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { IButtonCloseProps } from '@interfaces/IButtonCloseProps';
+
 import sprite from '@assets/sprite.svg';
 
 const ButtonClose: FC<IButtonCloseProps> = ({ handleClickButtonClose }) => {

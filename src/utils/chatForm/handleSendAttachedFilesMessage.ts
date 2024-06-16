@@ -1,15 +1,19 @@
 import { Dispatch, ForwardedRef, SetStateAction } from 'react';
+
 import {
+  UploadTaskSnapshot,
   getDownloadURL,
   ref,
   uploadBytesResumable,
-  UploadTaskSnapshot,
 } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 
 import { storage } from '@myfirebase/config';
+
 import createAndSaveAttachhedFilesMsgDoc from '@api/firestore/createAndSaveAttachhedFilesMsgDoc';
+
 import { IFile } from '@interfaces/IFile';
+
 import { FilesUploadStatuses } from 'types/FilesUploadStatuses';
 
 const uploadFile = (

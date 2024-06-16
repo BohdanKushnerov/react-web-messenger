@@ -1,7 +1,8 @@
 import AppRouter from '@router/AppRouter';
-import useOnAuthStateChanged from '@hooks/useOnAuthStateChanged';
+
 import useDefaultLanguage from '@hooks/useDefaultLanguage';
 import useDefaultTheme from '@hooks/useDefaultTheme';
+import useOnAuthStateChanged from '@hooks/useOnAuthStateChanged';
 
 const App = () => {
   useOnAuthStateChanged();

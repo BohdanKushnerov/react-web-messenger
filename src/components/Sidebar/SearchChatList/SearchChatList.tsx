@@ -1,12 +1,16 @@
 import { FC } from 'react';
-import { DocumentData } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
+import { DocumentData } from 'firebase/firestore';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+
 import useChatStore from '@zustand/store';
+
 import useSearchUsers from '@hooks/useSearchUsers';
+
 import handleCreateAndNavigateToChat from '@utils/chatListItem/handleCreateAndNavigateToChat';
 
 const SearchChatList: FC = () => {

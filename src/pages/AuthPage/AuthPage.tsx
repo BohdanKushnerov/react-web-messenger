@@ -1,22 +1,27 @@
 import { FC, useState } from 'react';
-import { ConfirmationResult, RecaptchaVerifier } from 'firebase/auth';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+import { ConfirmationResult, RecaptchaVerifier } from 'firebase/auth';
+
 import StepOne from '@components/Auth/StepOne/StepOne';
-import StepTwo from '@components/Auth/StepTwo/StepTwo';
 import StepThree from '@components/Auth/StepThree/StepThree';
+import StepTwo from '@components/Auth/StepTwo/StepTwo';
+import TestNumbers from '@components/Auth/TestNumbers/TestNumbers';
 import AuthConfirmButton from '@components/Buttons/ButtonAuthConfirm/ButtonAuthConfirm';
 import LanguageSwitcher from '@components/Sidebar/LanguageSwitcher/LanguageSwitcher';
 import Theme from '@components/Sidebar/Theme/Theme';
-import TestNumbers from '@components/Auth/TestNumbers/TestNumbers';
+
 import { auth } from '@myfirebase/config';
+
 import useStoredConfirmationResult from '@hooks/useStoredConfirmationResult';
-import getStoredPhone from '@utils/auth/getStoredPhone';
+
 import getStoredAuthStep from '@utils/auth/getStoredAuthStep';
-import setUpRecaptcha from '@utils/auth/setUpRecaptcha';
-import isValidPhoneNumber from '@utils/auth/isValidPhoneNumber';
+import getStoredPhone from '@utils/auth/getStoredPhone';
 import handleSubmitVerifyCode from '@utils/auth/handleSubmitVerifyCode';
+import isValidPhoneNumber from '@utils/auth/isValidPhoneNumber';
+import setUpRecaptcha from '@utils/auth/setUpRecaptcha';
+
 import { AuthSteps } from 'types/AuthSteps';
 
 const Auth: FC = () => {

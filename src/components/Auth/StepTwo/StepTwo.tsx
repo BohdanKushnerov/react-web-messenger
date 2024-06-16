@@ -2,12 +2,17 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CodeInput from '@components/Inputs/CodeInput/CodeInput';
+
 import { auth } from '@myfirebase/config';
+
 import useAuthResendVerifyCode from '@hooks/useAuthResendVerifyCode';
+
 import setUpRecaptcha from '@utils/auth/setUpRecaptcha';
-import { IStepTwoProps } from '@interfaces/IStepTwoProps';
-import authStep2 from '@assets/auth-step2.webp';
 import convertTimeWithZero from '@utils/convertTimeWithZero';
+
+import { IStepTwoProps } from '@interfaces/IStepTwoProps';
+
+import authStep2 from '@assets/auth-step2.webp';
 
 const StepTwo: FC<IStepTwoProps> = ({
   phone,

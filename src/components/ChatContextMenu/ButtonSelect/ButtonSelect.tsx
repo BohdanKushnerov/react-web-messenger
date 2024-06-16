@@ -2,7 +2,9 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useChatStore from '@zustand/store';
+
 import { IButtonSelectProps } from '@interfaces/IButtonSelectProps';
+
 import sprite from '@assets/sprite.svg';
 
 const ButtonSelect: FC<IButtonSelectProps> = ({ textContent = true }) => {

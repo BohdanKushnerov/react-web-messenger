@@ -1,9 +1,11 @@
 import { FC } from 'react';
 import { DefaultExtensionType, FileIcon, defaultStyles } from 'react-file-icon';
 
-import VideoComponent from '../VideoComponent/VideoComponent';
 import AudioComponent from '../AudioComponent/AudioComponent';
+import VideoComponent from '../VideoComponent/VideoComponent';
+
 import useFileLinkFromStorage from '@hooks/useFileLinkFromStorage';
+
 import { IMessageFileProps } from '@interfaces/IMessageFileProps';
 
 const MessageFile: FC<IMessageFileProps> = ({ file }) => {

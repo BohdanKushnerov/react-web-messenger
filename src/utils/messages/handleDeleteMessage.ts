@@ -1,9 +1,12 @@
-import { DocumentData } from 'firebase/firestore';
-import { TFunction } from 'i18next';
 import { toast } from 'react-toastify';
 
+import { DocumentData } from 'firebase/firestore';
+import { TFunction } from 'i18next';
+
 import { db } from '@myfirebase/config';
+
 import deleteFilesAndDocsFromStoreAndStorage from '@api/firestore/deleteFilesAndDocsFromStoreAndStorage';
+
 import makeCursorOnProgress from '@utils/makeCursorOnProgress';
 import resetCursorOnDefault from '@utils/resetCursorOnDefault';
 

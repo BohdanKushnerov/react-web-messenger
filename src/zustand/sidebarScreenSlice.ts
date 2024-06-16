@@ -1,7 +1,8 @@
-import { StateCreator } from 'zustand';
 import { produce } from 'immer';
+import { StateCreator } from 'zustand';
 
 import { ISidebarScreenState } from '@interfaces/zustand/ISidebarScreen';
+
 import { SidebarScreenValue } from 'types/SidebarScreenValue';
 
 const createSidebarScreenState: StateCreator<ISidebarScreenState> = set => ({

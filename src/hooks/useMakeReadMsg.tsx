@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 
 import useChatStore from '@zustand/store';
+
 import makeReadMsg from '@api/firestore/makeReadMsg';
+
 import { UseMakeReadMsg } from 'types/hooks/UseMakeReadMsg';
 
 const useMakeReadMsg: UseMakeReadMsg = (msg, isNearBottom) => {

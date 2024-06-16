@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+
 import { onValue, ref } from 'firebase/database';
 
 import { database } from '@myfirebase/config';
+
 import { UseIsOnlineStatus } from 'types/hooks/UseIsOnlineStatus';
 
 const useIsOnlineStatus: UseIsOnlineStatus = userUID => {

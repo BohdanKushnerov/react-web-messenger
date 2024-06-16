@@ -1,9 +1,10 @@
 import { Dispatch, SetStateAction } from 'react';
+
 import {
+  UploadTaskSnapshot,
   getDownloadURL,
   ref,
   uploadBytesResumable,
-  UploadTaskSnapshot,
 } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 

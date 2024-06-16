@@ -1,18 +1,19 @@
-import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+
+import i18n from 'i18next';
 
 import {
   Auth,
-  MonthNames,
-  Sidebar,
-  NavBar,
-  ProfileSettings,
   ChatForm,
+  ChatListUnreadMsg,
   ContextMenu,
   FileInput,
-  ChatListUnreadMsg,
-  Toasts,
   General,
+  MonthNames,
+  NavBar,
+  ProfileSettings,
+  Sidebar,
+  Toasts,
 } from './enums/i18nСonstants';
 
 const currentLanguage = localStorage.getItem('language');

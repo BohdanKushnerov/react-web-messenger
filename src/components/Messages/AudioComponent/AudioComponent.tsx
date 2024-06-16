@@ -1,11 +1,14 @@
-import { FC, useEffect, useRef, useState } from 'react';
 import { useWavesurfer } from '@wavesurfer/react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { useDebounce } from 'use-debounce';
 
 import ButtonAudio from '@components/Buttons/ButtonAudio/ButtonAudio';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+
 import convertTimeWithZero from '@utils/convertTimeWithZero';
+
 import { IAudioComponentProps } from '@interfaces/IAudioComponentProps';
 
 const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {

@@ -1,11 +1,24 @@
 import { FC, Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import FileAttachment from '@components/ChatForm/FileAttachment/FileAttachment';
-import Emoji from '@components/ChatForm/Emoji/Emoji';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
-import SendMessage from '@components/Buttons/ButtonSendMessage/ButtonSendMessage';
 import ButtonRecordAudio from '@components/Buttons/ButtonRecordAudio/ButtonRecordAudio';
+import SendMessage from '@components/Buttons/ButtonSendMessage/ButtonSendMessage';
+import Emoji from '@components/ChatForm/Emoji/Emoji';
+import FileAttachment from '@components/ChatForm/FileAttachment/FileAttachment';
+import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+
+import useChatStore from '@zustand/store';
+
+import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
+import useClearMessagesOnChatChange from '@hooks/useClearMessagesOnChatChange';
+import useEditingMessage from '@hooks/useEditingMessage';
+import useTyping from '@hooks/useTyping';
+
+import handleSendMessage from '@utils/chatForm/handleSendMessage';
+import handleUpdateEditMessage from '@utils/messages/handleUpdateEditMessage';
+
+import '@i18n';
+
 const RecordingAudio = lazy(
   () => import('@components/ChatForm/RecordingAudio/RecordingAudio')
 );
@@ -13,14 +26,6 @@ const ChatFormSelectedMsgs = lazy(
   () => import('@components/ChatForm/ChatFormSelectedMsgs/ChatFormSelectedMsgs')
 );
 const EditingMsgInfo = lazy(() => import('./EditingMsgInfo/EditingMsgInfo'));
-import useChatStore from '@zustand/store';
-import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
-import useTyping from '@hooks/useTyping';
-import useClearMessagesOnChatChange from '@hooks/useClearMessagesOnChatChange';
-import useEditingMessage from '@hooks/useEditingMessage';
-import handleUpdateEditMessage from '@utils/messages/handleUpdateEditMessage';
-import handleSendMessage from '@utils/chatForm/handleSendMessage';
-import '@i18n';
 
 const ChatForm: FC = () => {
   const [isRecording, setIsRecording] = useState<boolean>(false);

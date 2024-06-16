@@ -1,14 +1,20 @@
 import { FC, useRef, useState } from 'react';
 
 import RecordingStatusField from '../RecordingStatusField/RecordingStatusField';
+
 import ButtonCancelRecording from '@components/Buttons/ButtonCancelRecording/ButtonCancelRecording';
 import ButtonStopRecordingAndSendAudio from '@components/Buttons/ButtonStopRecordingAndSendAudio/ButtonStopRecordingAndSendAudio';
+
 import useChatStore from '@zustand/store';
-import useStartRecording from '@hooks/useStartRecording';
+
 import useRecordingCleanup from '@hooks/useRecordingCleanup';
-import handleSendAudio from '@utils/chatForm/handleSendAudio';
+import useStartRecording from '@hooks/useStartRecording';
+
 import cleanUpRecordingResources from '@utils/chatForm/cleanupRecordingResources';
+import handleSendAudio from '@utils/chatForm/handleSendAudio';
+
 import { IRecordingAudioProps } from '@interfaces/IRecordingAudioProps';
+
 import { MimeType } from 'types/MimeType';
 
 const RecordingAudio: FC<IRecordingAudioProps> = ({

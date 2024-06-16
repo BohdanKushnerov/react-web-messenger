@@ -1,12 +1,18 @@
 import { FC, useState } from 'react';
-import { Line } from 'rc-progress';
 import { useTranslation } from 'react-i18next';
 
+import { Line } from 'rc-progress';
+
 import ModalWindow from '../ModalWindow/ModalWindow';
+
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
+
 import useChatStore from '@zustand/store';
+
 import handleUpdateProfilePhoto from '@utils/profileSettings/handleUpdateProfilePhoto';
+
 import { IProfileSettingsModalProps } from '@interfaces/IProfileSettingsModalProps';
+
 import '@i18n';
 
 const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({

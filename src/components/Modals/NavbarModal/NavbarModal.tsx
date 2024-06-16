@@ -1,16 +1,23 @@
 import { FC, useRef } from 'react';
-import { signOut } from 'firebase/auth';
 import { useTranslation } from 'react-i18next';
 import { Transition } from 'react-transition-group';
 
+import { signOut } from 'firebase/auth';
+
 import ModalWindow from '../ModalWindow/ModalWindow';
+
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import LanguageSwitcher from '@components/Sidebar/LanguageSwitcher/LanguageSwitcher';
 import Theme from '@components/Sidebar/Theme/Theme';
+
 import { auth } from '@myfirebase/config';
+
 import useChatStore from '@zustand/store';
+
 import useStartTransition from '@hooks/useStartTransition';
+
 import { INavbarModalProps } from '@interfaces/INavbarModalProps';
+
 import '@i18n';
 
 const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {

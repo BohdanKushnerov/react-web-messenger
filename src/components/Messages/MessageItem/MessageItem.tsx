@@ -1,18 +1,24 @@
-import { FC, useCallback, useState } from "react";
-import urlParser from "js-video-url-parser";
+import { FC, useCallback, useState } from 'react';
 
-import MessageImagesWithLightBox from "../MessageImagesWithLightBox/MessageImagesWithLightBox";
-import ReactionsDisplay from "../MessageReactions/ReactionsDisplay";
-import IsEdited from "../IsEdited/IsEdited";
-import LinkMessage from "../LinkMessage/LinkMessage";
-import MessageFiles from "../MessageFiles/MessageFiles";
-import MessageTriangle from "@components/Messages/MessageTriangle/MessageTriangle";
-import IsReadMsg from "@components/Messages/IsReadMsg/IsReadMsg";
-import useChatStore from "@zustand/store";
-import useMakeReadMsg from "@hooks/useMakeReadMsg";
-import formatTimeMsg from "@utils/messages/formatTimeMsg";
-import isLinkMsg from "@utils/isLinkMsg";
-import { IMessageItemProps } from "@interfaces/IMessageItemProps";
+import urlParser from 'js-video-url-parser';
+
+import IsEdited from '../IsEdited/IsEdited';
+import LinkMessage from '../LinkMessage/LinkMessage';
+import MessageFiles from '../MessageFiles/MessageFiles';
+import MessageImagesWithLightBox from '../MessageImagesWithLightBox/MessageImagesWithLightBox';
+import ReactionsDisplay from '../MessageReactions/ReactionsDisplay';
+
+import IsReadMsg from '@components/Messages/IsReadMsg/IsReadMsg';
+import MessageTriangle from '@components/Messages/MessageTriangle/MessageTriangle';
+
+import useChatStore from '@zustand/store';
+
+import useMakeReadMsg from '@hooks/useMakeReadMsg';
+
+import isLinkMsg from '@utils/isLinkMsg';
+import formatTimeMsg from '@utils/messages/formatTimeMsg';
+
+import { IMessageItemProps } from '@interfaces/IMessageItemProps';
 
 const MessageItem: FC<IMessageItemProps> = ({
   msg,
@@ -21,7 +27,7 @@ const MessageItem: FC<IMessageItemProps> = ({
 }) => {
   const [indexClickedPhoto, setIndexClickedPhoto] = useState(-1);
 
-  const currentUserUID = useChatStore((state) => state.currentUser.uid);
+  const currentUserUID = useChatStore(state => state.currentUser.uid);
 
   useMakeReadMsg(msg, isNearBottom);
 
@@ -45,19 +51,19 @@ const MessageItem: FC<IMessageItemProps> = ({
   return (
     <div
       className={`relative flex w-full items-end xl:w-8/12 ${
-        myUID ? "justify-end" : "justify-start"
-      } ${isSelectedMessages && "pointer-events-none"}`}
+        myUID ? 'justify-end' : 'justify-start'
+      } ${isSelectedMessages && 'pointer-events-none'}`}
       id="message"
     >
       <div
         className={`flex flex-col items-center px-4 py-2 ${
-          isLink && info?.mediaType === "video" && "w-full"
+          isLink && info?.mediaType === 'video' && 'w-full'
         } rounded-xl ${
-          msg.data().file?.length === 1 ? "max-w-md" : "max-w-xl"
+          msg.data().file?.length === 1 ? 'max-w-md' : 'max-w-xl'
         } ${
           myUID
-            ? "rounded-br-none bg-mediumEmerald dark:bg-mediumDarkCyan"
-            : "rounded-bl-none bg-veryLightZinc dark:bg-darkGreen"
+            ? 'rounded-br-none bg-mediumEmerald dark:bg-mediumDarkCyan'
+            : 'rounded-bl-none bg-veryLightZinc dark:bg-darkGreen'
         } shadow-secondaryShadow`}
       >
         <MessageImagesWithLightBox
@@ -72,7 +78,7 @@ const MessageItem: FC<IMessageItemProps> = ({
           <>
             <LinkMessage
               textContentMsg={textContentMsg}
-              isVideo={info?.mediaType === "video"}
+              isVideo={info?.mediaType === 'video'}
             />
           </>
         ) : (

@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 
 import { IRecordingStatusFieldProps } from '@interfaces/IRecordingStatusFieldProps';
+
 import sprite from '@assets/sprite.svg';
 
 const RecordingStatusField = forwardRef<

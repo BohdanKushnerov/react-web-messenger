@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+
 import {
   DocumentData,
   QuerySnapshot,
@@ -10,7 +11,9 @@ import {
 import { useDebounce } from 'use-debounce';
 
 import { db } from '@myfirebase/config';
+
 import useChatStore from '@zustand/store';
+
 import capitalizeName from '@utils/searchChatList/capitalizeFirstLetterName';
 
 const useSearchUsers = () => {

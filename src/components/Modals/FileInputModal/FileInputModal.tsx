@@ -2,14 +2,19 @@ import { forwardRef, useRef, useState } from 'react';
 import { DefaultExtensionType } from 'react-file-icon';
 import { useTranslation } from 'react-i18next';
 
-import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
-import UploadPhotoFile from '@components/ChatForm/UploadPhotoFile/UploadPhotoFile';
 import UploadDocumentFile from '@components/ChatForm/UploadDocumentFile/UploadDocumentFile';
+import UploadPhotoFile from '@components/ChatForm/UploadPhotoFile/UploadPhotoFile';
+import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
+
 import useChatStore from '@zustand/store';
+
 import handleSendAttachedFilesMessage from '@utils/chatForm/handleSendAttachedFilesMessage';
+
 import { IFileInputModalProps } from '@interfaces/IFileInputModalProps';
+
 import { FilesUploadStatuses } from 'types/FilesUploadStatuses';
+
 import '@i18n';
 
 const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(

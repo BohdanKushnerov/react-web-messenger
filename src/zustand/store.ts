@@ -1,22 +1,23 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import createSearchUsersState from './searchUsersSlice';
 import createAuthSliceState from './authSlice';
 import createCurrentChatInfoState from './currentChatInfoSlice';
-import createSidebarScreenState from './sidebarScreenSlice';
-import createMessageEditingFormState from './messageEditingFormState';
 import createMessageChatForm from './messageChatForm';
-import createTotalUnreadMessagesState from './totalUnreadMessagesSlice';
+import createMessageEditingFormState from './messageEditingFormState';
+import createSearchUsersState from './searchUsersSlice';
 import createIsSelectedMessagesState from './selectedMessages';
-import { ISearchUsersState } from '@interfaces/zustand/ISearchUsersState';
+import createSidebarScreenState from './sidebarScreenSlice';
+import createTotalUnreadMessagesState from './totalUnreadMessagesSlice';
+
 import { IAuthSliceState } from '@interfaces/zustand/IAuthSliceState';
-import { ICurrentChatInfoState } from '@interfaces/zustand/ICurrentChatInfoState';
-import { ISidebarScreenState } from '@interfaces/zustand/ISidebarScreen';
-import { IMessageEditingState } from '@interfaces/zustand/IMessageEditingState';
-import { IMessageChatForm } from '@interfaces/zustand/IMessageChatForm';
-import { ITotalUnreadMessagesState } from '@interfaces/zustand/ITotalUnreadMessagesState';
 import { ICreateisSelectedMessagesState } from '@interfaces/zustand/ICreateisSelectedMessagesState';
+import { ICurrentChatInfoState } from '@interfaces/zustand/ICurrentChatInfoState';
+import { IMessageChatForm } from '@interfaces/zustand/IMessageChatForm';
+import { IMessageEditingState } from '@interfaces/zustand/IMessageEditingState';
+import { ISearchUsersState } from '@interfaces/zustand/ISearchUsersState';
+import { ISidebarScreenState } from '@interfaces/zustand/ISidebarScreen';
+import { ITotalUnreadMessagesState } from '@interfaces/zustand/ITotalUnreadMessagesState';
 
 const useChatStore = create<
   ISearchUsersState &

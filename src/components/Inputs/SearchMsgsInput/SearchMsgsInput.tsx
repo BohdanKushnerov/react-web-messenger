@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { ISearchMsgsInputProps } from '@interfaces/ISearchMsgsInputProps';
+
 import sprite from '@assets/sprite.svg';
 
 const SearchMsgsInput: FC<ISearchMsgsInputProps> = ({

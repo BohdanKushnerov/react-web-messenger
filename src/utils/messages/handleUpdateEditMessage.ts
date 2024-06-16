@@ -1,9 +1,11 @@
-import { DocumentData } from 'firebase/firestore';
 import { toast } from 'react-toastify';
+
+import { DocumentData } from 'firebase/firestore';
 import { TFunction } from 'i18next';
 
 import updateEditedMessageTextContent from '@api/firestore/updateEditedMessageTextContent';
 import updateEditedStatusMsgDoc from '@api/firestore/updateEditedStatusMsgDoc';
+
 import makeCursorOnProgress from '@utils/makeCursorOnProgress';
 import resetCursorOnDefault from '@utils/resetCursorOnDefault';
 

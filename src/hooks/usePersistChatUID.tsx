@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { UsePersistChatUID } from 'types/hooks/UsePersistChatUID';
 
 const usePersistChatUID: UsePersistChatUID = chatUID => {

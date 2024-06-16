@@ -1,13 +1,19 @@
 import { forwardRef, memo, useRef } from 'react';
-import { DocumentData } from 'firebase/firestore';
 import { useTranslation } from 'react-i18next';
 
+import { DocumentData } from 'firebase/firestore';
+
 import MessageItem from '../MessageItem/MessageItem';
+
 import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
+
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
 import useQuickScrollToBottom from '@hooks/useQuickScrollToBottom';
+
 import formatDateForGroupMessages from '@utils/messages/formatDateForGroupMessages';
+
 import { IMessageListProps } from '@interfaces/IMessageListProps';
+
 import sprite from '@assets/sprite.svg';
 
 const MessageList = memo(

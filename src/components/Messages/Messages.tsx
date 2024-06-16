@@ -1,12 +1,13 @@
 import {
-  useState,
-  useRef,
   FC,
   Suspense,
   lazy,
   useCallback,
   useDeferredValue,
+  useRef,
+  useState,
 } from 'react';
+
 import {
   DocumentData,
   collection,
@@ -17,9 +18,29 @@ import {
   startAfter,
 } from 'firebase/firestore';
 
+import MessageList from './MessagesList/MessageList';
 import MessagesScrollBar from './MessagesScrollBar/MessagesScrollBar';
 import MessagesSkeleton from './MessagesSkeleton/MessagesSkeleton';
+
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+
+import { db } from '@myfirebase/config';
+
+import useChatStore from '@zustand/store';
+
+import useChatMessageUpdates from '@hooks/useChatMessageUpdates';
+import useGetFirstMsgs from '@hooks/useFirstMsgs';
+import usePersistChatUID from '@hooks/usePersistChatUID';
+import useResetMsgsStates from '@hooks/useResetMsgsStates';
+import useSelectedMessagesHandling from '@hooks/useSelectedMessagesHandling';
+
+import calculateMenuPosition from '@utils/messages/calculateMenuPosition';
+import mergeChatMessages from '@utils/messages/mergeChatMessages';
+
+import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+
+import '@i18n';
+
 const MessageContextMenuModal = lazy(
   () =>
     import('@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu')
@@ -27,18 +48,6 @@ const MessageContextMenuModal = lazy(
 const ChatContextMenu = lazy(
   () => import('../ChatContextMenu/ChatContextMenu')
 );
-import MessageList from './MessagesList/MessageList';
-import { db } from '@myfirebase/config';
-import useChatStore from '@zustand/store';
-import useGetFirstMsgs from '@hooks/useFirstMsgs';
-import useResetMsgsStates from '@hooks/useResetMsgsStates';
-import useChatMessageUpdates from '@hooks/useChatMessageUpdates';
-import useSelectedMessagesHandling from '@hooks/useSelectedMessagesHandling';
-import usePersistChatUID from '@hooks/usePersistChatUID';
-import mergeChatMessages from '@utils/messages/mergeChatMessages';
-import calculateMenuPosition from '@utils/messages/calculateMenuPosition';
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
-import '@i18n';
 
 const Messages: FC = () => {
   const [groupedMessages, setGroupedMessages] =

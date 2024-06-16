@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { IButtonCancelRecordingProps } from '@interfaces/IButtonCancelRecordingProps';
+
 import sprite from '@assets/sprite.svg';
 
 const ButtonCancelRecording: FC<IButtonCancelRecordingProps> = ({

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import getStoredConfirmResult from '@utils/auth/getStoredConfirmResult';
+
 import { UseStoredConfirmationResult } from 'types/hooks/UseStoredConfirmationResult';
 
 const useStoredConfirmationResult: UseStoredConfirmationResult = (

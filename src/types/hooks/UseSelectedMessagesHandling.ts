@@ -1,4 +1,5 @@
 import { DocumentData } from 'firebase/firestore';
+
 import { UpdateSelectedDocDataMessage } from 'types/UpdateSelectedDocDataMessage';
 
 export type UseSelectedMessagesHandling = (

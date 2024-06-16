@@ -2,7 +2,9 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import SearchMsgsInput from '@components/Inputs/SearchMsgsInput/SearchMsgsInput';
+
 import useChatStore from '@zustand/store';
+
 import '@i18n';
 
 const SearchUsers: FC = () => {

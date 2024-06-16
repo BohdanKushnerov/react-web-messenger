@@ -2,6 +2,7 @@ import { FC } from 'react';
 import ReactPlayer from 'react-player';
 
 import getYouTubeVideoId from '@utils/messages/getYouTubeVideoId';
+
 import { IVideoComponentProps } from '@interfaces/IVideoComponentProps';
 
 const VideoComponent: FC<IVideoComponentProps> = ({ source }) => {

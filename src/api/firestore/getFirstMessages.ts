@@ -1,5 +1,6 @@
-import { db } from '@myfirebase/config';
 import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
+
+import { db } from '@myfirebase/config';
 
 const getFirstMessages = (chatUID: string) => {
   const queryParams = query(

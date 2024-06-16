@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import cleanUpRecordingResources from '@utils/chatForm/cleanupRecordingResources';
+
 import { UseRecordingCleanup } from 'types/hooks/UseRecordingCleanup';
 
 const useRecordingCleanup: UseRecordingCleanup = (

@@ -1,13 +1,17 @@
 import { FC, Suspense, lazy } from 'react';
-const Lightbox = lazy(() => import('yet-another-react-lightbox'));
 import 'yet-another-react-lightbox/styles.css';
 
 import MessageImage from '../MessageImage/MessageImage';
+
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
-import getSlidesForLightbox from '@utils/messages/getSlidesForLightbox';
+
 import getMessageImages from '@utils/messages/getMessageImages';
-import { IMessageImagesWithLightBoxProps } from '@interfaces/IMessageImagesWithLightBoxProps';
+import getSlidesForLightbox from '@utils/messages/getSlidesForLightbox';
+
 import { IFile } from '@interfaces/IFile';
+import { IMessageImagesWithLightBoxProps } from '@interfaces/IMessageImagesWithLightBoxProps';
+
+const Lightbox = lazy(() => import('yet-another-react-lightbox'));
 
 const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
   msg,

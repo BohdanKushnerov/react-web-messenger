@@ -2,9 +2,11 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import changeFaviconBrowserTab from '@utils/changeFaviconBrowserTab';
-import faviconTab from '@assets/faviconTab.ico';
-import faviconMessageTab from '@assets/faviconMessageTab.ico';
+
 import { UseBrowserTabTitleChange } from 'types/hooks/UseBrowserTabTitleChange';
+
+import faviconMessageTab from '@assets/faviconMessageTab.ico';
+import faviconTab from '@assets/faviconTab.ico';
 
 const useBrowserTabTitleChange: UseBrowserTabTitleChange = (
   countChatUnreadMessages,

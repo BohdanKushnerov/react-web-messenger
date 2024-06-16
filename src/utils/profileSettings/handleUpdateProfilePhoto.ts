@@ -1,9 +1,11 @@
 import { Dispatch, RefObject, SetStateAction } from 'react';
-import { User } from 'firebase/auth';
 import { toast } from 'react-toastify';
+
+import { User } from 'firebase/auth';
 import { TFunction } from 'i18next';
 
 import { auth } from '@myfirebase/config';
+
 import updateUserProfile from '@api/firestore/updateUserProfile';
 import deletePreviousProfilePhotoFromStorage from '@api/storage/deletePreviousProfilePhotoFromStorage';
 import uploadProfilePhotoFile from '@api/storage/uploadProfilePhotoFile';

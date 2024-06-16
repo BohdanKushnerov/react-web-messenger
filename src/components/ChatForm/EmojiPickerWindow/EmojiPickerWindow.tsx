@@ -3,6 +3,7 @@ import EmojiPicker, { EmojiClickData, EmojiStyle } from 'emoji-picker-react';
 import { Transition } from 'react-transition-group';
 
 import useChatStore from '@zustand/store';
+
 import useStartTransition from '@hooks/useStartTransition';
 
 const EmojiPickerWindow: FC = () => {
