@@ -10,7 +10,7 @@ const useQuickScrollToBottom: UseQuickScrollToBottom = (
   isScrollDownButtonVisible,
   groupedMessages
 ) => {
-  const { isFullScreen } = useResizeWindow();
+  const { isFullScreen, heightWindow } = useResizeWindow();
 
   const quickScrollBottom = useCallback(() => {
     if (bottomElementRef.current) {
@@ -23,6 +23,20 @@ const useQuickScrollToBottom: UseQuickScrollToBottom = (
       quickScrollBottom();
     }
   }, [isReadyFirstMsgs, quickScrollBottom]);
+
+  useEffect(() => {
+    const isMobileScreen = !isFullScreen;
+    if (isMobileScreen && !isScrollDownButtonVisible) {
+      setTimeout(() => {
+        quickScrollBottom();
+      }, 100);
+    }
+  }, [
+    isScrollDownButtonVisible,
+    isFullScreen,
+    quickScrollBottom,
+    heightWindow,
+  ]);
 
   useEffect(() => {
     const isMobileScreen = !isFullScreen;

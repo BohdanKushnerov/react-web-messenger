@@ -16,9 +16,9 @@ const AuthConfirmButton: FC<IAuthConfirmButtonProps> = ({
       className="w-full rounded-md bg-mediumDarkCyan p-2 font-bold text-white disabled:text-veryDarkZinc"
       id="sign-in-button"
       type="button"
-      aria-label="Auth confirm button"
       disabled={isLoading}
       onClick={onSubmit}
+      aria-label="Auth confirm button"
     >
       {isLoading ? <LoaderUIActions /> : t('Continue')}
     </button>

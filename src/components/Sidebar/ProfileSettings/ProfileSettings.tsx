@@ -95,6 +95,7 @@ const ProfileSettings: FC = () => {
             <button
               className="group relative cursor-pointer rounded-full"
               onClick={handleImageClick}
+              aria-label="Avatar profile"
             >
               {auth.currentUser && (
                 <>

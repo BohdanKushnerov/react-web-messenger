@@ -184,7 +184,7 @@ const Messages: FC = () => {
       const scrollTop = scrollbarsRef.current?.scrollTop || 0;
 
       const isNearBottom = scrollHeight - scrollTop - clientHeight > 100;
-      const top = scrollTop <= 500;
+      const top = scrollTop <= 700;
 
       if (top && isScrollDownButtonVisible) {
         loadMoreMessages().then(

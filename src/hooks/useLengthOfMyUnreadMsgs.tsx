@@ -18,7 +18,8 @@ import { UseLengthOfMyUnreadMsgs } from 'types/hooks/UseLengthOfMyUnreadMsgs';
 
 const useLengthOfMyUnreadMsgs: UseLengthOfMyUnreadMsgs = (
   chatUID,
-  isNotify = true
+  isNotify = true,
+  isGetAdditionalMessage = true
 ) => {
   const [lengthOfMyUnreadMsgs, setLengthOfMyUnreadMsgs] = useState<number>(0);
   const processedMessages = useRef<string[]>([]);
@@ -53,6 +54,7 @@ const useLengthOfMyUnreadMsgs: UseLengthOfMyUnreadMsgs = (
         setLengthOfMyUnreadMsgs(querySnapshot.docs.length);
 
         isNotify &&
+          isGetAdditionalMessage &&
           querySnapshot.docs.forEach(msg =>
             manageNotifyMessage(msg, chatUID, processedMessages)
           );

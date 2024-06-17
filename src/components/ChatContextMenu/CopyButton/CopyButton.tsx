@@ -28,9 +28,6 @@ const CopyButton: FC<ICopyButtonProps> = ({
   const handleClickCopyTextMsg = () => {
     toast.success(t('Toasts.CopyToClipboard'));
     resetSelectedMessages();
-
-    const inputElement = document.getElementById('chatFormInput')!;
-    inputElement.focus();
   };
 
   return (

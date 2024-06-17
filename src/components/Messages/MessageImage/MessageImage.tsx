@@ -50,6 +50,7 @@ const MessageImage: FC<IMessageImageProps> = ({
           transition: '1s filter linear',
         }}
         onClick={() => handleClickPhoto(index)}
+        aria-label={file.name}
       >
         <img src={file.url} alt={file.type} loading="lazy" id="img" />
       </button>

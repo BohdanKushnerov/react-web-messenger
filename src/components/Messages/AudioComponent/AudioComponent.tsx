@@ -44,7 +44,7 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   };
 
   return (
-    <div className="w-300px sm:w-200px md:min-w-220px lg:min-w-360px relative flex flex-row items-start gap-2 md:max-w-md">
+    <div className="w-220px relative flex flex-row items-start gap-2 sm:w-200px md:min-w-220px md:max-w-md lg:min-w-360px">
       <ButtonAudio isPlaying={isPlaying} onPlayPause={onPlayPause} />
 
       {isLoading && (

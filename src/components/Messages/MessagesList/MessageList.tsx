@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { DocumentData } from 'firebase/firestore';
 
 import MessageItem from '../MessageItem/MessageItem';
+import SelectIcons from '../SelectIcons/SelectIcons';
 
 import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
 
@@ -13,8 +14,6 @@ import useQuickScrollToBottom from '@hooks/useQuickScrollToBottom';
 import formatDateForGroupMessages from '@utils/messages/formatDateForGroupMessages';
 
 import { IMessageListProps } from '@interfaces/IMessageListProps';
-
-import sprite from '@assets/sprite.svg';
 
 const MessageList = memo(
   forwardRef<HTMLDivElement, IMessageListProps>((props, ref) => {
@@ -33,7 +32,7 @@ const MessageList = memo(
 
     const { t } = useTranslation();
 
-    const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(chatUID, true);
+    const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(chatUID, true, false);
 
     useQuickScrollToBottom(
       bottomElementRef,
@@ -95,21 +94,10 @@ const MessageList = memo(
                       }
                       id="documentDataMsg"
                     >
-                      {isSelectedMessages && currentItem ? (
-                        <svg width={32} height={32} id="select">
-                          <use href={sprite + '#icon-select'} fill="#FFFFFF" />
-                        </svg>
-                      ) : (
-                        isSelectedMessages &&
-                        !currentItem && (
-                          <svg width={32} height={32} id="not-select">
-                            <use
-                              href={sprite + '#icon-not-select'}
-                              fill="#FFFFFF"
-                            />
-                          </svg>
-                        )
-                      )}
+                      <SelectIcons
+                        isSelectedMessages={isSelectedMessages}
+                        currentItem={currentItem}
+                      />
                       <MessageItem
                         msg={message}
                         isNearBottom={!isScrollDownButtonVisible}

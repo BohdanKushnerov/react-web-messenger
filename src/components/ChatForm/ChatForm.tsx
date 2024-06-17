@@ -1,4 +1,4 @@
-import { FC, Suspense, lazy, useEffect, useRef, useState } from 'react';
+import { FC, Suspense, lazy, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ButtonRecordAudio from '@components/Buttons/ButtonRecordAudio/ButtonRecordAudio';
@@ -12,6 +12,7 @@ import useChatStore from '@zustand/store';
 import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
 import useClearMessagesOnChatChange from '@hooks/useClearMessagesOnChatChange';
 import useEditingMessage from '@hooks/useEditingMessage';
+import useKeyDown from '@hooks/useKeyDown';
 import useTyping from '@hooks/useTyping';
 
 import handleSendMessage from '@utils/chatForm/handleSendMessage';
@@ -40,20 +41,21 @@ const ChatForm: FC = () => {
   const resetEditingMessage = useChatStore(state => state.resetEditingMessage);
   const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
 
+  useKeyDown(inputRef);
   useBeforeUnloadToStopTyping();
   useTyping(message);
-  useEditingMessage(editingMessageInfo, setMessage);
+  useEditingMessage(
+    chatUID,
+    inputRef,
+    setMessage,
+    editingMessageInfo,
+    resetEditingMessage
+  );
   useClearMessagesOnChatChange(chatUID, setMessage);
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, [chatUID]);
 
   const handleCancelEditingMessage = () => {
     resetEditingMessage();
     setMessage('');
-
-    inputRef.current?.focus();
   };
 
   const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {

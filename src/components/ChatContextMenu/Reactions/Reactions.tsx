@@ -35,6 +35,7 @@ const Reactions: FC = () => {
           <button
             className="cursor-pointer transition-all duration-100 ease-in-out hover:scale-125"
             onClick={() => handleEmojiClick(emoji.emoji)}
+            aria-label={emoji.emoji}
           >
             <img className="object-cover" src={emoji.src} alt={emoji.alt} />
           </button>

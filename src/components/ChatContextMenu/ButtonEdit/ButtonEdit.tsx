@@ -47,9 +47,6 @@ const ButtonEdit: FC<IButtonEditProps> = ({
 
       updateEditingMessage(editingMessageInfo);
       resetSelectedMessages();
-
-      const inputElement = document.getElementById('chatFormInput')!;
-      inputElement.focus();
     }
   };
 

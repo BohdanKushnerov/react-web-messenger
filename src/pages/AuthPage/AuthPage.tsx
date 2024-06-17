@@ -122,7 +122,7 @@ const Auth: FC = () => {
 
   return (
     <div className="relative flex h-full flex-col gap-2 bg-main-bcg bg-cover bg-center bg-no-repeat py-10">
-      <div className="max-w-300px mx-auto h-full rounded-md bg-main dark:bg-mainBlack">
+      <div className="mx-auto h-full max-w-300px rounded-md bg-main dark:bg-mainBlack">
         <Theme />
         <LanguageSwitcher />
       </div>
@@ -156,6 +156,7 @@ const Auth: FC = () => {
         <button
           className="mt-2 w-full rounded-md bg-mediumRed p-2 font-bold text-white disabled:text-veryDarkZinc"
           onClick={handleFullResetFrom}
+          aria-label="Full reset from"
         >
           {t('ClearRegistrationForm')}
         </button>

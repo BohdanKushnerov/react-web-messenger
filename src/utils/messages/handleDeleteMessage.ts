@@ -33,9 +33,6 @@ const handleDeleteMessage = async (
       chatUID
     );
 
-    const inputElement = document.getElementById('chatFormInput');
-    inputElement?.focus();
-
     toast.success(t('Toasts.DeleteMessageSuccess'));
   } catch (error) {
     toast.error(t('Toasts.DeleteMessageError'));

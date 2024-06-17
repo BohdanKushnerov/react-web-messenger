@@ -75,12 +75,10 @@ const MessageItem: FC<IMessageItemProps> = ({
         <MessageFiles msg={msg} />
 
         {isLink ? (
-          <>
-            <LinkMessage
-              textContentMsg={textContentMsg}
-              isVideo={info?.mediaType === 'video'}
-            />
-          </>
+          <LinkMessage
+            textContentMsg={textContentMsg}
+            isVideo={info?.mediaType === 'video'}
+          />
         ) : (
           <p className="w-full break-all text-black dark:text-white">
             {msg.data().message}

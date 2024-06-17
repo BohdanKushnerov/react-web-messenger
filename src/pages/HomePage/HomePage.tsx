@@ -29,9 +29,10 @@ const HomePage = () => {
 
   return (
     <main
-      className={`flex h-full w-full overflow-hidden bg-main-bcg2 bg-cover bg-center bg-no-repeat`}
+      className={`flex w-full overflow-hidden bg-main-bcg2 bg-cover bg-center bg-no-repeat`}
       style={{
         height: `${heightWindow}px`,
+        overflow: 'hidden',
       }}
     >
       <Transition

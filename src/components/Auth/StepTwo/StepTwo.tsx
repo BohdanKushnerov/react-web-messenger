@@ -62,6 +62,7 @@ const StepTwo: FC<IStepTwoProps> = ({
           className="w-full rounded-md border border-black p-2 text-black disabled:border-mediumGray disabled:text-mediumGray dark:border-white dark:text-white disabled:dark:border-mediumGray disabled:dark:text-veryDarkGray"
           onClick={getCodeAgain}
           disabled={isButtonDisabled}
+          aria-label="Resend SMS"
         >
           {t('ResendSMS')} {timer !== 0 && convertTimeWithZero(timer)}
         </button>

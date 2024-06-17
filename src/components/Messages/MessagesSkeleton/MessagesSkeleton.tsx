@@ -2,11 +2,15 @@ import { FC, memo } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
+import useResizeWindow from '@hooks/useResizeWindow';
+
 import { IMessagesSkeletonProps } from '@interfaces/IMessagesSkeletonProps';
 
 const MessagesSkeleton: FC<IMessagesSkeletonProps> = memo(
   ({ isLoadedContent }) => {
-    const clientHeight = window.innerHeight - 56 - 96;
+    const { heightWindow } = useResizeWindow();
+
+    const clientHeight = heightWindow - 56 - 96;
 
     const quantitySceletons = Math.floor(clientHeight / 90);
 

@@ -24,7 +24,7 @@ const EditingMsgInfo: FC<IEditingMsgInfoProps> = ({
         <p className="flex text-mediumDarkViolet">
           {t('ChatForm.EditMessage')}
         </p>
-        <p className="text-black dark:text-white">
+        <p className="max-w-[65%] overflow-hidden text-ellipsis whitespace-nowrap text-black dark:text-white lg:max-w-[85]">
           {selectedMessage.data().message || t('ChatForm.EmptyMessage')}
         </p>
       </div>
