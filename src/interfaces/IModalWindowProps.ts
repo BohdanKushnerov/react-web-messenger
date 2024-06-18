@@ -1,5 +1,7 @@
+import { ReactNode } from "react";
+
 export interface IModalWindowProps {
   handleToggleModal: () => void;
-  children: React.ReactNode;
+  children: ReactNode;
   contentClasses?: string;
 }

@@ -7,6 +7,7 @@ import { signOut } from 'firebase/auth';
 import ModalWindow from '../ModalWindow/ModalWindow';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
+import BlurImage from '@components/BlurImage/BlurImage';
 import LanguageSwitcher from '@components/Sidebar/LanguageSwitcher/LanguageSwitcher';
 import Theme from '@components/Sidebar/Theme/Theme';
 
@@ -14,6 +15,7 @@ import { auth } from '@myfirebase/config';
 
 import useChatStore from '@zustand/store';
 
+import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 import useStartTransition from '@hooks/useStartTransition';
 
 import { INavbarModalProps } from '@interfaces/INavbarModalProps';
@@ -34,6 +36,7 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
   );
 
   const startTransition = useStartTransition();
+  const loadingImg = useBlurLoadingImage(currentUser.photoURL);
 
   const handleSignOut = async () => {
     resetCurrentChatInfo();
@@ -72,11 +75,14 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
             >
               <div className="absolute left-5 top-14 z-20 flex flex-col gap-2 rounded-md bg-main p-2 shadow-mainShadow dark:bg-mainBlack">
                 <div className="flex items-center justify-between gap-1 text-black dark:text-white">
-                  <AvatarProfile
-                    photoURL={currentUser.photoURL}
-                    displayName={currentUser.displayName}
-                    size="50"
-                  />
+                  <BlurImage loading={loadingImg}>
+                    <AvatarProfile
+                      photoURL={currentUser.photoURL}
+                      displayName={currentUser.displayName}
+                      size="50"
+                    />
+                  </BlurImage>
+
                   <p className="transf flex">{currentUser?.displayName}</p>
                   <button
                     className="rounded-full border border-darkZinc px-2 py-1 transition-all duration-300 hover:bg-mediumZinc hover:shadow-mainShadow dark:border-darkZinc hover:dark:bg-extraDarkGray"

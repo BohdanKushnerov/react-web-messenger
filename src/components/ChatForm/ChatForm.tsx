@@ -18,6 +18,8 @@ import useMyTyping from '@hooks/useMyTyping';
 import handleSendMessage from '@utils/chatForm/handleSendMessage';
 import handleUpdateEditMessage from '@utils/messages/handleUpdateEditMessage';
 
+import { IChatFormProps } from '@interfaces/IChatFormProps';
+
 import '@i18n';
 
 const RecordingAudio = lazy(
@@ -28,7 +30,7 @@ const ChatFormSelectedMsgs = lazy(
 );
 const EditingMsgInfo = lazy(() => import('./EditingMsgInfo/EditingMsgInfo'));
 
-const ChatForm: FC = () => {
+const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -46,7 +48,7 @@ const ChatForm: FC = () => {
   useMyTyping();
   useBeforeUnloadToStopTyping();
   useClearMessagesOnChatChange();
-  useKeyDown(inputRef);
+  useKeyDown(inputRef, isShowSearchMessages);
   useEditingMessage(inputRef);
 
   const handleCancelEditingMessage = () => {

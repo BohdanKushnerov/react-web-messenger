@@ -4,9 +4,11 @@ import { Link, useLocation } from 'react-router-dom';
 import UserChatInfo from './UserChatInfo/UserChatInfo';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
+import BlurImage from '@components/BlurImage/BlurImage';
 
 import useChatStore from '@zustand/store';
 
+import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 import useChatInfo from '@hooks/useChatInfo';
 
 import handleSelectChat from '@utils/chatListItem/handleSelectChat';
@@ -22,6 +24,7 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
   );
 
   const userInfo = useChatInfo(chatInfo[1].userUID);
+  const loadingImg = useBlurLoadingImage(userInfo?.photoURL);
 
   const handleManageSelectChat = () => {
     if (chatInfo[0]) {
@@ -45,11 +48,13 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
         to={`/${chatInfo[0]}`}
         state={{ from: location }}
       >
-        <AvatarProfile
-          photoURL={userInfo?.photoURL}
-          displayName={userInfo?.displayName}
-          size="50"
-        />
+        <BlurImage loading={loadingImg}>
+          <AvatarProfile
+            photoURL={userInfo?.photoURL}
+            displayName={userInfo?.displayName}
+            size="50"
+          />
+        </BlurImage>
 
         <UserChatInfo
           currentChatUID={chatUID}

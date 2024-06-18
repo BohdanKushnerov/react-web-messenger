@@ -28,7 +28,7 @@ const ChatPage: FC = () => {
 
         <Messages />
 
-        <ChatForm />
+        <ChatForm isShowSearchMessages={isShowSearchMessages}/>
       </div>
       {isShowSearchMessages && (
         <div className="absolute right-0 top-0 z-10 h-full w-2/3 border-l border-ultraDarkZinc bg-main p-2 dark:bg-mainBlack md:w-2/4">

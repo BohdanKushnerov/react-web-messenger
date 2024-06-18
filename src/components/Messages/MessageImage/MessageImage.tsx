@@ -1,4 +1,8 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
+
+import BlurImage from '@components/BlurImage/BlurImage';
+
+import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 
 import calculateMsgImageHeight from '@utils/messages/calculateMsgImageHeight';
 import calculateMsgImageWidth from '@utils/messages/calculateMsgImageWidth';
@@ -12,19 +16,7 @@ const MessageImage: FC<IMessageImageProps> = ({
   index,
   handleClickPhoto,
 }) => {
-  const [loading, setLoading] = useState(true);
-
-  const fetchImage = (src: string) => {
-    const loadingImage = new Image();
-    loadingImage.src = src;
-    loadingImage.onload = () => {
-      setLoading(false);
-    };
-  };
-
-  useEffect(() => {
-    fetchImage(file.url);
-  }, [file.url]);
+  const loadingImg = useBlurLoadingImage(file.url);
 
   const files: IFile[] = msg.data().file;
 
@@ -32,29 +24,27 @@ const MessageImage: FC<IMessageImageProps> = ({
   const imgWidth = calculateMsgImageWidth(files, file, index);
 
   return (
-    <div
-      style={{
-        backgroundColor: `${loading ? 'gray' : ''}`,
-        filter: `${loading ? 'blur(15px)' : ''}`,
-        transition: '500ms filter linear',
-      }}
-    >
+    <BlurImage loading={loadingImg}>
       <button
         className={`${
-          loading ? 'invisible' : 'block'
+          loadingImg ? 'invisible' : 'block'
         } cursor-pointer overflow-hidden rounded-md object-cover`}
         style={{
           height: imgHeight,
           width: imgWidth,
-          filter: `${loading ? 'blur(20px)' : ''}`,
-          transition: '1s filter linear',
         }}
         onClick={() => handleClickPhoto(index)}
         aria-label={file.name}
       >
-        <img src={file.url} alt={file.type} loading="lazy" id="img" />
+        <img
+          className="h-full w-full object-cover object-center"
+          src={file.url}
+          alt={file.type}
+          loading="lazy"
+          id="img"
+        />
       </button>
-    </div>
+    </BlurImage>
   );
 };
 

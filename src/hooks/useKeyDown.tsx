@@ -2,9 +2,11 @@ import { useEffect } from 'react';
 
 import { UseKeyDown } from 'types/hooks/UseKeyDown';
 
-const useKeyDown: UseKeyDown = inputRef => {
+const useKeyDown: UseKeyDown = (inputRef, isShowSearchMessages) => {
   useEffect(() => {
     const handleKeyDown = () => {
+      if (isShowSearchMessages === true) return;
+
       if (document.activeElement !== inputRef.current) {
         inputRef.current?.focus();
       }
@@ -15,7 +17,7 @@ const useKeyDown: UseKeyDown = inputRef => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [inputRef]);
+  }, [inputRef, isShowSearchMessages]);
 };
 
 export default useKeyDown;

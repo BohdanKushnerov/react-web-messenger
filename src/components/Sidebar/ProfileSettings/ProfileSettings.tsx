@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Transition } from 'react-transition-group';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
+import BlurImage from '@components/BlurImage/BlurImage';
 import ButtonArrow from '@components/Buttons/ButtonArrow/ButtonArrow';
 import FileInput from '@components/Inputs/FileInput/FileInput';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
@@ -11,6 +12,7 @@ import { auth } from '@myfirebase/config';
 
 import useChatStore from '@zustand/store';
 
+import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 import useStartTransition from '@hooks/useStartTransition';
 
 import handleClickChangeDisplayName from '@utils/profileSettings/handleClickChangeDisplayName';
@@ -28,17 +30,18 @@ const ProfileSettings: FC = () => {
     () => auth.currentUser?.displayName
   );
   const [isModalPhotoProfileOpen, setIsModalPhotoProfileOpen] = useState(false);
-  
+
   const nodeRefProfileSettings = useRef(null);
   const photoProfileInputRef = useRef<HTMLInputElement>(null);
 
   const { t } = useTranslation('translation', { keyPrefix: 'ProfileSettings' });
-  
+
   const { uid, displayName } = useChatStore(state => state.currentUser);
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
   const updateSidebarScreen = useChatStore(state => state.updateSidebarScreen);
-  
+
   const startTransition = useStartTransition();
+  const loadingImg = useBlurLoadingImage(auth.currentUser?.photoURL ?? null);
 
   const handleClickTurnBackToDefaultScreen = () => {
     updateSidebarScreen('default');
@@ -101,11 +104,13 @@ const ProfileSettings: FC = () => {
             >
               {auth.currentUser && (
                 <>
-                  <AvatarProfile
-                    photoURL={auth.currentUser.photoURL}
-                    displayName={auth.currentUser.displayName}
-                    size="200"
-                  />
+                  <BlurImage loading={loadingImg}>
+                    <AvatarProfile
+                      photoURL={auth.currentUser.photoURL}
+                      displayName={auth.currentUser.displayName}
+                      size="200"
+                    />
+                  </BlurImage>
                   <svg
                     className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 fill-white group-hover:scale-105"
                     width={48}

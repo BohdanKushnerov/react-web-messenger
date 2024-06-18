@@ -26,6 +26,7 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
   const { photoURL, displayName } = useChatStore(state => state.currentUser);
 
   const currentChatInfo = useChatInfo(userUID);
+
   const { searchMessages, searchMessageValue, setSearchMessageValue } =
     useSearchMessageValue();
 
@@ -69,21 +70,19 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
           )}
           {searchMessages.map(msg => (
             <li key={msg.id} className="flex items-center justify-start gap-2">
-              <div>
-                <AvatarProfile
-                  photoURL={
-                    msg.data().senderUserID === userUID
-                      ? currentChatInfo?.photoURL
-                      : photoURL
-                  }
-                  displayName={
-                    msg.data().senderUserID === userUID
-                      ? currentChatInfo?.displayName
-                      : displayName
-                  }
-                  size="50"
-                />
-              </div>
+              <AvatarProfile
+                photoURL={
+                  msg.data().senderUserID === userUID
+                    ? currentChatInfo?.photoURL
+                    : photoURL
+                }
+                displayName={
+                  msg.data().senderUserID === userUID
+                    ? currentChatInfo?.displayName
+                    : displayName
+                }
+                size="50"
+              />
               <div>
                 <p className="max-w-xs break-all text-darkZinc dark:text-mediumZinc">
                   {msg.data().message}
