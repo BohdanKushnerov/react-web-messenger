@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 
+import useChatStore from '@zustand/store';
+
 import { UseEditingMessage } from 'types/hooks/UseEditingMessage';
 
-const useEditingMessage: UseEditingMessage = (
-  chatUID,
-  inputRef,
-  setMessage,
-  editingMessageInfo,
-  resetEditingMessage
-) => {
+const useEditingMessage: UseEditingMessage = inputRef => {
+  const setMessage = useChatStore(state => state.setMessage);
+  const { chatUID } = useChatStore(state => state.currentChatInfo);
+  const editingMessageInfo = useChatStore(state => state.editingMessageInfo);
+  const resetEditingMessage = useChatStore(state => state.resetEditingMessage);
+
   useEffect(() => {
     resetEditingMessage();
   }, [chatUID, resetEditingMessage]);

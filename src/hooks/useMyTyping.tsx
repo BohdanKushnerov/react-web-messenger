@@ -1,15 +1,19 @@
 import { useEffect, useRef } from 'react';
 
+
+
 import useChatStore from '@zustand/store';
+
+
 
 import updateTypingIsFalse from '@api/firestore/updateTypingIsFalse';
 import updateTypingIsTrue from '@api/firestore/updateTypingIsTrue';
 
-import { UseTyping } from 'types/hooks/UseTyping';
 
-const useTyping: UseTyping = message => {
+const useMyTyping = () => {
   const myTypingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const message = useChatStore(state => state.message);
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
 
@@ -42,4 +46,4 @@ const useTyping: UseTyping = message => {
   }, [chatUID, myTypingTimeoutRef]);
 };
 
-export default useTyping;
+export default useMyTyping;

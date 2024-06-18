@@ -5,7 +5,6 @@ import { DocumentData } from 'firebase/firestore';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 
 export type UseResetMsgsStates = (
-  chatUID: string | null,
   isReadyToFetchFirstNewChatMsgs: MutableRefObject<boolean>,
   lastLoadedMsg: MutableRefObject<DocumentData | null>,
   isFinishMsgs: MutableRefObject<boolean>,

@@ -1,25 +1,26 @@
 import { useEffect, useState } from 'react';
 
-import { UseCountChatUnreadMessages } from 'types/hooks/UseCountChatUnreadMessages';
+import useChatStore from '@zustand/store';
 
-const useCountChatUnreadMessages: UseCountChatUnreadMessages =
-  chatUnreadMessages => {
-    const [countChatUnreadMessages, setCountChatUnreadMessages] =
-      useState<number>(0);
+const useCountChatUnreadMessages = () => {
+  const [countChatUnreadMessages, setCountChatUnreadMessages] =
+    useState<number>(0);
 
-    useEffect(() => {
-      const countFromObjectChatUnreadMessages: number = Object.values(
-        chatUnreadMessages
-      ).reduce((acc, count) => (acc += count), 0);
+  const totalUnreadMessages = useChatStore(state => state.totalUnreadMessages);
 
-      if (countFromObjectChatUnreadMessages === countChatUnreadMessages) {
-        return;
-      } else {
-        setCountChatUnreadMessages(countFromObjectChatUnreadMessages);
-      }
-    }, [chatUnreadMessages, countChatUnreadMessages]);
+  useEffect(() => {
+    const countFromObjectChatUnreadMessages: number = Object.values(
+      totalUnreadMessages
+    ).reduce((acc, count) => (acc += count), 0);
 
-    return countChatUnreadMessages !== 0 ? countChatUnreadMessages : null;
-  };
+    if (countFromObjectChatUnreadMessages === countChatUnreadMessages) {
+      return;
+    } else {
+      setCountChatUnreadMessages(countFromObjectChatUnreadMessages);
+    }
+  }, [totalUnreadMessages, countChatUnreadMessages]);
+
+  return countChatUnreadMessages !== 0 ? countChatUnreadMessages : null;
+};
 
 export default useCountChatUnreadMessages;

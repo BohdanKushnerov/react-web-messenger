@@ -5,7 +5,6 @@ import { DocumentData } from 'firebase/firestore';
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 
 export type UseGetFirstMsgs = (
-  chatUID: string | null,
   isReadyToFetchFirstNewChatMsgs: MutableRefObject<boolean>,
   lastLoadedMsg: MutableRefObject<DocumentData | null>,
   setIsReadyFirstMsgs: Dispatch<SetStateAction<boolean>>,

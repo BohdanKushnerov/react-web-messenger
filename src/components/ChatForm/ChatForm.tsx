@@ -13,7 +13,7 @@ import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
 import useClearMessagesOnChatChange from '@hooks/useClearMessagesOnChatChange';
 import useEditingMessage from '@hooks/useEditingMessage';
 import useKeyDown from '@hooks/useKeyDown';
-import useTyping from '@hooks/useTyping';
+import useMyTyping from '@hooks/useMyTyping';
 
 import handleSendMessage from '@utils/chatForm/handleSendMessage';
 import handleUpdateEditMessage from '@utils/messages/handleUpdateEditMessage';
@@ -30,7 +30,9 @@ const EditingMsgInfo = lazy(() => import('./EditingMsgInfo/EditingMsgInfo'));
 
 const ChatForm: FC = () => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
+
   const inputRef = useRef<HTMLInputElement>(null);
+
   const { t } = useTranslation();
 
   const message = useChatStore(state => state.message);
@@ -41,17 +43,11 @@ const ChatForm: FC = () => {
   const resetEditingMessage = useChatStore(state => state.resetEditingMessage);
   const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
 
-  useKeyDown(inputRef);
+  useMyTyping();
   useBeforeUnloadToStopTyping();
-  useTyping(message);
-  useEditingMessage(
-    chatUID,
-    inputRef,
-    setMessage,
-    editingMessageInfo,
-    resetEditingMessage
-  );
-  useClearMessagesOnChatChange(chatUID, setMessage);
+  useClearMessagesOnChatChange();
+  useKeyDown(inputRef);
+  useEditingMessage(inputRef);
 
   const handleCancelEditingMessage = () => {
     resetEditingMessage();

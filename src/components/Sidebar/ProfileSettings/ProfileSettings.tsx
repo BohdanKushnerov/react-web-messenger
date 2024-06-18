@@ -28,15 +28,17 @@ const ProfileSettings: FC = () => {
     () => auth.currentUser?.displayName
   );
   const [isModalPhotoProfileOpen, setIsModalPhotoProfileOpen] = useState(false);
-
+  
   const nodeRefProfileSettings = useRef(null);
   const photoProfileInputRef = useRef<HTMLInputElement>(null);
-  const { t } = useTranslation('translation', { keyPrefix: 'ProfileSettings' });
-  const startTransition = useStartTransition();
 
+  const { t } = useTranslation('translation', { keyPrefix: 'ProfileSettings' });
+  
   const { uid, displayName } = useChatStore(state => state.currentUser);
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
   const updateSidebarScreen = useChatStore(state => state.updateSidebarScreen);
+  
+  const startTransition = useStartTransition();
 
   const handleClickTurnBackToDefaultScreen = () => {
     updateSidebarScreen('default');

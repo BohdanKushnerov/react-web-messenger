@@ -22,6 +22,7 @@ const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
   const [profilePhotoUploadStatus, setProfilePhotoUploadStatus] = useState<
     number | null
   >(null);
+  
   const { t } = useTranslation('translation', {
     keyPrefix: 'ProfileSettings',
   });

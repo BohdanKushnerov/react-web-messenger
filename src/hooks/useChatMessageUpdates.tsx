@@ -13,6 +13,8 @@ import {
 
 import { db } from '@myfirebase/config';
 
+import useChatStore from '@zustand/store';
+
 import mergeChatMessages from '@utils/messages/mergeChatMessages';
 
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
@@ -144,10 +146,9 @@ const handleRemovedMessage = (
   }
 };
 
-const useChatMessageUpdates: UseChatMessageUpdates = (
-  chatUID,
-  setGroupedMessages
-) => {
+const useChatMessageUpdates: UseChatMessageUpdates = setGroupedMessages => {
+  const { chatUID } = useChatStore(state => state.currentChatInfo);
+
   useEffect(() => {
     if (chatUID === null) return;
 

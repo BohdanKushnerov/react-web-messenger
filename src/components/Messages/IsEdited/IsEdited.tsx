@@ -11,12 +11,12 @@ const IsEdited: FC<IIsEditedProps> = ({ isEdited }) => {
   return (
     <>
       {isEdited && (
-        <>
+        <div className="flex items-center gap-1">
           <svg width={8} height={8} className="fill-darkZinc">
             <use href={sprite + '#icon-pencil'} />
           </svg>
           <p className="text-sm text-darkZinc">{t('Edited')}</p>
-        </>
+        </div>
       )}
     </>
   );

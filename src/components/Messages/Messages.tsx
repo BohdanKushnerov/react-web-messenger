@@ -84,8 +84,10 @@ const Messages: FC = () => {
     groupedMessages && selectedDocDataMessage
   );
 
+  useSelectedMessagesHandling();
+  useChatMessageUpdates(setGroupedMessages);
+  usePersistChatUID();
   useResetMsgsStates(
-    chatUID,
     isReadyToFetchFirstNewChatMsgs,
     lastLoadedMsg,
     isFinishMsgs,
@@ -93,22 +95,11 @@ const Messages: FC = () => {
     setGroupedMessages
   );
   useGetFirstMsgs(
-    chatUID,
     isReadyToFetchFirstNewChatMsgs,
     lastLoadedMsg,
     setIsReadyFirstMsgs,
     setGroupedMessages
   );
-  useChatMessageUpdates(chatUID, setGroupedMessages);
-  useSelectedMessagesHandling(
-    chatUID,
-    isSelectedMessages,
-    selectedDocDataMessage,
-    updateIsSelectedMessages,
-    updateSelectedDocDataMessage,
-    resetSelectedMessages
-  );
-  usePersistChatUID(chatUID);
 
   const handleScroll = useCallback(() => {
     const throttleTime = 100;

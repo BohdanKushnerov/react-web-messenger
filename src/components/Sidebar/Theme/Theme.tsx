@@ -11,6 +11,7 @@ const Theme: FC = () => {
   const [isLightTheme, setIsLightTheme] = useState(() => {
     return localStorage.getItem('theme') === 'light';
   });
+  
   const { t } = useTranslation('translation', { keyPrefix: 'NavBar' });
 
   useTheme();

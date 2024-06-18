@@ -17,7 +17,6 @@ const DeleteButton: FC<IDeleteButtonProps> = ({
 
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
-
   const selectedDocDataMessage = useChatStore(
     state => state.selectedDocDataMessage
   );

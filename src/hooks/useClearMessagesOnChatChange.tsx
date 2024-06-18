@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
-import { UseClearMessagesOnChatChange } from 'types/hooks/UseClearMessagesOnChatChange';
+import useChatStore from '@zustand/store';
 
-const useClearMessagesOnChatChange: UseClearMessagesOnChatChange = (
-  chatUID,
-  setMessage
-) => {
+const useClearMessagesOnChatChange = () => {
+  const { chatUID } = useChatStore(state => state.currentChatInfo);
+  const setMessage = useChatStore(state => state.setMessage);
+
   useEffect(() => {
     if (chatUID) {
       setMessage('');

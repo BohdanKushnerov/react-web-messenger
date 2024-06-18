@@ -20,7 +20,6 @@ const ButtonEdit: FC<IButtonEditProps> = ({
   const updateEditingMessage = useChatStore(
     state => state.updateEditingMessage
   );
-
   const selectedDocDataMessage = useChatStore(
     state => state.selectedDocDataMessage
   );

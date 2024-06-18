@@ -1,15 +1,23 @@
 import { useEffect } from 'react';
 
-import { UseSelectedMessagesHandling } from 'types/hooks/UseSelectedMessagesHandling';
+import useChatStore from '@zustand/store';
 
-const useSelectedMessagesHandling: UseSelectedMessagesHandling = (
-  chatUID,
-  isSelectedMessages,
-  selectedDocDataMessage,
-  updateIsSelectedMessages,
-  updateSelectedDocDataMessage,
-  resetSelectedMessages
-) => {
+const useSelectedMessagesHandling = () => {
+  const { chatUID } = useChatStore(state => state.currentChatInfo);
+  const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
+  const selectedDocDataMessage = useChatStore(
+    state => state.selectedDocDataMessage
+  );
+  const updateSelectedDocDataMessage = useChatStore(
+    state => state.updateSelectedDocDataMessage
+  );
+  const resetSelectedMessages = useChatStore(
+    state => state.resetSelectedMessages
+  );
+  const updateIsSelectedMessages = useChatStore(
+    state => state.updateIsSelectedMessages
+  );
+
   useEffect(() => {
     if (!isSelectedMessages) {
       updateSelectedDocDataMessage(null);

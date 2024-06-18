@@ -6,7 +6,7 @@ import { database } from '@myfirebase/config';
 
 import { UseIsOnlineStatus } from 'types/hooks/UseIsOnlineStatus';
 
-const useIsOnlineStatus: UseIsOnlineStatus = userUID => {
+const useIsOnlineStatus: UseIsOnlineStatus = (userUID: string | null) => {
   const [isOnline, setIsOnline] = useState<boolean | null>(null);
 
   useEffect(() => {

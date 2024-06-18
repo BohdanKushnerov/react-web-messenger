@@ -19,7 +19,6 @@ const ChatHeader: FC<IChatHeaderProps> = ({ setIsShowSearchMessages }) => {
   const navigate = useNavigate();
 
   const { chatUID } = useChatStore(state => state.currentChatInfo);
-
   const resetCurrentChatInfo = useChatStore(
     state => state.resetCurrentChatInfo
   );

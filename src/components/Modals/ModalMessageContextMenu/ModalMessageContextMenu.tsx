@@ -17,6 +17,7 @@ const MessageContextMenuModal: FC<IModalMessageContextMenuProps> = ({
   );
 
   useCloseModal(closeModal);
+  
   return (
     <>
       {!isSelectedMessages && selectedDocDataMessage && (

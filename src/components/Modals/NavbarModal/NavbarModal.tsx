@@ -21,8 +21,8 @@ import { INavbarModalProps } from '@interfaces/INavbarModalProps';
 import '@i18n';
 
 const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
-  const startTransition = useStartTransition();
   const nodeRefNavBar = useRef(null);
+
   const { t } = useTranslation('translation', {
     keyPrefix: 'NavBar',
   });
@@ -32,6 +32,8 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
   const resetCurrentChatInfo = useChatStore(
     state => state.resetCurrentChatInfo
   );
+
+  const startTransition = useStartTransition();
 
   const handleSignOut = async () => {
     resetCurrentChatInfo();

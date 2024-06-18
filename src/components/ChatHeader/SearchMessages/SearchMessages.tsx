@@ -25,9 +25,9 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
   const { userUID } = useChatStore(state => state.currentChatInfo);
   const { photoURL, displayName } = useChatStore(state => state.currentUser);
 
+  const currentChatInfo = useChatInfo(userUID);
   const { searchMessages, searchMessageValue, setSearchMessageValue } =
     useSearchMessageValue();
-  const currentChatInfo = useChatInfo(userUID);
 
   const handleChangeSearchMessage = (
     e: React.ChangeEvent<HTMLInputElement>

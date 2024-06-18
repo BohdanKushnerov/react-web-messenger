@@ -16,9 +16,10 @@ import useResizeWindow from '@hooks/useResizeWindow';
 import audio from '@assets/notify.mp3';
 
 const HomePage = () => {
-  const { pathname } = useLocation();
   const nodeRefSidebar = useRef(null);
   const nodeRefChat = useRef(null);
+
+  const { pathname } = useLocation();
 
   const { isFullScreen, heightWindow } = useResizeWindow();
   const docHidden = useBrowserTabVisibilityChange();

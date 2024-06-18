@@ -1,8 +1,10 @@
+import useChatStore from '@zustand/store';
 import { useEffect } from 'react';
 
-import { UsePersistChatUID } from 'types/hooks/UsePersistChatUID';
 
-const usePersistChatUID: UsePersistChatUID = chatUID => {
+const usePersistChatUID = () => {
+    const { chatUID } = useChatStore(state => state.currentChatInfo);
+
   useEffect(() => {
     if (chatUID) {
       localStorage.setItem('currentChatId', chatUID);

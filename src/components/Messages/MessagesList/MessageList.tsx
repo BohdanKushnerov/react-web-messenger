@@ -33,7 +33,6 @@ const MessageList = memo(
     const { t } = useTranslation();
 
     const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(chatUID, true, false);
-
     useQuickScrollToBottom(
       bottomElementRef,
       isReadyFirstMsgs,

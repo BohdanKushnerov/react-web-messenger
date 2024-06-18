@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 
+import useChatStore from '@zustand/store';
+
 import getFirstMessages from '@api/firestore/getFirstMessages';
 
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
@@ -9,12 +11,13 @@ import { UseGetFirstMsgs } from 'types/hooks/UseGetFirstMsgs';
 import '@i18n';
 
 const useGetFirstMsgs: UseGetFirstMsgs = (
-  chatUID,
   isReadyToFetchFirstNewChatMsgs,
   lastLoadedMsg,
   setIsReadyFirstMsgs,
   setGroupedMessages
 ) => {
+  const { chatUID } = useChatStore(state => state.currentChatInfo);
+
   useEffect(() => {
     if (isReadyToFetchFirstNewChatMsgs.current === false) {
       return;

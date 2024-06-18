@@ -24,6 +24,7 @@ const useSearchUsers = () => {
   > | null>(null);
 
   const searchValue = useChatStore(state => state.searchValue);
+
   const [debauncedSearchValue] = useDebounce(searchValue, 300);
 
   useEffect(() => {

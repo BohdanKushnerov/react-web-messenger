@@ -15,7 +15,6 @@ const Reactions = lazy(
 
 const ChatContextMenu: FC<IChatContextMenuProps> = ({ groupedMessages }) => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
-
   const selectedDocDataMessage = useChatStore(
     state => state.selectedDocDataMessage
   );

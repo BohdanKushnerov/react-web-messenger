@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 const useAuthResendVerifyCode = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [timer, setTimer] = useState<number>(30);
+  
   const timerId = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {

@@ -17,6 +17,7 @@ const ButtonSelect: FC<IButtonSelectProps> = ({ textContent = true }) => {
   const updateSelectedDocDataMessage = useChatStore(
     state => state.updateSelectedDocDataMessage
   );
+  
   const handleToggleSelect = () => {
     if (isSelectedMessages) {
       updateSelectedDocDataMessage(null);

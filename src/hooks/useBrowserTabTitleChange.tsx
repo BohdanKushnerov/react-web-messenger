@@ -13,6 +13,7 @@ const useBrowserTabTitleChange: UseBrowserTabTitleChange = (
   docHidden
 ) => {
   const changeTitleIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  
   const { t } = useTranslation('translation', {
     keyPrefix: 'ChatListUnreadMsg',
   });

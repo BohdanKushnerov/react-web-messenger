@@ -15,6 +15,7 @@ import handleCreateAndNavigateToChat from '@utils/chatListItem/handleCreateAndNa
 
 const SearchChatList: FC = () => {
   const navigate = useNavigate();
+  
   const { t } = useTranslation('translation', { keyPrefix: 'Sidebar' });
 
   const currentUser = useChatStore(state => state.currentUser);
