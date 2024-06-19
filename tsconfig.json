@@ -41,6 +41,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "public/firebase-messaging-sw.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -6,6 +6,7 @@ import {
 } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 import { getFirestore } from 'firebase/firestore';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { getStorage } from 'firebase/storage';
 
 const {
@@ -17,6 +18,7 @@ const {
   VITE_APP_ID,
   VITE_MEASUREMENT_ID,
   VITE_DB_URL,
+  VITE_VAPID_KEY,
 } = import.meta.env || ({} as NodeJS.Process['env']);
 
 const firebaseConfig = {
@@ -35,6 +37,45 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const database = getDatabase(app);
 const storage = getStorage(app, `gs://${VITE_STORAGE_BUCKET}`);
+
+const messaging = getMessaging();
+
+const myVapidKey = VITE_VAPID_KEY;
+
+export const requestForToken = async () => {
+  return getToken(messaging, { vapidKey: myVapidKey })
+    .then(currentToken => {
+      if (currentToken) {
+        console.log('current token for client: ', currentToken);
+
+        if (
+          localStorage.getItem('fcmToken') &&
+          currentToken !== localStorage.getItem('fcmToken')
+        ) {
+          localStorage.setItem('fcmToken', currentToken);
+        } else if (!localStorage.getItem('fcmToken')) {
+          localStorage.setItem('fcmToken', currentToken);
+        }
+      } else {
+        console.log(
+          'No registration token available. Request permission to generate one.'
+        );
+      }
+    })
+    .catch(err => {
+      console.log('An error occurred while retrieving token. ', err);
+    });
+};
+
+// Handle incoming messages. Called when:
+// - a message is received while the app has focus
+// - the user clicks on an app notification created by a service worker `messaging.onBackgroundMessage` handler.
+export const onMessageListener = () =>
+  new Promise(resolve => {
+    onMessage(messaging, payload => {
+      resolve(payload);
+    });
+  });
 
 setPersistence(auth, browserLocalPersistence);
 

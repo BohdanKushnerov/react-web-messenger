@@ -5,6 +5,7 @@ import { Transition } from 'react-transition-group';
 import BrowserTabTitle from '@components/BrowserTabTitle/BrowserTabTitle';
 import EmptyChat from '@components/EmptyChat/EmptyChat';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import Notification from '@components/Notification/Notification';
 import Sidebar from '@components/Sidebar/Sidebar';
 
 import useBrowserTabVisibilityChange from '@hooks/useBrowserTabVisibilityChange';
@@ -91,6 +92,7 @@ const HomePage = () => {
       <audio src={audio} id="notify">
         <track kind="captions" src="" srcLang="en" label="English captions" />
       </audio>
+      <Notification />
     </main>
   );
 };
