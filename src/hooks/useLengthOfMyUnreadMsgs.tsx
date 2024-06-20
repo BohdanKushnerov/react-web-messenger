@@ -22,7 +22,7 @@ const useLengthOfMyUnreadMsgs: UseLengthOfMyUnreadMsgs = (
   isGetAdditionalMessage = true
 ) => {
   const [lengthOfMyUnreadMsgs, setLengthOfMyUnreadMsgs] = useState<number>(0);
-  
+
   const processedMessages = useRef<string[]>([]);
 
   const { uid } = useChatStore(state => state.currentUser);
@@ -65,7 +65,7 @@ const useLengthOfMyUnreadMsgs: UseLengthOfMyUnreadMsgs = (
     return () => {
       unsubMyUnreadMsgs();
     };
-  }, [chatUID, isNotify, uid]);
+  }, [chatUID, isGetAdditionalMessage, isNotify, uid]);
 
   return lengthOfMyUnreadMsgs;
 };
