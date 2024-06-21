@@ -7,6 +7,13 @@ A simple web messenger implemented with React.
 Check out the live demo at
 [https://chat-vercel-snowy.vercel.app](https://chat-vercel-snowy.vercel.app)
 
+# Developing
+I am currently developing a PWA application with offline notification support using service workers.
+Test demo version at
+[pwa-eosin-nu.vercel.app](pwa-eosin-nu.vercel.app)
+
+Repo: [https://github.com/BohdanKushnerov/pwa](https://github.com/BohdanKushnerov/pwa)
+
 ## Overview
 
 React Web Messenger is a lightweight tool for real-time messaging built on the
@@ -20,15 +27,6 @@ messenger functionalities.
 - **Simple and intuitive interface:** User-friendly and easy-to-use interface.
 - **React:** Implemented using the React library for efficient state management
   of components.
-
-## Requirements
-
-Before getting started, make sure you have:
-
-- Node.js
-- npm or Yarn
-
-## Installation
 
 ### Messenger Features:
 
@@ -55,12 +53,23 @@ Before getting started, make sure you have:
 - Emoji support for text messages in the chat.
 - Reactions to messages.
 - Modify the Browser Tab Title and Icon upon Receiving a New Unread Message.
+- Cloud Messaging Notifications: Develop notifications using service workers for
+  offline notification delivery (currently in development).
 
-## Running Instructions:
+## Requirements
+
+Before getting started, make sure you have:
+
+- Node.js
+- npm or Yarn
+
+## Installation:
 
 1. Clone the project repository.
 2. Run the command `npm install` to install the necessary dependencies.
-3. Execute `npm run dev` to start the project.
-4. Open a web browser and go to
+3. Create a .env.local file in the root directory of the project and define the
+   environment variables following the descriptions provided in .env.example.
+4. Execute `npm run dev` to start the project.
+5. Open a web browser and go to
    [http://localhost:5173/react-web-messenger](http://localhost:5173/react-web-messenger)
    to view the application.
