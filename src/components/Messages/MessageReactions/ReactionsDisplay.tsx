@@ -6,7 +6,7 @@ import { IReactionsDisplayProps } from '@interfaces/IReactionsDisplayProps';
 
 const ReactionsDisplay: FC<IReactionsDisplayProps> = ({ reactions }) => {
   return (
-    <div className="flex flex-row gap-1">
+    <div className="flex flex-wrap items-center gap-2">
       {reactions && (
         <>
           {Object.entries(reactions).map(([emoji, ids]) => (

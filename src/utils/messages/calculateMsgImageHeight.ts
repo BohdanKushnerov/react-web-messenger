@@ -7,11 +7,13 @@ const calculateMsgImageHeight = (
 ) => {
   const height = file.height ?? 0;
   const width = file.width ?? 0;
+  const isTallImage = height / width > 1.4;
+  const isSingleFile = files.length === 1;
 
-  if (height / width > 1.4) {
-    return files.length === 1 ? 336 : index <= 1 ? 159 : 78.5;
+  if (isSingleFile) {
+    return isTallImage ? 336 : 200;
   } else {
-    return files.length === 1 ? 200 : index <= 1 ? 159 : 78.5;
+    return index <= 1 ? 159 : 78.5;
   }
 };
 

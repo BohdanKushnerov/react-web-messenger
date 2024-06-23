@@ -13,6 +13,8 @@ import handleSendAttachedFilesMessage from '@utils/chatForm/handleSendAttachedFi
 
 import { IFileInputModalProps } from '@interfaces/IFileInputModalProps';
 
+import { ElementsId } from '@enums/elementsId';
+
 import { FilesUploadStatuses } from 'types/FilesUploadStatuses';
 
 import '@i18n';
@@ -108,6 +110,7 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
             >
               <div className="relative h-10 w-full sm:w-8/12">
                 <input
+                  id={ElementsId.AtachFilesModalInput}
                   className="h-full w-full rounded-3xl border-2 border-transparent bg-mediumDarkZinc px-10 py-1 text-white outline-none focus:border-mediumDarkCyan dark:bg-darkBackground"
                   type="text"
                   placeholder={t('ImageCaptionPlaceholder')}

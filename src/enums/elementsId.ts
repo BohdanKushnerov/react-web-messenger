@@ -4,6 +4,7 @@ export enum ElementsId {
   SignInButton = 'sign-in-button',
   ChatFormInput = 'chatFormInput',
   SearchInput = 'searchInput',
+  AtachFilesModalInput = 'atachFilesModalInput',
   Img = 'img',
   LightBoxContainer = 'lightBoxContainer',
   Message = 'message',

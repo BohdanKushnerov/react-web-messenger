@@ -77,18 +77,20 @@ const MessageItem: FC<IMessageItemProps> = ({ msg, isNearBottom }) => {
           </p>
         )}
 
-        <div className="flex w-full items-baseline justify-between gap-2">
+        <div className="flex max-w-160px flex-wrap items-baseline justify-between gap-2 lg:w-full">
           <ReactionsDisplay reactions={msg.data().reactions} />
 
-          <IsEdited isEdited={msg.data().isEdited} />
+          <div className="flex items-baseline gap-2">
+            <IsEdited isEdited={msg.data().isEdited} />
 
-          <div className="flex items-center gap-2">
-            <p className="text-nearBlackGreen dark:text-veryLightZinc">
-              {msg.data().date &&
-                formatTimeMsg(msg.data().date.toDate().toString())}
-            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-nearBlackGreen dark:text-veryLightZinc">
+                {msg.data().date &&
+                  formatTimeMsg(msg.data().date.toDate().toString())}
+              </p>
 
-            <IsReadMsg msg={msg} />
+              <IsReadMsg msg={msg} />
+            </div>
           </div>
         </div>
       </div>
