@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from 'react';
+import { FC } from 'react';
 
 import urlParser from 'js-video-url-parser';
 
@@ -17,28 +17,18 @@ import useMakeReadMsg from '@hooks/useMakeReadMsg';
 
 import isLinkMsg from '@utils/isLinkMsg';
 import formatTimeMsg from '@utils/messages/formatTimeMsg';
+import getFilesWithoutImages from '@utils/messages/getFilesWithoutImages';
 
+import { IFile } from '@interfaces/IFile';
 import { IMessageItemProps } from '@interfaces/IMessageItemProps';
 
-const MessageItem: FC<IMessageItemProps> = ({
-  msg,
-  isNearBottom,
-  isSelectedMessages,
-}) => {
-  const [indexClickedPhoto, setIndexClickedPhoto] = useState(-1);
+import { ElementsId } from '@enums/elementsId';
 
+const MessageItem: FC<IMessageItemProps> = ({ msg, isNearBottom }) => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
+  const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
 
   useMakeReadMsg(msg, isNearBottom);
-
-  const handleClickPhoto = useCallback(
-    (index: number) => {
-      if (!isSelectedMessages) {
-        setIndexClickedPhoto(index);
-      }
-    },
-    [isSelectedMessages]
-  );
 
   const myUID = currentUserUID === msg.data().senderUserID;
 
@@ -48,12 +38,18 @@ const MessageItem: FC<IMessageItemProps> = ({
 
   const isLink = isLinkMsg(textContentMsg);
 
+  const isImages = msg
+    .data()
+    .file?.some((file: IFile) => file.type.includes('image'));
+
+  const filteredFiles = getFilesWithoutImages(msg);
+
   return (
     <div
+      id={ElementsId.Message}
       className={`relative flex w-full items-end xl:w-8/12 ${
         myUID ? 'justify-end' : 'justify-start'
       } ${isSelectedMessages && 'pointer-events-none'}`}
-      id="message"
     >
       <div
         className={`flex flex-col items-center px-4 py-2 ${
@@ -66,13 +62,9 @@ const MessageItem: FC<IMessageItemProps> = ({
             : 'rounded-bl-none bg-veryLightZinc dark:bg-darkGreen'
         } shadow-secondaryShadow`}
       >
-        <MessageImagesWithLightBox
-          msg={msg}
-          indexClickedPhoto={indexClickedPhoto}
-          handleClickPhoto={handleClickPhoto}
-        />
+        {isImages && <MessageImagesWithLightBox msg={msg} />}
 
-        <MessageFiles msg={msg} />
+        {filteredFiles && <MessageFiles filteredFiles={filteredFiles} />}
 
         {isLink ? (
           <LinkMessage

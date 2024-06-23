@@ -10,8 +10,11 @@ import Sidebar from '@components/Sidebar/Sidebar';
 import useBrowserTabVisibilityChange from '@hooks/useBrowserTabVisibilityChange';
 import useIsOnlineMyStatus from '@hooks/useIsOnlineMyStatus';
 import useIsRedirectToCurrentChat from '@hooks/useIsRedirectToCurrentChat';
+import useNotification from '@hooks/useNotification';
 import useRequestPermission from '@hooks/useRequestPermission';
 import useResizeWindow from '@hooks/useResizeWindow';
+
+import { ElementsId } from '@enums/elementsId';
 
 import audio from '@assets/notify.mp3';
 
@@ -27,6 +30,7 @@ const HomePage = () => {
   useRequestPermission();
   useIsOnlineMyStatus();
   useIsRedirectToCurrentChat();
+  useNotification();
 
   return (
     <main
@@ -87,8 +91,10 @@ const HomePage = () => {
           </div>
         )}
       </Transition>
+
       {docHidden && <BrowserTabTitle docHidden={docHidden} />}
-      <audio src={audio} id="notify">
+
+      <audio id={ElementsId.NotifyAudio} src={audio}>
         <track kind="captions" src="" srcLang="en" label="English captions" />
       </audio>
     </main>

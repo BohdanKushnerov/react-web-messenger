@@ -1,6 +1,11 @@
 import react from '@vitejs/plugin-react';
 
+import dotenv from 'dotenv';
 import { defineConfig } from 'vite';
+
+import swEnvPlugin from './src/serviceWorker/swEnvPlugin';
+
+dotenv.config();
 
 export default defineConfig({
   resolve: {
@@ -18,11 +23,11 @@ export default defineConfig({
       '@enums': '/src/enums',
       '@hooks': '/src/hooks',
       '@constants': '/src/constants',
+      '@serviceWorker': '/src/serviceWorker',
       '@i18n': '/src/i18n',
     },
   },
-  plugins: [react()],
-  base: '/react-web-messenger',
+  plugins: [react(), swEnvPlugin()],
   build: {
     outDir: 'build',
   },

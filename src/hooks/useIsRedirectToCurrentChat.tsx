@@ -9,8 +9,7 @@ import useChatStore from '@zustand/store';
 
 import handleSelectChat from '@utils/chatListItem/handleSelectChat';
 
-import { ChatListItemType } from 'types/ChatListItemType';
-import { CurrentChatInfo } from 'types/CurrentChatInfo';
+import { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
 
 const useIsRedirectToCurrentChat = () => {
   const navigate = useNavigate();
@@ -24,26 +23,27 @@ const useIsRedirectToCurrentChat = () => {
     const isRedirectToCurrentChat = async (
       currentUserUID: string | null,
       handleSelectChat: (
-        chat: ChatListItemType,
-        updateCurrentChatInfo: (chat: ChatListItemType) => void
+        chat: ISelectedChatInfo,
+        updateCurrentChatInfo: (chat: ISelectedChatInfo) => void
       ) => void,
-      updateCurrentChatInfo: (chat: CurrentChatInfo) => void
+      updateCurrentChatInfo: (chat: ISelectedChatInfo) => void
     ) => {
       const combinedUsersChatUID = localStorage.getItem('currentChatId');
 
       if (combinedUsersChatUID && currentUserUID) {
-        const res = await getDoc(doc(db, 'userChats', currentUserUID));
+        const resUserChats = await getDoc(doc(db, 'userChats', currentUserUID));
 
-        const chatItem: ChatListItemType = [
-          combinedUsersChatUID,
-          {
-            lastMessage: res.data()?.[combinedUsersChatUID].lastMessage,
-            senderUserID: res.data()?.[combinedUsersChatUID].senderUserID,
-            userUID: res.data()?.[combinedUsersChatUID].userUID,
-          },
-        ];
+        const resUser = await getDoc(
+          doc(db, 'users', resUserChats.data()?.[combinedUsersChatUID].userUID)
+        );
 
-        handleSelectChat(chatItem, updateCurrentChatInfo);
+        const selectedChatInfo: ISelectedChatInfo = {
+          chatUID: combinedUsersChatUID,
+          userUID: resUserChats.data()?.[combinedUsersChatUID].userUID,
+          tokenFCM: resUser.data()?.tokenFCM as string,
+        };
+
+        handleSelectChat(selectedChatInfo, updateCurrentChatInfo);
         navigate(combinedUsersChatUID);
       }
     };

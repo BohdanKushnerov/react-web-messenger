@@ -13,6 +13,8 @@ import useChatStore from '@zustand/store';
 
 import { IStepThreeProps } from '@interfaces/IStepThreeProps';
 
+import { ElementsId } from '@enums/elementsId';
+
 import authStep3 from '@assets/auth-step3.webp';
 
 const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
@@ -76,22 +78,28 @@ const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
         height={120}
       />
       <div className="flex flex-col gap-1">
-        <label htmlFor="name" className="font-bold text-veryDarkGray">
+        <label
+          htmlFor={ElementsId.Name}
+          className="font-bold text-veryDarkGray"
+        >
           {t('Name')}
           <input
             autoFocus
             className="h-10 w-full rounded-md border border-charcoal bg-transparent p-2"
-            id="name"
+            id={ElementsId.Name}
             type="text"
             value={name}
             onChange={handleChangeName}
           />
         </label>
-        <label htmlFor="lastname" className="font-bold text-veryDarkGray">
+        <label
+          htmlFor={ElementsId.Lastname}
+          className="font-bold text-veryDarkGray"
+        >
           {t('Surname')}
           <input
             className="h-10 w-full rounded-md border border-charcoal bg-transparent p-2"
-            id="lastname"
+            id={ElementsId.Lastname}
             type="text"
             value={surname}
             onChange={handleChangeSurname}

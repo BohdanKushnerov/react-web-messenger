@@ -8,6 +8,8 @@ import SelectIcons from '../SelectIcons/SelectIcons';
 
 import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
 
+import useChatStore from '@zustand/store';
+
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
 import useQuickScrollToBottom from '@hooks/useQuickScrollToBottom';
 
@@ -15,13 +17,14 @@ import formatDateForGroupMessages from '@utils/messages/formatDateForGroupMessag
 
 import { IMessageListProps } from '@interfaces/IMessageListProps';
 
+import { ElementsId } from '@enums/elementsId';
+
 const MessageList = memo(
   forwardRef<HTMLDivElement, IMessageListProps>((props, ref) => {
     const {
       chatUID,
       groupedMessages,
       isReadyFirstMsgs,
-      isSelectedMessages,
       selectedDocDataMessage,
       handleClickRigthButtonMessage,
       handleToggleSelectedMessage,
@@ -31,6 +34,8 @@ const MessageList = memo(
     const bottomElementRef = useRef<HTMLDivElement>(null);
 
     const { t } = useTranslation();
+
+    const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
 
     const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(chatUID, true, false);
     useQuickScrollToBottom(
@@ -77,6 +82,7 @@ const MessageList = memo(
 
                   return (
                     <li
+                      id={ElementsId.DocumentDataMsg}
                       className={`flex items-center justify-center gap-x-5 rounded-xl transition-all duration-150 ${
                         currentItem && 'bg-ultraDarkZinc'
                       } ${
@@ -91,7 +97,6 @@ const MessageList = memo(
                         isSelectedMessages &&
                         handleToggleSelectedMessage(message)
                       }
-                      id="documentDataMsg"
                     >
                       <SelectIcons
                         isSelectedMessages={isSelectedMessages}
@@ -100,14 +105,17 @@ const MessageList = memo(
                       <MessageItem
                         msg={message}
                         isNearBottom={!isScrollDownButtonVisible}
-                        isSelectedMessages={isSelectedMessages}
                       />
                     </li>
                   );
                 })}
               </ul>
             ))}
-          <div id="bottomItem" ref={bottomElementRef} className="h-0 w-0"></div>
+          <div
+            id={ElementsId.BottomItem}
+            ref={bottomElementRef}
+            className="h-0 w-0"
+          ></div>
         </div>
 
         {isScrollDownButtonVisible && isReadyFirstMsgs && (

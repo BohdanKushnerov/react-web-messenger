@@ -5,6 +5,8 @@ import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 import { IAuthConfirmButtonProps } from '@interfaces/IAuthConfirmButtonProps';
 
+import { ElementsId } from '@enums/elementsId';
+
 const AuthConfirmButton: FC<IAuthConfirmButtonProps> = ({
   isLoading,
   onSubmit,
@@ -14,7 +16,7 @@ const AuthConfirmButton: FC<IAuthConfirmButtonProps> = ({
   return (
     <button
       className="w-full rounded-md bg-mediumDarkCyan p-2 font-bold text-white disabled:text-veryDarkZinc"
-      id="sign-in-button"
+      id={ElementsId.SignInButton}
       type="button"
       disabled={isLoading}
       onClick={onSubmit}

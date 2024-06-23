@@ -14,7 +14,7 @@ import { IAudioComponentProps } from '@interfaces/IAudioComponentProps';
 const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   const [volume, setVolume] = useState<number>(100);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  
+
   const containerRef = useRef(null);
 
   const [debouncedVolume] = useDebounce(volume, 50);

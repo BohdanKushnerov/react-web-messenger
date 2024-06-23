@@ -13,7 +13,7 @@ import { auth, db } from '@myfirebase/config';
 
 import handleSelectChat from '@utils/chatListItem/handleSelectChat';
 
-import { ChatListItemType } from 'types/ChatListItemType';
+import { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
 
 const createNewChat = async (chatID: string): Promise<void> => {
   await setDoc(doc(db, 'chats', chatID), {});
@@ -45,7 +45,7 @@ const getChatData = async (
 
 const handleCreateAndNavigateToChat = async (
   user: DocumentData,
-  updateCurrentChatInfo: (chat: ChatListItemType) => void,
+  updateCurrentChatInfo: (chat: ISelectedChatInfo) => void,
   navigate: NavigateFunction
 ): Promise<void> => {
   if (!auth?.currentUser?.uid) return;
@@ -53,42 +53,41 @@ const handleCreateAndNavigateToChat = async (
   const currentUserUID = auth.currentUser.uid;
   const selectionUserUID = user.uid;
 
-  const combinedUsersChatID =
+  const combinedUsersChatUID =
     currentUserUID > selectionUserUID
       ? currentUserUID + selectionUserUID
       : selectionUserUID + currentUserUID;
 
   try {
-    const chatExists = await checkChatExists(combinedUsersChatID);
+    const chatExists = await checkChatExists(combinedUsersChatUID);
 
     if (!chatExists) {
-      await createNewChat(combinedUsersChatID);
+      await createNewChat(combinedUsersChatUID);
       await updateUserChatList(
         currentUserUID,
-        combinedUsersChatID,
+        combinedUsersChatUID,
         selectionUserUID
       );
       await updateUserChatList(
         selectionUserUID,
-        combinedUsersChatID,
+        combinedUsersChatUID,
         currentUserUID
       );
     }
 
-    const chatData = await getChatData(currentUserUID, combinedUsersChatID);
+    const chatData = await getChatData(currentUserUID, combinedUsersChatUID);
 
-    if (chatData) {
-      const chatItem: ChatListItemType = [
-        combinedUsersChatID,
-        {
-          lastMessage: chatData.lastMessage,
-          senderUserID: chatData.senderUserID,
-          userUID: chatData.userUID,
-        },
-      ];
+    const resUser = await getDoc(doc(db, 'users', chatData.userUID));
 
-      handleSelectChat(chatItem, updateCurrentChatInfo);
-      navigate(combinedUsersChatID);
+    if (chatData && resUser) {
+      const selectedChatInfo: ISelectedChatInfo = {
+        chatUID: combinedUsersChatUID,
+        userUID: chatData.userUID,
+        tokenFCM: resUser.data()?.tokenFCM as string,
+      };
+
+      handleSelectChat(selectedChatInfo, updateCurrentChatInfo);
+      navigate(combinedUsersChatUID);
     }
   } catch (error) {
     console.log('handleCreateAndNavigateToChat error', error);

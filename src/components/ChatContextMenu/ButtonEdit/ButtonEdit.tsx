@@ -52,6 +52,7 @@ const ButtonEdit: FC<IButtonEditProps> = ({
   return (
     <button
       className="flex w-full items-center justify-between px-8 py-2 text-white hover:cursor-pointer hover:rounded-md hover:bg-darkZincOpacity90"
+      type="button"
       onClick={handleChooseEditMessage}
       aria-label="Edit message"
     >

@@ -6,10 +6,7 @@ const useBlurLoadingImage: UseBlurLoadingImage = url => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (url === null) {
-      setLoading(false);
-      return;
-    } else {
+    if (url !== null) {
       const fetchImage = (src: string) => {
         const loadingImage = new Image();
         loadingImage.src = src;
@@ -17,8 +14,9 @@ const useBlurLoadingImage: UseBlurLoadingImage = url => {
           setLoading(false);
         };
       };
-
       fetchImage(url);
+    } else {
+      setLoading(false);
     }
   }, [url]);
 

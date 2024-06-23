@@ -11,6 +11,7 @@ const ButtonArrow: FC<IButtonArrowProps> = ({
   return (
     <button
       className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full text-white transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10"
+      type="button"
       onClick={handleClickButtonArrow}
       disabled={disabled}
       aria-label="Come back"

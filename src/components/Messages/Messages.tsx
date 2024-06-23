@@ -39,6 +39,8 @@ import mergeChatMessages from '@utils/messages/mergeChatMessages';
 
 import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 
+import { ElementsId } from '@enums/elementsId';
+
 import '@i18n';
 
 const MessageContextMenuModal = lazy(
@@ -101,7 +103,7 @@ const Messages: FC = () => {
     setGroupedMessages
   );
 
-  const handleScroll = useCallback(() => {
+  const handleScroll = useCallback(async () => {
     const throttleTime = 100;
 
     if (handleScrollTimeout.current) {
@@ -109,10 +111,7 @@ const Messages: FC = () => {
     }
 
     const loadMoreMessages = async () => {
-      if (
-        isInfinityScrollLoading.current === true ||
-        isFinishMsgs.current === true
-      ) {
+      if (isInfinityScrollLoading.current) {
         return;
       }
 
@@ -167,7 +166,7 @@ const Messages: FC = () => {
       }
     };
 
-    handleScrollTimeout.current = setTimeout(() => {
+    handleScrollTimeout.current = setTimeout(async () => {
       handleScrollTimeout.current = null;
 
       const scrollHeight = scrollbarsRef.current?.scrollHeight || 0;
@@ -177,10 +176,9 @@ const Messages: FC = () => {
       const isNearBottom = scrollHeight - scrollTop - clientHeight > 100;
       const top = scrollTop <= 700;
 
-      if (top && isScrollDownButtonVisible) {
-        loadMoreMessages().then(
-          () => (isInfinityScrollLoading.current = false)
-        );
+      if (top && isScrollDownButtonVisible && isFinishMsgs.current === false) {
+        await loadMoreMessages();
+        isInfinityScrollLoading.current = false;
       }
 
       setIsScrollDownButtonVisible(isNearBottom);
@@ -188,12 +186,12 @@ const Messages: FC = () => {
   }, [chatUID, isScrollDownButtonVisible]);
 
   const handleClickRigthButtonMessage = useCallback(
-    (message: DocumentData, e?: React.MouseEvent) => {
-      if (!e) return;
-
+    (message: DocumentData, e: React.MouseEvent) => {
       e.preventDefault();
 
-      const chatContainerEl = document.getElementById('scrollbars')!;
+      const chatContainerEl = document.getElementById(
+        ElementsId.Scrollbars
+      ) as HTMLDivElement;
 
       if (isSelectedMessages) {
         updateIsSelectedMessages(false);
@@ -261,7 +259,6 @@ const Messages: FC = () => {
             chatUID={chatUID}
             groupedMessages={groupedMessages}
             isReadyFirstMsgs={isReadyFirstMsgs}
-            isSelectedMessages={isSelectedMessages}
             selectedDocDataMessage={selectedDocDataMessage}
             isScrollDownButtonVisible={isScrollDownButtonVisible}
             handleClickRigthButtonMessage={handleClickRigthButtonMessage}

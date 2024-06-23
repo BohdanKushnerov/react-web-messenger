@@ -1,10 +1,10 @@
-import { ChatListItemType } from 'types/ChatListItemType';
+import { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
 
 const handleSelectChat = (
-  chat: ChatListItemType,
-  updateCurrentChatInfo: (chat: ChatListItemType) => void
+  selectedChatInfo: ISelectedChatInfo,
+  updateCurrentChatInfo: (selectedChatInfo: ISelectedChatInfo) => void
 ) => {
-  updateCurrentChatInfo(chat);
+  updateCurrentChatInfo(selectedChatInfo);
 };
 
 export default handleSelectChat;

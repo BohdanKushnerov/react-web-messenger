@@ -60,6 +60,7 @@ const StepTwo: FC<IStepTwoProps> = ({
       <div className="mb-2 flex justify-center">
         <button
           className="w-full rounded-md border border-black p-2 text-black disabled:border-mediumGray disabled:text-mediumGray dark:border-white dark:text-white disabled:dark:border-mediumGray disabled:dark:text-veryDarkGray"
+          type="button"
           onClick={getCodeAgain}
           disabled={isButtonDisabled}
           aria-label="Resend SMS"

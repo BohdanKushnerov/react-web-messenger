@@ -6,12 +6,11 @@ export interface IMessageListProps {
   chatUID: string | null;
   groupedMessages: IGroupedMessages | null;
   isReadyFirstMsgs: boolean;
-  isSelectedMessages: boolean;
   selectedDocDataMessage: DocumentData[] | null;
   isScrollDownButtonVisible: boolean;
   handleClickRigthButtonMessage: (
     message: DocumentData,
-    e?: React.MouseEvent
+    e: React.MouseEvent
   ) => void;
   handleToggleSelectedMessage: (message: DocumentData) => void;
 }

@@ -22,7 +22,7 @@ const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
   const [profilePhotoUploadStatus, setProfilePhotoUploadStatus] = useState<
     number | null
   >(null);
-  
+
   const { t } = useTranslation('translation', {
     keyPrefix: 'ProfileSettings',
   });
@@ -53,6 +53,7 @@ const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
           </p>
           <button
             className="w-48 rounded-3xl border-2 border-black text-black transition-all duration-300 hover:bg-mediumZinc hover:shadow-mainShadow disabled:text-darkZinc dark:border-white dark:text-white hover:dark:bg-extraDarkGray"
+            type="button"
             onClick={() =>
               handleUpdateProfilePhoto(
                 photoProfileInputRef,

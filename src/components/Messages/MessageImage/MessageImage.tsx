@@ -10,6 +10,8 @@ import calculateMsgImageWidth from '@utils/messages/calculateMsgImageWidth';
 import { IFile } from '@interfaces/IFile';
 import { IMessageImageProps } from '@interfaces/IMessageImageProps';
 
+import { ElementsId } from '@enums/elementsId';
+
 const MessageImage: FC<IMessageImageProps> = ({
   msg,
   file,
@@ -33,6 +35,7 @@ const MessageImage: FC<IMessageImageProps> = ({
           height: imgHeight,
           width: imgWidth,
         }}
+        type="button"
         onClick={() => handleClickPhoto(index)}
         aria-label={file.name}
       >
@@ -41,7 +44,7 @@ const MessageImage: FC<IMessageImageProps> = ({
           src={file.url}
           alt={file.type}
           loading="lazy"
-          id="img"
+          id={ElementsId.Img}
         />
       </button>
     </BlurImage>

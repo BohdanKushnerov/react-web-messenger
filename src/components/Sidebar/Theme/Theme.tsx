@@ -11,7 +11,7 @@ const Theme: FC = () => {
   const [isLightTheme, setIsLightTheme] = useState(() => {
     return localStorage.getItem('theme') === 'light';
   });
-  
+
   const { t } = useTranslation('translation', { keyPrefix: 'NavBar' });
 
   useTheme();
@@ -52,10 +52,11 @@ const Theme: FC = () => {
                 ? 'bg-mediumZinc dark:bg-mediumGray'
                 : 'hover:bg-mediumDarkGray dark:text-mediumGray dark:hover:bg-main'
             } rounded-md transition-all duration-300 disabled:pointer-events-none hover:dark:text-extraDarkGray`}
+            type="button"
             data-theme={theme}
-            disabled={isActive}
             onClick={handleChangeTheme}
             aria-label={`${theme} theme`}
+            disabled={isActive}
           >
             <div className="pointer-events-none flex items-center justify-center gap-1">
               <svg width={24} height={24} fill="currentColor">

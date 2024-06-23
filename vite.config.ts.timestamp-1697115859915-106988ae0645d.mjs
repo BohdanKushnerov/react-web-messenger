@@ -17,7 +17,6 @@ const vite_config_default = defineConfig({
     },
   },
   plugins: [react()],
-  base: '/react-web-messenger',
   build: {
     outDir: 'build',
   },

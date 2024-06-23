@@ -1,9 +1,11 @@
-import { FC, Suspense, lazy } from 'react';
+import { FC, Suspense, lazy, useState } from 'react';
 import 'yet-another-react-lightbox/styles.css';
 
 import MessageImage from '../MessageImage/MessageImage';
 
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+
+import useChatStore from '@zustand/store';
 
 import getMessageImages from '@utils/messages/getMessageImages';
 import getSlidesForLightbox from '@utils/messages/getSlidesForLightbox';
@@ -11,27 +13,36 @@ import getSlidesForLightbox from '@utils/messages/getSlidesForLightbox';
 import { IFile } from '@interfaces/IFile';
 import { IMessageImagesWithLightBoxProps } from '@interfaces/IMessageImagesWithLightBoxProps';
 
+import { ElementsId } from '@enums/elementsId';
+
 const Lightbox = lazy(() => import('yet-another-react-lightbox'));
 
 const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
   msg,
-  indexClickedPhoto,
-  handleClickPhoto,
 }) => {
-  const slidesForLightbox = getSlidesForLightbox(msg);
+  const [indexClickedPhoto, setIndexClickedPhoto] = useState(-1);
 
+  const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
+
+  const slidesForLightbox = getSlidesForLightbox(msg);
   const imagesForMessage = getMessageImages(msg);
+
+  const handleClickPhoto = (index: number) => {
+    if (!isSelectedMessages) {
+      setIndexClickedPhoto(index);
+    }
+  };
 
   return (
     <>
       {msg.data().file?.some((file: IFile) => file.type.includes('image')) && (
         <div
+          id={ElementsId.LightBoxContainer}
           className={`flex flex-wrap gap-0.5 sm:justify-center lg:justify-normal ${
             msg.data().file?.length === 1
               ? 'max-w-md'
               : 'w-160px max-w-xs lg:w-full'
           }`}
-          id="messageImagesWithLightBox-container"
         >
           {imagesForMessage.map((fileInside: IFile, index: number) => {
             if (fileInside.type.includes('image')) {

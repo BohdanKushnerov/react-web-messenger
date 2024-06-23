@@ -155,6 +155,7 @@ const Auth: FC = () => {
 
         <button
           className="mt-2 w-full rounded-md bg-mediumRed p-2 font-bold text-white disabled:text-veryDarkZinc"
+          type="button"
           onClick={handleFullResetFrom}
           aria-label="Full reset from"
         >

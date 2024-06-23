@@ -1,15 +1,11 @@
-import { FC, memo } from 'react';
+import { FC } from 'react';
 
 import MessageFile from '../MessageFile/MessageFile';
-
-import getFilesWithoutImages from '@utils/messages/getFilesWithoutImages';
 
 import { IFile } from '@interfaces/IFile';
 import { IMessageFilesProps } from '@interfaces/IMessageFilesProps';
 
-const MessageFiles: FC<IMessageFilesProps> = memo(({ msg }) => {
-  const filteredFiles = getFilesWithoutImages(msg);
-
+const MessageFiles: FC<IMessageFilesProps> = ({ filteredFiles }) => {
   return (
     <>
       {filteredFiles?.map((fileInside: IFile) => (
@@ -20,7 +16,7 @@ const MessageFiles: FC<IMessageFilesProps> = memo(({ msg }) => {
       ))}
     </>
   );
-});
+};
 
 MessageFiles.displayName = 'MessageFiles';
 

@@ -6,6 +6,7 @@ import {
 } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 import { getFirestore } from 'firebase/firestore';
+import { getMessaging, getToken } from 'firebase/messaging';
 import { getStorage } from 'firebase/storage';
 
 const {
@@ -17,6 +18,7 @@ const {
   VITE_APP_ID,
   VITE_MEASUREMENT_ID,
   VITE_DB_URL,
+  VITE_VAPID_KEY,
 } = import.meta.env || ({} as NodeJS.Process['env']);
 
 const firebaseConfig = {
@@ -36,6 +38,21 @@ const db = getFirestore(app);
 const database = getDatabase(app);
 const storage = getStorage(app, `gs://${VITE_STORAGE_BUCKET}`);
 
+const messaging = getMessaging();
+
+const myVapidKey = VITE_VAPID_KEY;
+
+export const requestForToken = async () => {
+  try {
+    return await getToken(messaging, { vapidKey: myVapidKey });
+  } catch (error) {
+    console.log(
+      'No registration token available. Request permission to generate one.',
+      error
+    );
+  }
+};
+
 setPersistence(auth, browserLocalPersistence);
 
-export { auth, db, database, storage };
+export { auth, db, database, storage, messaging };

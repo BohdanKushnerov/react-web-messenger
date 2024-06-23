@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./offline.css" />
+    <title>Problem in connection</title>
+  </head>
+  <body>
+    <div class="flex-container">
+      <div>
+        <div class="flex-item">
+          <span>You are disconnected</span>
+        </div>
+        <div class="flex-item">
+          <button class="btn btn-success" type="button">reload</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.querySelector('button').addEventListener('click', () => {
+        window.location.reload();
+      });
+
+      window.addEventListener('online', () => {
+        window.location.reload();
+      });
+
+      async function checkNetworkAndReload() {
+        try {
+          const response = await fetch('.');
+          if (response.status >= 200 && response.status < 500) {
+            window.location.reload();
+            return;
+          }
+        } catch (e) {
+          console.log('checkNetworkAndReload error', e);
+        }
+        window.setTimeout(checkNetworkAndReload, 2500);
+      }
+
+      checkNetworkAndReload();
+    </script>
+  </body>
+</html>

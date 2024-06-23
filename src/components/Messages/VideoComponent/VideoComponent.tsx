@@ -5,11 +5,13 @@ import getYouTubeVideoId from '@utils/messages/getYouTubeVideoId';
 
 import { IVideoComponentProps } from '@interfaces/IVideoComponentProps';
 
+import { ElementsId } from '@enums/elementsId';
+
 const VideoComponent: FC<IVideoComponentProps> = ({ source }) => {
   if (source.includes('youtube')) {
     return (
       <iframe
-        id="player"
+        id={ElementsId.Player}
         title={getYouTubeVideoId(source)}
         width="100%"
         height={300}

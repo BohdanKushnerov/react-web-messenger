@@ -8,11 +8,20 @@ Check out the live demo at
 [https://chat-vercel-snowy.vercel.app](https://chat-vercel-snowy.vercel.app)
 
 # Developing
-I am currently developing a PWA application with offline notification support using service workers.
-Test demo version at
-[pwa-eosin-nu.vercel.app](pwa-eosin-nu.vercel.app)
 
-Repo: [https://github.com/BohdanKushnerov/pwa](https://github.com/BohdanKushnerov/pwa)
+- I am currently developing a Progressive Web Application (PWA) with support for
+  offline notifications using service workers. The test demo version includes
+  the following features:
+- Send/Receive FCM Notifications: You can send and receive Firebase Cloud
+  Messaging (FCM) notifications on the last authenticated device where you
+  logged into your account.
+- Offline Notification Support: You will receive notifications even when you are
+  offline, thanks to the service worker.
+- FCM Delivery Disclaimer: Please note that FCM does not guarantee that
+  notifications will always be delivered to your device.
+- Browser Permissions: You will not receive notifications if you block access to
+  notifications in your browser settings.
+- Text Messages Only (Temporary): Currently, only text messages are handled by FCM.
 
 ## Overview
 

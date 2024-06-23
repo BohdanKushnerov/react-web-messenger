@@ -14,6 +14,7 @@ import useChatInfo from '@hooks/useChatInfo';
 import handleSelectChat from '@utils/chatListItem/handleSelectChat';
 
 import { IChatListItemProps } from '@interfaces/IChatListItemProps';
+import { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
 
 const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
   const location = useLocation();
@@ -28,7 +29,13 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
 
   const handleManageSelectChat = () => {
     if (chatInfo[0]) {
-      handleSelectChat(chatInfo, updateCurrentChatInfo);
+      const selectedChatInfo: ISelectedChatInfo = {
+        chatUID: chatInfo[0],
+        userUID: chatInfo[1].userUID,
+        tokenFCM: userInfo?.tokenFCM as string,
+      };
+
+      handleSelectChat(selectedChatInfo, updateCurrentChatInfo);
     }
   };
 

@@ -1,20 +1,24 @@
 import { FC } from 'react';
 
-import { ISearchMsgsInputProps } from '@interfaces/ISearchMsgsInputProps';
+import { ISearchInputProps } from '@interfaces/ISearchInputProps';
+
+import { ElementsId } from '@enums/elementsId';
 
 import sprite from '@assets/sprite.svg';
 
-const SearchMsgsInput: FC<ISearchMsgsInputProps> = ({
+const SearchInput: FC<ISearchInputProps> = ({
   value,
   handleChange,
   placeholderText,
+  autoFocus,
 }) => {
   return (
     <div className="relative w-full">
       <input
+        id={ElementsId.SearchInput}
         className="h-10 w-full rounded-3xl border-2 border-transparent bg-mediumDarkZinc px-10 py-2 text-white outline-none placeholder:text-mediumLightZinc focus:border-solid focus:border-mediumDarkCyan dark:bg-darkBackground placeholder:dark:text-mediumZinc"
         type="text"
-        autoFocus
+        autoFocus={autoFocus}
         placeholder={placeholderText}
         value={value}
         onChange={handleChange}
@@ -31,4 +35,4 @@ const SearchMsgsInput: FC<ISearchMsgsInputProps> = ({
   );
 };
 
-export default SearchMsgsInput;
+export default SearchInput;
