@@ -6,6 +6,8 @@ import { signOut } from 'firebase/auth';
 
 import ModalWindow from '../ModalWindow/ModalWindow';
 
+import * as serviceWorker from '@serviceWorker/serviceWorker.js';
+
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import BlurImage from '@components/BlurImage/BlurImage';
 import LanguageSwitcher from '@components/Sidebar/LanguageSwitcher/LanguageSwitcher';
@@ -44,6 +46,7 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
     await signOut(auth);
 
     localStorage.removeItem('phone');
+    serviceWorker.unregister();
   };
 
   const handleSettingsClick = () => {
@@ -86,6 +89,7 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
                   <p className="transf flex">{currentUser?.displayName}</p>
                   <button
                     className="rounded-full border border-darkZinc px-2 py-1 transition-all duration-300 hover:bg-mediumZinc hover:shadow-mainShadow dark:border-darkZinc hover:dark:bg-extraDarkGray"
+                    type="button"
                     onClick={handleSignOut}
                     aria-label="Sign out"
                   >
@@ -94,6 +98,7 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
                 </div>
                 <button
                   className="rounded-full border border-darkZinc px-2 py-1 text-black transition-all duration-300 hover:bg-mediumZinc hover:shadow-mainShadow dark:border-darkZinc dark:text-white hover:dark:border-white hover:dark:bg-extraDarkGray"
+                  type="button"
                   onClick={handleSettingsClick}
                   aria-label="Profile settings"
                 >

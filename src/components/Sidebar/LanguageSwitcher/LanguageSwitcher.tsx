@@ -32,6 +32,7 @@ const LanguageSwitcher: FC = () => {
                 ? 'bg-mediumZinc dark:bg-mediumGray dark:text-extraDarkGray'
                 : 'hover:bg-mediumDarkGray dark:hover:bg-main'
             } rounded-md transition-all duration-300 disabled:pointer-events-none`}
+            type="button"
             onClick={() => changeLanguage(language.code)}
             aria-label={`Choose ${language.label} language`}
             disabled={currentLanguage === language.code}

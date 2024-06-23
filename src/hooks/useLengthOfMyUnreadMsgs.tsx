@@ -12,7 +12,7 @@ import { db } from '@myfirebase/config';
 
 import useChatStore from '@zustand/store';
 
-import manageNotifyMessage from '@utils/manageNotifyMessage';
+import updateDocStopNotifyForCurrentMsg from '@api/firestore/updateDocStopNotifyForCurrentMsg';
 
 import { UseLengthOfMyUnreadMsgs } from 'types/hooks/UseLengthOfMyUnreadMsgs';
 
@@ -57,7 +57,7 @@ const useLengthOfMyUnreadMsgs: UseLengthOfMyUnreadMsgs = (
         isNotify &&
           isGetAdditionalMessage &&
           querySnapshot.docs.forEach(msg =>
-            manageNotifyMessage(msg, chatUID, processedMessages)
+            updateDocStopNotifyForCurrentMsg(msg, chatUID)
           );
       }
     });

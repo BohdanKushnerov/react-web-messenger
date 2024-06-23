@@ -2,7 +2,7 @@ import { Timestamp, addDoc, collection } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 
-import { messageTypes } from '@enums/messageTypes';
+import { MessageTypes } from '@enums/messageTypes';
 
 const createAndSaveVoiceMsgDoc = async (
   chatUID: string,
@@ -12,7 +12,7 @@ const createAndSaveVoiceMsgDoc = async (
   const additionalMsg = `${String.fromCodePoint(127908)} Voice message`;
 
   await addDoc(collection(db, `chats/${chatUID}/messages`), {
-    type: messageTypes.VoiceMessage,
+    type: MessageTypes.VoiceMessage,
     file: fileData,
     fileDescription: additionalMsg,
     message: '',

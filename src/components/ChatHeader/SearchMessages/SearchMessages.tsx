@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import SearchMsgsInput from '@components/Inputs/SearchMsgsInput/SearchMsgsInput';
+import SearchInput from '@components/Inputs/SearchInput/SearchInput';
 
 import useChatStore from '@zustand/store';
 
@@ -45,6 +45,7 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
       <div className="flex items-center justify-around gap-1">
         <button
           className="flex h-9 w-10 cursor-pointer items-center justify-center rounded-full bg-transparent transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10"
+          type="button"
           onClick={handleClickCloseSearchMessage}
           aria-label="Close"
         >
@@ -57,10 +58,11 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
           </svg>
         </button>
 
-        <SearchMsgsInput
+        <SearchInput
           value={searchMessageValue}
           handleChange={handleChangeSearchMessage}
           placeholderText={t('SearchMsgPlaceholder')}
+          autoFocus={true}
         />
       </div>
       {searchMessages && (

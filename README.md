@@ -7,6 +7,15 @@ A simple web messenger implemented with React.
 Check out the live demo at
 [https://chat-vercel-snowy.vercel.app](https://chat-vercel-snowy.vercel.app)
 
+# Developing
+
+I am currently developing a PWA application with offline notification support
+using service workers. Test demo version at
+[pwa-eosin-nu.vercel.app](pwa-eosin-nu.vercel.app)
+
+Repo:
+[https://github.com/BohdanKushnerov/pwa](https://github.com/BohdanKushnerov/pwa)
+
 ## Overview
 
 React Web Messenger is a lightweight tool for real-time messaging built on the

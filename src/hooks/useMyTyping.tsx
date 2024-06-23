@@ -1,14 +1,9 @@
 import { useEffect, useRef } from 'react';
 
-
-
 import useChatStore from '@zustand/store';
-
-
 
 import updateTypingIsFalse from '@api/firestore/updateTypingIsFalse';
 import updateTypingIsTrue from '@api/firestore/updateTypingIsTrue';
-
 
 const useMyTyping = () => {
   const myTypingTimeoutRef = useRef<NodeJS.Timeout | null>(null);

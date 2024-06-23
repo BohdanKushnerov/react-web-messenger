@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const useRequestPermission = () => {
   useEffect(() => {
     const requestPermission = async () => {
       try {
         if (!('Notification' in window)) {
-          console.log('This browser does not support notifications.');
+          toast.warn('This browser does not support notifications.');
           return;
         }
 

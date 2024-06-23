@@ -1,9 +1,9 @@
-import useChatStore from '@zustand/store';
 import { useEffect } from 'react';
 
+import useChatStore from '@zustand/store';
 
 const usePersistChatUID = () => {
-    const { chatUID } = useChatStore(state => state.currentChatInfo);
+  const { chatUID } = useChatStore(state => state.currentChatInfo);
 
   useEffect(() => {
     if (chatUID) {

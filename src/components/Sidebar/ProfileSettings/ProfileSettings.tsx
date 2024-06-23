@@ -99,6 +99,7 @@ const ProfileSettings: FC = () => {
             />
             <button
               className="group relative cursor-pointer rounded-full"
+              type="button"
               onClick={handleImageClick}
               aria-label="Avatar profile"
             >
@@ -147,6 +148,7 @@ const ProfileSettings: FC = () => {
                       ? 'border-darkZinc bg-transparent text-darkZinc'
                       : 'cursor-pointer border-black bg-transparent text-black hover:bg-mediumZinc dark:border-white dark:text-white hover:dark:bg-extraDarkGray'
                   } transition-all duration-300 hover:shadow-mainShadow`}
+                  type="button"
                   onClick={() =>
                     uid !== null &&
                     handleClickChangeDisplayName(

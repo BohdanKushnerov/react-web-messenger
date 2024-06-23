@@ -34,6 +34,7 @@ const Reactions: FC = () => {
         <li key={emoji.id} className="h-full w-full">
           <button
             className="cursor-pointer transition-all duration-100 ease-in-out hover:scale-125"
+            type="button"
             onClick={() => handleEmojiClick(emoji.emoji)}
             aria-label={emoji.emoji}
           >

@@ -1,7 +1,7 @@
-var CACHE_NAME = 'pwa-notification-cache';
+const CACHE_NAME = 'pwa-notification-cache';
 const version = '0.0.1';
 
-this.addEventListener('install', event => {
+self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       return cache.addAll(['/offline.html', '/offline.css']);

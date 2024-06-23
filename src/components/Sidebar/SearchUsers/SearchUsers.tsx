@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import SearchMsgsInput from '@components/Inputs/SearchMsgsInput/SearchMsgsInput';
+import SearchInput from '@components/Inputs/SearchInput/SearchInput';
 
 import useChatStore from '@zustand/store';
 
@@ -18,10 +18,11 @@ const SearchUsers: FC = () => {
   };
 
   return (
-    <SearchMsgsInput
+    <SearchInput
       value={searchValue}
       handleChange={handleChangeSearchValue}
       placeholderText={t('Search')}
+      autoFocus={false}
     />
   );
 };

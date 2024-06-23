@@ -4,7 +4,7 @@ import { db } from '@myfirebase/config';
 
 import { IFile } from '@interfaces/IFile';
 
-import { messageTypes } from '@enums/messageTypes';
+import { MessageTypes } from '@enums/messageTypes';
 
 const createAndSaveAttachhedFilesMsgDoc = async (
   filesArr: IFile[],
@@ -17,7 +17,7 @@ const createAndSaveAttachhedFilesMsgDoc = async (
   } file(s)`;
 
   await addDoc(collection(db, `chats/${chatUID}/messages`), {
-    type: messageTypes.AttachedFiles,
+    type: MessageTypes.AttachedFiles,
     file: filesArr,
     fileDescription: additionalMsg,
     message: fileDescriptionUser || '',

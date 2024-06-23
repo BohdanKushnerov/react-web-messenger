@@ -22,9 +22,9 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
     const [fileDescription, setFileDescription] = useState('');
     const [uploadFilesStatus, setUploadFilesStatus] =
       useState<FilesUploadStatuses>({});
-      
+
     const scrollbarsRef = useRef<HTMLDivElement>(null);
-    
+
     const { t } = useTranslation('translation', { keyPrefix: 'FileInput' });
 
     const currentUserUID = useChatStore(state => state.currentUser.uid);

@@ -2,7 +2,7 @@ import { Timestamp, addDoc, collection } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 
-import { messageTypes } from '@enums/messageTypes';
+import { MessageTypes } from '@enums/messageTypes';
 
 const createAndSaveTextMsgDoc = async (
   chatUID: string,
@@ -10,7 +10,7 @@ const createAndSaveTextMsgDoc = async (
   currentUserUID: string
 ): Promise<void> => {
   await addDoc(collection(db, `chats/${chatUID}/messages`), {
-    type: messageTypes.Text,
+    type: MessageTypes.Text,
     message,
     senderUserID: currentUserUID,
     date: Timestamp.now(),

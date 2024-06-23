@@ -1,9 +1,8 @@
 import { produce } from 'immer';
 import { StateCreator } from 'zustand';
 
+import { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
 import { ICurrentChatInfoState } from '@interfaces/zustand/ICurrentChatInfoState';
-
-import { CurrentChatInfo } from 'types/CurrentChatInfo';
 
 const createCurrentChatInfoState: StateCreator<
   ICurrentChatInfoState
@@ -11,13 +10,15 @@ const createCurrentChatInfoState: StateCreator<
   currentChatInfo: {
     chatUID: null,
     userUID: null,
+    tokenFCM: null,
   },
-  updateCurrentChatInfo: (chat: CurrentChatInfo) => {
+  updateCurrentChatInfo: (chat: ISelectedChatInfo) => {
     set(
       produce(state => {
         state.currentChatInfo = {
-          chatUID: chat[0],
-          userUID: chat[1].userUID,
+          chatUID: chat.chatUID,
+          userUID: chat.userUID,
+          tokenFCM: chat.tokenFCM,
         };
       })
     );
@@ -28,6 +29,7 @@ const createCurrentChatInfoState: StateCreator<
         state.currentChatInfo = {
           chatUID: null,
           userUID: null,
+          tokenFCM: null,
         };
       })
     );

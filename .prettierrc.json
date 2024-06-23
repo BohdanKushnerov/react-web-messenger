@@ -8,6 +8,7 @@
     "<THIRD_PARTY_MODULES>",
     "^./(.*)$",
     "^../(.*)$",
+    "@serviceWorker/",
     "@pages/",
     "@router/",
     "@routes/",

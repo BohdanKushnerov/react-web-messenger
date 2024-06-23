@@ -17,7 +17,6 @@ export function register(config) {
 
     window.addEventListener('load', () => {
       const swUrl = `/worker.js`;
-      console.log('swUrl', swUrl);
 
       if (isLocalhost) {
         checkValidServiceWorker(swUrl, config);
@@ -34,7 +33,7 @@ export function register(config) {
 
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (!refreshing) {
-          window.location.reload(true);
+          window.location.reload();
           refreshing = true;
         }
       });
@@ -43,8 +42,7 @@ export function register(config) {
 }
 
 function invokeServiceWorkerUpdateFlow(registration) {
-  var pjson = require('../package.json');
-  console.log(pjson.version);
+  var pjson = require('../../package.json');
   toast.info(`Application services improved ${pjson.version} `, {
     toastId: 'appUpdateAvailable',
     onClick: () => {
@@ -90,7 +88,6 @@ function registerValidSW(swUrl, config) {
               console.log('Index is cached for offline use.');
 
               if (config && config.onSuccess) {
-                console.log('if (config && config.onSuccess) {');
                 config.onSuccess(registration);
               }
             }

@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 
+import { ElementsId } from '@enums/elementsId';
+
 import { UseKeyDown } from 'types/hooks/UseKeyDown';
 
 const useKeyDown: UseKeyDown = (inputRef, isShowSearchMessages) => {
@@ -7,7 +9,15 @@ const useKeyDown: UseKeyDown = (inputRef, isShowSearchMessages) => {
     const handleKeyDown = () => {
       if (isShowSearchMessages === true) return;
 
-      if (document.activeElement !== inputRef.current) {
+      const searchInput = document.getElementById(
+        ElementsId.SearchInput
+      ) as HTMLInputElement;
+
+      const isAnyInputFocused =
+        document.activeElement === inputRef.current ||
+        document.activeElement === searchInput;
+
+      if (!isAnyInputFocused) {
         inputRef.current?.focus();
       }
     };

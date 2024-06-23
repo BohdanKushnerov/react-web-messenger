@@ -2,6 +2,8 @@ import { forwardRef } from 'react';
 
 import { IMessagesScrollBarProps } from '@interfaces/IMessagesScrollBarProps';
 
+import { ElementsId } from '@enums/elementsId';
+
 const MessagesScrollBar = forwardRef<HTMLDivElement, IMessagesScrollBarProps>(
   ({ handleScroll, children }, ref) => {
     return (
@@ -14,7 +16,7 @@ const MessagesScrollBar = forwardRef<HTMLDivElement, IMessagesScrollBarProps>(
         }}
       >
         <div
-          id="scrollbars"
+          id={ElementsId.Scrollbars}
           ref={ref}
           style={{
             width: '100%',

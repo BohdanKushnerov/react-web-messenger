@@ -14,7 +14,7 @@ const FileInputModal = lazy(
 
 const FileAttachment: FC = () => {
   const [isModalAddFileOpen, setIsModalAddFileOpen] = useState(false);
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const editingMessageInfo = useChatStore(state => state.editingMessageInfo);

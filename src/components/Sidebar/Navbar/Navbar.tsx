@@ -19,6 +19,7 @@ const Navbar: FC = () => {
     <div>
       <button
         className="relative flex h-10 w-12 cursor-pointer items-center justify-center rounded-full bg-transparent transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10"
+        type="button"
         onClick={handleToggleModal}
         aria-label="Navbar"
       >

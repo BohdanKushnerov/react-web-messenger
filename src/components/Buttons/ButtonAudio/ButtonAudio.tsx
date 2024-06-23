@@ -8,6 +8,7 @@ const ButtonAudio: FC<IButtonAudioProps> = ({ isPlaying, onPlayPause }) => {
   return (
     <button
       className="my-3 flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 hover:bg-lightZincOpacity40"
+      type="button"
       onClick={onPlayPause}
       aria-label="Stop/Play"
     >

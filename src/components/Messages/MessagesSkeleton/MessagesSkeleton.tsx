@@ -6,6 +6,8 @@ import useResizeWindow from '@hooks/useResizeWindow';
 
 import { IMessagesSkeletonProps } from '@interfaces/IMessagesSkeletonProps';
 
+import { ElementsId } from '@enums/elementsId';
+
 const MessagesSkeleton: FC<IMessagesSkeletonProps> = memo(
   ({ isLoadedContent }) => {
     const { heightWindow } = useResizeWindow();
@@ -21,7 +23,7 @@ const MessagesSkeleton: FC<IMessagesSkeletonProps> = memo(
       <>
         {!isLoadedContent && (
           <div
-            id="skeleton"
+            id={ElementsId.Skeleton}
             className="absolute left-1/2 z-10 w-full -translate-x-1/2 transform xl:w-8/12"
             style={{
               top: 56,
