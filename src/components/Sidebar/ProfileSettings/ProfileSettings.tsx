@@ -17,6 +17,8 @@ import useStartTransition from '@hooks/useStartTransition';
 
 import handleClickChangeDisplayName from '@utils/profileSettings/handleClickChangeDisplayName';
 
+import { ElementsId } from '@enums/elementsId';
+
 import sprite from '@assets/sprite.svg';
 
 import '@i18n';
@@ -132,6 +134,7 @@ const ProfileSettings: FC = () => {
               <div className="flex flex-col items-center justify-center gap-2 text-white">
                 <div className="flex flex-col items-center justify-center">
                   <input
+                    id={ElementsId.ProfileName}
                     className="h-10 w-full rounded-3xl border-2 border-transparent bg-darkBackground px-8 py-2 text-center text-white outline-none focus:border-solid focus:border-mediumDarkCyan sm:w-260px md:w-full"
                     type="text"
                     value={newDisplayName}

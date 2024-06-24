@@ -1,8 +1,9 @@
-import { useWavesurfer } from '@wavesurfer/react';
-import { FC, useEffect, useRef, useState } from 'react';
+import WavesurferPlayer from '@wavesurfer/react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useDebounce } from 'use-debounce';
+import WaveSurfer from 'wavesurfer.js';
 
 import ButtonAudio from '@components/Buttons/ButtonAudio/ButtonAudio';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
@@ -12,36 +13,39 @@ import convertTimeWithZero from '@utils/convertTimeWithZero';
 import { IAudioComponentProps } from '@interfaces/IAudioComponentProps';
 
 const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
+  const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState<number>(100);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  const containerRef = useRef(null);
+  const [currentTime, setCurrentTime] = useState<number>(0);
 
   const [debouncedVolume] = useDebounce(volume, 50);
 
   const { t } = useTranslation('translation', { keyPrefix: 'General' });
 
-  const { wavesurfer, isPlaying, currentTime } = useWavesurfer({
-    container: containerRef,
-    url: audioUrl,
-    waveColor: 'orange',
-    height: 50,
-  });
-
-  useEffect(() => {
-    if (wavesurfer) {
-      wavesurfer.setVolume(debouncedVolume / 100);
-      setIsLoading(false);
-    }
-  }, [debouncedVolume, wavesurfer]);
+  const onVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseInt(event.target.value);
+    setVolume(newVolume);
+  };
 
   const onPlayPause = () => {
     wavesurfer?.playPause();
   };
 
-  const onVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseInt(event.target.value);
-    setVolume(newVolume);
+  const onReady = (ws: WaveSurfer) => {
+    setWavesurfer(ws);
+    setIsPlaying(false);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    if (wavesurfer) {
+      wavesurfer.setVolume(debouncedVolume / 100);
+    }
+  }, [debouncedVolume, wavesurfer]);
+
+  const calculateCurrentTime = (wavesurfer: WaveSurfer) => {
+    setCurrentTime(wavesurfer?.getCurrentTime());
   };
 
   return (
@@ -50,16 +54,27 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
 
       {isLoading && (
         <div className="absolute left-8 top-0">
-          <LoaderUIActions size={50} />
+          <LoaderUIActions size={60} />
         </div>
       )}
+
       <div className="flex w-full flex-1 flex-col items-start">
         <div
           className={`${
             isLoading && 'opacity-0'
           } w-full flex-1 sm:w-[95%] md:w-full`}
-          ref={containerRef}
-        />
+        >
+          <WavesurferPlayer
+            height={60}
+            width="100%"
+            waveColor="orange"
+            url={audioUrl}
+            onReady={onReady}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            onAudioprocess={calculateCurrentTime}
+          />
+        </div>
 
         <div className="flex w-full justify-between sm:flex-col lg:flex-row">
           <div className="flex gap-1">

@@ -12,14 +12,20 @@ const useKeyDown: UseKeyDown = (inputRef, isShowSearchMessages) => {
       const searchInput = document.getElementById(
         ElementsId.SearchInput
       ) as HTMLInputElement;
+
       const atachFilesModalInput = document.getElementById(
         ElementsId.AtachFilesModalInput
+      ) as HTMLInputElement;
+
+      const profileNameInput = document.getElementById(
+        ElementsId.ProfileName
       ) as HTMLInputElement;
 
       const isAnyInputFocused =
         document.activeElement === inputRef.current ||
         document.activeElement === searchInput ||
-        document.activeElement === atachFilesModalInput;
+        document.activeElement === atachFilesModalInput ||
+        document.activeElement === profileNameInput;
 
       if (!isAnyInputFocused) {
         inputRef.current?.focus();

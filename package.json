@@ -13,7 +13,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@wavesurfer/react": "^1.0.4",
+    "@wavesurfer/react": "^1.0.6",
     "dotenv": "^16.4.5",
     "emoji-picker-react": "^4.9.3",
     "firebase": "^10.3.1",
