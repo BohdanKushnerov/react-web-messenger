@@ -1,12 +1,15 @@
 import { FC } from 'react';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import useChatStore from '@zustand/store';
 
 import useIsReadMyLastMessage from '@hooks/useIsReadMyLastMessage';
 
 import { IReadStatusProps } from '@interfaces/IReadStatusProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
+
 
 const ReadStatus: FC<IReadStatusProps> = ({ senderUserID, itemChatUID }) => {
   const { chatUID } = useChatStore(state => state.currentChatInfo);
@@ -18,35 +21,25 @@ const ReadStatus: FC<IReadStatusProps> = ({ senderUserID, itemChatUID }) => {
     <>
       {senderUserID === uid &&
         (isReadMyLastMessage ? (
-          <svg
-            width={48}
-            height={48}
+          <SvgIcon
             className={`${
               chatUID === itemChatUID
                 ? 'fill-white'
                 : 'fill-ultraDarkZinc dark:fill-white'
             }`}
-          >
-            <use
-              href={sprite + '#icon-double-check'}
-              className="shadow-avatarShadow"
-            />
-          </svg>
+            iconId={IconId.IconDoubleCheck}
+            size={48}
+          />
         ) : (
-          <svg
-            width={48}
-            height={48}
+          <SvgIcon
             className={`${
               chatUID === itemChatUID
                 ? 'fill-white'
                 : 'fill-ultraDarkZinc dark:fill-white'
             } drop-shadow-2xl`}
-          >
-            <use
-              href={sprite + '#icon-single-check'}
-              className="drop-shadow-2xl"
-            />
-          </svg>
+            iconId={IconId.IconSingleCheck}
+            size={48}
+          />
         ))}
     </>
   );

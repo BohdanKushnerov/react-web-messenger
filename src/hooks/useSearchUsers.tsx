@@ -14,8 +14,6 @@ import { db } from '@myfirebase/config';
 
 import useChatStore from '@zustand/store';
 
-import capitalizeName from '@utils/searchChatList/capitalizeFirstLetterName';
-
 const useSearchUsers = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchChatList, setSearchChatList] = useState<QuerySnapshot<
@@ -35,7 +33,7 @@ const useSearchUsers = () => {
 
     const fetchSearchUsers = async () => {
       setIsLoading(true);
-      const queryName = capitalizeName(debauncedSearchValue).trim();
+      const queryName = debauncedSearchValue.trim();
 
       const usersRef = collection(db, 'users');
       const queryParams = query(

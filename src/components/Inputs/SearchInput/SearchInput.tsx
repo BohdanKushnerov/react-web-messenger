@@ -1,10 +1,11 @@
 import { FC } from 'react';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import { ISearchInputProps } from '@interfaces/ISearchInputProps';
 
 import { ElementsId } from '@enums/elementsId';
-
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const SearchInput: FC<ISearchInputProps> = ({
   value,
@@ -24,13 +25,11 @@ const SearchInput: FC<ISearchInputProps> = ({
         onChange={handleChange}
       />
 
-      <svg
+      <SvgIcon
         className="absolute left-2 top-2 fill-darkZinc dark:fill-mediumZinc"
-        width={24}
-        height={24}
-      >
-        <use href={sprite + '#icon-search'} />
-      </svg>
+        iconId={IconId.IconSearch}
+        size={24}
+      />
     </div>
   );
 };

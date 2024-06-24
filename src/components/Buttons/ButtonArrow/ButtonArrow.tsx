@@ -1,8 +1,10 @@
 import { FC } from 'react';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import { IButtonArrowProps } from '@interfaces/IButtonArrowProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const ButtonArrow: FC<IButtonArrowProps> = ({
   disabled,
@@ -16,9 +18,11 @@ const ButtonArrow: FC<IButtonArrowProps> = ({
       disabled={disabled}
       aria-label="Come back"
     >
-      <svg className="rotate-180 fill-darkZinc" width={24} height={24}>
-        <use href={sprite + '#icon-right-arrow'} />
-      </svg>
+      <SvgIcon
+        className="rotate-180 fill-darkZinc"
+        iconId={IconId.IconRightArrow}
+        size={24}
+      />
     </button>
   );
 };

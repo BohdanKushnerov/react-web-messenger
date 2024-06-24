@@ -1,8 +1,10 @@
 import { FC } from 'react';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import { IButtonAttachFileProps } from '@interfaces/IButtonAttachFileProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const ButtonAttachFile: FC<IButtonAttachFileProps> = ({
   editingMessageInfo,
@@ -18,13 +20,11 @@ const ButtonAttachFile: FC<IButtonAttachFileProps> = ({
       onClick={handleClickFileInput}
       aria-label="Attach file to message"
     >
-      <svg
-        width={24}
-        height={24}
+      <SvgIcon
         className="fill-ultraDarkZinc dark:fill-mediumZinc"
-      >
-        <use href={sprite + '#icon-paper-clip'} />
-      </svg>
+        iconId={IconId.IconPaperClip}
+        size={24}
+      />
       {children}
     </button>
   );

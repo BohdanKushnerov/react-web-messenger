@@ -1,13 +1,15 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import useChatStore from '@zustand/store';
 
 import handleDeleteMessage from '@utils/messages/handleDeleteMessage';
 
 import { IDeleteButtonProps } from '@interfaces/IDeleteButtonProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const DeleteButton: FC<IDeleteButtonProps> = ({
   textContent = true,
@@ -40,9 +42,7 @@ const DeleteButton: FC<IDeleteButtonProps> = ({
       }
       aria-label="Delete message"
     >
-      <svg width={20} height={20}>
-        <use href={sprite + '#icon-delete-button'} fill={color} />
-      </svg>
+      <SvgIcon className={color} iconId={IconId.IconDeleteButton} size={20} />
       {textContent && (
         <span className="text-base">{t('ContextMenu.Delete')}</span>
       )}

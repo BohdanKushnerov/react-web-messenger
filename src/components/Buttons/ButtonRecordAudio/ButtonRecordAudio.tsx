@@ -1,8 +1,10 @@
 import { FC } from 'react';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import { IButtonRecordAudioProps } from '@interfaces/IButtonRecordAudioProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const ButtonRecordAudio: FC<IButtonRecordAudioProps> = ({
   handleToggleRecordingStatus,
@@ -14,13 +16,11 @@ const ButtonRecordAudio: FC<IButtonRecordAudioProps> = ({
       onClick={handleToggleRecordingStatus}
       aria-label="Recording audio"
     >
-      <svg
-        width={24}
-        height={24}
+      <SvgIcon
         className="fill-mediumLightZinc dark:fill-mediumZinc"
-      >
-        <use href={sprite + '#icon-mic'} />
-      </svg>
+        iconId={IconId.IconMic}
+        size={24}
+      />
     </button>
   );
 };

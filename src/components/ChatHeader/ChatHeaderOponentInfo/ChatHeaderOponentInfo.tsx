@@ -11,8 +11,6 @@ import useChatInfo from '@hooks/useChatInfo';
 import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
 import useShowTyping from '@hooks/useShowTyping';
 
-import '@i18n';
-
 const ChatHeaderOponentInfo: FC = () => {
   const { t } = useTranslation('translation', { keyPrefix: 'General' });
 

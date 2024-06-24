@@ -1,4 +1,6 @@
-import sprite from '@assets/sprite.svg';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
+import { IconId } from '@enums/iconsSpriteId';
 
 const SendMessage = () => {
   return (
@@ -7,13 +9,11 @@ const SendMessage = () => {
       type="submit"
       aria-label="Send message"
     >
-      <svg
-        width={24}
-        height={24}
+      <SvgIcon
         className="fill-mediumLightZinc dark:fill-mediumZinc"
-      >
-        <use href={sprite + '#icon-send-message'} />
-      </svg>
+        iconId={IconId.IconSendMessage}
+        size={24}
+      />
     </button>
   );
 };

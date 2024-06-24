@@ -1,8 +1,10 @@
 import { FC } from 'react';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import { IButtonScrollDownProps } from '@interfaces/IButtonScrollDownProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const ButtonScrollDown: FC<IButtonScrollDownProps> = ({
   scrollToBottom,
@@ -16,13 +18,11 @@ const ButtonScrollDown: FC<IButtonScrollDownProps> = ({
       aria-label="Scroll down"
     >
       <div className="relative">
-        <svg
+        <SvgIcon
           className="rotate-180 transition-all duration-150 group-hover:scale-125"
-          width={24}
-          height={24}
-        >
-          <use href={sprite + '#icon-scroll-up'} />
-        </svg>
+          iconId={IconId.IconScrollUp}
+          size={24}
+        />
         {lengthOfUnreadMsgs > 0 && (
           <span className="absolute bottom-0 right-0 -mb-4 flex h-6 w-6 translate-x-4 transform items-center justify-center rounded-full bg-mediumDarkRed text-white">
             {lengthOfUnreadMsgs}

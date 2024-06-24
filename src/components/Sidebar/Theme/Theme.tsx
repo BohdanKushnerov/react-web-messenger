@@ -1,11 +1,11 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import useTheme from '@hooks/useTheme';
 
-import sprite from '@assets/sprite.svg';
-
-import '@i18n';
+import { IconId } from '@enums/iconsSpriteId';
 
 const Theme: FC = () => {
   const [isLightTheme, setIsLightTheme] = useState(() => {
@@ -59,9 +59,7 @@ const Theme: FC = () => {
             disabled={isActive}
           >
             <div className="pointer-events-none flex items-center justify-center gap-1">
-              <svg width={24} height={24} fill="currentColor">
-                <use href={sprite + icon} />
-              </svg>
+              <SvgIcon className="fill-current" iconId={icon as IconId} size={24} />
               <span data-theme-name={theme}>{label}</span>
             </div>
           </button>

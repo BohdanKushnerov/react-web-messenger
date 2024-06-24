@@ -35,7 +35,7 @@ const ChatContextMenu: FC<IChatContextMenuProps> = ({ groupedMessages }) => {
 
         <CopyButton white="white" dark="white" />
 
-        <DeleteButton color="white" />
+        <DeleteButton color="fill-white" />
 
         <ButtonSelect color="white" />
       </div>

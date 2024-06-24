@@ -1,8 +1,10 @@
 import { forwardRef } from 'react';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import { IRecordingStatusFieldProps } from '@interfaces/IRecordingStatusFieldProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const RecordingStatusField = forwardRef<
   HTMLCanvasElement,
@@ -14,9 +16,11 @@ const RecordingStatusField = forwardRef<
         isRecording ? 'block' : 'hidden'
       }`}
     >
-      <svg width={24} height={24} className="animate-pulse fill-veryDarkRed">
-        <use href={sprite + '#icon-rec'} />
-      </svg>
+      <SvgIcon
+        className="animate-pulse fill-veryDarkRed"
+        iconId={IconId.IconRec}
+        size={24}
+      />
       <canvas
         className="h-5 w-40 sm:w-8 md:w-40 lg:w-52"
         ref={ref}

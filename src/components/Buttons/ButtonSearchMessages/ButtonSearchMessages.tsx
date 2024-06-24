@@ -1,8 +1,11 @@
 import { FC } from 'react';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import { IButtonSearchMessagesProps } from '@interfaces/IButtonSearchMessagesProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
+
 
 const ButtonSearchMessages: FC<IButtonSearchMessagesProps> = ({
   handleClick,
@@ -14,13 +17,11 @@ const ButtonSearchMessages: FC<IButtonSearchMessagesProps> = ({
       onClick={handleClick}
       aria-label="Search messages"
     >
-      <svg
+      <SvgIcon
         className="fill-darkZinc dark:fill-mediumZinc"
-        width={24}
-        height={24}
-      >
-        <use href={sprite + '#icon-search'} />
-      </svg>
+        iconId={IconId.IconSearch}
+        size={24}
+      />
     </button>
   );
 };

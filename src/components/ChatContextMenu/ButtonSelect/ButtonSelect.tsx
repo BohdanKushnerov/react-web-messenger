@@ -1,11 +1,13 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import useChatStore from '@zustand/store';
 
 import { IButtonSelectProps } from '@interfaces/IButtonSelectProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const ButtonSelect: FC<IButtonSelectProps> = ({ textContent = true }) => {
   const { t } = useTranslation();
@@ -33,9 +35,7 @@ const ButtonSelect: FC<IButtonSelectProps> = ({ textContent = true }) => {
       onClick={handleToggleSelect}
       aria-label="Select message"
     >
-      <svg width={16} height={16}>
-        <use href={sprite + '#icon-select'} fill="#FFFFFF" />
-      </svg>
+      <SvgIcon className="fill-white" iconId={IconId.IconSelect} size={16} />
       {textContent && (
         <span className="text-base">{t('ContextMenu.Select')}</span>
       )}

@@ -5,8 +5,6 @@ import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
 
 import { IIsOnlineUserProps } from '@interfaces/IIsOnlineUserProps';
 
-import '@i18n';
-
 const IsOnlineUser: FC<IIsOnlineUserProps> = ({ userUID }) => {
   const { t } = useTranslation('translation', { keyPrefix: 'General' });
 

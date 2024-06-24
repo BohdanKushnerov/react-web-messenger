@@ -3,11 +3,13 @@ import { useTranslation } from 'react-i18next';
 
 import { DocumentData } from 'firebase/firestore';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import useChatStore from '@zustand/store';
 
 import { IButtonEditProps } from '@interfaces/IButtonEditProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const ButtonEdit: FC<IButtonEditProps> = ({
   groupedMessages,
@@ -56,9 +58,11 @@ const ButtonEdit: FC<IButtonEditProps> = ({
       onClick={handleChooseEditMessage}
       aria-label="Edit message"
     >
-      <svg width={20} height={20}>
-        <use href={sprite + '#icon-pencil'} fill={color} />
-      </svg>
+      <SvgIcon
+        className={`fill-${color}`}
+        iconId={IconId.IconPencil}
+        size={20}
+      />
       {textContent && (
         <span className="text-base">{t('ContextMenu.Edit')}</span>
       )}

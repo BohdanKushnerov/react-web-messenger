@@ -5,8 +5,6 @@ import SearchInput from '@components/Inputs/SearchInput/SearchInput';
 
 import useChatStore from '@zustand/store';
 
-import '@i18n';
-
 const SearchUsers: FC = () => {
   const { t } = useTranslation('translation', { keyPrefix: 'General' });
 

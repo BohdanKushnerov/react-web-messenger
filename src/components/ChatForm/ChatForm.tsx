@@ -22,8 +22,6 @@ import { IChatFormProps } from '@interfaces/IChatFormProps';
 
 import { ElementsId } from '@enums/elementsId';
 
-import '@i18n';
-
 const RecordingAudio = lazy(
   () => import('@components/ChatForm/RecordingAudio/RecordingAudio')
 );
@@ -37,7 +35,7 @@ const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('translation', { keyPrefix: 'ChatForm' });
 
   const message = useChatStore(state => state.message);
   const setMessage = useChatStore(state => state.setMessage);
@@ -128,7 +126,7 @@ const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
               autoComplete="off"
               className="h-10 w-full rounded-3xl border-2 border-transparent bg-mediumLightZinc py-1 pl-10 pr-14 text-black outline-none placeholder:text-ultraDarkZinc focus:border-solid dark:bg-darkBackground dark:text-white placeholder:dark:text-mediumZinc focus:dark:border-mediumDarkCyan"
               type="text"
-              placeholder={t('ChatForm.ChatInputPlaceholder')}
+              placeholder={t('ChatInputPlaceholder')}
               ref={inputRef}
               value={message}
               onChange={handleChangeMessage}

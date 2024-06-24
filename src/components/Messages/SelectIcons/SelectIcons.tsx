@@ -1,10 +1,11 @@
 import { FC } from 'react';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import { ISelectIconsProps } from '@interfaces/ISelectIconsProps';
 
 import { ElementsId } from '@enums/elementsId';
-
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const SelectIcons: FC<ISelectIconsProps> = ({
   isSelectedMessages,
@@ -13,25 +14,21 @@ const SelectIcons: FC<ISelectIconsProps> = ({
   return (
     <>
       {isSelectedMessages && currentItem ? (
-        <svg
+        <SvgIcon
           id={ElementsId.Select}
-          width={32}
-          height={32}
           className="fill-white"
-        >
-          <use href={sprite + '#icon-select'} />
-        </svg>
+          iconId={IconId.IconSelect}
+          size={32}
+        />
       ) : (
         isSelectedMessages &&
         !currentItem && (
-          <svg
+          <SvgIcon
             id={ElementsId.NotSelect}
-            width={32}
-            height={32}
             className="fill-white"
-          >
-            <use href={sprite + '#icon-not-select'} />
-          </svg>
+            iconId={IconId.IconNotSelect}
+            size={32}
+          />
         )
       )}
     </>

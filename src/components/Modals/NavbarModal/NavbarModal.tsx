@@ -22,8 +22,6 @@ import useStartTransition from '@hooks/useStartTransition';
 
 import { INavbarModalProps } from '@interfaces/INavbarModalProps';
 
-import '@i18n';
-
 const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
   const nodeRefNavBar = useRef(null);
 

@@ -1,9 +1,11 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import { IIsEditedProps } from '@interfaces/IIsEditedProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const IsEdited: FC<IIsEditedProps> = ({ isEdited }) => {
   const { t } = useTranslation('translation', { keyPrefix: 'General' });
@@ -12,13 +14,11 @@ const IsEdited: FC<IIsEditedProps> = ({ isEdited }) => {
     <>
       {isEdited && (
         <div className="flex items-center gap-1">
-          <svg
-            width={8}
-            height={8}
+          <SvgIcon
             className="fill-darkZinc dark:fill-veryLightZinc"
-          >
-            <use href={sprite + '#icon-pencil'} />
-          </svg>
+            iconId={IconId.IconPencil}
+            size={8}
+          />
           <p className="text-sm text-darkZinc dark:text-veryLightZinc">
             {t('Edited')}
           </p>

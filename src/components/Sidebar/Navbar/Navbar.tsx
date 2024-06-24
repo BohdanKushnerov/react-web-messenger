@@ -1,8 +1,9 @@
 import { FC, Suspense, lazy, useState } from 'react';
 
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const NavbarModal = lazy(
   () => import('@components/Modals/NavbarModal/NavbarModal')
@@ -23,13 +24,11 @@ const Navbar: FC = () => {
         onClick={handleToggleModal}
         aria-label="Navbar"
       >
-        <svg
-          width={32}
-          height={32}
+        <SvgIcon
           className="fill-ultraDarkZinc dark:fill-mediumZinc"
-        >
-          <use href={sprite + '#icon-menu'} />
-        </svg>
+          iconId={IconId.IconMenu}
+          size={32}
+        />
       </button>
       <Suspense
         fallback={

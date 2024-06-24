@@ -1,26 +1,18 @@
 import { initReactI18next } from 'react-i18next';
 
+
+
 import i18n from 'i18next';
 
-import {
-  Auth,
-  ChatForm,
-  ChatListUnreadMsg,
-  ContextMenu,
-  FileInput,
-  General,
-  MonthNames,
-  NavBar,
-  ProfileSettings,
-  Sidebar,
-  Toasts,
-} from './enums/i18nСonstants';
 
-const currentLanguage = localStorage.getItem('language');
+
+import { Auth, ChatForm, ChatListUnreadMsg, ContextMenu, FileInput, General, MonthNames, NavBar, ProfileSettings, Sidebar, Toasts } from './enums/i18nСonstants';
+
 
 const resources = {
   en: {
     translation: {
+      [Auth.Loading]: 'Waiting messenger is loading...',
       [Auth.Step]: 'Step',
       [Auth.Registration]: 'Registration',
       [Auth.EnterNumber]:
@@ -60,7 +52,7 @@ const resources = {
       [FileInput.ImageCaptionPlaceholder]: 'Add a caption...',
       [FileInput.Send]: 'Send',
 
-      [General.Search]: 'Search...',
+      [General.Search]: 'Search... (case-sensitive)',
       [General.EmptyChatNotify]:
         'Select or search user who you would to start messaging',
       [General.SearchMsgPlaceholder]: 'Enter text (case-sensitive)',
@@ -119,6 +111,7 @@ const resources = {
   },
   ua: {
     translation: {
+      [Auth.Loading]: 'Зачекайте месенджер завантажується...',
       [Auth.Step]: 'Крок',
       [Auth.Registration]: 'Реєстрація',
       [Auth.EnterNumber]:
@@ -161,7 +154,7 @@ const resources = {
       [FileInput.ImageCaptionPlaceholder]: 'Додати підпис...',
       [FileInput.Send]: 'Відправити',
 
-      [General.Search]: 'Пошук...',
+      [General.Search]: 'Пошук...(з урахуванням регістру)',
       [General.EmptyChatNotify]:
         'Виберіть або знайдіть користувача, з яким ви хочете почати обмін повідомленнями',
       [General.SearchMsgPlaceholder]: 'Введіть текст (з урахуванням регістру)',
@@ -221,6 +214,7 @@ const resources = {
   },
   ru: {
     translation: {
+      [Auth.Loading]: 'Подождите мессенджер грузиться...',
       [Auth.Step]: 'Шаг',
       [Auth.Registration]: 'Регистрация',
       [Auth.EnterNumber]:
@@ -262,7 +256,7 @@ const resources = {
       [FileInput.ImageCaptionPlaceholder]: 'Добавить подпись...',
       [FileInput.Send]: 'Отправить',
 
-      [General.Search]: 'Поиск...',
+      [General.Search]: 'Поиск... (с учетом регистра)',
       [General.EmptyChatNotify]:
         'Выберите или найдите пользователя, с которым вы хотите начать обмен сообщениями',
       [General.SearchMsgPlaceholder]: 'Введите текст (с учетом регистра)',
@@ -320,6 +314,8 @@ const resources = {
     },
   },
 };
+
+const currentLanguage = localStorage.getItem('language');
 
 i18n.use(initReactI18next).init({
   resources,
