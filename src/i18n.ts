@@ -16,11 +16,10 @@ import {
   Toasts,
 } from './enums/i18nСonstants';
 
-const currentLanguage = localStorage.getItem('language');
-
 const resources = {
   en: {
     translation: {
+      [Auth.Loading]: 'Waiting messenger is loading...',
       [Auth.Step]: 'Step',
       [Auth.Registration]: 'Registration',
       [Auth.EnterNumber]:
@@ -119,6 +118,7 @@ const resources = {
   },
   ua: {
     translation: {
+      [Auth.Loading]: 'Зачекайте месенджер завантажується...',
       [Auth.Step]: 'Крок',
       [Auth.Registration]: 'Реєстрація',
       [Auth.EnterNumber]:
@@ -221,6 +221,7 @@ const resources = {
   },
   ru: {
     translation: {
+      [Auth.Loading]: 'Подождите мессенджер грузиться...',
       [Auth.Step]: 'Шаг',
       [Auth.Registration]: 'Регистрация',
       [Auth.EnterNumber]:
@@ -320,6 +321,8 @@ const resources = {
     },
   },
 };
+
+const currentLanguage = localStorage.getItem('language');
 
 i18n.use(initReactI18next).init({
   resources,

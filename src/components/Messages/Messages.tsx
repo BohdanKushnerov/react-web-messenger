@@ -41,8 +41,6 @@ import { IGroupedMessages } from '@interfaces/IGroupedMessages';
 
 import { ElementsId } from '@enums/elementsId';
 
-import '@i18n';
-
 const MessageContextMenuModal = lazy(
   () =>
     import('@components/Modals/ModalMessageContextMenu/ModalMessageContextMenu')

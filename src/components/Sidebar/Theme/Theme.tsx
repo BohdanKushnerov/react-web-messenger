@@ -7,8 +7,6 @@ import useTheme from '@hooks/useTheme';
 
 import { IconId } from '@enums/iconsSpriteId';
 
-import '@i18n';
-
 const Theme: FC = () => {
   const [isLightTheme, setIsLightTheme] = useState(() => {
     return localStorage.getItem('theme') === 'light';

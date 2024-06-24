@@ -17,8 +17,6 @@ import { ElementsId } from '@enums/elementsId';
 
 import { FilesUploadStatuses } from 'types/FilesUploadStatuses';
 
-import '@i18n';
-
 const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
   ({ setIsModalAddFileOpen, handleToggleModal }, ref) => {
     const [fileDescription, setFileDescription] = useState('');

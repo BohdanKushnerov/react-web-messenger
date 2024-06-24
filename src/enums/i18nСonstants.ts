@@ -1,4 +1,5 @@
 export enum Auth {
+  Loading = 'Auth.Loading',
   Step = 'Auth.Step',
   Registration = 'Auth.Registration',
   EnterNumber = 'Auth.EnterNumber',

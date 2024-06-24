@@ -16,8 +16,6 @@ import { ISearchMessagesProps } from '@interfaces/ISearchMessagesProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 
-import '@i18n';
-
 const SearchMessages: FC<ISearchMessagesProps> = ({
   setIsShowSearchMessages,
 }) => {

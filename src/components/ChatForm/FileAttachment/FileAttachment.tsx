@@ -6,8 +6,6 @@ import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 
 import useChatStore from '@zustand/store';
 
-import '@i18n';
-
 const FileInputModal = lazy(
   () => import('@components/Modals/FileInputModal/FileInputModal')
 );

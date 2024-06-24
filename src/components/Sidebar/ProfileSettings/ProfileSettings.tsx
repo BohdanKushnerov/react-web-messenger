@@ -21,8 +21,6 @@ import handleClickChangeDisplayName from '@utils/profileSettings/handleClickChan
 import { ElementsId } from '@enums/elementsId';
 import { IconId } from '@enums/iconsSpriteId';
 
-import '@i18n';
-
 const ProfileSettingsModal = lazy(
   () => import('@components/Modals/ProfileSettingsModal/ProfileSettingsModal')
 );

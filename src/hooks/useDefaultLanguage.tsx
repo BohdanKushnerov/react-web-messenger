@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import '@i18n';
-
 const useDefaultLanguage = () => {
   const { i18n } = useTranslation('translation', {
     keyPrefix: 'NavBar',

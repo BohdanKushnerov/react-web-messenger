@@ -13,8 +13,6 @@ import handleUpdateProfilePhoto from '@utils/profileSettings/handleUpdateProfile
 
 import { IProfileSettingsModalProps } from '@interfaces/IProfileSettingsModalProps';
 
-import '@i18n';
-
 const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
   photoProfileInputRef,
   handleToggleProfilePhotoModal,

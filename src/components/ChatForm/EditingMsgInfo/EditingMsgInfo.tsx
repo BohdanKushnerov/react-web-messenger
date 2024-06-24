@@ -8,8 +8,6 @@ import { IEditingMsgInfoProps } from '@interfaces/IEditingMsgInfoProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 
-import '@i18n';
-
 const EditingMsgInfo: FC<IEditingMsgInfoProps> = ({
   selectedMessage,
   handleCancelEditingMessage,

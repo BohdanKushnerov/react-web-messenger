@@ -1,9 +1,12 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import RingLoader from 'react-spinners/RingLoader';
 
 import useChatStore from '@zustand/store';
 
 const MainChatLoader: FC = () => {
+  const { t } = useTranslation('translation', { keyPrefix: 'Auth' });
+
   const isLoggedIn = useChatStore(state => state.isLoggedIn);
 
   return (
@@ -15,9 +18,7 @@ const MainChatLoader: FC = () => {
           aria-label="Loading Spinner"
           data-testid="loader"
         />
-        <h1 className="font-bold text-veryLightZinc">
-          Waiting messenger is loading...
-        </h1>
+        <h1 className="font-bold text-veryLightZinc">{t('Loading')}</h1>
       </div>
     )
   );
