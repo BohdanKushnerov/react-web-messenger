@@ -1,28 +1,26 @@
 import { FC } from 'react';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import { IMessageTriangleProps } from '@interfaces/IMessageTriangleProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const MessageTriangle: FC<IMessageTriangleProps> = ({ myUID }) => {
   return (
     <>
       {myUID ? (
-        <svg
-          width={16}
-          height={16}
+        <SvgIcon
           className="absolute -right-4 fill-mediumEmerald dark:fill-mediumDarkCyan"
-        >
-          <use href={sprite + '#icon-triangle-rigth'} />
-        </svg>
+          iconId={IconId.IconTriangleRigth}
+          size={16}
+        />
       ) : (
-        <svg
-          width={16}
-          height={16}
+        <SvgIcon
           className="absolute -left-2 fill-veryLightZinc dark:fill-darkGreen"
-        >
-          <use href={sprite + '#icon-triangle-left'} />
-        </svg>
+          iconId={IconId.IconTriangleLeft}
+          size={16}
+        />
       )}
     </>
   );

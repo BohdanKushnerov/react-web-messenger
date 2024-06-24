@@ -1,6 +1,8 @@
 import { FC } from 'react';
 
-import sprite from '@assets/sprite.svg';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
+import { IconId } from '@enums/iconsSpriteId';
 
 interface IButtonStopRecordingAndSendAudioProps {
   stopRecordingAndSendAudio: () => void;
@@ -16,13 +18,11 @@ const ButtonStopRecordingAndSendAudio: FC<
       onClick={stopRecordingAndSendAudio}
       aria-label="Stop recording and send audio"
     >
-      <svg
-        width={24}
-        height={24}
+      <SvgIcon
         className="fill-mediumLightZinc dark:fill-mediumZinc"
-      >
-        <use href={sprite + '#icon-stop'} />
-      </svg>
+        iconId={IconId.IconStop}
+        size={24}
+      />
     </button>
   );
 };

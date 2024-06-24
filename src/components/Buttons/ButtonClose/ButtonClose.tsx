@@ -1,8 +1,10 @@
 import { FC } from 'react';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import { IButtonCloseProps } from '@interfaces/IButtonCloseProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const ButtonClose: FC<IButtonCloseProps> = ({ handleClickButtonClose }) => {
   return (
@@ -12,13 +14,11 @@ const ButtonClose: FC<IButtonCloseProps> = ({ handleClickButtonClose }) => {
       onClick={handleClickButtonClose}
       aria-label="Close"
     >
-      <svg
-        width={16}
-        height={16}
+      <SvgIcon
         className="fill-darkZinc transition-all duration-300 group-hover:fill-darkGreen dark:fill-white"
-      >
-        <use href={sprite + '#icon-cross-close'} />
-      </svg>
+        iconId={IconId.IconCrossClose}
+        size={16}
+      />
     </button>
   );
 };

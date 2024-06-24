@@ -2,10 +2,11 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import { IEditingMsgInfoProps } from '@interfaces/IEditingMsgInfoProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 import '@i18n';
 
@@ -17,9 +18,11 @@ const EditingMsgInfo: FC<IEditingMsgInfoProps> = ({
 
   return (
     <div className="relative ml-3 mr-16 flex items-center gap-3 rounded-3xl bg-mediumLightZinc px-5 dark:bg-darkBackground">
-      <svg width={20} height={20} className="fill-darkZinc dark:fill-white">
-        <use href={sprite + '#icon-pencil'} />
-      </svg>
+      <SvgIcon
+        className="fill-darkZinc dark:fill-white"
+        iconId={IconId.IconPencil}
+        size={20}
+      />
       <div>
         <p className="flex text-mediumDarkViolet">
           {t('ChatForm.EditMessage')}

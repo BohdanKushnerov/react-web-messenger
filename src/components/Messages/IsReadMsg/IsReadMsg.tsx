@@ -1,28 +1,26 @@
 import { FC } from 'react';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import { IIsReadMsgProps } from '@interfaces/IIsReadMsgProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const IsReadMsg: FC<IIsReadMsgProps> = ({ msg }) => {
   return (
     <p>
       {msg.data().isRead ? (
-        <svg
-          width={24}
-          height={24}
+        <SvgIcon
           className="fill-ultraDarkZinc dark:fill-white"
-        >
-          <use href={sprite + '#icon-double-check'} />
-        </svg>
+          iconId={IconId.IconDoubleCheck}
+          size={24}
+        />
       ) : (
-        <svg
-          width={24}
-          height={24}
+        <SvgIcon
           className="fill-ultraDarkZinc dark:fill-white"
-        >
-          <use href={sprite + '#icon-single-check'} />
-        </svg>
+          iconId={IconId.IconSingleCheck}
+          size={24}
+        />
       )}
     </p>
   );

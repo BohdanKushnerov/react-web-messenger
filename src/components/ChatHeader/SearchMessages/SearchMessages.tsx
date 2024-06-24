@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import SearchInput from '@components/Inputs/SearchInput/SearchInput';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@zustand/store';
 
@@ -13,7 +14,7 @@ import formatTimeSearchMsg from '@utils/messages/formatTimeSearchMsg';
 
 import { ISearchMessagesProps } from '@interfaces/ISearchMessagesProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 import '@i18n';
 
@@ -49,13 +50,11 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
           onClick={handleClickCloseSearchMessage}
           aria-label="Close"
         >
-          <svg
+          <SvgIcon
             className="fill-darkZinc dark:fill-mediumZinc"
-            width={16}
-            height={16}
-          >
-            <use href={sprite + '#icon-cross-close'} />
-          </svg>
+            iconId={IconId.IconCrossClose}
+            size={16}
+          />
         </button>
 
         <SearchInput

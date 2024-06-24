@@ -1,8 +1,10 @@
 import { FC } from 'react';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import { IButtonCancelRecordingProps } from '@interfaces/IButtonCancelRecordingProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const ButtonCancelRecording: FC<IButtonCancelRecordingProps> = ({
   cancelRecording,
@@ -14,13 +16,11 @@ const ButtonCancelRecording: FC<IButtonCancelRecordingProps> = ({
       onClick={cancelRecording}
       aria-label="Cancel recording"
     >
-      <svg
-        width={24}
-        height={24}
+      <SvgIcon
         className="fill-mediumLightZinc dark:fill-mediumZinc"
-      >
-        <use href={sprite + '#icon-delete-button'} />
-      </svg>
+        iconId={IconId.IconDeleteButton}
+        size={24}
+      />
     </button>
   );
 };

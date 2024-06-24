@@ -1,8 +1,10 @@
 import { FC } from 'react';
 
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+
 import { IButtonAudioProps } from '@interfaces/IButtonAudioProps';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const ButtonAudio: FC<IButtonAudioProps> = ({ isPlaying, onPlayPause }) => {
   return (
@@ -13,21 +15,17 @@ const ButtonAudio: FC<IButtonAudioProps> = ({ isPlaying, onPlayPause }) => {
       aria-label="Stop/Play"
     >
       {isPlaying ? (
-        <svg
-          width={24}
-          height={24}
+        <SvgIcon
           className="fill-darkZinc dark:fill-mediumLightZinc"
-        >
-          <use href={sprite + '#icon-stop'} />
-        </svg>
+          iconId={IconId.IconStop}
+          size={24}
+        />
       ) : (
-        <svg
-          width={24}
-          height={24}
+        <SvgIcon
           className="fill-darkZinc dark:fill-mediumLightZinc"
-        >
-          <use href={sprite + '#icon-play'} />
-        </svg>
+          iconId={IconId.IconPlay}
+          size={24}
+        />
       )}
     </button>
   );

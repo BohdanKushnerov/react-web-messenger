@@ -38,15 +38,15 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
     setIsLoading(false);
   };
 
+  const calculateCurrentTime = (wavesurfer: WaveSurfer) => {
+    setCurrentTime(wavesurfer?.getCurrentTime());
+  };
+
   useEffect(() => {
     if (wavesurfer) {
       wavesurfer.setVolume(debouncedVolume / 100);
     }
   }, [debouncedVolume, wavesurfer]);
-
-  const calculateCurrentTime = (wavesurfer: WaveSurfer) => {
-    setCurrentTime(wavesurfer?.getCurrentTime());
-  };
 
   return (
     <div className="w-220px relative flex flex-row items-start gap-2 sm:w-200px md:min-w-220px md:max-w-md lg:min-w-360px">

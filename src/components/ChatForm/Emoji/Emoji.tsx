@@ -8,12 +8,13 @@ import {
 } from 'react';
 
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@zustand/store';
 
 import useCloseModal from '@hooks/useCloseModal';
 
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 const EmojiPickerWindow = lazy(
   () => import('../EmojiPickerWindow/EmojiPickerWindow')
@@ -74,13 +75,11 @@ const Emoji: FC = () => {
       )}
 
       <div className="flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10">
-        <svg
-          width={24}
-          height={24}
+        <SvgIcon
           className="fill-ultraDarkZinc dark:fill-mediumZinc"
-        >
-          <use href={sprite + '#icon-emoticon'} />
-        </svg>
+          iconId={IconId.IconEmoticon}
+          size={24}
+        />
       </div>
     </div>
   );

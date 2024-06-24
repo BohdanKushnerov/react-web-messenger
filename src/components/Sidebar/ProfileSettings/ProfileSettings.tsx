@@ -7,6 +7,7 @@ import BlurImage from '@components/BlurImage/BlurImage';
 import ButtonArrow from '@components/Buttons/ButtonArrow/ButtonArrow';
 import FileInput from '@components/Inputs/FileInput/FileInput';
 import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import { auth } from '@myfirebase/config';
 
@@ -18,8 +19,7 @@ import useStartTransition from '@hooks/useStartTransition';
 import handleClickChangeDisplayName from '@utils/profileSettings/handleClickChangeDisplayName';
 
 import { ElementsId } from '@enums/elementsId';
-
-import sprite from '@assets/sprite.svg';
+import { IconId } from '@enums/iconsSpriteId';
 
 import '@i18n';
 
@@ -114,13 +114,12 @@ const ProfileSettings: FC = () => {
                       size="200"
                     />
                   </BlurImage>
-                  <svg
+
+                  <SvgIcon
                     className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 fill-white group-hover:scale-105"
-                    width={48}
-                    height={48}
-                  >
-                    <use href={sprite + '#icon-photo-focus'} />
-                  </svg>
+                    iconId={IconId.IconPhotoFocus}
+                    size={48}
+                  />
                 </>
               )}
             </button>

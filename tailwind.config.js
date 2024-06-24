@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import colors from 'tailwindcss/colors';
 
+
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
@@ -91,6 +92,7 @@ export default {
         veryDarkGreen: 'rgb(21 128 61)',
         nearBlackGreen: 'rgb(5 46 22)',
 
+        mediumDarkRed: 'rgb(239,68,68)',
         veryDarkRed: 'rgb(185 28 28)',
 
         mediumDarkViolet: 'rgb(139 92 246)',

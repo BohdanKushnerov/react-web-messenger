@@ -20,9 +20,9 @@ const ChatFormSelectedMsgs = () => {
           />
         </div>
 
-        <div className="ml-auto flex flex-row gap-x-1">
+        <div className="ml-auto flex flex-row gap-x-1 fill-red-500">
           <CopyButton textContent={false} white="black" dark="white" />
-          <DeleteButton textContent={false} color="red" />
+          <DeleteButton textContent={false} color="mediumDarkRed" />
         </div>
       </div>
     </div>
