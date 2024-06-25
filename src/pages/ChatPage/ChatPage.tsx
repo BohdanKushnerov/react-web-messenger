@@ -2,8 +2,8 @@ import { FC, Suspense, lazy, useState } from 'react';
 
 import ChatForm from '@components/ChatForm/ChatForm';
 import ChatHeader from '@components/ChatHeader/ChatHeader';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import Messages from '@components/Messages/Messages';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import useResizeWindow from '@hooks/useResizeWindow';
 

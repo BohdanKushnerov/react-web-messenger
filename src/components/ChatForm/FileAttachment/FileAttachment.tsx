@@ -2,7 +2,7 @@ import { FC, Suspense, lazy, useRef, useState } from 'react';
 
 import ButtonAttachFile from '@components/Buttons/ButtonAttachFile/ButtonAttachFile';
 import FileInput from '@components/Inputs/FileInput/FileInput';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import useChatStore from '@zustand/store';
 

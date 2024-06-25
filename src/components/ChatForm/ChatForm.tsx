@@ -5,7 +5,7 @@ import ButtonRecordAudio from '@components/Buttons/ButtonRecordAudio/ButtonRecor
 import SendMessage from '@components/Buttons/ButtonSendMessage/ButtonSendMessage';
 import Emoji from '@components/ChatForm/Emoji/Emoji';
 import FileAttachment from '@components/ChatForm/FileAttachment/FileAttachment';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import useChatStore from '@zustand/store';
 
@@ -35,7 +35,7 @@ const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { t } = useTranslation('translation', { keyPrefix: 'ChatForm' });
+  const { t } = useTranslation();
 
   const message = useChatStore(state => state.message);
   const setMessage = useChatStore(state => state.setMessage);
@@ -100,9 +100,9 @@ const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
   };
 
   return (
-    <div className="absolute bottom-0 left-0 z-10 flex h-24 w-full flex-col items-center">
+    <div className="absolute bottom-0 left-0 z-10 flex h-24 w-full flex-col items-center shadow-whiteTopShadow">
       {!isSelectedMessages ? (
-        <div className="relative flex h-full w-full flex-col justify-center shadow-whiteTopShadow xl:w-8/12">
+        <div className="relative flex h-full w-full flex-col justify-center xl:w-8/12">
           {editingMessageInfo && (
             <Suspense
               fallback={
@@ -126,7 +126,7 @@ const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
               autoComplete="off"
               className="h-10 w-full rounded-3xl border-2 border-transparent bg-mediumLightZinc py-1 pl-10 pr-14 text-black outline-none placeholder:text-ultraDarkZinc focus:border-solid dark:bg-darkBackground dark:text-white placeholder:dark:text-mediumZinc focus:dark:border-mediumDarkCyan"
               type="text"
-              placeholder={t('ChatInputPlaceholder')}
+              placeholder={t('ChatForm.ChatInputPlaceholder')}
               ref={inputRef}
               value={message}
               onChange={handleChangeMessage}
@@ -154,7 +154,7 @@ const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
           <Emoji />
         </div>
       ) : (
-        <Suspense>
+        <Suspense fallback={<LoaderUIActions size={96} />}>
           <ChatFormSelectedMsgs />
         </Suspense>
       )}

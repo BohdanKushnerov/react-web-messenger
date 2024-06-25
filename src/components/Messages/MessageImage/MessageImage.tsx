@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import BlurImage from '@components/BlurImage/BlurImage';
+import BlurImage from '@components/common/BlurImage/BlurImage';
 
 import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 

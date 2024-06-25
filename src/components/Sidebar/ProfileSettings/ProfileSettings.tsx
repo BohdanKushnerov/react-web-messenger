@@ -2,11 +2,11 @@ import { FC, Suspense, lazy, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Transition } from 'react-transition-group';
 
-import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import BlurImage from '@components/BlurImage/BlurImage';
 import ButtonArrow from '@components/Buttons/ButtonArrow/ButtonArrow';
 import FileInput from '@components/Inputs/FileInput/FileInput';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
+import BlurImage from '@components/common/BlurImage/BlurImage';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import { auth } from '@myfirebase/config';

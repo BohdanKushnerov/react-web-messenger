@@ -2,11 +2,9 @@ import { FC } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import { IconId } from '@enums/iconsSpriteId';
+import { IButtonStopRecordingAndSendAudioProps } from '@interfaces/IButtonStopRecordingAndSendAudioProps';
 
-interface IButtonStopRecordingAndSendAudioProps {
-  stopRecordingAndSendAudio: () => void;
-}
+import { IconId } from '@enums/iconsSpriteId';
 
 const ButtonStopRecordingAndSendAudio: FC<
   IButtonStopRecordingAndSendAudioProps

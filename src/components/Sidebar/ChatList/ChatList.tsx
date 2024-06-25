@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import ChatListItem from '../ChatListItem/ChatListItem';
 
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import useMyUserChatList from '@hooks/useMyUserChatList';
 

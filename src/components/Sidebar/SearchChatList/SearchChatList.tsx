@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { DocumentData } from 'firebase/firestore';
 
-import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import useChatStore from '@zustand/store';
 

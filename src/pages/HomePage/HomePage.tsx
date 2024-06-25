@@ -4,8 +4,8 @@ import { Transition } from 'react-transition-group';
 
 import BrowserTabTitle from '@components/BrowserTabTitle/BrowserTabTitle';
 import EmptyChat from '@components/EmptyChat/EmptyChat';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import Sidebar from '@components/Sidebar/Sidebar';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import useBrowserTabVisibilityChange from '@hooks/useBrowserTabVisibilityChange';
 import useIsOnlineMyStatus from '@hooks/useIsOnlineMyStatus';

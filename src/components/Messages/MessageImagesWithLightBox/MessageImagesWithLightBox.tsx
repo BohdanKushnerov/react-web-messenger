@@ -3,7 +3,7 @@ import 'yet-another-react-lightbox/styles.css';
 
 import MessageImage from '../MessageImage/MessageImage';
 
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import useChatStore from '@zustand/store';
 

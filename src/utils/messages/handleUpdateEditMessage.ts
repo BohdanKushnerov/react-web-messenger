@@ -9,6 +9,8 @@ import updateEditedStatusMsgDoc from '@api/firestore/updateEditedStatusMsgDoc';
 import makeCursorOnProgress from '@utils/makeCursorOnProgress';
 import resetCursorOnDefault from '@utils/resetCursorOnDefault';
 
+import '@i18n';
+
 const handleUpdateEditMessage = async (
   editingMessageInfo: {
     selectedMessage: DocumentData;

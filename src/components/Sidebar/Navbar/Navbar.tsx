@@ -1,6 +1,6 @@
 import { FC, Suspense, lazy, useState } from 'react';
 
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import { IconId } from '@enums/iconsSpriteId';

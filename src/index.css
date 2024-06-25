@@ -7,34 +7,72 @@ body {
   @apply font-body;
 }
 
-::-webkit-scrollbar-corner {
-  background-color: transparent;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: 'transparent';
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-@layer utilities {
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
+@supports (display: -webkit-flex) {
+  ::-webkit-scrollbar-corner {
+    background-color: transparent;
   }
 
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+@-moz-document url-prefix() {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
+  }
+}
+
+@layer components {
+  .slider {
+    width: 96px;
+    appearance: none;
+    border-radius: 9999px;
+    background-color: transparent;
+  }
+
+  @-moz-document url-prefix() {
+    .slider::-moz-range-track {
+      height: 10px;
+      border-radius: 9999px;
+      background-color: #4e4d4d;
+    }
+
+    .slider::-moz-range-thumb {
+      height: 10px;
+      width: 10px;
+      -moz-appearance: none;
+      border-radius: 9999px;
+      background-color: #000000;
+    }
+  }
+
+  @supports (display: -webkit-flex) {
+    .slider::-webkit-slider-runnable-track {
+      border-radius: 9999px;
+      background-color: #4e4d4d;
+    }
+
+    .slider::-webkit-slider-thumb {
+      height: 10px;
+      width: 10px;
+      appearance: none;
+      border-radius: 9999px;
+      background-color: #000000;
+    }
   }
 }

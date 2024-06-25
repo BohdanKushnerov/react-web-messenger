@@ -8,10 +8,10 @@ import ModalWindow from '../ModalWindow/ModalWindow';
 
 import * as serviceWorker from '@serviceWorker/serviceWorker.js';
 
-import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import BlurImage from '@components/BlurImage/BlurImage';
 import LanguageSwitcher from '@components/Sidebar/LanguageSwitcher/LanguageSwitcher';
 import Theme from '@components/Sidebar/Theme/Theme';
+import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
+import BlurImage from '@components/common/BlurImage/BlurImage';
 
 import { auth } from '@myfirebase/config';
 

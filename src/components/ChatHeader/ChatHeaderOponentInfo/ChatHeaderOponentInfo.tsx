@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import BlurImage from '@components/BlurImage/BlurImage';
+import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
+import BlurImage from '@components/common/BlurImage/BlurImage';
 
 import useChatStore from '@zustand/store';
 

@@ -6,7 +6,7 @@ import { useDebounce } from 'use-debounce';
 import WaveSurfer from 'wavesurfer.js';
 
 import ButtonAudio from '@components/Buttons/ButtonAudio/ButtonAudio';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import convertTimeWithZero from '@utils/convertTimeWithZero';
 
@@ -94,7 +94,7 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
           <div className="flex flex-wrap gap-1">
             <p className="text-dark dark:text-white">{t('Volume')}</p>
             <input
-              className="w-24 appearance-none bg-transparent sm:w-16 lg:w-24 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-mediumDarkZinc dark:[&::-webkit-slider-runnable-track]:bg-veryLightZinc [&::-webkit-slider-thumb]:h-10px [&::-webkit-slider-thumb]:w-10px [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-nearBlackZinc dark:[&::-webkit-slider-thumb]:bg-mediumDarkZinc"
+              className="slider"
               type="range"
               min="0"
               max="100"

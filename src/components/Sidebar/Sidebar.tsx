@@ -1,11 +1,11 @@
 import { FC, Suspense, lazy, memo, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
 import ChatList from '@components/Sidebar/ChatList/ChatList';
 import Navbar from '@components/Sidebar/Navbar/Navbar';
 import SearchChatList from '@components/Sidebar/SearchChatList/SearchChatList';
 import SearchUsers from '@components/Sidebar/SearchUsers/SearchUsers';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import useChatStore from '@zustand/store';
 

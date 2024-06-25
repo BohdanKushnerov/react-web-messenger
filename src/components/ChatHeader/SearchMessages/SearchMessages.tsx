@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
 import SearchInput from '@components/Inputs/SearchInput/SearchInput';
+import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@zustand/store';

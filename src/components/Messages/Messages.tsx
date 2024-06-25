@@ -22,7 +22,7 @@ import MessageList from './MessagesList/MessageList';
 import MessagesScrollBar from './MessagesScrollBar/MessagesScrollBar';
 import MessagesSkeleton from './MessagesSkeleton/MessagesSkeleton';
 
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import { db } from '@myfirebase/config';
 

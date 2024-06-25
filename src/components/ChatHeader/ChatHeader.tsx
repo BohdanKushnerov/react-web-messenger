@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import ButtonSearchMessages from '@components/Buttons/ButtonSearchMessages/ButtonSearchMessages';
 import ChatHeaderOponentInfo from '@components/ChatHeader/ChatHeaderOponentInfo/ChatHeaderOponentInfo';
-import LoaderUIActions from '@components/LoaderUIActions/LoaderUIActions';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import useChatStore from '@zustand/store';
 

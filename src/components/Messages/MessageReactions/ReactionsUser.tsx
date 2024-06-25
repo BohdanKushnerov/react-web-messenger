@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import AvatarProfile from '@components/AvatarProfile/AvatarProfile';
-import BlurImage from '@components/BlurImage/BlurImage';
+import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
+import BlurImage from '@components/common/BlurImage/BlurImage';
 
 import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 import useChatInfo from '@hooks/useChatInfo';

@@ -10,27 +10,7 @@ import useChatStore from '@zustand/store';
 
 import makeSoundNotification from '@utils/messages/makeSoundNotification';
 
-interface INotification {
-  title: string;
-  body: string;
-}
-
-interface IOnMessageListenerPayload {
-  from: string;
-  collapseKey: string;
-  messageId: string;
-  notification: INotification;
-  data: {
-    [key: string]: string;
-  };
-}
-
-export const onMessageListener = () =>
-  new Promise(resolve => {
-    onMessage(messaging, payload => {
-      resolve(payload);
-    });
-  });
+import { IOnMessageListenerPayload } from '@interfaces/IOnMessageListenerPayload';
 
 const useNotification = () => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);

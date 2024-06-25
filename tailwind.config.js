@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import colors from 'tailwindcss/colors';
 
-
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
@@ -36,7 +35,7 @@ export default {
         '320px': '320px',
       },
       fontFamily: {
-        body: ['"Open Sans"', 'sans'],
+        body: ['Open Sans', 'sans'],
       },
       backgroundImage: {
         'main-bcg': "url('/src/assets/bcg.webp')",
