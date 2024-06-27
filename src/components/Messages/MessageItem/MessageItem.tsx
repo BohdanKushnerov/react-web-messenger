@@ -72,7 +72,7 @@ const MessageItem: FC<IMessageItemProps> = ({ msg, isNearBottom }) => {
             isVideo={info?.mediaType === 'video'}
           />
         ) : (
-          <p className="w-full break-all text-black dark:text-white">
+          <p className="min-w-fit whitespace-normal break-words text-black dark:text-white">
             {msg.data().message}
           </p>
         )}

@@ -15,7 +15,7 @@ const handleDeleteMessage = async (
   chatUID: string | null,
   currentUserUID: string | null,
   userUID: string | null,
-  t: TFunction<undefined>,
+  t: TFunction,
   closeModal: () => void
 ): Promise<void> => {
   if (!chatUID || !selectedDocDataMessage || !currentUserUID || !userUID) {

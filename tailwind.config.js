@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import colors from 'tailwindcss/colors';
 
+
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
@@ -29,6 +30,7 @@ export default {
         '360px': '360px',
       },
       maxWidth: {
+        '132px': '132px',
         '160px': '160px',
         '200px': '200px',
         '300px': '300px',
