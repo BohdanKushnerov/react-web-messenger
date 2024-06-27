@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import { IMessageTriangleProps } from '@interfaces/IMessageTriangleProps';
+import type { IMessageTriangleProps } from '@interfaces/IMessageTriangleProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 

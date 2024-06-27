@@ -1,11 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import { IButtonSearchMessagesProps } from '@interfaces/IButtonSearchMessagesProps';
+import type { IButtonSearchMessagesProps } from '@interfaces/IButtonSearchMessagesProps';
 
 import { IconId } from '@enums/iconsSpriteId';
-
 
 const ButtonSearchMessages: FC<IButtonSearchMessagesProps> = ({
   handleClick,

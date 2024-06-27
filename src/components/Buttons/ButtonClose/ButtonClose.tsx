@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import { IButtonCloseProps } from '@interfaces/IButtonCloseProps';
+import type { IButtonCloseProps } from '@interfaces/IButtonCloseProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 

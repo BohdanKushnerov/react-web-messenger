@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { ClipLoader } from 'react-spinners';
 
-import { ILoaderUIActionsProps } from '@interfaces/ILoaderUIActionsProps';
+import type { ILoaderUIActionsProps } from '@interfaces/ILoaderUIActionsProps';
 
 const LoaderUIActions: FC<ILoaderUIActionsProps> = ({ size = 15 }) => {
   return (

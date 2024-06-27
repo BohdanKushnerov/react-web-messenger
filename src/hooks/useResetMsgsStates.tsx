@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import useChatStore from '@zustand/store';
 
-import { UseResetMsgsStates } from 'types/hooks/UseResetMsgsStates';
+import type { UseResetMsgsStates } from 'types/hooks/UseResetMsgsStates';
 
 const useResetMsgsStates: UseResetMsgsStates = (
   isReadyToFetchFirstNewChatMsgs,
@@ -14,6 +14,8 @@ const useResetMsgsStates: UseResetMsgsStates = (
   const { chatUID } = useChatStore(state => state.currentChatInfo);
 
   useEffect(() => {
+    if (!chatUID) return;
+
     isReadyToFetchFirstNewChatMsgs.current = true;
     lastLoadedMsg.current = null;
     isFinishMsgs.current = false;

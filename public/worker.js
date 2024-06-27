@@ -9,11 +9,11 @@ self.addEventListener('install', event => {
   );
 });
 
-self.addEventListener('activate', function (event) {
+self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(function (cacheNames) {
+    caches.keys().then(cacheNames => {
       return Promise.all(
-        cacheNames.map(function (cacheName) {
+        cacheNames.map(cacheName => {
           if (CACHE_NAME !== cacheName && cacheName.startsWith('cache')) {
             return caches.delete(cacheName);
           }
@@ -30,13 +30,13 @@ self.addEventListener('fetch', event => {
       event.request.headers.get('accept').includes('text/html'))
   ) {
     event.respondWith(
-      fetch(event.request.url).catch(error => {
+      fetch(event.request.url).catch(() => {
         return caches.match('offline.html');
       })
     );
   } else {
     event.respondWith(
-      caches.match(event.request).then(function (response) {
+      caches.match(event.request).then(response => {
         return response || fetch(event.request);
       })
     );

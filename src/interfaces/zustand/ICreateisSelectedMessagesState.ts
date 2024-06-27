@@ -1,6 +1,6 @@
-import { DocumentData } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 
-import { UpdateSelectedDocDataMessage } from 'types/UpdateSelectedDocDataMessage';
+import type { UpdateSelectedDocDataMessage } from 'types/UpdateSelectedDocDataMessage';
 
 export interface ICreateisSelectedMessagesState {
   isSelectedMessages: boolean;

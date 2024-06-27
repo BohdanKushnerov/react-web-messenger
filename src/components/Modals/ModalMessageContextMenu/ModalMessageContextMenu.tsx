@@ -1,10 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import useChatStore from '@zustand/store';
 
 import useCloseModal from '@hooks/useCloseModal';
 
-import { IModalMessageContextMenuProps } from '@interfaces/IModalMessageContextMenuProps';
+import type { IModalMessageContextMenuProps } from '@interfaces/IModalMessageContextMenuProps';
 
 const MessageContextMenuModal: FC<IModalMessageContextMenuProps> = ({
   closeModal,
@@ -24,8 +24,8 @@ const MessageContextMenuModal: FC<IModalMessageContextMenuProps> = ({
         <div
           style={{
             position: 'absolute',
-            top: modalPosition.top + 'px',
-            left: modalPosition.left + 'px',
+            top: `${modalPosition.top}px`,
+            left: `${modalPosition.left}px`,
           }}
           className="pointer-events-none z-10 h-screen w-screen bg-transparent"
         >

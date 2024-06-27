@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 import useChatStore from '@zustand/store';
 
-import { IRestrictedRouteProps } from '@interfaces/routes/IRestrictedRouteProps';
+import type { IRestrictedRouteProps } from '@interfaces/routes/IRestrictedRouteProps';
 
 const RestrictedRoute = ({
   component: Component,

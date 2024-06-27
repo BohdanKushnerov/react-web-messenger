@@ -1,11 +1,5 @@
-import {
-  FC,
-  KeyboardEvent,
-  Suspense,
-  lazy,
-  useDeferredValue,
-  useState,
-} from 'react';
+import type { FC, KeyboardEvent } from 'react';
+import { Suspense, lazy, useDeferredValue, useState } from 'react';
 
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
@@ -47,7 +41,7 @@ const Emoji: FC = () => {
     setEmojiTimeOutId(timeoutId);
   };
 
-  const handleEnterKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
+  const handleEnterKeyDownEmoji = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter') {
       setIsShowEmoji(true);
     }
@@ -55,12 +49,15 @@ const Emoji: FC = () => {
 
   return (
     <div
+      role="button"
+      tabIndex={0}
       className={`absolute ${
         editingMessageInfo ? 'bottom-1' : 'top-7'
       } left-3 cursor-pointer`}
       onMouseEnter={handleMouseEnterEmoji}
       onMouseLeave={handleMouseLeaveEmoji}
-      onKeyDown={handleEnterKeyPress}
+      onKeyDown={handleEnterKeyDownEmoji}
+      aria-label="Main emoji"
     >
       {deferredIsShowEmoji && (
         <Suspense

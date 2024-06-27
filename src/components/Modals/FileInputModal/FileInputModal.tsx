@@ -1,5 +1,5 @@
 import { forwardRef, useRef, useState } from 'react';
-import { DefaultExtensionType } from 'react-file-icon';
+import type { DefaultExtensionType } from 'react-file-icon';
 import { useTranslation } from 'react-i18next';
 
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
@@ -11,11 +11,13 @@ import useChatStore from '@zustand/store';
 
 import handleSendAttachedFilesMessage from '@utils/chatForm/handleSendAttachedFilesMessage';
 
-import { IFileInputModalProps } from '@interfaces/IFileInputModalProps';
+import type { IFileInputModalProps } from '@interfaces/IFileInputModalProps';
 
 import { ElementsId } from '@enums/elementsId';
 
-import { FilesUploadStatuses } from 'types/FilesUploadStatuses';
+import type { FilesUploadStatuses } from 'types/FilesUploadStatuses';
+
+import { defaultNS } from '@i18n/i18n';
 
 const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
   ({ setIsModalAddFileOpen, handleToggleModal }, ref) => {
@@ -25,7 +27,7 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
 
     const scrollbarsRef = useRef<HTMLDivElement>(null);
 
-    const { t } = useTranslation('translation', { keyPrefix: 'FileInput' });
+    const { t } = useTranslation(defaultNS, { keyPrefix: 'FileInput' });
 
     const currentUserUID = useChatStore(state => state.currentUser.uid);
     const { chatUID, userUID } = useChatStore(state => state.currentChatInfo);
@@ -85,20 +87,20 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
                           file={file}
                         />
                       );
-                    } else {
-                      const fileType: DefaultExtensionType =
-                        (file.name.split('.').pop() as DefaultExtensionType) ||
-                        'default';
-
-                      return (
-                        <UploadDocumentFile
-                          key={file.name}
-                          file={file}
-                          fileType={fileType}
-                          status={uploadFilesStatus[file.name]}
-                        />
-                      );
                     }
+
+                    const fileType: DefaultExtensionType =
+                      (file.name.split('.').pop() as DefaultExtensionType) ||
+                      'default';
+
+                    return (
+                      <UploadDocumentFile
+                        key={file.name}
+                        file={file}
+                        fileType={fileType}
+                        status={uploadFilesStatus[file.name]}
+                      />
+                    );
                   })}
               </ul>
             </div>

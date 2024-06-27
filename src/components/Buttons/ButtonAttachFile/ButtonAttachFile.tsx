@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import { IButtonAttachFileProps } from '@interfaces/IButtonAttachFileProps';
+import type { IButtonAttachFileProps } from '@interfaces/IButtonAttachFileProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 

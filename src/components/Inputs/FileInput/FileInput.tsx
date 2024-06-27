@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { IFileInputProps } from '@interfaces/IFileInputProps';
+import type { IFileInputProps } from '@interfaces/IFileInputProps';
 
 const FileInput = forwardRef<HTMLInputElement, IFileInputProps>(
   ({ handleChangeFileInput }, ref) => {

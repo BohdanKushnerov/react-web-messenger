@@ -1,4 +1,4 @@
-import { IUnreadMessages } from '@interfaces/IUnreadMessages';
+import type { IUnreadMessages } from '@interfaces/IUnreadMessages';
 
 export interface ITotalUnreadMessagesState {
   totalUnreadMessages: IUnreadMessages;

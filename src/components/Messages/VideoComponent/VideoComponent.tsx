@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import ReactPlayer from 'react-player';
 
 import getYouTubeVideoId from '@utils/messages/getYouTubeVideoId';
 
-import { IVideoComponentProps } from '@interfaces/IVideoComponentProps';
+import type { IVideoComponentProps } from '@interfaces/IVideoComponentProps';
 
 import { ElementsId } from '@enums/elementsId';
 
@@ -16,16 +16,12 @@ const VideoComponent: FC<IVideoComponentProps> = ({ source }) => {
         width="100%"
         height={300}
         allowFullScreen
-        src={
-          'https://www.youtube.com/embed/' +
-          `${getYouTubeVideoId(source)}` +
-          `?showinfo=0&enablejsapi=1&origin=${window.location.hostname}`
-        }
-      ></iframe>
+        src={`https://www.youtube.com/embed/${getYouTubeVideoId(source)}?showinfo=0&enablejsapi=1&origin=${window.location.hostname}`}
+      />
     );
-  } else {
-    return <ReactPlayer width="100%" height={300} controls url={source} />;
   }
+
+  return <ReactPlayer width="100%" height={300} controls url={source} />;
 };
 
 export default VideoComponent;

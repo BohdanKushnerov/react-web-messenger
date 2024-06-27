@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 
 import getStoredConfirmResult from '@utils/auth/getStoredConfirmResult';
 
-import { UseStoredConfirmationResult } from 'types/hooks/UseStoredConfirmationResult';
+import type { UseStoredConfirmationResult } from 'types/hooks/UseStoredConfirmationResult';
+
+import { defaultNS } from '@i18n/i18n';
 
 const useStoredConfirmationResult: UseStoredConfirmationResult = (
   step,
@@ -11,7 +13,7 @@ const useStoredConfirmationResult: UseStoredConfirmationResult = (
   recaptcha,
   setRecaptcha
 ) => {
-  const { t } = useTranslation('translation', { keyPrefix: 'Auth' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'Auth' });
 
   useEffect(() => {
     if (recaptcha) return;

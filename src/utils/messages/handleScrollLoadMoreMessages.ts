@@ -1,20 +1,20 @@
-import { Dispatch, MutableRefObject, SetStateAction } from 'react';
+import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
 
-import { DocumentData } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 
 import groupNewMsgs from './groupNewMsgs';
 import sortAndMergeScrollNewGroupedMessages from './sortAndMergeScrollNewGroupedMessages';
 
 import getMessagesAfterLastLoaded from '@api/firestore/getMessagesAfterLastLoaded';
 
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import type { GroupedMessages } from 'types/GroupedMessages';
 
 const handleScrollLoadMoreMessages = async (
   chatUID: string | null,
   isInfinityScrollLoading: MutableRefObject<boolean>,
   lastLoadedMsg: MutableRefObject<DocumentData | null>,
   isFinishMsgs: MutableRefObject<boolean>,
-  setGroupedMessages: Dispatch<SetStateAction<IGroupedMessages | null>>
+  setGroupedMessages: Dispatch<SetStateAction<GroupedMessages | null>>
 ) => {
   if (!chatUID || isInfinityScrollLoading.current) {
     return;

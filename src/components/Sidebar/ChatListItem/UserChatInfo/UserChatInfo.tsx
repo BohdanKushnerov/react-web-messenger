@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import IsOnlineUser from '../IsOnlineUser/IsOnlineUser';
 import QuantityUnreadMsgs from '../QuantityUnreadMsgs/QuantityUnreadMsgs';
@@ -8,7 +8,7 @@ import useGetLastMessage from '@hooks/useGetLastMessage';
 
 import truncateLastMessageString from '@utils/chatListItem/truncateLastMessageString';
 
-import { IUserChatInfoProps } from '@interfaces/IUserChatInfoProps';
+import type { IUserChatInfoProps } from '@interfaces/IUserChatInfoProps';
 
 const UserChatInfo: FC<IUserChatInfoProps> = ({
   currentChatUID,
@@ -55,7 +55,7 @@ const UserChatInfo: FC<IUserChatInfoProps> = ({
 
       {itemChatUID && <QuantityUnreadMsgs chatUID={itemChatUID} />}
 
-      {lastMsgSenderUID && itemChatUID && (
+      {lastMsgSenderUID && (
         <ReadStatus itemChatUID={itemChatUID} senderUserID={lastMsgSenderUID} />
       )}
 

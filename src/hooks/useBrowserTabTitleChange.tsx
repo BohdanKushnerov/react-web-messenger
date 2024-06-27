@@ -3,10 +3,12 @@ import { useTranslation } from 'react-i18next';
 
 import changeFaviconBrowserTab from '@utils/changeFaviconBrowserTab';
 
-import { UseBrowserTabTitleChange } from 'types/hooks/UseBrowserTabTitleChange';
+import type { UseBrowserTabTitleChange } from 'types/hooks/UseBrowserTabTitleChange';
 
 import faviconMessageTab from '@assets/faviconMessageTab.ico';
 import faviconTab from '@assets/faviconTab.ico';
+
+import { defaultNS } from '@i18n/i18n';
 
 const useBrowserTabTitleChange: UseBrowserTabTitleChange = (
   countChatUnreadMessages,
@@ -14,7 +16,7 @@ const useBrowserTabTitleChange: UseBrowserTabTitleChange = (
 ) => {
   const changeTitleIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const { t } = useTranslation('translation', {
+  const { t } = useTranslation(defaultNS, {
     keyPrefix: 'ChatListUnreadMsg',
   });
 

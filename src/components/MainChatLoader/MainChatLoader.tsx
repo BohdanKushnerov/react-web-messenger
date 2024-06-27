@@ -1,11 +1,13 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import RingLoader from 'react-spinners/RingLoader';
 
 import useChatStore from '@zustand/store';
 
+import { defaultNS } from '@i18n/i18n';
+
 const MainChatLoader: FC = () => {
-  const { t } = useTranslation('translation', { keyPrefix: 'Auth' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'Auth' });
 
   const isLoggedIn = useChatStore(state => state.isLoggedIn);
 

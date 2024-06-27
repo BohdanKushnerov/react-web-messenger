@@ -1,8 +1,8 @@
-import { Dispatch, RefObject, SetStateAction } from 'react';
+import type { Dispatch, RefObject, SetStateAction } from 'react';
 import { toast } from 'react-toastify';
 
-import { User } from 'firebase/auth';
-import { TFunction } from 'i18next';
+import type { User } from 'firebase/auth';
+import type { TFunction } from 'i18next';
 
 import { auth } from '@myfirebase/config';
 
@@ -14,7 +14,7 @@ const handleUpdateProfilePhoto = async (
   photoProfileInputRef: RefObject<HTMLInputElement>,
   currentUserUID: string | null,
   setProfilePhotoUploadStatus: Dispatch<SetStateAction<number | null>>,
-  t: TFunction<'translation', 'ProfileSettings'>,
+  t: TFunction<'ProfileSettings'>,
   photoURL: string | null,
   updateCurrentUser: (user: User | null) => void,
   handleToggleProfilePhotoModal: () => void

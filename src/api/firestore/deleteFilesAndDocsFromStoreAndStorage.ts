@@ -1,9 +1,10 @@
-import { DocumentData, Firestore, deleteDoc, doc } from 'firebase/firestore';
+import type { DocumentData, Firestore } from 'firebase/firestore';
+import { deleteDoc, doc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 
 import { storage } from '@myfirebase/config';
 
-import { IFile } from '@interfaces/IFile';
+import type { IFile } from '@interfaces/IFile';
 
 const deleteFilesAndDocsFromStoreAndStorage = async (
   selectedDocDataMessage: DocumentData[],

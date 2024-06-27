@@ -1,11 +1,10 @@
-import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import type { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
-
-import { UpdateTypeMessages } from 'types/UpdateTypeMessages';
+import type { GroupedMessages } from 'types/GroupedMessages';
+import type { UpdateTypeMessages } from 'types/UpdateTypeMessages';
 
 const updateGroupedMessages = (
-  prev: IGroupedMessages,
+  prev: GroupedMessages,
   dateString: string,
   doc: QueryDocumentSnapshot<DocumentData, DocumentData>,
   updateType: UpdateTypeMessages

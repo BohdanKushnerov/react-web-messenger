@@ -1,4 +1,5 @@
-import { FC, Suspense, lazy, memo, useRef } from 'react';
+import type { FC } from 'react';
+import { Suspense, lazy, memo, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 
 import ChatList from '@components/Sidebar/ChatList/ChatList';

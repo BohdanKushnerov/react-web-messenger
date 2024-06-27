@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
@@ -7,7 +7,7 @@ import useChatStore from '@zustand/store';
 
 import handleDeleteMessage from '@utils/messages/handleDeleteMessage';
 
-import { IDeleteButtonProps } from '@interfaces/IDeleteButtonProps';
+import type { IDeleteButtonProps } from '@interfaces/IDeleteButtonProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 

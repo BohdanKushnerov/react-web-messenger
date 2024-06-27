@@ -1,4 +1,5 @@
-import { FC, Suspense, lazy, useState } from 'react';
+import type { FC } from 'react';
+import { Suspense, lazy, useState } from 'react';
 
 import ChatForm from '@components/ChatForm/ChatForm';
 import ChatHeader from '@components/ChatHeader/ChatHeader';

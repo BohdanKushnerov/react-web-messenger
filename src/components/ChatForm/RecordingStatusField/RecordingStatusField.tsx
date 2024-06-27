@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import { IRecordingStatusFieldProps } from '@interfaces/IRecordingStatusFieldProps';
+import type { IRecordingStatusFieldProps } from '@interfaces/IRecordingStatusFieldProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 
@@ -26,7 +26,7 @@ const RecordingStatusField = forwardRef<
         ref={ref}
         width={192}
         height={20}
-      ></canvas>
+      />
       {isRecording && recordingDuration && (
         <span className="w-8">{recordingDuration.toFixed(1)}</span>
       )}

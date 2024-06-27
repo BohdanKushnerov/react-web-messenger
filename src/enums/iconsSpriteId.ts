@@ -21,4 +21,6 @@ export enum IconId {
   IconSearch = '#icon-search',
   IconSelect = '#icon-select',
   IconNotSelect = '#icon-not-select',
+  IconLigthThemeSun = '#ligth-theme-sun',
+  IconDarkThemeSun = '#dark-theme-moon',
 }

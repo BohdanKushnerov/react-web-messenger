@@ -1,10 +1,12 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { IEmptyChatProps } from '@interfaces/IEmptyChatProps';
+import type { IEmptyChatProps } from '@interfaces/IEmptyChatProps';
+
+import { defaultNS } from '@i18n/i18n';
 
 const EmptyChat: FC<IEmptyChatProps> = ({ isShowNotifyMsg }) => {
-  const { t } = useTranslation('translation', { keyPrefix: 'General' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'General' });
 
   return (
     <>

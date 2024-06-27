@@ -1,4 +1,5 @@
-import { FC, useRef } from 'react';
+import type { FC } from 'react';
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Transition } from 'react-transition-group';
 
@@ -20,12 +21,14 @@ import useChatStore from '@zustand/store';
 import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 import useStartTransition from '@hooks/useStartTransition';
 
-import { INavbarModalProps } from '@interfaces/INavbarModalProps';
+import type { INavbarModalProps } from '@interfaces/INavbarModalProps';
+
+import { defaultNS } from '@i18n/i18n';
 
 const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
   const nodeRefNavBar = useRef(null);
 
-  const { t } = useTranslation('translation', {
+  const { t } = useTranslation(defaultNS, {
     keyPrefix: 'NavBar',
   });
 

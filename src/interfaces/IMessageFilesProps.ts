@@ -1,4 +1,4 @@
-import { IFile } from './IFile';
+import type { IFile } from './IFile';
 
 export interface IMessageFilesProps {
   filteredFiles: IFile[];

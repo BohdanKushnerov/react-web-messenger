@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import useChatStore from '@zustand/store';
 
-import { UseEditingMessage } from 'types/hooks/UseEditingMessage';
+import type { UseEditingMessage } from 'types/hooks/UseEditingMessage';
 
 const useEditingMessage: UseEditingMessage = inputRef => {
   const setMessage = useChatStore(state => state.setMessage);

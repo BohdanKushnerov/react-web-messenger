@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import Avatar from 'react-avatar';
 
-import { IAvatarProfileProps } from '@interfaces/IAvatarProfileProps';
+import type { IAvatarProfileProps } from '@interfaces/IAvatarProfileProps';
 
 const AvatarProfile: FC<IAvatarProfileProps> = ({
   photoURL,

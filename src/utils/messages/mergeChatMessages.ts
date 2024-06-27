@@ -1,6 +1,6 @@
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import type { GroupedMessages } from 'types/GroupedMessages';
 
-const mergeChatMessages = (obj1: IGroupedMessages, obj2: IGroupedMessages) => {
+const mergeChatMessages = (obj1: GroupedMessages, obj2: GroupedMessages) => {
   const merged = { ...obj1 };
 
   for (const key in obj2) {

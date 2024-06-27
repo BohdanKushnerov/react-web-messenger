@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-import { DocumentData } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 
 export interface IButtonAttachFileProps {
   editingMessageInfo: {

@@ -1,4 +1,4 @@
-import { DocumentData } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 
 const truncateLastMessageString = (msg: DocumentData, maxLength: number) => {
   const messageContent = msg.fileDescription
@@ -7,9 +7,9 @@ const truncateLastMessageString = (msg: DocumentData, maxLength: number) => {
 
   if (messageContent.length <= maxLength) {
     return messageContent;
-  } else {
-    return messageContent.substring(0, maxLength) + '...';
   }
+
+  return `${messageContent.substring(0, maxLength)}...`;
 };
 
 export default truncateLastMessageString;

@@ -1,4 +1,5 @@
-import { FC, Suspense, lazy, useRef, useState } from 'react';
+import type { FC } from 'react';
+import { Suspense, lazy, useRef, useState } from 'react';
 
 import ButtonAttachFile from '@components/Buttons/ButtonAttachFile/ButtonAttachFile';
 import FileInput from '@components/Inputs/FileInput/FileInput';

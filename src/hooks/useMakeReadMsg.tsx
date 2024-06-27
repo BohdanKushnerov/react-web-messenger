@@ -4,7 +4,7 @@ import useChatStore from '@zustand/store';
 
 import makeReadMsg from '@api/firestore/makeReadMsg';
 
-import { UseMakeReadMsg } from 'types/hooks/UseMakeReadMsg';
+import type { UseMakeReadMsg } from 'types/hooks/UseMakeReadMsg';
 
 const useMakeReadMsg: UseMakeReadMsg = (msg, isNearBottom) => {
   const { chatUID } = useChatStore(state => state.currentChatInfo);

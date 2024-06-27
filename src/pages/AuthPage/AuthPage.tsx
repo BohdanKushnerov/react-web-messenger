@@ -1,8 +1,9 @@
-import { FC, useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import { ConfirmationResult, RecaptchaVerifier } from 'firebase/auth';
+import type { ConfirmationResult, RecaptchaVerifier } from 'firebase/auth';
 
 import StepOne from '@components/Auth/StepOne/StepOne';
 import StepThree from '@components/Auth/StepThree/StepThree';
@@ -22,7 +23,9 @@ import handleSubmitVerifyCode from '@utils/auth/handleSubmitVerifyCode';
 import isValidPhoneNumber from '@utils/auth/isValidPhoneNumber';
 import setUpRecaptcha from '@utils/auth/setUpRecaptcha';
 
-import { AuthSteps } from 'types/AuthSteps';
+import type { AuthSteps } from 'types/AuthSteps';
+
+import { defaultNS } from '@i18n/i18n';
 
 const Auth: FC = () => {
   const [step, setStep] = useState<AuthSteps>(getStoredAuthStep());
@@ -33,7 +36,7 @@ const Auth: FC = () => {
   const [recaptcha, setRecaptcha] = useState<RecaptchaVerifier | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { t } = useTranslation('translation', { keyPrefix: 'Auth' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'Auth' });
 
   useStoredConfirmationResult(
     step,

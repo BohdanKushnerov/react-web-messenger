@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import BlurImage from '@components/common/BlurImage/BlurImage';
 
@@ -7,8 +7,8 @@ import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 import calculateMsgImageHeight from '@utils/messages/calculateMsgImageHeight';
 import calculateMsgImageWidth from '@utils/messages/calculateMsgImageWidth';
 
-import { IFile } from '@interfaces/IFile';
-import { IMessageImageProps } from '@interfaces/IMessageImageProps';
+import type { IFile } from '@interfaces/IFile';
+import type { IMessageImageProps } from '@interfaces/IMessageImageProps';
 
 import { ElementsId } from '@enums/elementsId';
 

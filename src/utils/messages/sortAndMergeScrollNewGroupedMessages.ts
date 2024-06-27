@@ -1,14 +1,14 @@
-import { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
-import { DocumentData } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 
 import mergeChatMessages from './mergeChatMessages';
 
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import type { GroupedMessages } from 'types/GroupedMessages';
 
 const sortAndMergeScrollNewGroupedMessages = (
   groupedMsgs: DocumentData,
-  setGroupedMessages: Dispatch<SetStateAction<IGroupedMessages | null>>
+  setGroupedMessages: Dispatch<SetStateAction<GroupedMessages | null>>
 ) => {
   const entries = Object.entries(groupedMsgs);
   entries.forEach(arr => arr[1].reverse());
@@ -18,7 +18,7 @@ const sortAndMergeScrollNewGroupedMessages = (
   const sortedData = Object.fromEntries(entries);
 
   setGroupedMessages(prev =>
-    mergeChatMessages(sortedData, prev as IGroupedMessages)
+    mergeChatMessages(sortedData, prev as GroupedMessages)
   );
 };
 

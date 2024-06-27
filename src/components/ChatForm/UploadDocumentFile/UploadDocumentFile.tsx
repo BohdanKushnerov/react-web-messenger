@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { FileIcon, defaultStyles } from 'react-file-icon';
 
 import { Line } from 'rc-progress';
 
-import { IUploadDocumentFileProps } from '@interfaces/IUploadDocumentFileProps';
+import type { IUploadDocumentFileProps } from '@interfaces/IUploadDocumentFileProps';
 
 const UploadDocumentFile: FC<IUploadDocumentFileProps> = ({
   fileType,
@@ -21,7 +21,7 @@ const UploadDocumentFile: FC<IUploadDocumentFileProps> = ({
             {file.name}
           </p>
           <p className="text-mediumGray">
-            {(file.size / 1024).toFixed(2) + ' KB'}
+            {`${(file.size / 1024).toFixed(2)} KB`}
           </p>
         </div>
       </div>

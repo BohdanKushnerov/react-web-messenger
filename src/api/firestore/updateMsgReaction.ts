@@ -1,4 +1,5 @@
-import { DocumentData, doc, updateDoc } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 

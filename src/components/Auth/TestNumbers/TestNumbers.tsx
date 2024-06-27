@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next';
 
+import { defaultNS } from '@i18n/i18n';
+
 const TestNumbers = () => {
-  const { t } = useTranslation('translation', { keyPrefix: 'Auth' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'Auth' });
 
   return (
     <div className="mx-auto min-w-240px max-w-320px rounded-md bg-main dark:bg-mainBlack">

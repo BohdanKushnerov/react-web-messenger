@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
-import { ConfirmationResult, RecaptchaVerifier } from 'firebase/auth';
+import type { ConfirmationResult, RecaptchaVerifier } from 'firebase/auth';
 
-import { AuthSteps } from 'types/AuthSteps';
+import type { AuthSteps } from 'types/AuthSteps';
 
 export type UseStoredConfirmationResult = (
   step: AuthSteps,

@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import { ISearchInputProps } from '@interfaces/ISearchInputProps';
+import type { ISearchInputProps } from '@interfaces/ISearchInputProps';
 
 import { ElementsId } from '@enums/elementsId';
 import { IconId } from '@enums/iconsSpriteId';

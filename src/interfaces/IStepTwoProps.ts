@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
-import { ConfirmationResult, RecaptchaVerifier } from 'firebase/auth';
+import type { ConfirmationResult, RecaptchaVerifier } from 'firebase/auth';
 
 export interface IStepTwoProps {
   phone: string;

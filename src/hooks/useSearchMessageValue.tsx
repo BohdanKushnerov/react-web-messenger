@@ -1,12 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import {
-  DocumentData,
-  collection,
-  onSnapshot,
-  query,
-  where,
-} from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 
@@ -29,7 +24,7 @@ const useSearchMessageValue = () => {
     const queryParams = query(
       collection(db, `chats/${chatUID}/messages`),
       where('message', '>=', searchMessageValue),
-      where('message', '<=', searchMessageValue + '\uf8ff')
+      where('message', '<=', `${searchMessageValue}\uf8ff`)
     );
 
     const unsubSearchMessages = onSnapshot(queryParams, querySnapshot => {

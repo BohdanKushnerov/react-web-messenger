@@ -1,4 +1,5 @@
-import { FC, useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
@@ -11,17 +12,19 @@ import { auth, db } from '@myfirebase/config';
 
 import useChatStore from '@zustand/store';
 
-import { IStepThreeProps } from '@interfaces/IStepThreeProps';
+import type { IStepThreeProps } from '@interfaces/IStepThreeProps';
 
 import { ElementsId } from '@enums/elementsId';
 
 import authStep3 from '@assets/auth-step3.webp';
 
+import { defaultNS } from '@i18n/i18n';
+
 const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
 
-  const { t } = useTranslation('translation', { keyPrefix: 'Auth' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'Auth' });
 
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);
 
@@ -84,7 +87,7 @@ const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
         >
           {t('Name')}
           <input
-            autoFocus
+            autoFocus={true}
             className="h-10 w-full rounded-md border border-charcoal bg-transparent p-2"
             id={ElementsId.Name}
             type="text"

@@ -4,9 +4,8 @@ import useChatStore from '@zustand/store';
 
 import getFirstMessages from '@api/firestore/getFirstMessages';
 
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
-
-import { UseGetFirstMsgs } from 'types/hooks/UseGetFirstMsgs';
+import type { GroupedMessages } from 'types/GroupedMessages';
+import type { UseGetFirstMsgs } from 'types/hooks/UseGetFirstMsgs';
 
 const useGetFirstMsgs: UseGetFirstMsgs = (
   isReadyToFetchFirstNewChatMsgs,
@@ -44,7 +43,7 @@ const useGetFirstMsgs: UseGetFirstMsgs = (
             }
 
             return acc;
-          }, {} as IGroupedMessages);
+          }, {} as GroupedMessages);
 
           const entries = Object.entries(groupedMsgs);
           entries.forEach(arr => arr[1].reverse());

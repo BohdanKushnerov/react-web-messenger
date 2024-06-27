@@ -6,7 +6,7 @@ import { db } from '@myfirebase/config';
 
 import useChatStore from '@zustand/store';
 
-import { UseIsReadMyLastMessage } from 'types/hooks/UseIsReadMyLastMessage';
+import type { UseIsReadMyLastMessage } from 'types/hooks/UseIsReadMyLastMessage';
 
 const useIsReadMyLastMessage: UseIsReadMyLastMessage = itemChatUID => {
   const [isReadMyLastMessage, setIsReadMyLastMessage] = useState(true);

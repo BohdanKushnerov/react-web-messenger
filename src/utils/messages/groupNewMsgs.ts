@@ -1,4 +1,4 @@
-import { DocumentData } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 
 const groupNewMsgs = (updatedMessages: DocumentData[]) => {
   return updatedMessages.reduce((acc, message) => {

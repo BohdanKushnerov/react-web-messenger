@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import MessageFile from '../MessageFile/MessageFile';
 
-import { IFile } from '@interfaces/IFile';
-import { IMessageFilesProps } from '@interfaces/IMessageFilesProps';
+import type { IFile } from '@interfaces/IFile';
+import type { IMessageFilesProps } from '@interfaces/IMessageFilesProps';
 
 const MessageFiles: FC<IMessageFilesProps> = ({ filteredFiles }) => {
   return (

@@ -1,4 +1,5 @@
-import { FC, Suspense, lazy, useRef, useState } from 'react';
+import type { FC } from 'react';
+import { Suspense, lazy, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Transition } from 'react-transition-group';
 
@@ -21,6 +22,8 @@ import handleClickChangeDisplayName from '@utils/profileSettings/handleClickChan
 import { ElementsId } from '@enums/elementsId';
 import { IconId } from '@enums/iconsSpriteId';
 
+import { defaultNS } from '@i18n/i18n';
+
 const ProfileSettingsModal = lazy(
   () => import('@components/Modals/ProfileSettingsModal/ProfileSettingsModal')
 );
@@ -34,7 +37,7 @@ const ProfileSettings: FC = () => {
   const nodeRefProfileSettings = useRef(null);
   const photoProfileInputRef = useRef<HTMLInputElement>(null);
 
-  const { t } = useTranslation('translation', { keyPrefix: 'ProfileSettings' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'ProfileSettings' });
 
   const { uid, displayName } = useChatStore(state => state.currentUser);
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);

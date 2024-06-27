@@ -1,4 +1,5 @@
-import { FC, Suspense, lazy, useState } from 'react';
+import type { FC } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import 'yet-another-react-lightbox/styles.css';
 
 import MessageImage from '../MessageImage/MessageImage';
@@ -10,8 +11,8 @@ import useChatStore from '@zustand/store';
 import getMessageImages from '@utils/messages/getMessageImages';
 import getSlidesForLightbox from '@utils/messages/getSlidesForLightbox';
 
-import { IFile } from '@interfaces/IFile';
-import { IMessageImagesWithLightBoxProps } from '@interfaces/IMessageImagesWithLightBoxProps';
+import type { IFile } from '@interfaces/IFile';
+import type { IMessageImagesWithLightBoxProps } from '@interfaces/IMessageImagesWithLightBoxProps';
 
 import { ElementsId } from '@enums/elementsId';
 

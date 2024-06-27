@@ -1,4 +1,5 @@
-import { FC, useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Line } from 'rc-progress';
@@ -11,7 +12,9 @@ import useChatStore from '@zustand/store';
 
 import handleUpdateProfilePhoto from '@utils/profileSettings/handleUpdateProfilePhoto';
 
-import { IProfileSettingsModalProps } from '@interfaces/IProfileSettingsModalProps';
+import type { IProfileSettingsModalProps } from '@interfaces/IProfileSettingsModalProps';
+
+import { defaultNS } from '@i18n/i18n';
 
 const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
   photoProfileInputRef,
@@ -21,7 +24,7 @@ const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
     number | null
   >(null);
 
-  const { t } = useTranslation('translation', {
+  const { t } = useTranslation(defaultNS, {
     keyPrefix: 'ProfileSettings',
   });
 

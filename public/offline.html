@@ -28,7 +28,7 @@
         window.location.reload();
       });
 
-      async function checkNetworkAndReload() {
+      const checkNetworkAndReload = async () => {
         try {
           const response = await fetch('.');
           if (response.status >= 200 && response.status < 500) {
@@ -39,7 +39,7 @@
           console.log('checkNetworkAndReload error', e);
         }
         window.setTimeout(checkNetworkAndReload, 2500);
-      }
+      };
 
       checkNetworkAndReload();
     </script>

@@ -1,7 +1,6 @@
-import { Dispatch, MutableRefObject, SetStateAction } from 'react';
+import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
 
 export type UseRecordingCleanup = (
-  audioChunks: Blob[],
   animationIdRef: MutableRefObject<number | null>,
   mediaRecorderRef: MutableRefObject<MediaRecorder | null>,
   analyserRef: MutableRefObject<AnalyserNode | null>,

@@ -1,4 +1,4 @@
-import { MutableRefObject } from 'react';
+import type { MutableRefObject } from 'react';
 
 const clearCanvas = (
   canvasCtx: CanvasRenderingContext2D,

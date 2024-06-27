@@ -14,7 +14,7 @@ import useChatStore from '@zustand/store';
 
 import updateDocStopNotifyForCurrentMsg from '@api/firestore/updateDocStopNotifyForCurrentMsg';
 
-import { UseLengthOfMyUnreadMsgs } from 'types/hooks/UseLengthOfMyUnreadMsgs';
+import type { UseLengthOfMyUnreadMsgs } from 'types/hooks/UseLengthOfMyUnreadMsgs';
 
 const useLengthOfMyUnreadMsgs: UseLengthOfMyUnreadMsgs = (
   chatUID,

@@ -17,4 +17,6 @@ export enum ElementsId {
   NotSelect = 'not-select',
   Player = 'player',
   NotifyAudio = 'notifyAudio',
+  LightThemeSwitcher = 'lightThemeSwitcher',
+  DarkThemeSwitcher = 'darkThemeSwitcher',
 }

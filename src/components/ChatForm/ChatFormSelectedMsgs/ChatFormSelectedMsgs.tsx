@@ -11,9 +11,7 @@ const ChatFormSelectedMsgs = () => {
 
   return (
     <div className="flex h-full w-full flex-col justify-center shadow-whiteTopShadow xl:w-8/12">
-      <div
-        className={`relative flex h-14 flex-row rounded-3xl border-2 border-transparent bg-mediumLightZinc px-8 text-black outline-none dark:bg-darkBackground dark:text-white`}
-      >
+      <div className="relative flex h-14 flex-row rounded-3xl border-2 border-transparent bg-mediumLightZinc px-8 text-black outline-none dark:bg-darkBackground dark:text-white">
         <div className="relative">
           <ButtonClose
             handleClickButtonClose={() => updateIsSelectedMessages(false)}

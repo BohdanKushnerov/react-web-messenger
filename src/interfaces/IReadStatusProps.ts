@@ -1,4 +1,4 @@
 export interface IReadStatusProps {
   senderUserID: string;
-  itemChatUID: string;
+  itemChatUID: string | null;
 }

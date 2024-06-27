@@ -10,7 +10,7 @@ import useChatStore from '@zustand/store';
 
 import makeSoundNotification from '@utils/messages/makeSoundNotification';
 
-import { IOnMessageListenerPayload } from '@interfaces/IOnMessageListenerPayload';
+import type { IOnMessageListenerPayload } from '@interfaces/IOnMessageListenerPayload';
 
 const useNotification = () => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);

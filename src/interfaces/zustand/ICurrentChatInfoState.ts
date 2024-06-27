@@ -1,4 +1,4 @@
-import { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
+import type { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
 
 export interface ICurrentChatInfoState {
   currentChatInfo: {

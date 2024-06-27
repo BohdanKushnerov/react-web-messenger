@@ -1,12 +1,12 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import ReactionsUser from './ReactionsUser';
 
-import { IReactionsDisplayProps } from '@interfaces/IReactionsDisplayProps';
+import type { IReactionsDisplayProps } from '@interfaces/IReactionsDisplayProps';
 
 const ReactionsDisplay: FC<IReactionsDisplayProps> = ({ reactions }) => {
   return (
-    <div className="max-w-160px flex flex-wrap items-center gap-2">
+    <div className="max-w-132px flex flex-wrap items-center gap-2">
       {reactions && (
         <>
           {Object.entries(reactions).map(([emoji, ids]) => (

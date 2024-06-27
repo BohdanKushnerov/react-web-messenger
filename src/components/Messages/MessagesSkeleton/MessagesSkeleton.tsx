@@ -1,10 +1,11 @@
-import { FC, memo } from 'react';
+import type { FC } from 'react';
+import { memo } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 import useResizeWindow from '@hooks/useResizeWindow';
 
-import { IMessagesSkeletonProps } from '@interfaces/IMessagesSkeletonProps';
+import type { IMessagesSkeletonProps } from '@interfaces/IMessagesSkeletonProps';
 
 import { ElementsId } from '@enums/elementsId';
 

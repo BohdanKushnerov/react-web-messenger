@@ -9,9 +9,7 @@ import * as serviceWorker from '@serviceWorker/serviceWorker.js';
 
 import MainChatLoader from '@components/MainChatLoader/MainChatLoader.jsx';
 
-import '@i18n';
-
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLDivElement).render(
   <>
     <App />
     <ToastContainer />

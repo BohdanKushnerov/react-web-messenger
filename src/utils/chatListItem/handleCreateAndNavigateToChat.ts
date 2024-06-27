@@ -1,7 +1,7 @@
-import { NavigateFunction } from 'react-router-dom';
+import type { NavigateFunction } from 'react-router-dom';
 
+import type { DocumentData } from 'firebase/firestore';
 import {
-  DocumentData,
   doc,
   getDoc,
   serverTimestamp,
@@ -13,7 +13,7 @@ import { auth, db } from '@myfirebase/config';
 
 import handleSelectChat from '@utils/chatListItem/handleSelectChat';
 
-import { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
+import type { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
 
 const createNewChat = async (chatID: string): Promise<void> => {
   await setDoc(doc(db, 'chats', chatID), {});

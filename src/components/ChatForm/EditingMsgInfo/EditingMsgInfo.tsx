@@ -1,10 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import { IEditingMsgInfoProps } from '@interfaces/IEditingMsgInfoProps';
+import type { IEditingMsgInfoProps } from '@interfaces/IEditingMsgInfoProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 

@@ -1,4 +1,4 @@
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 
 const formatDateForGroupMessages = (inputDate: string, t: TFunction) => {
   const dateObject = new Date(inputDate);

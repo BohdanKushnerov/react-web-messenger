@@ -1,13 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import {
-  DocumentData,
-  QuerySnapshot,
-  collection,
-  getDocs,
-  query,
-  where,
-} from 'firebase/firestore';
+import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useDebounce } from 'use-debounce';
 
 import { db } from '@myfirebase/config';
@@ -39,7 +33,7 @@ const useSearchUsers = () => {
       const queryParams = query(
         usersRef,
         where('displayName', '>=', queryName),
-        where('displayName', '<=', queryName + '\uf8ff')
+        where('displayName', '<=', `${queryName}\uf8ff`)
       );
 
       try {

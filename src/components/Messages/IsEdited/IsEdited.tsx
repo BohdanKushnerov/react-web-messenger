@@ -1,14 +1,16 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import { IIsEditedProps } from '@interfaces/IIsEditedProps';
+import type { IIsEditedProps } from '@interfaces/IIsEditedProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 
+import { defaultNS } from '@i18n/i18n';
+
 const IsEdited: FC<IIsEditedProps> = ({ isEdited }) => {
-  const { t } = useTranslation('translation', { keyPrefix: 'General' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'General' });
 
   return (
     <>

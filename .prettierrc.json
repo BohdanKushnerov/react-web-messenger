@@ -23,7 +23,7 @@
     "types/",
     "@constants/",
     "@assets/",
-    "@i18n"
+    "@i18n/"
   ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,

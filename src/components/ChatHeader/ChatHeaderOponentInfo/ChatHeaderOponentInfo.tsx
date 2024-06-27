@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
@@ -11,8 +11,10 @@ import useChatInfo from '@hooks/useChatInfo';
 import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
 import useShowTyping from '@hooks/useShowTyping';
 
+import { defaultNS } from '@i18n/i18n';
+
 const ChatHeaderOponentInfo: FC = () => {
-  const { t } = useTranslation('translation', { keyPrefix: 'General' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'General' });
 
   const userUID = useChatStore(state => state.currentChatInfo.userUID);
 

@@ -1,10 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import AudioComponent from '../AudioComponent/AudioComponent';
 import FileComponent from '../FileComponent/FileComponent';
 import VideoComponent from '../VideoComponent/VideoComponent';
 
-import { IMessageFileProps } from '@interfaces/IMessageFileProps';
+import type { IMessageFileProps } from '@interfaces/IMessageFileProps';
 
 const MessageFile: FC<IMessageFileProps> = ({ file }) => {
   if (file.type.includes('video')) {
@@ -13,11 +13,13 @@ const MessageFile: FC<IMessageFileProps> = ({ file }) => {
         <VideoComponent source={file.url} />
       </div>
     );
-  } else if (file.type.includes('audio')) {
-    return <AudioComponent audioUrl={file.url} />;
-  } else {
-    return <FileComponent file={file} />;
   }
+
+  if (file.type.includes('audio')) {
+    return <AudioComponent audioUrl={file.url} />;
+  }
+
+  return <FileComponent file={file} />;
 };
 
 export default MessageFile;

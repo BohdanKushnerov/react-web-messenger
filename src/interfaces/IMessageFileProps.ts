@@ -1,4 +1,4 @@
-import { FileFromStorage } from 'types/FileFromStorage';
+import type { FileFromStorage } from 'types/FileFromStorage';
 
 export interface IMessageFileProps {
   file: FileFromStorage;

@@ -1,4 +1,4 @@
-import { Dispatch, MutableRefObject, SetStateAction } from 'react';
+import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
 
 const cleanUpRecordingResources = (
   mediaRecorderRef: MutableRefObject<MediaRecorder | null>,

@@ -1,13 +1,13 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { DocumentData } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@zustand/store';
 
-import { IButtonEditProps } from '@interfaces/IButtonEditProps';
+import type { IButtonEditProps } from '@interfaces/IButtonEditProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 
