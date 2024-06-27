@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { UseBlurLoadingImage } from 'types/hooks/UseBlurLoadingImage';
+import type { UseBlurLoadingImage } from 'types/hooks/UseBlurLoadingImage';
 
 const useBlurLoadingImage: UseBlurLoadingImage = url => {
   const [loading, setLoading] = useState(true);

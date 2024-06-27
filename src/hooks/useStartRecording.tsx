@@ -1,17 +1,16 @@
-import {
+import type {
   Dispatch,
   MutableRefObject,
   RefObject,
   SetStateAction,
-  useEffect,
-  useRef,
 } from 'react';
+import { useEffect, useRef } from 'react';
 
 import setupAudioAnalyzer from '@utils/chatForm/setupAudioAnalyzer';
 import startRecordingTimer from '@utils/chatForm/startRecordingTimer';
 
-import { MimeType } from 'types/MimeType';
-import { UseStartRecording } from 'types/hooks/UseStartRecording';
+import type { MimeType } from 'types/MimeType';
+import type { UseStartRecording } from 'types/hooks/UseStartRecording';
 
 const useStartRecording: UseStartRecording = (
   isRecording: boolean,

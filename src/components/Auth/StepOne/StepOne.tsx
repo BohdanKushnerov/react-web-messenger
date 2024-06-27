@@ -1,14 +1,16 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import MyPhoneInput from '@components/Inputs/MyPhoneInput/MyPhoneInput';
 
-import { IStepOneProps } from '@interfaces/IStepOneProps';
+import type { IStepOneProps } from '@interfaces/IStepOneProps';
 
 import authStep1 from '@assets/auth-step1.webp';
 
+import { defaultNS } from '@i18n/i18n';
+
 const StepOne: FC<IStepOneProps> = ({ phone, setPhone }) => {
-  const { t } = useTranslation('translation', { keyPrefix: 'Auth' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'Auth' });
 
   return (
     <>

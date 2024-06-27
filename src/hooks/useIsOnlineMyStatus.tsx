@@ -11,7 +11,7 @@ const useIsOnlineMyStatus = () => {
 
   useEffect(() => {
     if (currentUserUID) {
-      const dbRef = ref(database, 'status/' + currentUserUID);
+      const dbRef = ref(database, `status/${currentUserUID}`);
       set(dbRef, true);
 
       const disconnectRef = onDisconnect(dbRef);

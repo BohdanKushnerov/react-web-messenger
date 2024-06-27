@@ -1,4 +1,4 @@
-import { IconId } from '@enums/iconsSpriteId';
+import type { IconId } from '@enums/iconsSpriteId';
 
 export interface ISvgIconProps {
   id?: string;

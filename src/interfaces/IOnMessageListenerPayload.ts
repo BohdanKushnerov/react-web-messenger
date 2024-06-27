@@ -1,4 +1,4 @@
-import { INotification } from './INotification';
+import type { INotification } from './INotification';
 
 export interface IOnMessageListenerPayload {
   from: string;

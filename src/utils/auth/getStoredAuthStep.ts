@@ -1,4 +1,4 @@
-import { AuthSteps } from 'types/AuthSteps';
+import type { AuthSteps } from 'types/AuthSteps';
 
 const getStoredAuthStep = () => {
   return (localStorage.getItem('step') as AuthSteps) || 'Step 1/3';

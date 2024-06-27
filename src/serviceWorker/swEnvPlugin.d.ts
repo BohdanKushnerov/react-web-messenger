@@ -1,1 +1,1 @@
-export declare function swEnvPlugin(): void;
+export declare const swEnvPlugin: () => void;

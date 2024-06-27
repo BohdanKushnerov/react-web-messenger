@@ -1,17 +1,19 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
-import { IAuthConfirmButtonProps } from '@interfaces/IAuthConfirmButtonProps';
+import type { IAuthConfirmButtonProps } from '@interfaces/IAuthConfirmButtonProps';
 
 import { ElementsId } from '@enums/elementsId';
+
+import { defaultNS } from '@i18n/i18n';
 
 const AuthConfirmButton: FC<IAuthConfirmButtonProps> = ({
   isLoading,
   onSubmit,
 }) => {
-  const { t } = useTranslation('translation', { keyPrefix: 'Auth' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'Auth' });
 
   return (
     <button

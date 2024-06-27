@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import SearchInput from '@components/Inputs/SearchInput/SearchInput';
@@ -12,14 +12,16 @@ import useSearchMessageValue from '@hooks/useSearchMessageValue';
 
 import formatTimeSearchMsg from '@utils/messages/formatTimeSearchMsg';
 
-import { ISearchMessagesProps } from '@interfaces/ISearchMessagesProps';
+import type { ISearchMessagesProps } from '@interfaces/ISearchMessagesProps';
 
 import { IconId } from '@enums/iconsSpriteId';
+
+import { defaultNS } from '@i18n/i18n';
 
 const SearchMessages: FC<ISearchMessagesProps> = ({
   setIsShowSearchMessages,
 }) => {
-  const { t } = useTranslation('translation', { keyPrefix: 'General' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'General' });
 
   const { userUID } = useChatStore(state => state.currentChatInfo);
   const { photoURL, displayName } = useChatStore(state => state.currentUser);

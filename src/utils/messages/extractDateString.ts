@@ -1,4 +1,4 @@
-import { Timestamp } from 'firebase/firestore';
+import type { Timestamp } from 'firebase/firestore';
 
 const extractDateString = (timestamp: Timestamp): string => {
   const date = timestamp.toDate();

@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import type { GroupedMessages } from 'types/GroupedMessages';
 
 export type UseChatMessageUpdates = (
-  setGroupedMessages: Dispatch<SetStateAction<IGroupedMessages | null>>
+  setGroupedMessages: Dispatch<SetStateAction<GroupedMessages | null>>
 ) => void;

@@ -1,4 +1,4 @@
-import { ConfirmationResult } from 'firebase/auth';
+import type { ConfirmationResult } from 'firebase/auth';
 
 const handleSubmitVerifyCode = (
   confirmationResult: ConfirmationResult | null,

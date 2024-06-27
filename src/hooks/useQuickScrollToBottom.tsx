@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react';
 
 import useResizeWindow from './useResizeWindow';
 
-import { UseQuickScrollToBottom } from 'types/hooks/UseQuickScrollToBottom';
+import type { UseQuickScrollToBottom } from 'types/hooks/UseQuickScrollToBottom';
 
 const useQuickScrollToBottom: UseQuickScrollToBottom = (
   bottomElementRef,
@@ -26,7 +26,7 @@ const useQuickScrollToBottom: UseQuickScrollToBottom = (
 
   useEffect(() => {
     const isMobileScreen = !isFullScreen;
-    if (isMobileScreen && !isScrollDownButtonVisible) {
+    if (isMobileScreen && !isScrollDownButtonVisible && heightWindow) {
       setTimeout(() => {
         quickScrollBottom();
       }, 100);

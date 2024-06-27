@@ -2,7 +2,7 @@ import { Timestamp, addDoc, collection } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 
-import { IFile } from '@interfaces/IFile';
+import type { IFile } from '@interfaces/IFile';
 
 import { MessageTypes } from '@enums/messageTypes';
 

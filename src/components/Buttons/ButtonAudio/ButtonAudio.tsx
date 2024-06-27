@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import { IButtonAudioProps } from '@interfaces/IButtonAudioProps';
+import type { IButtonAudioProps } from '@interfaces/IButtonAudioProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 

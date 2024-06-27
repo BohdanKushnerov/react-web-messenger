@@ -1,4 +1,5 @@
-import { FC, Suspense, lazy, useEffect } from 'react';
+import type { FC } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ButtonSearchMessages from '@components/Buttons/ButtonSearchMessages/ButtonSearchMessages';
@@ -9,7 +10,7 @@ import useChatStore from '@zustand/store';
 
 import useResizeWindow from '@hooks/useResizeWindow';
 
-import { IChatHeaderProps } from '@interfaces/IChatHeaderProps';
+import type { IChatHeaderProps } from '@interfaces/IChatHeaderProps';
 
 const ButtonArrow = lazy(
   () => import('@components/Buttons/ButtonArrow/ButtonArrow')

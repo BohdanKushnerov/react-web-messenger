@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import VideoComponent from '../VideoComponent/VideoComponent';
 
-import { ILinkMessageProps } from '@interfaces/ILinkMessageProps';
+import type { ILinkMessageProps } from '@interfaces/ILinkMessageProps';
 
 const LinkMessage: FC<ILinkMessageProps> = ({ textContentMsg, isVideo }) => {
   return (
@@ -12,7 +12,7 @@ const LinkMessage: FC<ILinkMessageProps> = ({ textContentMsg, isVideo }) => {
         href={
           textContentMsg.startsWith('https://')
             ? textContentMsg
-            : 'https://' + textContentMsg
+            : `https://${textContentMsg}`
         }
         target="_blank"
         rel="noreferrer noopener"

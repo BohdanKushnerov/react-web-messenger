@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { UseCloseModal } from 'types/hooks/UseCloseModal';
+import type { UseCloseModal } from 'types/hooks/UseCloseModal';
 
 const useCloseModal: UseCloseModal = callback => {
   useEffect(() => {

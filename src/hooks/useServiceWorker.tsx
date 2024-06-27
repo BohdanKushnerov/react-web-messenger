@@ -4,12 +4,12 @@ import { toast } from 'react-toastify';
 const useServiceWorker = () => {
   useEffect(() => {
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
+      window.addEventListener('load', () => {
         navigator.serviceWorker
           .register('/firebase-messaging-sw.js', {
             scope: '/firebase-cloud-messaging-push-scope',
           })
-          .catch(function (err) {
+          .catch(err => {
             toast.warn(err);
           });
       });

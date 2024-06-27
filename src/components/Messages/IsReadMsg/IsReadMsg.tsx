@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import { IIsReadMsgProps } from '@interfaces/IIsReadMsgProps';
+import type { IIsReadMsgProps } from '@interfaces/IIsReadMsgProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 

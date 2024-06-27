@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 
-import { UseChatInfo } from 'types/hooks/UseChatInfo';
+import type { UseChatInfo } from 'types/hooks/UseChatInfo';
 
 const useChatInfo: UseChatInfo = userUID => {
   const [currentChatInfo, setCurrentChatInfo] = useState<DocumentData | null>(

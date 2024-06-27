@@ -23,7 +23,7 @@ const useResizeWindow = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [setIsFullScreen]);
+  }, []);
 
   return { isFullScreen, heightWindow };
 };

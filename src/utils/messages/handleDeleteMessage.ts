@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 
-import { DocumentData } from 'firebase/firestore';
-import { TFunction } from 'i18next';
+import type { DocumentData } from 'firebase/firestore';
+import type { TFunction } from 'i18next';
 
 import { db } from '@myfirebase/config';
 
@@ -15,7 +15,7 @@ const handleDeleteMessage = async (
   chatUID: string | null,
   currentUserUID: string | null,
   userUID: string | null,
-  t: TFunction<'translation', undefined>,
+  t: TFunction<undefined>,
   closeModal: () => void
 ): Promise<void> => {
   if (!chatUID || !selectedDocDataMessage || !currentUserUID || !userUID) {

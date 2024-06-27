@@ -1,3 +1,3 @@
-import { DocumentData } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 
 export type UseMakeReadMsg = (msg: DocumentData, isNearBottom: boolean) => void;

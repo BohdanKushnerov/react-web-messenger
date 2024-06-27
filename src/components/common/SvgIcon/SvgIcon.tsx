@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { ISvgIconProps } from '@interfaces/ISvgIconProps';
+import type { ISvgIconProps } from '@interfaces/ISvgIconProps';
 
 import sprite from '@assets/sprite.svg';
 

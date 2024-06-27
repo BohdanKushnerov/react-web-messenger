@@ -11,7 +11,7 @@ import handleAddedMessage from '@utils/messages/handleAddedMessage';
 import handleModifiedMessage from '@utils/messages/handleModifiedMessage';
 import handleRemovedMessage from '@utils/messages/handleRemovedMessage';
 
-import { UseChatMessageUpdates } from 'types/hooks/UseChatMessageUpdates';
+import type { UseChatMessageUpdates } from 'types/hooks/UseChatMessageUpdates';
 
 const useChatMessageUpdates: UseChatMessageUpdates = setGroupedMessages => {
   const { chatUID } = useChatStore(state => state.currentChatInfo);

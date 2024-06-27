@@ -2,10 +2,9 @@ import { useEffect } from 'react';
 
 import cleanUpRecordingResources from '@utils/chatForm/cleanupRecordingResources';
 
-import { UseRecordingCleanup } from 'types/hooks/UseRecordingCleanup';
+import type { UseRecordingCleanup } from 'types/hooks/UseRecordingCleanup';
 
 const useRecordingCleanup: UseRecordingCleanup = (
-  audioChunks,
   animationIdRef,
   mediaRecorderRef,
   analyserRef,
@@ -35,7 +34,6 @@ const useRecordingCleanup: UseRecordingCleanup = (
       }
     };
   }, [
-    audioChunks,
     handleToggleRecordingStatus,
     analyserRef,
     setAudioChunks,

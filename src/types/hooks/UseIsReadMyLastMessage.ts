@@ -1,1 +1,1 @@
-export type UseIsReadMyLastMessage = (itemChatUID: string) => boolean;
+export type UseIsReadMyLastMessage = (itemChatUID: string | null) => boolean;

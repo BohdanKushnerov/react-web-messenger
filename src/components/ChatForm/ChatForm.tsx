@@ -1,4 +1,5 @@
-import { FC, Suspense, lazy, useRef, useState } from 'react';
+import type { FC } from 'react';
+import { Suspense, lazy, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ButtonRecordAudio from '@components/Buttons/ButtonRecordAudio/ButtonRecordAudio';
@@ -18,7 +19,7 @@ import useMyTyping from '@hooks/useMyTyping';
 import handleSendMessage from '@utils/chatForm/handleSendMessage';
 import handleUpdateEditMessage from '@utils/messages/handleUpdateEditMessage';
 
-import { IChatFormProps } from '@interfaces/IChatFormProps';
+import type { IChatFormProps } from '@interfaces/IChatFormProps';
 
 import { ElementsId } from '@enums/elementsId';
 

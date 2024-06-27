@@ -1,10 +1,10 @@
-import { RefObject } from 'react';
+import type { RefObject } from 'react';
 
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import type { GroupedMessages } from 'types/GroupedMessages';
 
 export type UseQuickScrollToBottom = (
   bottomElementRef: RefObject<HTMLDivElement>,
   isReadyFirstMsgs: boolean,
   isScrollDownButtonVisible: boolean,
-  groupedMessages: IGroupedMessages | null
+  groupedMessages: GroupedMessages | null
 ) => void;

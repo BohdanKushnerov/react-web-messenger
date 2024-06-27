@@ -1,4 +1,9 @@
-import { Dispatch, MutableRefObject, RefObject, SetStateAction } from 'react';
+import type {
+  Dispatch,
+  MutableRefObject,
+  RefObject,
+  SetStateAction,
+} from 'react';
 
 export type UseStartRecording = (
   isRecording: boolean,

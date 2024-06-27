@@ -1,4 +1,5 @@
-import { FC, useRef, useState } from 'react';
+import type { FC } from 'react';
+import { useRef, useState } from 'react';
 
 import RecordingStatusField from '../RecordingStatusField/RecordingStatusField';
 
@@ -13,9 +14,9 @@ import useStartRecording from '@hooks/useStartRecording';
 import cleanUpRecordingResources from '@utils/chatForm/cleanupRecordingResources';
 import handleSendAudio from '@utils/chatForm/handleSendAudio';
 
-import { IRecordingAudioProps } from '@interfaces/IRecordingAudioProps';
+import type { IRecordingAudioProps } from '@interfaces/IRecordingAudioProps';
 
-import { MimeType } from 'types/MimeType';
+import type { MimeType } from 'types/MimeType';
 
 const RecordingAudio: FC<IRecordingAudioProps> = ({
   isRecording,
@@ -45,7 +46,6 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
   );
 
   useRecordingCleanup(
-    audioChunks,
     animationIdRef,
     mediaRecorderRef,
     analyserRef,

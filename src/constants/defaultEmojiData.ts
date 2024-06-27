@@ -1,4 +1,4 @@
-import { IEmojiReactions } from '@interfaces/IEmojiReactions';
+import type { IEmojiReactions } from '@interfaces/IEmojiReactions';
 
 const defaultEmojiData: IEmojiReactions[] = [
   {

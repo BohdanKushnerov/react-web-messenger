@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 
+import { ElementsId } from '@enums/elementsId';
+
 const useTheme = () => {
   useEffect(() => {
     const setDarkTheme = () => {
@@ -12,8 +14,12 @@ const useTheme = () => {
       localStorage.setItem('theme', 'light');
     };
 
-    const lightThemeEl = document.querySelector('#light-theme-switcher')!;
-    const darkThemeEl = document.querySelector('#dark-theme-switcher')!;
+    const lightThemeEl = document.getElementById(
+      ElementsId.LightThemeSwitcher
+    ) as HTMLButtonElement;
+    const darkThemeEl = document.getElementById(
+      ElementsId.DarkThemeSwitcher
+    ) as HTMLButtonElement;
 
     lightThemeEl.addEventListener('click', setLightTheme);
     darkThemeEl.addEventListener('click', setDarkTheme);

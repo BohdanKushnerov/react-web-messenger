@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@zustand/store';
 
-import { IButtonSelectProps } from '@interfaces/IButtonSelectProps';
+import type { IButtonSelectProps } from '@interfaces/IButtonSelectProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 

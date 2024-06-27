@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import UserChatInfo from './UserChatInfo/UserChatInfo';
@@ -13,8 +13,8 @@ import useChatInfo from '@hooks/useChatInfo';
 
 import handleSelectChat from '@utils/chatListItem/handleSelectChat';
 
-import { IChatListItemProps } from '@interfaces/IChatListItemProps';
-import { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
+import type { IChatListItemProps } from '@interfaces/IChatListItemProps';
+import type { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
 
 const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
   const location = useLocation();

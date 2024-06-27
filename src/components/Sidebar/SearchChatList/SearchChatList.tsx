@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { DocumentData } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 
 import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
@@ -13,10 +13,12 @@ import useSearchUsers from '@hooks/useSearchUsers';
 
 import handleCreateAndNavigateToChat from '@utils/chatListItem/handleCreateAndNavigateToChat';
 
+import { defaultNS } from '@i18n/i18n';
+
 const SearchChatList: FC = () => {
   const navigate = useNavigate();
 
-  const { t } = useTranslation('translation', { keyPrefix: 'Sidebar' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'Sidebar' });
 
   const currentUser = useChatStore(state => state.currentUser);
   const updateSearchValue = useChatStore(state => state.updateSearchValue);

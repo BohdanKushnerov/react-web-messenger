@@ -1,5 +1,5 @@
-import { IGroupedMessages } from './IGroupedMessages';
+import type { GroupedMessages } from '../types/GroupedMessages';
 
 export interface IChatContextMenuProps {
-  groupedMessages: IGroupedMessages | null;
+  groupedMessages: GroupedMessages | null;
 }

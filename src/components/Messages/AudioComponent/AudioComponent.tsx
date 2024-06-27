@@ -1,16 +1,19 @@
 import WavesurferPlayer from '@wavesurfer/react';
-import { FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useDebounce } from 'use-debounce';
-import WaveSurfer from 'wavesurfer.js';
+import type WaveSurfer from 'wavesurfer.js';
 
 import ButtonAudio from '@components/Buttons/ButtonAudio/ButtonAudio';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import convertTimeWithZero from '@utils/convertTimeWithZero';
 
-import { IAudioComponentProps } from '@interfaces/IAudioComponentProps';
+import type { IAudioComponentProps } from '@interfaces/IAudioComponentProps';
+
+import { defaultNS } from '@i18n/i18n';
 
 const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null);
@@ -21,10 +24,10 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
 
   const [debouncedVolume] = useDebounce(volume, 50);
 
-  const { t } = useTranslation('translation', { keyPrefix: 'General' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'General' });
 
   const onVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseInt(event.target.value);
+    const newVolume = Number.parseInt(event.target.value);
     setVolume(newVolume);
   };
 

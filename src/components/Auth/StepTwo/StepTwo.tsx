@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CodeInput from '@components/Inputs/CodeInput/CodeInput';
@@ -10,9 +10,11 @@ import useAuthResendVerifyCode from '@hooks/useAuthResendVerifyCode';
 import setUpRecaptcha from '@utils/auth/setUpRecaptcha';
 import convertTimeWithZero from '@utils/convertTimeWithZero';
 
-import { IStepTwoProps } from '@interfaces/IStepTwoProps';
+import type { IStepTwoProps } from '@interfaces/IStepTwoProps';
 
 import authStep2 from '@assets/auth-step2.webp';
+
+import { defaultNS } from '@i18n/i18n';
 
 const StepTwo: FC<IStepTwoProps> = ({
   phone,
@@ -21,7 +23,7 @@ const StepTwo: FC<IStepTwoProps> = ({
   setConfirmationResult,
   setRecaptcha,
 }) => {
-  const { t } = useTranslation('translation', { keyPrefix: 'Auth' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'Auth' });
 
   const { timer, isButtonDisabled, handleResetTimer } =
     useAuthResendVerifyCode();

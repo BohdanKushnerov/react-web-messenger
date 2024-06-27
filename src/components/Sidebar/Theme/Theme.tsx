@@ -1,18 +1,22 @@
-import { FC, useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useTheme from '@hooks/useTheme';
 
+import { ElementsId } from '@enums/elementsId';
 import { IconId } from '@enums/iconsSpriteId';
+
+import { defaultNS } from '@i18n/i18n';
 
 const Theme: FC = () => {
   const [isLightTheme, setIsLightTheme] = useState(() => {
     return localStorage.getItem('theme') === 'light';
   });
 
-  const { t } = useTranslation('translation', { keyPrefix: 'NavBar' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'NavBar' });
 
   useTheme();
 
@@ -22,16 +26,16 @@ const Theme: FC = () => {
 
   const themes = [
     {
-      id: 'light-theme-switcher',
+      id: ElementsId.LightThemeSwitcher,
       theme: 'light',
-      icon: '#ligth-theme-sun',
+      icon: IconId.IconLigthThemeSun,
       label: t('Light'),
       isActive: isLightTheme,
     },
     {
-      id: 'dark-theme-switcher',
+      id: ElementsId.DarkThemeSwitcher,
       theme: 'dark',
-      icon: '#dark-theme-moon',
+      icon: IconId.IconDarkThemeSun,
       label: t('Dark'),
       isActive: !isLightTheme,
     },
@@ -59,7 +63,11 @@ const Theme: FC = () => {
             disabled={isActive}
           >
             <div className="pointer-events-none flex items-center justify-center gap-1">
-              <SvgIcon className="fill-current" iconId={icon as IconId} size={24} />
+              <SvgIcon
+                className="fill-current"
+                iconId={icon as IconId}
+                size={24}
+              />
               <span data-theme-name={theme}>{label}</span>
             </div>
           </button>

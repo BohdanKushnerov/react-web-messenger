@@ -38,7 +38,7 @@ const useMyTyping = () => {
         myTypingTimeoutRef.current = null;
       }
     };
-  }, [chatUID, myTypingTimeoutRef]);
+  }, []);
 };
 
 export default useMyTyping;

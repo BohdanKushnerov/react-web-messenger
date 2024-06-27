@@ -1,7 +1,7 @@
 import { forwardRef, memo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { DocumentData } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 
 import MessageItem from '../MessageItem/MessageItem';
 import SelectIcons from '../SelectIcons/SelectIcons';
@@ -15,7 +15,7 @@ import useQuickScrollToBottom from '@hooks/useQuickScrollToBottom';
 
 import formatDateForGroupMessages from '@utils/messages/formatDateForGroupMessages';
 
-import { IMessageListProps } from '@interfaces/IMessageListProps';
+import type { IMessageListProps } from '@interfaces/IMessageListProps';
 
 import { ElementsId } from '@enums/elementsId';
 
@@ -115,7 +115,7 @@ const MessageList = memo(
             id={ElementsId.BottomItem}
             ref={bottomElementRef}
             className="h-0 w-0"
-          ></div>
+          />
         </div>
 
         {isScrollDownButtonVisible && isReadyFirstMsgs && (

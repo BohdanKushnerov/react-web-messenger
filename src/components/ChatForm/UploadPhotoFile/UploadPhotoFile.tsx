@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Line } from 'rc-progress';
 
-import { IUploadPhotoFileProps } from '@interfaces/IUploadPhotoFileProps';
+import type { IUploadPhotoFileProps } from '@interfaces/IUploadPhotoFileProps';
 
 const UploadPhotoFile: FC<IUploadPhotoFileProps> = ({ file, status }) => {
   return (
@@ -10,7 +10,7 @@ const UploadPhotoFile: FC<IUploadPhotoFileProps> = ({ file, status }) => {
       <div className="flex items-center gap-4">
         <img
           src={URL.createObjectURL(file)}
-          alt={`Image ${file.name}`}
+          alt={file.name}
           width={48}
           height={48}
         />
@@ -19,7 +19,7 @@ const UploadPhotoFile: FC<IUploadPhotoFileProps> = ({ file, status }) => {
             {file.name}
           </p>
           <p className="text-mediumGray">
-            {(file.size / 1024).toFixed(2) + ' KB'}
+            {`${(file.size / 1024).toFixed(2)} KB`}
           </p>
         </div>
       </div>

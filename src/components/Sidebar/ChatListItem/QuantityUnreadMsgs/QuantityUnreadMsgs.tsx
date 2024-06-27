@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
 import useUnreadMessagesInChatListItem from '@hooks/useUnreadMessages';
 
-import { IQuantityUnreadMsgsProps } from '@interfaces/IQuantityUnreadMsgsProps';
+import type { IQuantityUnreadMsgsProps } from '@interfaces/IQuantityUnreadMsgsProps';
 
 const QuantityUnreadMsgs: FC<IQuantityUnreadMsgsProps> = ({ chatUID }) => {
   const lengthOfMyUnreadMsgs = useLengthOfMyUnreadMsgs(chatUID);

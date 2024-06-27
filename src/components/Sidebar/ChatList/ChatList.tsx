@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ChatListItem from '../ChatListItem/ChatListItem';
@@ -7,10 +7,12 @@ import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions'
 
 import useMyUserChatList from '@hooks/useMyUserChatList';
 
-import { ChatListItemType } from 'types/ChatListItemType';
+import type { ChatListItemType } from 'types/ChatListItemType';
+
+import { defaultNS } from '@i18n/i18n';
 
 const ChatList: FC = () => {
-  const { t } = useTranslation('translation', { keyPrefix: 'Sidebar' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'Sidebar' });
 
   const { isLoading, myUserChatList } = useMyUserChatList();
 

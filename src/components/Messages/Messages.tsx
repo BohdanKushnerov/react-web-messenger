@@ -1,5 +1,5 @@
+import type { FC } from 'react';
 import {
-  FC,
   Suspense,
   lazy,
   useCallback,
@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react';
 
-import { DocumentData } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 
 import MessageList from './MessagesList/MessageList';
 import MessagesScrollBar from './MessagesScrollBar/MessagesScrollBar';
@@ -27,9 +27,9 @@ import useSelectedMessagesHandling from '@hooks/useSelectedMessagesHandling';
 import calculateMenuPosition from '@utils/messages/calculateMenuPosition';
 import handleScrollLoadMoreMessages from '@utils/messages/handleScrollLoadMoreMessages';
 
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
-
 import { ElementsId } from '@enums/elementsId';
+
+import type { GroupedMessages } from 'types/GroupedMessages';
 
 const MessageContextMenuModal = lazy(
   () =>
@@ -41,7 +41,7 @@ const ChatContextMenu = lazy(
 
 const Messages: FC = () => {
   const [groupedMessages, setGroupedMessages] =
-    useState<IGroupedMessages | null>(null);
+    useState<GroupedMessages | null>(null);
   const [isReadyFirstMsgs, setIsReadyFirstMsgs] = useState(false);
   const [isScrollDownButtonVisible, setIsScrollDownButtonVisible] =
     useState(false);
@@ -166,9 +166,9 @@ const Messages: FC = () => {
 
           if (filteredMsgs?.length === 0) {
             return null;
-          } else {
-            return filteredMsgs ?? null;
           }
+
+          return filteredMsgs ?? null;
         });
       } else {
         updateSelectedDocDataMessage(prev =>
@@ -215,13 +215,11 @@ const Messages: FC = () => {
               className="pointer-events-none z-10 h-screen w-screen bg-transparent"
               style={{
                 position: 'absolute',
-                top: modalPosition.top + 'px',
-                left: modalPosition.left + 'px',
+                top: `${modalPosition.top}px`,
+                left: `${modalPosition.left}px`,
               }}
             >
-              <div
-                className={`pointer-events-auto h-56 w-56 rounded-3xl bg-mediumDarkZincOpacity10 p-2`}
-              >
+              <div className="pointer-events-auto h-56 w-56 rounded-3xl bg-mediumDarkZincOpacity10 p-2">
                 <LoaderUIActions size={200} />
               </div>
             </div>

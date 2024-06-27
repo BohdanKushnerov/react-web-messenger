@@ -1,8 +1,8 @@
-import { DocumentData } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 import { produce } from 'immer';
-import { StateCreator } from 'zustand';
+import type { StateCreator } from 'zustand';
 
-import { IMessageEditingState } from '@interfaces/zustand/IMessageEditingState';
+import type { IMessageEditingState } from '@interfaces/zustand/IMessageEditingState';
 
 const createMessageEditingFormState: StateCreator<
   IMessageEditingState

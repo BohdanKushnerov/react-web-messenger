@@ -1,4 +1,4 @@
-import { IFile } from '@interfaces/IFile';
+import type { IFile } from '@interfaces/IFile';
 
 const calculateMsgImageHeight = (
   files: IFile[],
@@ -12,9 +12,9 @@ const calculateMsgImageHeight = (
 
   if (isSingleFile) {
     return isTallImage ? 336 : 200;
-  } else {
-    return index <= 1 ? 159 : 78.5;
   }
+
+  return index <= 1 ? 159 : 78.5;
 };
 
 export default calculateMsgImageHeight;

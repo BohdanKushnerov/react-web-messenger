@@ -1,4 +1,5 @@
-import { FC, Suspense, lazy, useState } from 'react';
+import type { FC } from 'react';
+import { Suspense, lazy, useState } from 'react';
 
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';

@@ -1,8 +1,9 @@
 import { toast } from 'react-toastify';
 
-import { User, updateProfile } from 'firebase/auth';
+import type { User } from 'firebase/auth';
+import { updateProfile } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 
 import { auth, db } from '@myfirebase/config';
 
@@ -10,7 +11,7 @@ const handleClickChangeDisplayName = async (
   newDisplayName: string,
   userUid: string,
   updateCurrentUser: (user: User) => void,
-  t: TFunction<'translation', 'ProfileSettings'>
+  t: TFunction<'ProfileSettings'>
 ) => {
   if (auth.currentUser && userUid) {
     try {

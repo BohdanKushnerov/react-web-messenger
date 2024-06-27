@@ -1,6 +1,6 @@
-import { DocumentData } from 'firebase/firestore';
+import type { DocumentData } from 'firebase/firestore';
 
-import { IFile } from '@interfaces/IFile';
+import type { IFile } from '@interfaces/IFile';
 
 const getFilesWithoutImages = (msg: DocumentData): IFile[] | null => {
   const files = msg

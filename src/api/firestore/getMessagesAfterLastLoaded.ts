@@ -1,7 +1,7 @@
-import { MutableRefObject } from 'react';
+import type { MutableRefObject } from 'react';
 
+import type { DocumentData } from 'firebase/firestore';
 import {
-  DocumentData,
   collection,
   getDocs,
   limit,

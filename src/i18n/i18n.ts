@@ -1,15 +1,24 @@
 import { initReactI18next } from 'react-i18next';
 
+import * as i18n from 'i18next';
 
+import {
+  Auth,
+  ChatForm,
+  ChatListUnreadMsg,
+  ContextMenu,
+  FileInput,
+  General,
+  MonthNames,
+  NavBar,
+  ProfileSettings,
+  Sidebar,
+  Toasts,
+} from '../enums/i18nСonstants';
 
-import i18n from 'i18next';
+export const defaultNS = 'translation';
 
-
-
-import { Auth, ChatForm, ChatListUnreadMsg, ContextMenu, FileInput, General, MonthNames, NavBar, ProfileSettings, Sidebar, Toasts } from './enums/i18nСonstants';
-
-
-const resources = {
+export const resources = {
   en: {
     translation: {
       [Auth.Loading]: 'Waiting messenger is loading...',

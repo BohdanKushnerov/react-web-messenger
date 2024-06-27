@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -9,7 +9,7 @@ import useChatStore from '@zustand/store';
 
 import copyTextSelectedMsgs from '@utils/messages/copyTextSelectedMsgs';
 
-import { ICopyButtonProps } from '@interfaces/ICopyButtonProps';
+import type { ICopyButtonProps } from '@interfaces/ICopyButtonProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 

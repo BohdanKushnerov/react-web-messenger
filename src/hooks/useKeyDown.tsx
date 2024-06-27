@@ -2,12 +2,16 @@ import { useEffect } from 'react';
 
 import { ElementsId } from '@enums/elementsId';
 
-import { UseKeyDown } from 'types/hooks/UseKeyDown';
+import type { UseKeyDown } from 'types/hooks/UseKeyDown';
 
 const useKeyDown: UseKeyDown = (inputRef, isShowSearchMessages) => {
   useEffect(() => {
-    const handleKeyDown = () => {
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (isShowSearchMessages === true) return;
+
+      if (event.key === 'Tab') {
+        return;
+      }
 
       const searchInput = document.getElementById(
         ElementsId.SearchInput

@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import { IButtonScrollDownProps } from '@interfaces/IButtonScrollDownProps';
+import type { IButtonScrollDownProps } from '@interfaces/IButtonScrollDownProps';
 
 import { IconId } from '@enums/iconsSpriteId';
 

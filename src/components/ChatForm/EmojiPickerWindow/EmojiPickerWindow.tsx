@@ -1,5 +1,7 @@
-import EmojiPicker, { EmojiClickData, EmojiStyle } from 'emoji-picker-react';
-import { FC, useRef } from 'react';
+import type { EmojiClickData } from 'emoji-picker-react';
+import EmojiPicker, { EmojiStyle } from 'emoji-picker-react';
+import type { FC } from 'react';
+import { useRef } from 'react';
 import { Transition } from 'react-transition-group';
 
 import useChatStore from '@zustand/store';

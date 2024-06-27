@@ -1,4 +1,4 @@
-import { IFile } from '@interfaces/IFile';
+import type { IFile } from '@interfaces/IFile';
 
 const calculateMsgImageWidth = (files: IFile[], file: IFile, index: number) => {
   const height = file.height ?? 0;
@@ -9,9 +9,9 @@ const calculateMsgImageWidth = (files: IFile[], file: IFile, index: number) => {
 
   if (isSingleFile) {
     return isWideImage ? 336 : 200;
-  } else {
-    return isFirstOrSecondIndex ? 159 : 78.5;
   }
+
+  return isFirstOrSecondIndex ? 159 : 78.5;
 };
 
 export default calculateMsgImageWidth;

@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import { ISelectIconsProps } from '@interfaces/ISelectIconsProps';
+import type { ISelectIconsProps } from '@interfaces/ISelectIconsProps';
 
 import { ElementsId } from '@enums/elementsId';
 import { IconId } from '@enums/iconsSpriteId';

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import urlParser from 'js-video-url-parser';
 
@@ -19,8 +19,8 @@ import isLinkMsg from '@utils/isLinkMsg';
 import formatTimeMsg from '@utils/messages/formatTimeMsg';
 import getFilesWithoutImages from '@utils/messages/getFilesWithoutImages';
 
-import { IFile } from '@interfaces/IFile';
-import { IMessageItemProps } from '@interfaces/IMessageItemProps';
+import type { IFile } from '@interfaces/IFile';
+import type { IMessageItemProps } from '@interfaces/IMessageItemProps';
 
 import { ElementsId } from '@enums/elementsId';
 

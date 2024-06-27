@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 
-import { DocumentData } from 'firebase/firestore';
-import { TFunction } from 'i18next';
+import type { DocumentData } from 'firebase/firestore';
+import type { TFunction } from 'i18next';
 
 import updateEditedMessageTextContent from '@api/firestore/updateEditedMessageTextContent';
 import updateEditedStatusMsgDoc from '@api/firestore/updateEditedStatusMsgDoc';
@@ -9,7 +9,9 @@ import updateEditedStatusMsgDoc from '@api/firestore/updateEditedStatusMsgDoc';
 import makeCursorOnProgress from '@utils/makeCursorOnProgress';
 import resetCursorOnDefault from '@utils/resetCursorOnDefault';
 
-import '@i18n';
+import { Toasts } from '@enums/i18nСonstants';
+
+import '@i18n/i18n';
 
 const handleUpdateEditMessage = async (
   editingMessageInfo: {
@@ -35,9 +37,9 @@ const handleUpdateEditMessage = async (
       updateEditedStatusMsgDoc(chatUID, selectedMessage),
     ]);
 
-    toast.success(t('Toasts.EditingMessageSuccess'));
+    toast.success(t(Toasts.DeleteMessageSuccess));
   } catch (error) {
-    toast.error(t('Toasts.EditingMessageError'));
+    toast.error(t(Toasts.DeleteMessageError));
     console.log('handleUpdateEditMessage error', error);
   } finally {
     resetCursorOnDefault();

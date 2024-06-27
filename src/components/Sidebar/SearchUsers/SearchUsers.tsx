@@ -1,12 +1,14 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import SearchInput from '@components/Inputs/SearchInput/SearchInput';
 
 import useChatStore from '@zustand/store';
 
+import { defaultNS } from '@i18n/i18n';
+
 const SearchUsers: FC = () => {
-  const { t } = useTranslation('translation', { keyPrefix: 'General' });
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'General' });
 
   const searchValue = useChatStore(state => state.searchValue);
   const updateSearchValue = useChatStore(state => state.updateSearchValue);

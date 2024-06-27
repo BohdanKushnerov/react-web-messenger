@@ -1,15 +1,15 @@
-import { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
-import { DocumentChange, DocumentData } from 'firebase/firestore';
+import type { DocumentChange, DocumentData } from 'firebase/firestore';
 
 import extractDateString from './extractDateString';
 import updateGroupedMessages from './updateGroupedMessages';
 
-import { IGroupedMessages } from '@interfaces/IGroupedMessages';
+import type { GroupedMessages } from 'types/GroupedMessages';
 
 const handleModifiedMessage = (
   change: DocumentChange<DocumentData, DocumentData>,
-  setGroupedMessages: Dispatch<SetStateAction<IGroupedMessages | null>>
+  setGroupedMessages: Dispatch<SetStateAction<GroupedMessages | null>>
 ) => {
   const messageData = change.doc.data();
   if (messageData?.date) {

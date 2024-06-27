@@ -16,7 +16,7 @@ firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage(async function (payload) {
+messaging.onBackgroundMessage(async payload => {
   await self.registration.showNotification(payload.data.title, {
     body: payload.data.body,
   });

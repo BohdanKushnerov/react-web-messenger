@@ -1,4 +1,4 @@
-import { DocumentData, doc, updateDoc } from 'firebase/firestore';
+import { type DocumentData, doc, updateDoc } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 
@@ -9,7 +9,7 @@ const updateEditedStatusMsgDoc = async (
   await updateDoc(
     doc(db, 'chats', chatUID, 'messages', `${selectedMessage.id}`),
     {
-      ['isEdited']: true,
+      isEdited: true,
     }
   );
 };
