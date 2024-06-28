@@ -1,12 +1,11 @@
 import type { FC } from 'react';
-import { Suspense, lazy, memo, useRef } from 'react';
-import { Transition } from 'react-transition-group';
+import { lazy, memo, useRef } from 'react';
 
 import ChatList from '@components/Sidebar/ChatList/ChatList';
 import Navbar from '@components/Sidebar/Navbar/Navbar';
 import SearchChatList from '@components/Sidebar/SearchChatList/SearchChatList';
 import SearchUsers from '@components/Sidebar/SearchUsers/SearchUsers';
-import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
+import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
 import useChatStore from '@zustand/store';
 
@@ -21,52 +20,33 @@ const Sidebar: FC = memo(() => {
 
   return (
     <div className="relative h-full w-full border-r border-r-ultraDarkZinc bg-main dark:bg-mainBlack sm:w-300px md:w-400px">
-      <Transition
+      <TransitionComponent
+        className="h-full w-full origin-left"
         nodeRef={nodeRefSidebarDefault}
-        in={sidebarScreen === 'default'}
-        timeout={300}
-        unmountOnExit
+        exitedBehavior="hidden"
+        enteredBehavior="translate-left"
+        condition={sidebarScreen === 'default'}
+        timeout={200}
       >
-        {state => (
-          <div
-            ref={nodeRefSidebarDefault}
-            className={`h-full w-full origin-top-left transform transition-transform ${state === 'exited' ? 'hidden' : ''} ${
-              state === 'entered'
-                ? 'translate-x-0 rotate-0'
-                : '-translate-x-1/2 rotate-180 duration-300'
-            } `}
-          >
-            <div className="flex gap-2 px-3 py-2">
-              <Navbar />
-              <SearchUsers />
-            </div>
+        <div className="flex gap-2 px-3 py-2">
+          <Navbar />
+          <SearchUsers />
+        </div>
 
-            <div
-              style={{
-                position: 'relative',
-                overflow: 'scroll',
-                width: '100%',
-                height: 'calc(100% - 48px)',
-              }}
-            >
-              <SearchChatList />
-              <ChatList />
-            </div>
-          </div>
-        )}
-      </Transition>
-
-      {sidebarScreen === 'profileSettings' && (
-        <Suspense
-          fallback={
-            <div className="absolute left-1/2 -translate-x-1/2">
-              <LoaderUIActions size={200} />
-            </div>
-          }
+        <div
+          style={{
+            position: 'relative',
+            overflow: 'scroll',
+            width: '100%',
+            height: 'calc(100% - 48px)',
+          }}
         >
-          <ProfileSettings />
-        </Suspense>
-      )}
+          <SearchChatList />
+          <ChatList />
+        </div>
+      </TransitionComponent>
+
+      <ProfileSettings />
     </div>
   );
 });
