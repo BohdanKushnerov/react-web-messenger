@@ -10,7 +10,6 @@ const modalRoot = document.querySelector('#modal-root') as HTMLDivElement;
 const ModalWindow: FC<IModalWindowProps> = ({
   handleToggleModal,
   children,
-  contentClasses,
 }) => {
   useCloseModal(handleToggleModal);
 
@@ -23,7 +22,7 @@ const ModalWindow: FC<IModalWindowProps> = ({
   return createPortal(
     <div
       onClick={handleBackdropClick}
-      className={`absolute left-0 top-0 z-10 h-screen w-screen bg-transparent ${contentClasses}`}
+      className="absolute left-0 top-0 z-10 h-screen w-screen bg-transparent"
     >
       {children}
     </div>,

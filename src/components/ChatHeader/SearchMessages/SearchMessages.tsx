@@ -1,14 +1,16 @@
-import type { FC } from 'react';
+import { type FC, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import SearchInput from '@components/Inputs/SearchInput/SearchInput';
 import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
+import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
 import useChatStore from '@zustand/store';
 
 import useChatInfo from '@hooks/useChatInfo';
 import useSearchMessageValue from '@hooks/useSearchMessageValue';
+import useStartTransition from '@hooks/useStartTransition';
 
 import formatTimeSearchMsg from '@utils/messages/formatTimeSearchMsg';
 
@@ -21,6 +23,7 @@ import { defaultNS } from '@i18n/i18n';
 const SearchMessages: FC<ISearchMessagesProps> = ({
   setIsShowSearchMessages,
 }) => {
+  const nodeRefSearchMessages = useRef(null);
   const { t } = useTranslation(defaultNS, { keyPrefix: 'General' });
 
   const { userUID } = useChatStore(state => state.currentChatInfo);
@@ -28,6 +31,7 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
 
   const currentChatInfo = useChatInfo(userUID);
 
+  const startTransition = useStartTransition();
   const { searchMessages, searchMessageValue, setSearchMessageValue } =
     useSearchMessageValue();
 
@@ -42,7 +46,14 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
   };
 
   return (
-    <>
+    <TransitionComponent
+      className="origin-right"
+      nodeRef={nodeRefSearchMessages}
+      exitedBehavior="hidden"
+      enteredBehavior="translate-left"
+      condition={startTransition}
+      timeout={300}
+    >
       <div className="flex items-center justify-around gap-1">
         <button
           className="flex h-9 w-10 cursor-pointer items-center justify-center rounded-full bg-transparent transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10"
@@ -97,7 +108,7 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
           ))}
         </ul>
       )}
-    </>
+    </TransitionComponent>
   );
 };
 

@@ -12,7 +12,7 @@ const ButtonScrollDown: FC<IButtonScrollDownProps> = ({
 }) => {
   return (
     <button
-      className="group absolute bottom-32 right-10 rounded-full bg-white p-2 outline-1 outline-mediumDarkGreen hover:scale-105 hover:outline"
+      className="group rounded-full bg-white p-2 outline-1 outline-mediumDarkGreen hover:scale-105 hover:outline"
       type="button"
       onClick={scrollToBottom}
       aria-label="Scroll down"

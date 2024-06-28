@@ -1,7 +1,6 @@
 import type { FC, KeyboardEvent } from 'react';
-import { Suspense, lazy, useDeferredValue, useState } from 'react';
+import { lazy, useDeferredValue, useState } from 'react';
 
-import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@zustand/store';
@@ -37,7 +36,7 @@ const Emoji: FC = () => {
   const handleMouseLeaveEmoji = () => {
     const timeoutId = setTimeout(() => {
       setIsShowEmoji(false);
-    }, 300);
+    }, 500);
     setEmojiTimeOutId(timeoutId);
   };
 
@@ -59,17 +58,7 @@ const Emoji: FC = () => {
       onKeyDown={handleEnterKeyDownEmoji}
       aria-label="Main emoji"
     >
-      {deferredIsShowEmoji && (
-        <Suspense
-          fallback={
-            <div className="absolute -left-1 -top-1">
-              <LoaderUIActions size={50} />
-            </div>
-          }
-        >
-          <EmojiPickerWindow />
-        </Suspense>
-      )}
+      <EmojiPickerWindow deferredIsShowEmoji={deferredIsShowEmoji} />
 
       <div className="flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10">
         <SvgIcon

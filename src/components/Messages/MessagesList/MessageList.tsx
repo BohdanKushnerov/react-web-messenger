@@ -7,6 +7,7 @@ import MessageItem from '../MessageItem/MessageItem';
 import SelectIcons from '../SelectIcons/SelectIcons';
 
 import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
+import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
 import useChatStore from '@zustand/store';
 
@@ -32,6 +33,7 @@ const MessageList = memo(
     } = props;
 
     const bottomElementRef = useRef<HTMLDivElement>(null);
+    const buttonScrollDownRef = useRef(null);
 
     const { t } = useTranslation();
 
@@ -118,12 +120,19 @@ const MessageList = memo(
           />
         </div>
 
-        {isScrollDownButtonVisible && isReadyFirstMsgs && (
+        <TransitionComponent
+          className="absolute bottom-32 right-10 origin-right"
+          nodeRef={buttonScrollDownRef}
+          exitedBehavior="hidden"
+          enteredBehavior="opacity"
+          condition={isScrollDownButtonVisible && isReadyFirstMsgs}
+          timeout={100}
+        >
           <ButtonScrollDown
             scrollToBottom={scrollToBottom}
             lengthOfUnreadMsgs={lengthOfUnreadMsgs}
           />
-        )}
+        </TransitionComponent>
       </>
     );
   })
