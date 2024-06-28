@@ -1,11 +1,11 @@
 import { Suspense, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Transition } from 'react-transition-group';
 
 import BrowserTabTitle from '@components/BrowserTabTitle/BrowserTabTitle';
 import EmptyChat from '@components/EmptyChat/EmptyChat';
 import Sidebar from '@components/Sidebar/Sidebar';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
+import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
 import useBrowserTabVisibilityChange from '@hooks/useBrowserTabVisibilityChange';
 import useIsOnlineMyStatus from '@hooks/useIsOnlineMyStatus';
@@ -40,57 +40,40 @@ const HomePage = () => {
         overflow: 'hidden',
       }}
     >
-      <Transition
+      <TransitionComponent
+        className="w-full sm:w-300px md:w-400px"
         nodeRef={nodeRefSidebar}
-        in={
+        exitedBehavior="hidden"
+        enteredBehavior="translate-left"
+        condition={
           (pathname === '/' ? 'Sidebar' : 'Chat') === 'Sidebar' || isFullScreen
         }
         timeout={300}
-        unmountOnExit
       >
-        {state => (
-          <div
-            ref={nodeRefSidebar}
-            className={`w-full sm:w-300px md:w-400px ${
-              state === 'exited' ? 'hidden' : ''
-            } transform transition-transform ${
-              state === 'entered'
-                ? 'translate-x-0 scale-100'
-                : '-translate-x-full scale-0'
-            }`}
-          >
-            <Sidebar />
-          </div>
-        )}
-      </Transition>
-      <Transition
+        <Sidebar />
+      </TransitionComponent>
+
+      <TransitionComponent
+        className="relative w-full"
         nodeRef={nodeRefChat}
-        in={(pathname === '/' ? 'Sidebar' : 'Chat') === 'Chat' || isFullScreen}
+        exitedBehavior="hidden"
+        enteredBehavior="translate-right"
+        condition={
+          (pathname === '/' ? 'Sidebar' : 'Chat') === 'Chat' || isFullScreen
+        }
         timeout={300}
-        unmountOnExit
       >
-        {state => (
-          <div
-            ref={nodeRefChat}
-            className={`relative w-full transform transition-transform ${state === 'exited' ? 'hidden' : ''} ${
-              state === 'entered'
-                ? 'translate-x-0 scale-100'
-                : 'translate-x-full scale-0'
-            }`}
-          >
-            <EmptyChat isShowNotifyMsg={pathname === '/' && isFullScreen} />
-            <Suspense
-              fallback={
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <LoaderUIActions size={200} />
-                </div>
-              }
-            >
-              <Outlet />
-            </Suspense>
-          </div>
-        )}
-      </Transition>
+        <EmptyChat isShowNotifyMsg={pathname === '/' && isFullScreen} />
+        <Suspense
+          fallback={
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+              <LoaderUIActions size={200} />
+            </div>
+          }
+        >
+          <Outlet />
+        </Suspense>
+      </TransitionComponent>
 
       {docHidden && <BrowserTabTitle docHidden={docHidden} />}
 
