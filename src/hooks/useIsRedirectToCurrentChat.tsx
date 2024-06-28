@@ -7,6 +7,8 @@ import { db } from '@myfirebase/config';
 
 import useChatStore from '@zustand/store';
 
+import getUserData from '@api/firestore/getUserData';
+
 import handleSelectChat from '@utils/chatListItem/handleSelectChat';
 
 import type { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
@@ -33,18 +35,20 @@ const useIsRedirectToCurrentChat = () => {
       if (combinedUsersChatUID && currentUserUID) {
         const resUserChats = await getDoc(doc(db, 'userChats', currentUserUID));
 
-        const resUser = await getDoc(
-          doc(db, 'users', resUserChats.data()?.[combinedUsersChatUID].userUID)
+        const resUser = await getUserData(
+          resUserChats.data()?.[combinedUsersChatUID].userUID
         );
 
-        const selectedChatInfo: ISelectedChatInfo = {
-          chatUID: combinedUsersChatUID,
-          userUID: resUserChats.data()?.[combinedUsersChatUID].userUID,
-          tokenFCM: resUser.data()?.tokenFCM as string,
-        };
+        if (resUser) {
+          const selectedChatInfo: ISelectedChatInfo = {
+            chatUID: combinedUsersChatUID,
+            userUID: resUserChats.data()?.[combinedUsersChatUID].userUID,
+            tokenFCM: resUser.data()?.tokenFCM as string,
+          };
 
-        handleSelectChat(selectedChatInfo, updateCurrentChatInfo);
-        navigate(combinedUsersChatUID);
+          handleSelectChat(selectedChatInfo, updateCurrentChatInfo);
+          navigate(combinedUsersChatUID);
+        }
       }
     };
 
