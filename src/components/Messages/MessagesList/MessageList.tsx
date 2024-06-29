@@ -9,9 +9,9 @@ import SelectIcons from '../SelectIcons/SelectIcons';
 import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
 import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
-import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
+import useLengthOfMyUnreadMessages from '@hooks/useLengthOfMyUnreadMessages';
 import useQuickScrollToBottom from '@hooks/useQuickScrollToBottom';
 
 import formatDateForGroupMessages from '@utils/messages/formatDateForGroupMessages';
@@ -25,7 +25,7 @@ const MessageList = memo(
     const {
       chatUID,
       groupedMessages,
-      isReadyFirstMsgs,
+      isReadyFirstMessages,
       selectedDocDataMessage,
       handleClickRigthButtonMessage,
       handleToggleSelectedMessage,
@@ -39,10 +39,14 @@ const MessageList = memo(
 
     const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
 
-    const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(chatUID, true, false);
+    const lengthOfUnreadMessages = useLengthOfMyUnreadMessages(
+      chatUID,
+      true,
+      false
+    );
     useQuickScrollToBottom(
       bottomElementRef,
-      isReadyFirstMsgs,
+      isReadyFirstMessages,
       isScrollDownButtonVisible,
       groupedMessages
     );
@@ -61,7 +65,7 @@ const MessageList = memo(
         <div
           ref={ref}
           className={`flex min-h-full flex-col justify-end gap-2 px-6 ${
-            !isReadyFirstMsgs && 'invisible'
+            !isReadyFirstMessages && 'invisible'
           }`}
         >
           {groupedMessages &&
@@ -84,7 +88,7 @@ const MessageList = memo(
 
                   return (
                     <li
-                      id={ElementsId.DocumentDataMsg}
+                      id={ElementsId.DocumentDataMessage}
                       className={`flex items-center justify-center gap-x-5 rounded-xl transition-all duration-150 ${
                         currentItem && 'bg-ultraDarkZinc'
                       } ${
@@ -125,12 +129,12 @@ const MessageList = memo(
           nodeRef={buttonScrollDownRef}
           exitedBehavior="hidden"
           enteredBehavior="opacity"
-          condition={isScrollDownButtonVisible && isReadyFirstMsgs}
+          condition={isScrollDownButtonVisible && isReadyFirstMessages}
           timeout={100}
         >
           <ButtonScrollDown
             scrollToBottom={scrollToBottom}
-            lengthOfUnreadMsgs={lengthOfUnreadMsgs}
+            lengthOfUnreadMessages={lengthOfUnreadMessages}
           />
         </TransitionComponent>
       </>

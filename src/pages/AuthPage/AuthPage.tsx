@@ -70,13 +70,13 @@ const Auth: FC = () => {
       localStorage.setItem('step', 'Step 2/3');
     } catch (error) {
       toast.error(t('ReloadPage'));
-      console.error('handleSubmitPhone error', error);
+      console.error('handleSubmitPhone', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleMannageVerifyCode = async (e: React.FormEvent) => {
+  const handleManageVerifyCode = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
@@ -99,7 +99,7 @@ const Auth: FC = () => {
       }
     } catch (error) {
       toast.error(t('InvalidVerificationCode'));
-      console.error('handleMannageVerifyCode error', error);
+      console.error('handleManageVerifyCode', error);
     } finally {
       setIsLoading(false);
     }
@@ -111,7 +111,7 @@ const Auth: FC = () => {
     if (step === 'Step 1/3') {
       handleManageSubmitPhone(e);
     } else if (step === 'Step 2/3') {
-      handleMannageVerifyCode(e);
+      handleManageVerifyCode(e);
     }
   };
 

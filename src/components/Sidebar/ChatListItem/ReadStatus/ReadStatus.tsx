@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 import useIsReadMyLastMessage from '@hooks/useIsReadMyLastMessage';
 

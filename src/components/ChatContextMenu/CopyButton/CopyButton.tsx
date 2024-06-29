@@ -5,9 +5,9 @@ import { toast } from 'react-toastify';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
-import copyTextSelectedMsgs from '@utils/messages/copyTextSelectedMsgs';
+import copyTextSelectedMessages from '@utils/messages/copyTextSelectedMessages';
 
 import type { ICopyButtonProps } from '@interfaces/ICopyButtonProps';
 
@@ -27,7 +27,7 @@ const CopyButton: FC<ICopyButtonProps> = ({
     state => state.resetSelectedMessages
   );
 
-  const handleClickCopyTextMsg = () => {
+  const handleClickCopyTextMessage = () => {
     toast.success(t('Toasts.CopyToClipboard'));
     resetSelectedMessages();
   };
@@ -36,8 +36,8 @@ const CopyButton: FC<ICopyButtonProps> = ({
     <>
       {selectedDocDataMessage && (
         <CopyToClipboard
-          text={copyTextSelectedMsgs(selectedDocDataMessage) ?? ''}
-          onCopy={handleClickCopyTextMsg}
+          text={copyTextSelectedMessages(selectedDocDataMessage) ?? ''}
+          onCopy={handleClickCopyTextMessage}
         >
           <div
             className={`flex items-center ${

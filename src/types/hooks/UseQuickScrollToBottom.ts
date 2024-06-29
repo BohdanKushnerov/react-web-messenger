@@ -4,7 +4,7 @@ import type { GroupedMessages } from 'types/GroupedMessages';
 
 export type UseQuickScrollToBottom = (
   bottomElementRef: RefObject<HTMLDivElement>,
-  isReadyFirstMsgs: boolean,
+  isReadyFirstMessages: boolean,
   isScrollDownButtonVisible: boolean,
   groupedMessages: GroupedMessages | null
 ) => void;

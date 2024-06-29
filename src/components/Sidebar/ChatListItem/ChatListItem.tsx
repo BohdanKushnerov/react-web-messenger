@@ -6,7 +6,7 @@ import UserChatInfo from './UserChatInfo/UserChatInfo';
 import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
 import BlurImage from '@components/common/BlurImage/BlurImage';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 import useChatInfo from '@hooks/useChatInfo';

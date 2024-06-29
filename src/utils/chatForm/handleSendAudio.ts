@@ -1,4 +1,4 @@
-import createAndSaveVoiceMsgDoc from '@api/firestore/createAndSaveVoiceMsgDoc';
+import createAndSaveVoiceMessageDoc from '@api/firestore/createAndSaveVoiceMessageDoc';
 import uploadAudioToStorage from '@api/storage/uploadAudioToStorage';
 
 import makeCursorOnProgress from '@utils/makeCursorOnProgress';
@@ -22,7 +22,7 @@ const handleSendAudio = async (
       },
     ];
 
-    await createAndSaveVoiceMsgDoc(chatUID, fileData, currentUserUID);
+    await createAndSaveVoiceMessageDoc(chatUID, fileData, currentUserUID);
     resetCursorOnDefault();
   } catch (error) {
     console.error('Error sending audio message:', error);

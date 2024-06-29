@@ -17,7 +17,7 @@ const useBrowserTabTitleChange: UseBrowserTabTitleChange = (
   const changeTitleIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const { t } = useTranslation(defaultNS, {
-    keyPrefix: 'ChatListUnreadMsg',
+    keyPrefix: 'ChatListUnreadMessage',
   });
 
   useEffect(() => {

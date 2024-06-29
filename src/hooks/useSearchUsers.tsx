@@ -6,7 +6,7 @@ import { useDebounce } from 'use-debounce';
 
 import { db } from '@myfirebase/config';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 const useSearchUsers = () => {
   const [isLoading, setIsLoading] = useState(false);

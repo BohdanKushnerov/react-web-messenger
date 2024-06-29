@@ -12,14 +12,14 @@ const createAndSaveAttachedFilesMessageDoc = async (
   chatUID: string | null,
   fileDescriptionUser: string
 ) => {
-  const additionalMsg = `${String.fromCodePoint(128206)} ${
+  const additionalMessage = `${String.fromCodePoint(128206)} ${
     filesArr.length
   } file(s)`;
 
   await addDoc(collection(db, `chats/${chatUID}/messages`), {
     type: MessageTypes.AttachedFiles,
     file: filesArr,
-    fileDescription: additionalMsg,
+    fileDescription: additionalMessage,
     message: fileDescriptionUser || '',
     senderUserID: currentUserUID,
     date: Timestamp.now(),

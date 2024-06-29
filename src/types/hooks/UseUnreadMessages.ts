@@ -1,4 +1,4 @@
 export type UseUnreadMessages = (
-  lengthOfMyUnreadMsgs: number,
+  lengthOfMyUnreadMessages: number,
   chatUID: string
 ) => void;

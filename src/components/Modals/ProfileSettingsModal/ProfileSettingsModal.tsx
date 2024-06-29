@@ -8,7 +8,7 @@ import ModalWindow from '../ModalWindow/ModalWindow';
 
 import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 import handleUpdateProfilePhoto from '@utils/profileSettings/handleUpdateProfilePhoto';
 

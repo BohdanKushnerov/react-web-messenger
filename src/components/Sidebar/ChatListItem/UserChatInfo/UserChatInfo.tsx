@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import IsOnlineUser from '../IsOnlineUser/IsOnlineUser';
-import QuantityUnreadMsgs from '../QuantityUnreadMsgs/QuantityUnreadMsgs';
+import QuantityUnreadMessages from '../QuantityUnreadMessages/QuantityUnreadMessages';
 import ReadStatus from '../ReadStatus/ReadStatus';
 
 import useGetLastMessage from '@hooks/useGetLastMessage';
@@ -16,9 +16,9 @@ const UserChatInfo: FC<IUserChatInfoProps> = ({
   userInfo,
 }) => {
   const itemChatUID = chatInfo[0];
-  const lastMsg = useGetLastMessage(itemChatUID);
+  const lastMessage = useGetLastMessage(itemChatUID);
 
-  const lastMsgSenderUID = lastMsg?.senderUserID;
+  const lastMessageSenderUID = lastMessage?.senderUserID;
   const oponentUserUID = chatInfo[1].userUID;
 
   return (
@@ -40,7 +40,7 @@ const UserChatInfo: FC<IUserChatInfoProps> = ({
               : 'text-darkZinc dark:text-veryLightZinc'
           }`}
         >
-          {lastMsg && truncateLastMessageString(lastMsg, 10)}
+          {lastMessage && truncateLastMessageString(lastMessage, 10)}
         </p>
         <p
           className={`hidden md:block ${
@@ -49,14 +49,17 @@ const UserChatInfo: FC<IUserChatInfoProps> = ({
               : 'text-darkZinc dark:text-veryLightZinc'
           }`}
         >
-          {lastMsg && truncateLastMessageString(lastMsg, 25)}
+          {lastMessage && truncateLastMessageString(lastMessage, 25)}
         </p>
       </div>
 
-      {itemChatUID && <QuantityUnreadMsgs chatUID={itemChatUID} />}
+      {itemChatUID && <QuantityUnreadMessages chatUID={itemChatUID} />}
 
-      {lastMsgSenderUID && (
-        <ReadStatus itemChatUID={itemChatUID} senderUserID={lastMsgSenderUID} />
+      {lastMessageSenderUID && (
+        <ReadStatus
+          itemChatUID={itemChatUID}
+          senderUserID={lastMessageSenderUID}
+        />
       )}
 
       <IsOnlineUser userUID={oponentUserUID} />

@@ -83,9 +83,9 @@ export enum FileInput {
   Send = 'FileInput.Send',
 }
 
-export enum ChatListUnreadMsg {
-  UnreadMessage = 'ChatListUnreadMsg.UnreadMessage',
-  UnreadMessages = 'ChatListUnreadMsg.UnreadMessages',
+export enum ChatListUnreadMessage {
+  UnreadMessage = 'ChatListUnreadMessage.UnreadMessage',
+  UnreadMessages = 'ChatListUnreadMessage.UnreadMessages',
 }
 
 export enum Toasts {
@@ -99,8 +99,8 @@ export enum Toasts {
 export enum General {
   Search = 'General.Search',
   EmptyChatNotify = 'General.EmptyChatNotify',
-  SearchMsgPlaceholder = 'General.SearchMsgPlaceholder',
-  NotFoundMsg = 'General.NotFoundMsg',
+  SearchMessagePlaceholder = 'General.SearchMessagePlaceholder',
+  NotFoundMessage = 'General.NotFoundMessage',
   Offline = 'General.Offline',
   Online = 'General.Online',
   Typing = 'General.Typing',

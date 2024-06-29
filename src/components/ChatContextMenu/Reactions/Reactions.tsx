@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
-import updateMsgReaction from '@api/firestore/updateMsgReaction';
+import updateMessageReaction from '@api/firestore/updateMessageReaction';
 
 import defaultEmojiData from '@constants/defaultEmojiData';
 
@@ -18,7 +18,7 @@ const Reactions: FC = () => {
 
   const handleEmojiClick = (emoji: string) => {
     if (currentUserUID) {
-      updateMsgReaction(
+      updateMessageReaction(
         emoji,
         chatUID,
         currentUserUID,

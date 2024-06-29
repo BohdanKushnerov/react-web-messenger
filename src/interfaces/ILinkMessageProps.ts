@@ -1,4 +1,4 @@
 export interface ILinkMessageProps {
-  textContentMsg: string;
+  textContentMessage: string;
   isVideo: boolean;
 }

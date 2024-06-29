@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import SearchInput from '@components/Inputs/SearchInput/SearchInput';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 import { defaultNS } from '@i18n/i18n';
 

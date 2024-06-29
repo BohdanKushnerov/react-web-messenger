@@ -5,7 +5,7 @@ import { useRef } from 'react';
 
 import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 interface IEmojiPickerWindowProps {
   deferredIsShowEmoji: boolean;

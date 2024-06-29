@@ -33,7 +33,7 @@ const handleClickChangeDisplayName = async (
       toast.success(t('ChangeNameToastSuccess'));
     } catch (error) {
       toast.error(t('ChangeNameToastError'));
-      console.error('handleClickChangeDisplayName error', error);
+      console.error('handleClickChangeDisplayName', error);
     }
   }
 };

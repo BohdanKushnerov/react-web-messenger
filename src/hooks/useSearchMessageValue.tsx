@@ -5,7 +5,7 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 const useSearchMessageValue = () => {
   const [searchMessageValue, setSearchMessageValue] = useState('');

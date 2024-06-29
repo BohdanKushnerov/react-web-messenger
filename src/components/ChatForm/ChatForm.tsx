@@ -8,7 +8,7 @@ import Emoji from '@components/ChatForm/Emoji/Emoji';
 import FileAttachment from '@components/ChatForm/FileAttachment/FileAttachment';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
 import useClearMessagesOnChatChange from '@hooks/useClearMessagesOnChatChange';
@@ -26,10 +26,15 @@ import { ElementsId } from '@enums/elementsId';
 const RecordingAudio = lazy(
   () => import('@components/ChatForm/RecordingAudio/RecordingAudio')
 );
-const ChatFormSelectedMsgs = lazy(
-  () => import('@components/ChatForm/ChatFormSelectedMsgs/ChatFormSelectedMsgs')
+const ChatFormSelectedMessages = lazy(
+  () =>
+    import(
+      '@components/ChatForm/ChatFormSelectedMessages/ChatFormSelectedMessages'
+    )
 );
-const EditingMsgInfo = lazy(() => import('./EditingMsgInfo/EditingMsgInfo'));
+const EditingMessageInfo = lazy(
+  () => import('./EditingMessageInfo/EditingMessageInfo')
+);
 
 const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
@@ -112,7 +117,7 @@ const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
                 </div>
               }
             >
-              <EditingMsgInfo
+              <EditingMessageInfo
                 selectedMessage={editingMessageInfo.selectedMessage}
                 handleCancelEditingMessage={handleCancelEditingMessage}
               />
@@ -156,7 +161,7 @@ const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
         </div>
       ) : (
         <Suspense fallback={<LoaderUIActions size={96} />}>
-          <ChatFormSelectedMsgs />
+          <ChatFormSelectedMessages />
         </Suspense>
       )}
     </div>

@@ -7,7 +7,7 @@ import UploadDocumentFile from '@components/ChatForm/UploadDocumentFile/UploadDo
 import UploadPhotoFile from '@components/ChatForm/UploadPhotoFile/UploadPhotoFile';
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 import handleSendAttachedFilesMessage from '@utils/chatForm/handleSendAttachedFilesMessage';
 
@@ -110,7 +110,7 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
             >
               <div className="relative h-10 w-full sm:w-8/12">
                 <input
-                  id={ElementsId.AtachFilesModalInput}
+                  id={ElementsId.AttachFilesModalInput}
                   className="h-full w-full rounded-3xl border-2 border-transparent bg-mediumDarkZinc px-10 py-1 text-white outline-none focus:border-mediumDarkCyan dark:bg-darkBackground"
                   type="text"
                   placeholder={t('ImageCaptionPlaceholder')}

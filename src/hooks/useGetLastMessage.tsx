@@ -14,7 +14,7 @@ import { db } from '@myfirebase/config';
 import type { UseGetLastMessage } from 'types/hooks/UseGetLastMessage';
 
 const useGetLastMessage: UseGetLastMessage = itemChatUID => {
-  const [lastMsg, setLastMsg] = useState<DocumentData | null>(null);
+  const [lastMessage, setLastMessage] = useState<DocumentData | null>(null);
 
   useEffect(() => {
     const queryParams = query(
@@ -25,10 +25,10 @@ const useGetLastMessage: UseGetLastMessage = itemChatUID => {
 
     const unsubChatMessages = onSnapshot(queryParams, snapshot => {
       if (!snapshot.empty) {
-        const lastMsg: DocumentData = snapshot.docs[0].data();
-        setLastMsg(lastMsg);
+        const lastMessage: DocumentData = snapshot.docs[0].data();
+        setLastMessage(lastMessage);
       } else {
-        setLastMsg(null);
+        setLastMessage(null);
       }
     });
 
@@ -37,7 +37,7 @@ const useGetLastMessage: UseGetLastMessage = itemChatUID => {
     };
   }, [itemChatUID]);
 
-  return lastMsg;
+  return lastMessage;
 };
 
 export default useGetLastMessage;

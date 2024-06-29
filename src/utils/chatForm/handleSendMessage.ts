@@ -1,4 +1,4 @@
-import createAndSaveTextMsgDoc from '@api/firestore/createAndSaveTextMsgDoc';
+import createAndSaveTextMessageDoc from '@api/firestore/createAndSaveTextMessageDoc';
 
 const handleSendMessage = async (
   displayName: string | null,
@@ -11,7 +11,7 @@ const handleSendMessage = async (
   if (!chatUID || !currentUserUID || !userUID) return;
 
   try {
-    await createAndSaveTextMsgDoc(chatUID, message, currentUserUID);
+    await createAndSaveTextMessageDoc(chatUID, message, currentUserUID);
 
     if (!tokenFCM) return;
 
@@ -31,7 +31,7 @@ const handleSendMessage = async (
       body: JSON.stringify(data),
     }).catch(error => console.error('Error:', error));
   } catch (error) {
-    console.error('handleSendMessage error', error);
+    console.error('handleSendMessage', error);
   }
 };
 

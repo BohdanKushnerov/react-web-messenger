@@ -5,7 +5,7 @@ import type { DocumentData } from 'firebase/firestore';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 import type { IButtonEditProps } from '@interfaces/IButtonEditProps';
 

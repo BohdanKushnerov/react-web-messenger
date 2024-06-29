@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 const useCountChatUnreadMessages = () => {
   const [countChatUnreadMessages, setCountChatUnreadMessages] =

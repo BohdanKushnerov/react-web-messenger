@@ -6,7 +6,7 @@ import MessageImage from '../MessageImage/MessageImage';
 
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 import getMessageImages from '@utils/messages/getMessageImages';
 import getSlidesForLightbox from '@utils/messages/getSlidesForLightbox';

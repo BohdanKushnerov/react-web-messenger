@@ -6,13 +6,13 @@ import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 import useChatInfo from '@hooks/useChatInfo';
 import useSearchMessageValue from '@hooks/useSearchMessageValue';
 import useStartTransition from '@hooks/useStartTransition';
 
-import formatTimeSearchMsg from '@utils/messages/formatTimeSearchMsg';
+import formatTimeSearchMessage from '@utils/messages/formatTimeSearchMessage';
 
 import type { ISearchMessagesProps } from '@interfaces/ISearchMessagesProps';
 
@@ -71,14 +71,16 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
         <SearchInput
           value={searchMessageValue}
           handleChange={handleChangeSearchMessage}
-          placeholderText={t('SearchMsgPlaceholder')}
+          placeholderText={t('SearchMessagePlaceholder')}
           autoFocus={true}
         />
       </div>
       {searchMessages && (
         <ul className="flex flex-col justify-center gap-2">
           {searchMessages.length === 0 && (
-            <p className="text-darkZinc dark:text-white">{t('NotFoundMsg')}</p>
+            <p className="text-darkZinc dark:text-white">
+              {t('NotFoundMessage')}
+            </p>
           )}
           {searchMessages.map(msg => (
             <li key={msg.id} className="flex items-center justify-start gap-2">
@@ -101,7 +103,9 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
                 </p>
                 <p className="text-darkZinc dark:text-white">
                   {msg.data().date &&
-                    formatTimeSearchMsg(msg.data().date.toDate().toString())}
+                    formatTimeSearchMessage(
+                      msg.data().date.toDate().toString()
+                    )}
                 </p>
               </div>
             </li>

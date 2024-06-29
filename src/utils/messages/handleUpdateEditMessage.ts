@@ -4,7 +4,7 @@ import type { DocumentData } from 'firebase/firestore';
 import type { TFunction } from 'i18next';
 
 import updateEditedMessageTextContent from '@api/firestore/updateEditedMessageTextContent';
-import updateEditedStatusMsgDoc from '@api/firestore/updateEditedStatusMsgDoc';
+import updateEditedStatusMessageDoc from '@api/firestore/updateEditedStatusMessageDoc';
 
 import makeCursorOnProgress from '@utils/makeCursorOnProgress';
 import resetCursorOnDefault from '@utils/resetCursorOnDefault';
@@ -34,13 +34,13 @@ const handleUpdateEditMessage = async (
 
     await Promise.all([
       updateEditedMessageTextContent(chatUID, selectedMessage.id, newMessage),
-      updateEditedStatusMsgDoc(chatUID, selectedMessage),
+      updateEditedStatusMessageDoc(chatUID, selectedMessage),
     ]);
 
     toast.success(t(Toasts.DeleteMessageSuccess));
   } catch (error) {
     toast.error(t(Toasts.DeleteMessageError));
-    console.error('handleUpdateEditMessage error', error);
+    console.error('handleUpdateEditMessage', error);
   } finally {
     resetCursorOnDefault();
   }

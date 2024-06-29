@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { auth } from '@myfirebase/config';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 const useOnAuthStateChanged = () => {
   const updateCurrentUser = useChatStore(state => state.updateCurrentUser);

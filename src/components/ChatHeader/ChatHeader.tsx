@@ -6,7 +6,7 @@ import ButtonSearchMessages from '@components/Buttons/ButtonSearchMessages/Butto
 import ChatHeaderOponentInfo from '@components/ChatHeader/ChatHeaderOponentInfo/ChatHeaderOponentInfo';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 import useResizeWindow from '@hooks/useResizeWindow';
 

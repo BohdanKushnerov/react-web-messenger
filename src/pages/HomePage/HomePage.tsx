@@ -63,7 +63,7 @@ const HomePage = () => {
         }
         timeout={300}
       >
-        <EmptyChat isShowNotifyMsg={pathname === '/' && isFullScreen} />
+        <EmptyChat isShowNotifyMessage={pathname === '/' && isFullScreen} />
         <Suspense
           fallback={
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">

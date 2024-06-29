@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import RingLoader from 'react-spinners/RingLoader';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 import { defaultNS } from '@i18n/i18n';
 

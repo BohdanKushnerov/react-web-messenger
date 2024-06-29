@@ -4,8 +4,8 @@ import BlurImage from '@components/common/BlurImage/BlurImage';
 
 import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 
-import calculateMsgImageHeight from '@utils/messages/calculateMsgImageHeight';
-import calculateMsgImageWidth from '@utils/messages/calculateMsgImageWidth';
+import calculateMessageImageHeight from '@utils/messages/calculateMessageImageHeight';
+import calculateMessageImageWidth from '@utils/messages/calculateMessageImageWidth';
 
 import type { IFile } from '@interfaces/IFile';
 import type { IMessageImageProps } from '@interfaces/IMessageImageProps';
@@ -22,8 +22,8 @@ const MessageImage: FC<IMessageImageProps> = ({
 
   const files: IFile[] = msg.data().file;
 
-  const imgHeight = calculateMsgImageHeight(files, file, index);
-  const imgWidth = calculateMsgImageWidth(files, file, index);
+  const imgHeight = calculateMessageImageHeight(files, file, index);
+  const imgWidth = calculateMessageImageWidth(files, file, index);
 
   return (
     <BlurImage loading={loadingImg}>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 const useClearMessagesOnChatChange = () => {
   const { chatUID } = useChatStore(state => state.currentChatInfo);

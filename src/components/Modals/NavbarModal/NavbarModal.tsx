@@ -16,7 +16,7 @@ import TransitionComponent from '@components/common/TransitionComponent/Transiti
 
 import { auth } from '@myfirebase/config';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 import useStartTransition from '@hooks/useStartTransition';

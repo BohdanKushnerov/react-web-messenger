@@ -17,8 +17,8 @@ const useKeyDown: UseKeyDown = (inputRef, isShowSearchMessages) => {
         ElementsId.SearchInput
       ) as HTMLInputElement;
 
-      const atachFilesModalInput = document.getElementById(
-        ElementsId.AtachFilesModalInput
+      const attachFilesModalInput = document.getElementById(
+        ElementsId.AttachFilesModalInput
       ) as HTMLInputElement;
 
       const profileNameInput = document.getElementById(
@@ -28,7 +28,7 @@ const useKeyDown: UseKeyDown = (inputRef, isShowSearchMessages) => {
       const isAnyInputFocused =
         document.activeElement === inputRef.current ||
         document.activeElement === searchInput ||
-        document.activeElement === atachFilesModalInput ||
+        document.activeElement === attachFilesModalInput ||
         document.activeElement === profileNameInput;
 
       if (!isAnyInputFocused) {

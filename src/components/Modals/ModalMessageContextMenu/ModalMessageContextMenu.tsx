@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import useChatStore from '@state/store';
+import useChatStore from '@store/store';
 
 import useCloseModal from '@hooks/useCloseModal';
 

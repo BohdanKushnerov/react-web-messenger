@@ -8,7 +8,7 @@ import { IconId } from '@enums/iconsSpriteId';
 
 const ButtonScrollDown: FC<IButtonScrollDownProps> = ({
   scrollToBottom,
-  lengthOfUnreadMsgs,
+  lengthOfUnreadMessages,
 }) => {
   return (
     <button
@@ -23,9 +23,9 @@ const ButtonScrollDown: FC<IButtonScrollDownProps> = ({
           iconId={IconId.IconScrollUp}
           size={24}
         />
-        {lengthOfUnreadMsgs > 0 && (
+        {lengthOfUnreadMessages > 0 && (
           <span className="absolute bottom-0 right-0 -mb-4 flex h-6 w-6 translate-x-4 transform items-center justify-center rounded-full bg-mediumDarkRed text-white">
-            {lengthOfUnreadMsgs}
+            {lengthOfUnreadMessages}
           </span>
         )}
       </div>

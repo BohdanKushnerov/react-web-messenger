@@ -5,7 +5,7 @@ import type { GroupedMessages } from '../types/GroupedMessages';
 export interface IMessageListProps {
   chatUID: string | null;
   groupedMessages: GroupedMessages | null;
-  isReadyFirstMsgs: boolean;
+  isReadyFirstMessages: boolean;
   selectedDocDataMessage: DocumentData[] | null;
   isScrollDownButtonVisible: boolean;
   handleClickRigthButtonMessage: (

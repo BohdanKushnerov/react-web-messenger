@@ -6,7 +6,7 @@ import type { UseQuickScrollToBottom } from 'types/hooks/UseQuickScrollToBottom'
 
 const useQuickScrollToBottom: UseQuickScrollToBottom = (
   bottomElementRef,
-  isReadyFirstMsgs,
+  isReadyFirstMessages,
   isScrollDownButtonVisible,
   groupedMessages
 ) => {
@@ -19,10 +19,10 @@ const useQuickScrollToBottom: UseQuickScrollToBottom = (
   }, [bottomElementRef]);
 
   useEffect(() => {
-    if (isReadyFirstMsgs) {
+    if (isReadyFirstMessages) {
       quickScrollBottom();
     }
-  }, [isReadyFirstMsgs, quickScrollBottom]);
+  }, [isReadyFirstMessages, quickScrollBottom]);
 
   useEffect(() => {
     const isMobileScreen = !isFullScreen;
@@ -41,14 +41,14 @@ const useQuickScrollToBottom: UseQuickScrollToBottom = (
   useEffect(() => {
     const isMobileScreen = !isFullScreen;
 
-    if (isReadyFirstMsgs && !isScrollDownButtonVisible && isMobileScreen) {
+    if (isReadyFirstMessages && !isScrollDownButtonVisible && isMobileScreen) {
       setTimeout(() => {
         quickScrollBottom();
       }, 300);
     }
   }, [
     isFullScreen,
-    isReadyFirstMsgs,
+    isReadyFirstMessages,
     isScrollDownButtonVisible,
     quickScrollBottom,
   ]);
