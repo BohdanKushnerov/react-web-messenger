@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import handleDeleteMessage from '@utils/messages/handleDeleteMessage';
 

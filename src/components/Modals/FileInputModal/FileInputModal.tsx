@@ -7,7 +7,7 @@ import UploadDocumentFile from '@components/ChatForm/UploadDocumentFile/UploadDo
 import UploadPhotoFile from '@components/ChatForm/UploadPhotoFile/UploadPhotoFile';
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import handleSendAttachedFilesMessage from '@utils/chatForm/handleSendAttachedFilesMessage';
 

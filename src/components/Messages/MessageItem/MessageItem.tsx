@@ -11,7 +11,7 @@ import ReactionsDisplay from '../MessageReactions/ReactionsDisplay';
 import IsReadMsg from '@components/Messages/IsReadMsg/IsReadMsg';
 import MessageTriangle from '@components/Messages/MessageTriangle/MessageTriangle';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import useMakeReadMsg from '@hooks/useMakeReadMsg';
 

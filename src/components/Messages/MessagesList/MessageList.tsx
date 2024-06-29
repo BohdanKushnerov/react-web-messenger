@@ -9,7 +9,7 @@ import SelectIcons from '../SelectIcons/SelectIcons';
 import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
 import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
 import useQuickScrollToBottom from '@hooks/useQuickScrollToBottom';

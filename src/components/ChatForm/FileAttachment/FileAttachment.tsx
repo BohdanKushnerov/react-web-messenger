@@ -5,7 +5,7 @@ import ButtonAttachFile from '@components/Buttons/ButtonAttachFile/ButtonAttachF
 import FileInput from '@components/Inputs/FileInput/FileInput';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 const FileInputModal = lazy(
   () => import('@components/Modals/FileInputModal/FileInputModal')

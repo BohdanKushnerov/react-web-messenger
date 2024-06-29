@@ -6,7 +6,7 @@ import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import useChatInfo from '@hooks/useChatInfo';
 import useSearchMessageValue from '@hooks/useSearchMessageValue';

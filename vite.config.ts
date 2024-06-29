@@ -17,7 +17,7 @@ export default defineConfig({
       '@router': '/src/router',
       '@routes': '/src/routes',
       '@myfirebase': '/src/myfirebase',
-      '@zustand': '/src/zustand',
+      '@state': '/src/state',
       '@utils': '/src/utils',
       '@interfaces': '/src/interfaces',
       '@enums': '/src/enums',

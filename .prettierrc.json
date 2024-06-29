@@ -14,7 +14,7 @@
     "@routes/",
     "@components/",
     "@myfirebase/",
-    "@zustand/",
+    "@state/",
     "@api/",
     "@hooks/",
     "@utils/",

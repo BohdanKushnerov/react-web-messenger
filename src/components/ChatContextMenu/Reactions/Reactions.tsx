@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import updateMsgReaction from '@api/firestore/updateMsgReaction';
 

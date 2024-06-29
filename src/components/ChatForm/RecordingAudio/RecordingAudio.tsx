@@ -6,7 +6,7 @@ import RecordingStatusField from '../RecordingStatusField/RecordingStatusField';
 import ButtonCancelRecording from '@components/Buttons/ButtonCancelRecording/ButtonCancelRecording';
 import ButtonStopRecordingAndSendAudio from '@components/Buttons/ButtonStopRecordingAndSendAudio/ButtonStopRecordingAndSendAudio';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import useRecordingCleanup from '@hooks/useRecordingCleanup';
 import useStartRecording from '@hooks/useStartRecording';
@@ -93,7 +93,7 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
             handleToggleRecordingStatus();
             await handleSendAudio(audioBlob, chatUID, userUID, currentUserUID);
           } catch (error) {
-            console.log('stopRecordingAndSendAudio error', error);
+            console.error('stopRecordingAndSendAudio error', error);
           }
         }
       };

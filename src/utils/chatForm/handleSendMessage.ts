@@ -31,7 +31,7 @@ const handleSendMessage = async (
       body: JSON.stringify(data),
     }).catch(error => console.error('Error:', error));
   } catch (error) {
-    console.log('handleSendMessage error', error);
+    console.error('handleSendMessage error', error);
   }
 };
 

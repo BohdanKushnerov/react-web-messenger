@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import type { IPrivateRouteProps } from '@interfaces/routes/IPrivateRouteProps';
 

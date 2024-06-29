@@ -24,7 +24,7 @@ const setUpRecaptcha = async (
     return await signInWithPhoneNumber(auth, phone, recaptchaVerifier);
   } catch (error) {
     toast.error(t('TooManyRequests'));
-    console.log('setUpRecaptcha error', error);
+    console.error('setUpRecaptcha error', error);
     return null;
   }
 };

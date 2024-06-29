@@ -9,7 +9,7 @@
       "@router/*": ["router/*"],
       "@routes/*": ["routes/*"],
       "@myfirebase/*": ["myfirebase/*"],
-      "@zustand/*": ["zustand/*"],
+      "@state/*": ["state/*"],
       "@utils/*": ["utils/*"],
       "@interfaces/*": ["interfaces/*"],
       "@enums/*": ["enums/*"],

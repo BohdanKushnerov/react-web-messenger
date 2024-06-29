@@ -70,7 +70,7 @@ const Auth: FC = () => {
       localStorage.setItem('step', 'Step 2/3');
     } catch (error) {
       toast.error(t('ReloadPage'));
-      console.log('handleSubmitPhone error', error);
+      console.error('handleSubmitPhone error', error);
     } finally {
       setIsLoading(false);
     }
@@ -99,7 +99,7 @@ const Auth: FC = () => {
       }
     } catch (error) {
       toast.error(t('InvalidVerificationCode'));
-      console.log('handleMannageVerifyCode error', error);
+      console.error('handleMannageVerifyCode error', error);
     } finally {
       setIsLoading(false);
     }

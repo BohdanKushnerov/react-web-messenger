@@ -16,7 +16,7 @@ import MessagesSkeleton from './MessagesSkeleton/MessagesSkeleton';
 
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import useChatMessageUpdates from '@hooks/useChatMessageUpdates';
 import useGetFirstMsgs from '@hooks/useFirstMsgs';

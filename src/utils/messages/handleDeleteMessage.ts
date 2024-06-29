@@ -36,7 +36,7 @@ const handleDeleteMessage = async (
     toast.success(t('Toasts.DeleteMessageSuccess'));
   } catch (error) {
     toast.error(t('Toasts.DeleteMessageError'));
-    console.log('handleDeleteMessage error', error);
+    console.error('handleDeleteMessage error', error);
   } finally {
     resetCursorOnDefault();
   }

@@ -6,7 +6,7 @@ import { onMessage } from 'firebase/messaging';
 
 import { db, messaging, requestForToken } from '@myfirebase/config';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import makeSoundNotification from '@utils/messages/makeSoundNotification';
 

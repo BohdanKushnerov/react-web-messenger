@@ -1,7 +1,7 @@
 import { Suspense, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import type { IRestrictedRouteProps } from '@interfaces/routes/IRestrictedRouteProps';
 

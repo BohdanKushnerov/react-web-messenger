@@ -12,7 +12,7 @@ import TransitionComponent from '@components/common/TransitionComponent/Transiti
 
 import { auth } from '@myfirebase/config';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 

@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { storage } from '@myfirebase/config';
 
-import createAndSaveAttachhedFilesMsgDoc from '@api/firestore/createAndSaveAttachhedFilesMsgDoc';
+import createAndSaveAttachedFilesMessageDoc from '@api/firestore/createAndSaveAttachedFilesMessageDoc';
 
 import type { IFile } from '@interfaces/IFile';
 
@@ -118,7 +118,7 @@ const handleSendAttachedFilesMessage = async (
       ).map(file => uploadFile(file, userUID, setUploadFilesStatus));
       const filesArr: IFile[] = await Promise.all(promiseArrayURLsOfFiles);
 
-      await createAndSaveAttachhedFilesMsgDoc(
+      await createAndSaveAttachedFilesMessageDoc(
         filesArr,
         currentUserUID,
         chatUID,

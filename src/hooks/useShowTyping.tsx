@@ -4,7 +4,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 const useShowTyping = () => {
   const [isOpponentTyping, setIsOpponentTyping] = useState(false);

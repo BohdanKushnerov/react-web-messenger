@@ -10,7 +10,7 @@ import {
 
 import { db } from '@myfirebase/config';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import updateDocStopNotifyForCurrentMsg from '@api/firestore/updateDocStopNotifyForCurrentMsg';
 

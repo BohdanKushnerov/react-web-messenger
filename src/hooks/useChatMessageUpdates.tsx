@@ -4,7 +4,7 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import getFirstChatMessages from '@utils/messages/getFirstChatMessages';
 import handleAddedMessage from '@utils/messages/handleAddedMessage';

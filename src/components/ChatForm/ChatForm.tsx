@@ -8,7 +8,7 @@ import Emoji from '@components/ChatForm/Emoji/Emoji';
 import FileAttachment from '@components/ChatForm/FileAttachment/FileAttachment';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
 import useClearMessagesOnChatChange from '@hooks/useClearMessagesOnChatChange';

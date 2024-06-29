@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import copyTextSelectedMsgs from '@utils/messages/copyTextSelectedMsgs';
 

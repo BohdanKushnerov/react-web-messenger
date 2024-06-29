@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
 import BlurImage from '@components/common/BlurImage/BlurImage';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 import useChatInfo from '@hooks/useChatInfo';

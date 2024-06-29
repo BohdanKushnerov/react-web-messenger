@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import updateTypingIsFalse from '@api/firestore/updateTypingIsFalse';
 import updateTypingIsTrue from '@api/firestore/updateTypingIsTrue';

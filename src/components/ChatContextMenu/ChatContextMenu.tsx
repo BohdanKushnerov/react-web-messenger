@@ -6,7 +6,7 @@ import ButtonSelect from './ButtonSelect/ButtonSelect';
 import CopyButton from './CopyButton/CopyButton';
 import DeleteButton from './DeleteButton/DeleteButton';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import type { IChatContextMenuProps } from '@interfaces/IChatContextMenuProps';
 

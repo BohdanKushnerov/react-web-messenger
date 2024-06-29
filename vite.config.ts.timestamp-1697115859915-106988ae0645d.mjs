@@ -9,7 +9,7 @@ const vite_config_default = defineConfig({
       '@pages': '/src/pages',
       '@routes': '/src/routes',
       '@myfirebase': '/src/myfirebase',
-      '@zustand': '/src/zustand',
+      '@state': '/src/store',
       '@utils': '/src/utils',
       '@myTypes': '/src/types',
       '@interfaces': '/src/interfaces',

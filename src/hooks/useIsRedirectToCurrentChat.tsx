@@ -5,7 +5,7 @@ import { doc, getDoc } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import getUserData from '@api/firestore/getUserData';
 

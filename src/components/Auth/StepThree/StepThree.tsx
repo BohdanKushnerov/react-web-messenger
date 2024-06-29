@@ -10,7 +10,7 @@ import AuthConfirmButton from '@components/Buttons/ButtonAuthConfirm/ButtonAuthC
 
 import { auth, db } from '@myfirebase/config';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@state/store';
 
 import type { IStepThreeProps } from '@interfaces/IStepThreeProps';
 
@@ -57,7 +57,7 @@ const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
       }
     } catch (error) {
       toast.error(t('UpdateProfileError'));
-      console.log('handleUpdateProfile error', error);
+      console.error('handleUpdateProfile error', error);
     } finally {
       setIsLoading(false);
     }

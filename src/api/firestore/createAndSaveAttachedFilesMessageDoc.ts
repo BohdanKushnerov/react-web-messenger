@@ -6,7 +6,7 @@ import type { IFile } from '@interfaces/IFile';
 
 import { MessageTypes } from '@enums/messageTypes';
 
-const createAndSaveAttachhedFilesMsgDoc = async (
+const createAndSaveAttachedFilesMessageDoc = async (
   filesArr: IFile[],
   currentUserUID: string | null,
   chatUID: string | null,
@@ -29,4 +29,4 @@ const createAndSaveAttachhedFilesMsgDoc = async (
   });
 };
 
-export default createAndSaveAttachhedFilesMsgDoc;
+export default createAndSaveAttachedFilesMessageDoc;

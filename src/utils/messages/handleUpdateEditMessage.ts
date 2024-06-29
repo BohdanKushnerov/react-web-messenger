@@ -40,7 +40,7 @@ const handleUpdateEditMessage = async (
     toast.success(t(Toasts.DeleteMessageSuccess));
   } catch (error) {
     toast.error(t(Toasts.DeleteMessageError));
-    console.log('handleUpdateEditMessage error', error);
+    console.error('handleUpdateEditMessage error', error);
   } finally {
     resetCursorOnDefault();
   }

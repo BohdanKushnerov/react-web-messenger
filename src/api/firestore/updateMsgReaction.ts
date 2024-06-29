@@ -32,7 +32,7 @@ const updateMsgReaction = async (
   try {
     await updateDoc(messageDocRef, { reactions: newReactions });
   } catch (error) {
-    console.log('updateMsgReaction error', error);
+    console.error('updateMsgReaction error', error);
   }
 };
 
