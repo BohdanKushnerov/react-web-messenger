@@ -2,8 +2,10 @@ import type { FC } from 'react';
 
 import VideoComponent from '../VideoComponent/VideoComponent';
 
-import type { ILinkMessageProps } from '@interfaces/ILinkMessageProps';
-
+interface ILinkMessageProps {
+  textContentMessage: string;
+  isVideo: boolean;
+}
 const LinkMessage: FC<ILinkMessageProps> = ({
   textContentMessage,
   isVideo,

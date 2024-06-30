@@ -6,10 +6,10 @@ import BlurImage from '@components/common/BlurImage/BlurImage';
 
 import useChatStore from '@store/store';
 
+import useShowTyping from '@hooks/chatHeader/useShowTyping';
 import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 import useChatInfo from '@hooks/useChatInfo';
 import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
-import useShowTyping from '@hooks/useShowTyping';
 
 import { defaultNS } from '@i18n/i18n';
 

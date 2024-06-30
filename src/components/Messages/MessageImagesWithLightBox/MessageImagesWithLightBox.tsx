@@ -2,6 +2,8 @@ import type { FC } from 'react';
 import { Suspense, lazy, useState } from 'react';
 import 'yet-another-react-lightbox/styles.css';
 
+import type { DocumentData } from 'firebase/firestore';
+
 import MessageImage from '../MessageImage/MessageImage';
 
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
@@ -12,11 +14,14 @@ import getMessageImages from '@utils/messages/getMessageImages';
 import getSlidesForLightbox from '@utils/messages/getSlidesForLightbox';
 
 import type { IFile } from '@interfaces/IFile';
-import type { IMessageImagesWithLightBoxProps } from '@interfaces/IMessageImagesWithLightBoxProps';
 
 import { ElementsId } from '@enums/elementsId';
 
-const Lightbox = lazy(() => import('yet-another-react-lightbox'));
+interface IMessageImagesWithLightBoxProps {
+  msg: DocumentData;
+}
+
+const LightBox = lazy(() => import('yet-another-react-lightbox'));
 
 const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
   msg,
@@ -25,7 +30,7 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
 
   const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
 
-  const slidesForLightbox = getSlidesForLightbox(msg);
+  const slidesForLightBox = getSlidesForLightbox(msg);
   const imagesForMessage = getMessageImages(msg);
 
   const handleClickPhoto = (index: number) => {
@@ -68,9 +73,9 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
               }
             >
               <div onContextMenu={event => event.stopPropagation()}>
-                <Lightbox
+                <LightBox
                   index={indexClickedPhoto}
-                  slides={slidesForLightbox}
+                  slides={slidesForLightBox}
                   open={indexClickedPhoto >= 0}
                   close={() => handleClickPhoto(-1)}
                   carousel={{

@@ -8,7 +8,11 @@ import DeleteButton from './DeleteButton/DeleteButton';
 
 import useChatStore from '@store/store';
 
-import type { IChatContextMenuProps } from '@interfaces/IChatContextMenuProps';
+import type { GroupedMessages } from 'types/GroupedMessages';
+
+interface IChatContextMenuProps {
+  groupedMessages: GroupedMessages | null;
+}
 
 const Reactions = lazy(
   () => import('@components/ChatContextMenu/Reactions/Reactions')

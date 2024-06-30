@@ -8,17 +8,20 @@ import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@store/store';
 
-import useRecordingCleanup from '@hooks/useRecordingCleanup';
-import useStartRecording from '@hooks/useStartRecording';
+import useRecordingCleanup from '@hooks/chatFrom/useRecordingCleanup';
+import useStartRecording from '@hooks/chatFrom/useStartRecording';
 
 import cleanUpRecordingResources from '@utils/chatForm/cleanupRecordingResources';
 import handleSendAudio from '@utils/chatForm/handleSendAudio';
 
-import type { IRecordingAudioProps } from '@interfaces/IRecordingAudioProps';
-
 import { IconId } from '@enums/iconsSpriteId';
 
 import type { MimeType } from 'types/MimeType';
+
+interface IRecordingAudioProps {
+  isRecording: boolean;
+  handleToggleRecordingStatus: () => void;
+}
 
 const RecordingAudio: FC<IRecordingAudioProps> = ({
   isRecording,

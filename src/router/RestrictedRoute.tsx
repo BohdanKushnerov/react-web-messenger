@@ -3,8 +3,10 @@ import { Navigate } from 'react-router-dom';
 
 import useChatStore from '@store/store';
 
-import type { IRestrictedRouteProps } from '@interfaces/routes/IRestrictedRouteProps';
-
+interface IRestrictedRouteProps {
+  component: React.ComponentType;
+  redirectTo?: string;
+}
 const RestrictedRoute = ({
   component: Component,
   redirectTo = '/',

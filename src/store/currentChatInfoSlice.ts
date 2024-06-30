@@ -2,7 +2,7 @@ import { produce } from 'immer';
 import type { StateCreator } from 'zustand';
 
 import type { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
-import type { ICurrentChatInfoState } from '@interfaces/zustand/ICurrentChatInfoState';
+import type { ICurrentChatInfoState } from '@interfaces/store/ICurrentChatInfoState';
 
 const createCurrentChatInfoState: StateCreator<
   ICurrentChatInfoState

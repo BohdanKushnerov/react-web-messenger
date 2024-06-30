@@ -1,5 +1,7 @@
 import type { FC } from 'react';
 
+import type { DocumentData } from 'firebase/firestore';
+
 import BlurImage from '@components/common/BlurImage/BlurImage';
 
 import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
@@ -8,9 +10,15 @@ import calculateMessageImageHeight from '@utils/messages/calculateMessageImageHe
 import calculateMessageImageWidth from '@utils/messages/calculateMessageImageWidth';
 
 import type { IFile } from '@interfaces/IFile';
-import type { IMessageImageProps } from '@interfaces/IMessageImageProps';
 
 import { ElementsId } from '@enums/elementsId';
+
+interface IMessageImageProps {
+  msg: DocumentData;
+  file: IFile;
+  index: number;
+  handleClickPhoto: (index: number) => void;
+}
 
 const MessageImage: FC<IMessageImageProps> = ({
   msg,

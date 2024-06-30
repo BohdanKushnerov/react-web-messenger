@@ -9,17 +9,19 @@ import TransitionComponent from '@components/common/TransitionComponent/Transiti
 
 import useChatStore from '@store/store';
 
+import useSearchMessageValue from '@hooks/chatHeader/useSearchMessageValue';
 import useChatInfo from '@hooks/useChatInfo';
-import useSearchMessageValue from '@hooks/useSearchMessageValue';
 import useStartTransition from '@hooks/useStartTransition';
 
 import formatTimeSearchMessage from '@utils/messages/formatTimeSearchMessage';
 
-import type { ISearchMessagesProps } from '@interfaces/ISearchMessagesProps';
-
 import { IconId } from '@enums/iconsSpriteId';
 
 import { defaultNS } from '@i18n/i18n';
+
+interface ISearchMessagesProps {
+  setIsShowSearchMessages: (value: boolean) => void;
+}
 
 const SearchMessages: FC<ISearchMessagesProps> = ({
   setIsShowSearchMessages,

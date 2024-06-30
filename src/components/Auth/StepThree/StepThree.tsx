@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -13,13 +13,16 @@ import { auth, db } from '@myfirebase/config';
 
 import useChatStore from '@store/store';
 
-import type { IStepThreeProps } from '@interfaces/IStepThreeProps';
-
 import { ElementsId } from '@enums/elementsId';
 
 import authStep3 from '@assets/auth-step3.webp';
 
 import { defaultNS } from '@i18n/i18n';
+
+interface IStepThreeProps {
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+}
 
 const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
   const [name, setName] = useState('');

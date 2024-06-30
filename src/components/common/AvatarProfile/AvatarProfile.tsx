@@ -1,8 +1,11 @@
 import type { FC } from 'react';
 import Avatar from 'react-avatar';
 
-import type { IAvatarProfileProps } from '@interfaces/IAvatarProfileProps';
-
+interface IAvatarProfileProps {
+  photoURL: string | null;
+  displayName: string | null;
+  size: string;
+}
 const AvatarProfile: FC<IAvatarProfileProps> = ({
   photoURL,
   displayName,

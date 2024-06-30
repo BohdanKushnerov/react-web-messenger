@@ -13,8 +13,13 @@ import useChatInfo from '@hooks/useChatInfo';
 
 import handleSelectChat from '@utils/chatListItem/handleSelectChat';
 
-import type { IChatListItemProps } from '@interfaces/IChatListItemProps';
 import type { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
+
+import type { ChatListItemType } from 'types/ChatListItemType';
+
+interface IChatListItemProps {
+  chatInfo: ChatListItemType;
+}
 
 const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
   const location = useLocation();

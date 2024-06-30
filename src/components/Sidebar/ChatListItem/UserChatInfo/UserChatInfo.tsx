@@ -1,14 +1,22 @@
 import type { FC } from 'react';
 
+import type { DocumentData } from 'firebase/firestore';
+
 import IsOnlineUser from '../IsOnlineUser/IsOnlineUser';
 import QuantityUnreadMessages from '../QuantityUnreadMessages/QuantityUnreadMessages';
 import ReadStatus from '../ReadStatus/ReadStatus';
 
-import useGetLastMessage from '@hooks/useGetLastMessage';
+import useGetLastMessage from '@hooks/sidebar/useGetLastMessage';
 
 import truncateLastMessageString from '@utils/chatListItem/truncateLastMessageString';
 
-import type { IUserChatInfoProps } from '@interfaces/IUserChatInfoProps';
+import type { ChatListItemType } from 'types/ChatListItemType';
+
+interface IUserChatInfoProps {
+  currentChatUID: string | null;
+  chatInfo: ChatListItemType;
+  userInfo: DocumentData | null;
+}
 
 const UserChatInfo: FC<IUserChatInfoProps> = ({
   currentChatUID,

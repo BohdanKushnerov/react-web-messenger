@@ -18,11 +18,11 @@ import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions'
 
 import useChatStore from '@store/store';
 
-import useChatMessageUpdates from '@hooks/useChatMessageUpdates';
-import useGetFirstMessages from '@hooks/useGetFirstMessages';
+import useChatMessageUpdates from '@hooks/messages/useChatMessageUpdates';
+import useGetFirstMessages from '@hooks/messages/useGetFirstMessages';
+import useResetMessagesStates from '@hooks/messages/useResetMessagesStates';
+import useSelectedMessagesHandling from '@hooks/messages/useSelectedMessagesHandling';
 import usePersistChatUID from '@hooks/usePersistChatUID';
-import useResetMessagesStates from '@hooks/useResetMessagesStates';
-import useSelectedMessagesHandling from '@hooks/useSelectedMessagesHandling';
 
 import calculateMenuPosition from '@utils/messages/calculateMenuPosition';
 import handleScrollLoadMoreMessages from '@utils/messages/handleScrollLoadMoreMessages';

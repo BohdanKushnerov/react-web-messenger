@@ -2,8 +2,10 @@ import type { FC } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
-import type { IMyPhoneInputProps } from '@interfaces/IMyPhoneInputProps';
-
+interface IMyPhoneInputProps {
+  phone: string;
+  setPhone: (value: string) => void;
+}
 const MyPhoneInput: FC<IMyPhoneInputProps> = ({ phone, setPhone }) => {
   const handleChangePhone = (value: string) => {
     setPhone(value.startsWith('+') ? value : `+${value}`);

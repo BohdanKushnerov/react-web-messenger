@@ -9,7 +9,7 @@ import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions'
 
 import useChatStore from '@store/store';
 
-import useSearchUsers from '@hooks/useSearchUsers';
+import useSearchUsers from '@hooks/sidebar/useSearchUsers';
 
 import handleCreateAndNavigateToChat from '@utils/chatListItem/handleCreateAndNavigateToChat';
 

@@ -10,19 +10,21 @@ import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@store/store';
 
-import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
-import useClearMessagesOnChatChange from '@hooks/useClearMessagesOnChatChange';
-import useEditingMessage from '@hooks/useEditingMessage';
+import useBeforeUnloadToStopTyping from '@hooks/chatFrom/useBeforeUnloadToStopTyping';
+import useClearMessagesOnChatChange from '@hooks/chatFrom/useClearMessagesOnChatChange';
+import useEditingMessage from '@hooks/chatFrom/useEditingMessage';
+import useMyTyping from '@hooks/chatFrom/useMyTyping';
 import useKeyDown from '@hooks/useKeyDown';
-import useMyTyping from '@hooks/useMyTyping';
 
 import handleSendMessage from '@utils/chatForm/handleSendMessage';
 import handleUpdateEditMessage from '@utils/messages/handleUpdateEditMessage';
 
-import type { IChatFormProps } from '@interfaces/IChatFormProps';
-
 import { ElementsId } from '@enums/elementsId';
 import { IconId } from '@enums/iconsSpriteId';
+
+interface IChatFormProps {
+  isShowSearchMessages: boolean;
+}
 
 const RecordingAudio = lazy(
   () => import('@components/ChatForm/RecordingAudio/RecordingAudio')

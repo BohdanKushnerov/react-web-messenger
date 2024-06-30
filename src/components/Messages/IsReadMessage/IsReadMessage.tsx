@@ -1,10 +1,14 @@
 import type { FC } from 'react';
 
+import type { DocumentData } from 'firebase/firestore';
+
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import type { IIsReadMessageProps } from '@interfaces/IIsReadMessageProps';
-
 import { IconId } from '@enums/iconsSpriteId';
+
+interface IIsReadMessageProps {
+  msg: DocumentData;
+}
 
 const IsReadMessage: FC<IIsReadMessageProps> = ({ msg }) => {
   return (

@@ -9,11 +9,15 @@ import useChatStore from '@store/store';
 
 import copyTextSelectedMessages from '@utils/messages/copyTextSelectedMessages';
 
-import type { ICopyButtonProps } from '@interfaces/ICopyButtonProps';
-
 import { IconId } from '@enums/iconsSpriteId';
 
-const CopyButton: FC<ICopyButtonProps> = ({
+interface IButtonCopyProps {
+  textContent?: boolean;
+  white?: string;
+  dark?: string;
+}
+
+const CopyButton: FC<IButtonCopyProps> = ({
   textContent = true,
   white = 'white',
   dark = 'white',

@@ -2,8 +2,10 @@ import { Navigate } from 'react-router-dom';
 
 import useChatStore from '@store/store';
 
-import type { IPrivateRouteProps } from '@interfaces/routes/IPrivateRouteProps';
-
+interface IPrivateRouteProps {
+  component: React.ComponentType;
+  redirectTo?: string;
+}
 const PrivateRoute = ({
   component: Component,
   redirectTo = '/authentication',

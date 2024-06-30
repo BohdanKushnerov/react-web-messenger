@@ -1,7 +1,9 @@
 import type { FC } from 'react';
 import AuthCode from 'react-auth-code-input';
 
-import type { ICodeInputProps } from '@interfaces/ICodeInputProps';
+interface ICodeInputProps {
+  setCode: (value: string) => void;
+}
 
 const CodeInput: FC<ICodeInputProps> = ({ setCode }) => {
   const handleOnChange = (res: string) => {

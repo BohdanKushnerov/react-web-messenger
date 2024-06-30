@@ -10,9 +10,11 @@ import useChatStore from '@store/store';
 
 import useResizeWindow from '@hooks/useResizeWindow';
 
-import type { IChatHeaderProps } from '@interfaces/IChatHeaderProps';
-
 import { IconId } from '@enums/iconsSpriteId';
+
+interface IChatHeaderProps {
+  setIsShowSearchMessages: (value: boolean) => void;
+}
 
 const Button = lazy(() => import('@components/common/Button/Button'));
 

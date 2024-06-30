@@ -4,8 +4,11 @@ import AudioComponent from '../AudioComponent/AudioComponent';
 import FileComponent from '../FileComponent/FileComponent';
 import VideoComponent from '../VideoComponent/VideoComponent';
 
-import type { IMessageFileProps } from '@interfaces/IMessageFileProps';
+import type { FileFromStorage } from 'types/FileFromStorage';
 
+interface IMessageFileProps {
+  file: FileFromStorage;
+}
 const MessageFile: FC<IMessageFileProps> = ({ file }) => {
   if (file.type.includes('video')) {
     return (

@@ -10,14 +10,14 @@ import createIsSelectedMessagesState from './selectedMessages';
 import createSidebarScreenState from './sidebarScreenSlice';
 import createTotalUnreadMessagesState from './totalUnreadMessagesSlice';
 
-import type { IAuthSliceState } from '@interfaces/zustand/IAuthSliceState';
-import type { ICreateisSelectedMessagesState } from '@interfaces/zustand/ICreateisSelectedMessagesState';
-import type { ICurrentChatInfoState } from '@interfaces/zustand/ICurrentChatInfoState';
-import type { IMessageChatForm } from '@interfaces/zustand/IMessageChatForm';
-import type { IMessageEditingState } from '@interfaces/zustand/IMessageEditingState';
-import type { ISearchUsersState } from '@interfaces/zustand/ISearchUsersState';
-import type { ISidebarScreenState } from '@interfaces/zustand/ISidebarScreen';
-import type { ITotalUnreadMessagesState } from '@interfaces/zustand/ITotalUnreadMessagesState';
+import type { IAuthSliceState } from '@interfaces/store/IAuthSliceState';
+import type { ICreateisSelectedMessagesState } from '@interfaces/store/ICreateisSelectedMessagesState';
+import type { ICurrentChatInfoState } from '@interfaces/store/ICurrentChatInfoState';
+import type { IMessageChatForm } from '@interfaces/store/IMessageChatForm';
+import type { IMessageEditingState } from '@interfaces/store/IMessageEditingState';
+import type { ISearchUsersState } from '@interfaces/store/ISearchUsersState';
+import type { ISidebarScreenState } from '@interfaces/store/ISidebarScreen';
+import type { ITotalUnreadMessagesState } from '@interfaces/store/ITotalUnreadMessagesState';
 
 const useChatStore = create<
   ISearchUsersState &

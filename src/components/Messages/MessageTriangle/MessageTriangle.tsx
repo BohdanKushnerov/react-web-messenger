@@ -2,9 +2,11 @@ import type { FC } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import type { IMessageTriangleProps } from '@interfaces/IMessageTriangleProps';
-
 import { IconId } from '@enums/iconsSpriteId';
+
+interface IMessageTriangleProps {
+  myUID: boolean;
+}
 
 const MessageTriangle: FC<IMessageTriangleProps> = ({ myUID }) => {
   return (

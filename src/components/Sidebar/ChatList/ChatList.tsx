@@ -5,7 +5,7 @@ import ChatListItem from '../ChatListItem/ChatListItem';
 
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
-import useMyUserChatList from '@hooks/useMyUserChatList';
+import useMyUserChatList from '@hooks/sidebar/useMyUserChatList';
 
 import type { ChatListItemType } from 'types/ChatListItemType';
 

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+import type { DocumentData } from 'firebase/firestore';
 import urlParser from 'js-video-url-parser';
 
 import IsEdited from '../IsEdited/IsEdited';
@@ -13,16 +14,20 @@ import MessageTriangle from '@components/Messages/MessageTriangle/MessageTriangl
 
 import useChatStore from '@store/store';
 
-import useMakeReadMessage from '@hooks/useMakeReadMessage';
+import useMakeReadMessage from '@hooks/messages/useMakeReadMessage';
 
 import isLinkMessage from '@utils/isLinkMessage';
 import formatTimeMessage from '@utils/messages/formatTimeMessage';
 import getFilesWithoutImages from '@utils/messages/getFilesWithoutImages';
 
 import type { IFile } from '@interfaces/IFile';
-import type { IMessageItemProps } from '@interfaces/IMessageItemProps';
 
 import { ElementsId } from '@enums/elementsId';
+
+interface IMessageItemProps {
+  msg: DocumentData;
+  isNearBottom: boolean;
+}
 
 const MessageItem: FC<IMessageItemProps> = ({ msg, isNearBottom }) => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);

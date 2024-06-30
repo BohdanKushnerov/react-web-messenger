@@ -2,7 +2,11 @@ import type { FC } from 'react';
 
 import ReactionsUser from './ReactionsUser';
 
-import type { IReactionsDisplayProps } from '@interfaces/IReactionsDisplayProps';
+interface IReactionsDisplayProps {
+  reactions?: {
+    [emoji: string]: string[];
+  };
+}
 
 const ReactionsDisplay: FC<IReactionsDisplayProps> = ({ reactions }) => {
   return (

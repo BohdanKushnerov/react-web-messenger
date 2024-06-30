@@ -3,9 +3,11 @@ import ReactPlayer from 'react-player';
 
 import getYouTubeVideoId from '@utils/messages/getYouTubeVideoId';
 
-import type { IVideoComponentProps } from '@interfaces/IVideoComponentProps';
-
 import { ElementsId } from '@enums/elementsId';
+
+interface IVideoComponentProps {
+  source: string;
+}
 
 const VideoComponent: FC<IVideoComponentProps> = ({ source }) => {
   if (source.includes('youtube')) {

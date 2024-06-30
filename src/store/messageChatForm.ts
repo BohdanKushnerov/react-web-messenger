@@ -1,7 +1,7 @@
 import { produce } from 'immer';
 import type { StateCreator } from 'zustand';
 
-import type { IMessageChatForm } from '@interfaces/zustand/IMessageChatForm';
+import type { IMessageChatForm } from '@interfaces/store/IMessageChatForm';
 
 const createMessageChatForm: StateCreator<IMessageChatForm> = set => ({
   message: '',

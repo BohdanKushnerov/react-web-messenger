@@ -1,7 +1,7 @@
 import { produce } from 'immer';
 import type { StateCreator } from 'zustand';
 
-import type { ISidebarScreenState } from '@interfaces/zustand/ISidebarScreen';
+import type { ISidebarScreenState } from '@interfaces/store/ISidebarScreen';
 
 import type { SidebarScreenValue } from 'types/SidebarScreenValue';
 

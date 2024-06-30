@@ -1,4 +1,10 @@
-import { forwardRef, useRef, useState } from 'react';
+import {
+  type Dispatch,
+  type SetStateAction,
+  forwardRef,
+  useRef,
+  useState,
+} from 'react';
 import type { DefaultExtensionType } from 'react-file-icon';
 import { useTranslation } from 'react-i18next';
 
@@ -12,8 +18,6 @@ import useChatStore from '@store/store';
 
 import handleSendAttachedFilesMessage from '@utils/chatForm/handleSendAttachedFilesMessage';
 
-import type { IFileInputModalProps } from '@interfaces/IFileInputModalProps';
-
 import { ElementsId } from '@enums/elementsId';
 import { IconId } from '@enums/iconsSpriteId';
 
@@ -21,7 +25,12 @@ import type { FilesUploadStatuses } from 'types/FilesUploadStatuses';
 
 import { defaultNS } from '@i18n/i18n';
 
-const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
+interface IModalFileInputProps {
+  setIsModalAddFileOpen: Dispatch<SetStateAction<boolean>>;
+  handleToggleModal: () => void;
+}
+
+const FileInputModal = forwardRef<HTMLInputElement, IModalFileInputProps>(
   ({ setIsModalAddFileOpen, handleToggleModal }, ref) => {
     const [fileDescription, setFileDescription] = useState('');
     const [uploadFilesStatus, setUploadFilesStatus] =

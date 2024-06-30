@@ -12,14 +12,27 @@ import TransitionComponent from '@components/common/TransitionComponent/Transiti
 
 import useChatStore from '@store/store';
 
+import useQuickScrollToBottom from '@hooks/messages/useQuickScrollToBottom';
 import useLengthOfMyUnreadMessages from '@hooks/useLengthOfMyUnreadMessages';
-import useQuickScrollToBottom from '@hooks/useQuickScrollToBottom';
 
 import formatDateForGroupMessages from '@utils/messages/formatDateForGroupMessages';
 
-import type { IMessageListProps } from '@interfaces/IMessageListProps';
-
 import { ElementsId } from '@enums/elementsId';
+
+import type { GroupedMessages } from 'types/GroupedMessages';
+
+interface IMessageListProps {
+  chatUID: string | null;
+  groupedMessages: GroupedMessages | null;
+  isReadyFirstMessages: boolean;
+  selectedDocDataMessage: DocumentData[] | null;
+  isScrollDownButtonVisible: boolean;
+  handleClickRigthButtonMessage: (
+    message: DocumentData,
+    e: React.MouseEvent
+  ) => void;
+  handleToggleSelectedMessage: (message: DocumentData) => void;
+}
 
 const MessageList = memo(
   forwardRef<HTMLDivElement, IMessageListProps>((props, ref) => {

@@ -1,7 +1,7 @@
 import { produce } from 'immer';
 import type { StateCreator } from 'zustand';
 
-import type { ITotalUnreadMessagesState } from '@interfaces/zustand/ITotalUnreadMessagesState';
+import type { ITotalUnreadMessagesState } from '@interfaces/store/ITotalUnreadMessagesState';
 
 const createTotalUnreadMessagesState: StateCreator<
   ITotalUnreadMessagesState

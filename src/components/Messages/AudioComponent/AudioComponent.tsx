@@ -12,11 +12,13 @@ import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import convertTimeWithZero from '@utils/convertTimeWithZero';
 
-import type { IAudioComponentProps } from '@interfaces/IAudioComponentProps';
-
 import { IconId } from '@enums/iconsSpriteId';
 
 import { defaultNS } from '@i18n/i18n';
+
+interface IAudioComponentProps {
+  audioUrl: string;
+}
 
 const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   const [waveSurfer, setWaveSurfer] = useState<WaveSurfer | null>(null);

@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 import { ClipLoader } from 'react-spinners';
 
-import type { ILoaderUIActionsProps } from '@interfaces/ILoaderUIActionsProps';
-
+interface ILoaderUIActionsProps {
+  size?: number;
+}
 const LoaderUIActions: FC<ILoaderUIActionsProps> = ({ size = 15 }) => {
   return (
     <ClipLoader

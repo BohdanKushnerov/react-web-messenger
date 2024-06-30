@@ -7,11 +7,14 @@ import useChatStore from '@store/store';
 
 import handleDeleteMessage from '@utils/messages/handleDeleteMessage';
 
-import type { IDeleteButtonProps } from '@interfaces/IDeleteButtonProps';
-
 import { IconId } from '@enums/iconsSpriteId';
 
-const DeleteButton: FC<IDeleteButtonProps> = ({
+interface IButtonDeleteProps {
+  textContent?: boolean;
+  color: string;
+}
+
+const DeleteButton: FC<IButtonDeleteProps> = ({
   textContent = true,
   color,
 }) => {

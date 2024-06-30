@@ -16,7 +16,7 @@ import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions'
 
 import { auth } from '@myfirebase/config';
 
-import useStoredConfirmationResult from '@hooks/useStoredConfirmationResult';
+import useStoredConfirmationResult from '@hooks/auth/useStoredConfirmationResult';
 
 import getStoredAuthStep from '@utils/auth/getStoredAuthStep';
 import getStoredPhone from '@utils/auth/getStoredPhone';

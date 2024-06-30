@@ -7,7 +7,7 @@ import Sidebar from '@components/Sidebar/Sidebar';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
-import useBrowserTabVisibilityChange from '@hooks/useBrowserTabVisibilityChange';
+import useBrowserTabVisibilityChange from '@hooks/browserTabTitle/useBrowserTabVisibilityChange';
 import useIsOnlineMyStatus from '@hooks/useIsOnlineMyStatus';
 import useIsRedirectToCurrentChat from '@hooks/useIsRedirectToCurrentChat';
 import useNotification from '@hooks/useNotification';

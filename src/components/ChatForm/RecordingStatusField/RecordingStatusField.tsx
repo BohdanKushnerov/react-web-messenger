@@ -2,9 +2,12 @@ import { forwardRef } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import type { IRecordingStatusFieldProps } from '@interfaces/IRecordingStatusFieldProps';
-
 import { IconId } from '@enums/iconsSpriteId';
+
+interface IRecordingStatusFieldProps {
+  isRecording: boolean;
+  recordingDuration: number;
+}
 
 const RecordingStatusField = forwardRef<
   HTMLCanvasElement,

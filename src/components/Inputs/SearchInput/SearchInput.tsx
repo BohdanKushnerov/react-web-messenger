@@ -2,10 +2,15 @@ import type { FC } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import type { ISearchInputProps } from '@interfaces/ISearchInputProps';
-
 import { ElementsId } from '@enums/elementsId';
 import { IconId } from '@enums/iconsSpriteId';
+
+interface ISearchInputProps {
+  value: string;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholderText: string;
+  autoFocus: boolean;
+}
 
 const SearchInput: FC<ISearchInputProps> = ({
   value,

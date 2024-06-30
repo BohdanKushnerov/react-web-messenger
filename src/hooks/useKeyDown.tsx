@@ -1,8 +1,11 @@
-import { useEffect } from 'react';
+import { type RefObject, useEffect } from 'react';
 
 import { ElementsId } from '@enums/elementsId';
 
-import type { UseKeyDown } from 'types/hooks/UseKeyDown';
+type UseKeyDown = (
+  inputRef: RefObject<HTMLInputElement>,
+  isShowSearchMessages: boolean
+) => void;
 
 const useKeyDown: UseKeyDown = (inputRef, isShowSearchMessages) => {
   useEffect(() => {

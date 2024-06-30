@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, RefObject } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -13,13 +13,16 @@ import useChatStore from '@store/store';
 
 import handleUpdateProfilePhoto from '@utils/profileSettings/handleUpdateProfilePhoto';
 
-import type { IProfileSettingsModalProps } from '@interfaces/IProfileSettingsModalProps';
-
 import { IconId } from '@enums/iconsSpriteId';
 
 import { defaultNS } from '@i18n/i18n';
 
-const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
+interface IModalProfileSettingsProps {
+  photoProfileInputRef: RefObject<HTMLInputElement>;
+  handleToggleProfilePhotoModal: () => void;
+}
+
+const ProfileSettingsModal: FC<IModalProfileSettingsProps> = ({
   photoProfileInputRef,
   handleToggleProfilePhotoModal,
 }) => {

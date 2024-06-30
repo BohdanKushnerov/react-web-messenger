@@ -22,11 +22,13 @@ import useChatStore from '@store/store';
 import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 import useStartTransition from '@hooks/useStartTransition';
 
-import type { INavbarModalProps } from '@interfaces/INavbarModalProps';
-
 import { defaultNS } from '@i18n/i18n';
 
-const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
+interface IModalNavbarProps {
+  handleToggleModal: () => void;
+}
+
+const NavbarModal: FC<IModalNavbarProps> = ({ handleToggleModal }) => {
   const nodeRefNavBar = useRef(null);
 
   const { t } = useTranslation(defaultNS, {

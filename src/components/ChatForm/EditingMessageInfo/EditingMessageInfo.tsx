@@ -1,12 +1,17 @@
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import type { DocumentData } from 'firebase/firestore';
+
 import Button from '@components/common/Button/Button';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import type { IEditingMessageInfoProps } from '@interfaces/IEditingMessageInfoProps';
-
 import { IconId } from '@enums/iconsSpriteId';
+
+interface IEditingMessageInfoProps {
+  selectedMessage: DocumentData;
+  handleCancelEditingMessage: () => void;
+}
 
 const EditingMessageInfo: FC<IEditingMessageInfoProps> = ({
   selectedMessage,

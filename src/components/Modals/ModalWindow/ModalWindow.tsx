@@ -1,10 +1,12 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 import useCloseModal from '@hooks/useCloseModal';
 
-import type { IModalWindowProps } from '@interfaces/IModalWindowProps';
-
+interface IModalWindowProps {
+  handleToggleModal: () => void;
+  children: ReactNode;
+}
 const modalRoot = document.querySelector('#modal-root') as HTMLDivElement;
 
 const ModalWindow: FC<IModalWindowProps> = ({
