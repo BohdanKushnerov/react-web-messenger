@@ -12,6 +12,7 @@ import LanguageSwitcher from '@components/Sidebar/LanguageSwitcher/LanguageSwitc
 import Theme from '@components/Sidebar/Theme/Theme';
 import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
 import BlurImage from '@components/common/BlurImage/BlurImage';
+import Button from '@components/common/Button/Button';
 import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
 import { auth } from '@myfirebase/config';
@@ -76,23 +77,23 @@ const NavbarModal: FC<INavbarModalProps> = ({ handleToggleModal }) => {
             </BlurImage>
 
             <p className="transf flex">{currentUser?.displayName}</p>
-            <button
-              className="rounded-full border border-darkZinc px-2 py-1 transition-all duration-300 hover:bg-mediumZinc hover:shadow-mainShadow dark:border-darkZinc hover:dark:bg-extraDarkGray"
+            <Button
+              variant="signOut"
               type="button"
               onClick={handleSignOut}
-              aria-label="Sign out"
+              ariaLabel="Sign out"
             >
               {t('SignOut')}
-            </button>
+            </Button>
           </div>
-          <button
-            className="rounded-full border border-darkZinc px-2 py-1 text-black transition-all duration-300 hover:bg-mediumZinc hover:shadow-mainShadow dark:border-darkZinc dark:text-white hover:dark:border-white hover:dark:bg-extraDarkGray"
+          <Button
+            variant="profileSettings"
             type="button"
             onClick={handleSettingsClick}
-            aria-label="Profile settings"
+            ariaLabel="Profile settings"
           >
             {t('ProfileSettings')}
-          </button>
+          </Button>
           <Theme />
           <LanguageSwitcher />
         </div>

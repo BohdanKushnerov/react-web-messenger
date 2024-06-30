@@ -6,7 +6,8 @@ import type { DocumentData } from 'firebase/firestore';
 import MessageItem from '../MessageItem/MessageItem';
 import SelectIcons from '../SelectIcons/SelectIcons';
 
-import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
+import ScrollDown from '@components/ScrollDown/ScrollDown';
+import Button from '@components/common/Button/Button';
 import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
 import useChatStore from '@store/store';
@@ -132,10 +133,14 @@ const MessageList = memo(
           condition={isScrollDownButtonVisible && isReadyFirstMessages}
           timeout={100}
         >
-          <ButtonScrollDown
-            scrollToBottom={scrollToBottom}
-            lengthOfUnreadMessages={lengthOfUnreadMessages}
-          />
+          <Button
+            variant="scrollDown"
+            type="button"
+            onClick={scrollToBottom}
+            ariaLabel="Scroll down"
+          >
+            <ScrollDown lengthOfUnreadMessages={lengthOfUnreadMessages} />
+          </Button>
         </TransitionComponent>
       </>
     );

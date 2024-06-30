@@ -1,11 +1,14 @@
 import type { FC } from 'react';
 import { Suspense, lazy, useRef, useState } from 'react';
 
-import ButtonAttachFile from '@components/Buttons/ButtonAttachFile/ButtonAttachFile';
 import FileInput from '@components/Inputs/FileInput/FileInput';
+import Button from '@components/common/Button/Button';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@store/store';
+
+import { IconId } from '@enums/iconsSpriteId';
 
 const FileInputModal = lazy(
   () => import('@components/Modals/FileInputModal/FileInputModal')
@@ -48,15 +51,24 @@ const FileAttachment: FC = () => {
 
   return (
     <>
-      <ButtonAttachFile
-        editingMessageInfo={editingMessageInfo}
-        handleClickFileInput={handleClickFileInput}
+      <Button
+        variant="attachFileToMessage"
+        position={editingMessageInfo ? 'bottom' : 'top'}
+        type="button"
+        onClick={handleClickFileInput}
+        ariaLabel="Attach file to message"
       >
+        <SvgIcon
+          className="fill-ultraDarkZinc dark:fill-mediumZinc"
+          iconId={IconId.IconPaperClip}
+          size={24}
+        />
         <FileInput
           handleChangeFileInput={handleChangeFileInput}
           ref={fileInputRef}
         />
-      </ButtonAttachFile>
+      </Button>
+
       {isModalAddFileOpen && (
         <Suspense
           fallback={

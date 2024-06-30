@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CodeInput from '@components/Inputs/CodeInput/CodeInput';
+import Button from '@components/common/Button/Button';
 
 import { auth } from '@myfirebase/config';
 
@@ -60,15 +61,15 @@ const StepTwo: FC<IStepTwoProps> = ({
         <CodeInput setCode={setCode} />
       </div>
       <div className="mb-2 flex justify-center">
-        <button
-          className="w-full rounded-md border border-black p-2 text-black disabled:border-mediumGray disabled:text-mediumGray dark:border-white dark:text-white disabled:dark:border-mediumGray disabled:dark:text-veryDarkGray"
+        <Button
+          variant="resendSMS"
           type="button"
           onClick={getCodeAgain}
           disabled={isButtonDisabled}
-          aria-label="Resend SMS"
+          ariaLabel="Resend SMS"
         >
           {t('ResendSMS')} {timer !== 0 && convertTimeWithZero(timer)}
-        </button>
+        </Button>
       </div>
     </>
   );

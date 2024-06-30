@@ -6,13 +6,16 @@ import { Line } from 'rc-progress';
 
 import ModalWindow from '../ModalWindow/ModalWindow';
 
-import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
+import Button from '@components/common/Button/Button';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@store/store';
 
 import handleUpdateProfilePhoto from '@utils/profileSettings/handleUpdateProfilePhoto';
 
 import type { IProfileSettingsModalProps } from '@interfaces/IProfileSettingsModalProps';
+
+import { IconId } from '@enums/iconsSpriteId';
 
 import { defaultNS } from '@i18n/i18n';
 
@@ -35,7 +38,18 @@ const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
     <ModalWindow handleToggleModal={handleToggleProfilePhotoModal}>
       <div className="flex h-full items-center justify-center">
         <div className="relative flex h-2/3 w-full flex-col items-center justify-center gap-6 rounded-3xl bg-main shadow-mainShadow dark:bg-mainBlack sm:w-1/2 xl:w-1/3">
-          <ButtonClose handleClickButtonClose={handleToggleProfilePhotoModal} />
+          <Button
+            variant="close"
+            type="button"
+            onClick={handleToggleProfilePhotoModal}
+            ariaLabel="Close"
+          >
+            <SvgIcon
+              className="fill-darkZinc transition-all duration-300 group-hover:fill-darkGreen dark:fill-white"
+              iconId={IconId.IconCrossClose}
+              size={16}
+            />
+          </Button>
           {photoProfileInputRef.current?.files && (
             <div className="h-200px w-200px">
               <img
@@ -52,8 +66,8 @@ const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
           <p className="w-80 text-center text-xs text-black dark:text-white">
             {t('Modal.ChangeProfilePhotoPrompt')}
           </p>
-          <button
-            className="w-48 rounded-3xl border-2 border-black text-black transition-all duration-300 hover:bg-mediumZinc hover:shadow-mainShadow disabled:text-darkZinc dark:border-white dark:text-white hover:dark:bg-extraDarkGray"
+          <Button
+            variant="updateProfilePhoto"
             type="button"
             onClick={() =>
               handleUpdateProfilePhoto(
@@ -66,11 +80,11 @@ const ProfileSettingsModal: FC<IProfileSettingsModalProps> = ({
                 handleToggleProfilePhotoModal
               )
             }
-            aria-label="Update profile photo"
+            ariaLabel="Update profile photo"
             disabled={typeof profilePhotoUploadStatus === 'number'}
           >
             {t('Modal.ChangeProfilePhoto')}
-          </button>
+          </Button>
 
           <div className="flex h-4 items-center gap-4">
             {typeof profilePhotoUploadStatus === 'number' && (

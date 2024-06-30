@@ -9,9 +9,10 @@ import StepOne from '@components/Auth/StepOne/StepOne';
 import StepThree from '@components/Auth/StepThree/StepThree';
 import StepTwo from '@components/Auth/StepTwo/StepTwo';
 import TestNumbers from '@components/Auth/TestNumbers/TestNumbers';
-import AuthConfirmButton from '@components/Buttons/ButtonAuthConfirm/ButtonAuthConfirm';
 import LanguageSwitcher from '@components/Sidebar/LanguageSwitcher/LanguageSwitcher';
 import Theme from '@components/Sidebar/Theme/Theme';
+import Button from '@components/common/Button/Button';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import { auth } from '@myfirebase/config';
 
@@ -22,6 +23,8 @@ import getStoredPhone from '@utils/auth/getStoredPhone';
 import handleSubmitVerifyCode from '@utils/auth/handleSubmitVerifyCode';
 import isValidPhoneNumber from '@utils/auth/isValidPhoneNumber';
 import setUpRecaptcha from '@utils/auth/setUpRecaptcha';
+
+import { ElementsId } from '@enums/elementsId';
 
 import type { AuthSteps } from 'types/AuthSteps';
 
@@ -146,24 +149,30 @@ const Auth: FC = () => {
         )}
 
         {step !== 'Step 3/3' && (
-          <AuthConfirmButton
-            isLoading={isLoading}
-            onSubmit={handleSubmitAuthFirstTwoSteps}
-          />
+          <Button
+            variant="authConfirm"
+            id={ElementsId.SignInButton}
+            type="button"
+            disabled={isLoading}
+            onClick={handleSubmitAuthFirstTwoSteps}
+            ariaLabel="Auth confirm button"
+          >
+            {isLoading ? <LoaderUIActions /> : t('Continue')}
+          </Button>
         )}
 
         {step === 'Step 3/3' && (
           <StepThree isLoading={isLoading} setIsLoading={setIsLoading} />
         )}
 
-        <button
-          className="mt-2 w-full rounded-md bg-mediumRed p-2 font-bold text-white disabled:text-veryDarkZinc"
+        <Button
+          variant="clearRegistrationForm"
           type="button"
           onClick={handleFullResetFrom}
-          aria-label="Full reset from"
+          ariaLabel="Full reset from"
         >
           {t('ClearRegistrationForm')}
-        </button>
+        </Button>
       </div>
 
       {step !== 'Step 3/3' && <TestNumbers />}

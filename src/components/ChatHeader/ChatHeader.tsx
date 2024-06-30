@@ -2,9 +2,9 @@ import type { FC } from 'react';
 import { Suspense, lazy, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import ButtonSearchMessages from '@components/Buttons/ButtonSearchMessages/ButtonSearchMessages';
-import ChatHeaderOponentInfo from '@components/ChatHeader/ChatHeaderOponentInfo/ChatHeaderOponentInfo';
+import ChatHeaderOpponentInfo from '@components/ChatHeader/ChatHeaderOpponentInfo/ChatHeaderOpponentInfo';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@store/store';
 
@@ -12,9 +12,9 @@ import useResizeWindow from '@hooks/useResizeWindow';
 
 import type { IChatHeaderProps } from '@interfaces/IChatHeaderProps';
 
-const ButtonArrow = lazy(
-  () => import('@components/Buttons/ButtonArrow/ButtonArrow')
-);
+import { IconId } from '@enums/iconsSpriteId';
+
+const Button = lazy(() => import('@components/common/Button/Button'));
 
 const ChatHeader: FC<IChatHeaderProps> = ({ setIsShowSearchMessages }) => {
   const navigate = useNavigate();
@@ -49,15 +49,35 @@ const ChatHeader: FC<IChatHeaderProps> = ({ setIsShowSearchMessages }) => {
             </div>
           }
         >
-          <ButtonArrow
-            handleClickButtonArrow={handleClickNavigateToSidebarScreen}
-          />
+          <Button
+            variant="comeBack"
+            type="button"
+            onClick={handleClickNavigateToSidebarScreen}
+            ariaLabel="Come back"
+          >
+            <SvgIcon
+              className="rotate-180 fill-darkZinc"
+              iconId={IconId.IconRightArrow}
+              size={24}
+            />
+          </Button>
         </Suspense>
       )}
 
-      <ChatHeaderOponentInfo />
+      <ChatHeaderOpponentInfo />
 
-      <ButtonSearchMessages handleClick={handleClickShowSearchMessages} />
+      <Button
+        variant="searchMessages"
+        type="button"
+        onClick={handleClickShowSearchMessages}
+        ariaLabel="Search messages"
+      >
+        <SvgIcon
+          className="fill-darkZinc dark:fill-mediumZinc"
+          iconId={IconId.IconSearch}
+          size={24}
+        />
+      </Button>
     </div>
   );
 };

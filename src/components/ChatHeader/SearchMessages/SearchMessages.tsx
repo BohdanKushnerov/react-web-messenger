@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import SearchInput from '@components/Inputs/SearchInput/SearchInput';
 import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
+import Button from '@components/common/Button/Button';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
@@ -55,18 +56,18 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
       timeout={300}
     >
       <div className="flex items-center justify-around gap-1">
-        <button
-          className="flex h-9 w-10 cursor-pointer items-center justify-center rounded-full bg-transparent transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10"
+        <Button
+          variant="close2"
           type="button"
           onClick={handleClickCloseSearchMessage}
-          aria-label="Close"
+          ariaLabel="Close"
         >
           <SvgIcon
             className="fill-darkZinc dark:fill-mediumZinc"
             iconId={IconId.IconCrossClose}
             size={16}
           />
-        </button>
+        </Button>
 
         <SearchInput
           value={searchMessageValue}

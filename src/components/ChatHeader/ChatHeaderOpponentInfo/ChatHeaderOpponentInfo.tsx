@@ -13,7 +13,7 @@ import useShowTyping from '@hooks/useShowTyping';
 
 import { defaultNS } from '@i18n/i18n';
 
-const ChatHeaderOponentInfo: FC = () => {
+const ChatHeaderOpponentInfo: FC = () => {
   const { t } = useTranslation(defaultNS, { keyPrefix: 'General' });
 
   const userUID = useChatStore(state => state.currentChatInfo.userUID);
@@ -52,4 +52,4 @@ const ChatHeaderOponentInfo: FC = () => {
   );
 };
 
-export default ChatHeaderOponentInfo;
+export default ChatHeaderOpponentInfo;

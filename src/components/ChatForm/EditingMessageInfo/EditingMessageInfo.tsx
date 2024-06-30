@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
+import Button from '@components/common/Button/Button';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import type { IEditingMessageInfoProps } from '@interfaces/IEditingMessageInfoProps';
@@ -30,7 +30,18 @@ const EditingMessageInfo: FC<IEditingMessageInfoProps> = ({
         </p>
       </div>
       <div className="absolute right-12 top-0">
-        <ButtonClose handleClickButtonClose={handleCancelEditingMessage} />
+        <Button
+          variant="close"
+          type="button"
+          onClick={handleCancelEditingMessage}
+          ariaLabel="Close"
+        >
+          <SvgIcon
+            className="fill-darkZinc transition-all duration-300 group-hover:fill-darkGreen dark:fill-white"
+            iconId={IconId.IconCrossClose}
+            size={16}
+          />
+        </Button>
       </div>
     </div>
   );

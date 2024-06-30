@@ -2,10 +2,10 @@ import type { FC } from 'react';
 import { Suspense, lazy, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import ButtonArrow from '@components/Buttons/ButtonArrow/ButtonArrow';
 import FileInput from '@components/Inputs/FileInput/FileInput';
 import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
 import BlurImage from '@components/common/BlurImage/BlurImage';
+import Button from '@components/common/Button/Button';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
@@ -84,9 +84,18 @@ const ProfileSettings: FC = () => {
       condition={sidebarScreen === 'profileSettings'}
       timeout={200}
     >
-      <ButtonArrow
-        handleClickButtonArrow={handleClickTurnBackToDefaultScreen}
-      />
+      <Button
+        variant="comeBack"
+        type="button"
+        onClick={handleClickTurnBackToDefaultScreen}
+        ariaLabel="Come back"
+      >
+        <SvgIcon
+          className="rotate-180 fill-darkZinc"
+          iconId={IconId.IconRightArrow}
+          size={24}
+        />
+      </Button>
       <div className="flex flex-col items-center justify-center gap-4">
         <FileInput
           handleChangeFileInput={handleChooseProfilePhoto}

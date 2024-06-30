@@ -2,11 +2,11 @@ import type { FC } from 'react';
 import { Suspense, lazy, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import ButtonRecordAudio from '@components/Buttons/ButtonRecordAudio/ButtonRecordAudio';
-import SendMessage from '@components/Buttons/ButtonSendMessage/ButtonSendMessage';
 import Emoji from '@components/ChatForm/Emoji/Emoji';
 import FileAttachment from '@components/ChatForm/FileAttachment/FileAttachment';
+import Button from '@components/common/Button/Button';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@store/store';
 
@@ -22,6 +22,7 @@ import handleUpdateEditMessage from '@utils/messages/handleUpdateEditMessage';
 import type { IChatFormProps } from '@interfaces/IChatFormProps';
 
 import { ElementsId } from '@enums/elementsId';
+import { IconId } from '@enums/iconsSpriteId';
 
 const RecordingAudio = lazy(
   () => import('@components/ChatForm/RecordingAudio/RecordingAudio')
@@ -138,13 +139,32 @@ const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
               onChange={handleChangeMessage}
             />
             {message ? (
-              <SendMessage />
+              <Button
+                variant="sendMessages"
+                type="submit"
+                ariaLabel="Send message"
+              >
+                <SvgIcon
+                  className="fill-mediumLightZinc dark:fill-mediumZinc"
+                  iconId={IconId.IconSendMessage}
+                  size={24}
+                />
+              </Button>
             ) : (
               <>
                 {!isRecording ? (
-                  <ButtonRecordAudio
-                    handleToggleRecordingStatus={handleToggleRecordingStatus}
-                  />
+                  <Button
+                    variant="recording"
+                    type="button"
+                    onClick={handleToggleRecordingStatus}
+                    ariaLabel="Recording audio"
+                  >
+                    <SvgIcon
+                      className="fill-mediumLightZinc dark:fill-mediumZinc"
+                      iconId={IconId.IconMic}
+                      size={24}
+                    />
+                  </Button>
                 ) : (
                   <Suspense fallback={<LoaderUIActions size={40} />}>
                     <RecordingAudio

@@ -2,10 +2,11 @@ import { forwardRef, useRef, useState } from 'react';
 import type { DefaultExtensionType } from 'react-file-icon';
 import { useTranslation } from 'react-i18next';
 
-import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
 import UploadDocumentFile from '@components/ChatForm/UploadDocumentFile/UploadDocumentFile';
 import UploadPhotoFile from '@components/ChatForm/UploadPhotoFile/UploadPhotoFile';
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
+import Button from '@components/common/Button/Button';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@store/store';
 
@@ -14,6 +15,7 @@ import handleSendAttachedFilesMessage from '@utils/chatForm/handleSendAttachedFi
 import type { IFileInputModalProps } from '@interfaces/IFileInputModalProps';
 
 import { ElementsId } from '@enums/elementsId';
+import { IconId } from '@enums/iconsSpriteId';
 
 import type { FilesUploadStatuses } from 'types/FilesUploadStatuses';
 
@@ -71,7 +73,18 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
               } ${t('Files')}`}
             </p>
 
-            <ButtonClose handleClickButtonClose={handleCloseAddFileModal} />
+            <Button
+              variant="close"
+              type="button"
+              onClick={handleCloseAddFileModal}
+              ariaLabel="Close"
+            >
+              <SvgIcon
+                className="fill-darkZinc transition-all duration-300 group-hover:fill-darkGreen dark:fill-white"
+                iconId={IconId.IconCrossClose}
+                size={16}
+              />
+            </Button>
 
             <div ref={scrollbarsRef} className="h-full w-full overflow-scroll">
               <ul className="flex flex-col gap-2">
@@ -118,14 +131,14 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
                   onChange={handleChangeFileDescription}
                 />
               </div>
-              <button
-                className="rounded-full border border-veryDarkGray px-2 py-1 text-black transition-all duration-300 hover:bg-mediumZinc hover:shadow-mainShadow dark:text-white hover:dark:bg-extraDarkGray"
+              <Button
+                variant="sendFileMessages"
                 type="submit"
                 disabled={Object.keys(uploadFilesStatus).length > 0}
-                aria-label="Send"
+                ariaLabel="Send"
               >
                 {t('Send')}
-              </button>
+              </Button>
             </form>
           </div>
         </div>

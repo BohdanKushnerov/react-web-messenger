@@ -1,6 +1,6 @@
 export enum ElementsId {
   Name = 'name',
-  Lastname = 'lastname',
+  LastName = 'lastName',
   SignInButton = 'sign-in-button',
   ChatFormInput = 'chatFormInput',
   SearchInput = 'searchInput',

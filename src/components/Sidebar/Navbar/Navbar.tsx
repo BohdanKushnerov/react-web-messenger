@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { Suspense, lazy, useState } from 'react';
 
+import Button from '@components/common/Button/Button';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
@@ -19,18 +20,18 @@ const Navbar: FC = () => {
 
   return (
     <div>
-      <button
-        className="relative flex h-10 w-12 cursor-pointer items-center justify-center rounded-full bg-transparent transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10"
+      <Button
+        variant="navBar"
         type="button"
         onClick={handleToggleModal}
-        aria-label="Navbar"
+        ariaLabel="Navbar"
       >
         <SvgIcon
           className="fill-ultraDarkZinc dark:fill-mediumZinc"
           iconId={IconId.IconMenu}
           size={32}
         />
-      </button>
+      </Button>
       <Suspense
         fallback={
           <div className="absolute left-4 top-2">

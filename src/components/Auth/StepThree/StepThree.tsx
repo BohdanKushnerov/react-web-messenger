@@ -6,7 +6,8 @@ import { toast } from 'react-toastify';
 import { updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
-import AuthConfirmButton from '@components/Buttons/ButtonAuthConfirm/ButtonAuthConfirm';
+import Button from '@components/common/Button/Button';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import { auth, db } from '@myfirebase/config';
 
@@ -96,22 +97,29 @@ const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
           />
         </label>
         <label
-          htmlFor={ElementsId.Lastname}
+          htmlFor={ElementsId.LastName}
           className="font-bold text-veryDarkGray"
         >
           {t('Surname')}
           <input
             className="h-10 w-full rounded-md border border-charcoal bg-transparent p-2"
-            id={ElementsId.Lastname}
+            id={ElementsId.LastName}
             type="text"
             value={surname}
             onChange={handleChangeSurname}
           />
         </label>
-        <AuthConfirmButton
-          isLoading={isLoading}
-          onSubmit={handleUpdateProfile}
-        />
+
+        <Button
+          variant="authConfirm"
+          id={ElementsId.SignInButton}
+          type="button"
+          disabled={isLoading}
+          onClick={handleUpdateProfile}
+          ariaLabel="Auth confirm button"
+        >
+          {isLoading ? <LoaderUIActions /> : t('Continue')}
+        </Button>
       </div>
     </>
   );
