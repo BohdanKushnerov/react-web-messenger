@@ -7,13 +7,12 @@ import {
 
 import type { DocumentData } from 'firebase/firestore';
 
-import useChatStore from '@store/store';
-
 import getFirstMessages from '@api/firestore/getFirstMessages';
 
 import type { GroupedMessages } from 'types/GroupedMessages';
 
 type UseGetFirstMessages = (
+  chatUID: string | null,
   isReadyToFetchFirstNewChatMessages: MutableRefObject<boolean>,
   lastLoadedMessage: MutableRefObject<DocumentData | null>,
   setIsReadyFirstMessages: Dispatch<SetStateAction<boolean>>,
@@ -21,13 +20,12 @@ type UseGetFirstMessages = (
 ) => void;
 
 const useGetFirstMessages: UseGetFirstMessages = (
+  chatUID,
   isReadyToFetchFirstNewChatMessages,
   lastLoadedMessage,
   setIsReadyFirstMessages,
   setGroupedMessages
 ) => {
-  const { chatUID } = useChatStore(state => state.currentChatInfo);
-
   useEffect(() => {
     if (isReadyToFetchFirstNewChatMessages.current === false) {
       return;

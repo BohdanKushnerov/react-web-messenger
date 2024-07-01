@@ -1,7 +1,7 @@
-import { urlRegex } from '@constants/urlRegex';
+import validUrl from 'valid-url';
 
 const isLinkMessage = (string: string) => {
-  return urlRegex.test(string);
+  return validUrl.isUri(string);
 };
 
 export default isLinkMessage;

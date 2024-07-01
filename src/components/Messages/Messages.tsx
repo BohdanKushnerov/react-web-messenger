@@ -39,6 +39,8 @@ const ChatContextMenu = lazy(
   () => import('../ChatContextMenu/ChatContextMenu')
 );
 
+const throttleScrollTime = 100;
+
 const Messages: FC = () => {
   const [groupedMessages, setGroupedMessages] =
     useState<GroupedMessages | null>(null);
@@ -74,24 +76,26 @@ const Messages: FC = () => {
     groupedMessages && selectedDocDataMessage
   );
 
+  const onReset = useCallback(() => {
+    isReadyToFetchFirstNewChatMessages.current = true;
+    lastLoadedMessage.current = null;
+    isFinishMessages.current = false;
+
+    setGroupedMessages(null);
+    setIsReadyFirstMessages(false);
+  }, []);
+
   usePersistChatUID();
   useSelectedMessagesHandling();
   useChatMessageUpdates(setGroupedMessages);
-  useResetMessagesStates(
-    isReadyToFetchFirstNewChatMessages,
-    lastLoadedMessage,
-    isFinishMessages,
-    setIsReadyFirstMessages,
-    setGroupedMessages
-  );
+  useResetMessagesStates(chatUID, onReset);
   useGetFirstMessages(
+    chatUID,
     isReadyToFetchFirstNewChatMessages,
     lastLoadedMessage,
     setIsReadyFirstMessages,
     setGroupedMessages
   );
-
-  const throttleScrollTime = 100;
 
   const handleScroll = useCallback(async () => {
     if (handleScrollTimeout.current) {

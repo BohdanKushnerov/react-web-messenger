@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { Suspense, lazy, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import Emoji from '@components/ChatForm/Emoji/Emoji';
 import FileAttachment from '@components/ChatForm/FileAttachment/FileAttachment';
@@ -16,6 +17,7 @@ import useEditingMessage from '@hooks/chatFrom/useEditingMessage';
 import useMyTyping from '@hooks/chatFrom/useMyTyping';
 import useKeyDown from '@hooks/useKeyDown';
 
+import checkMicrophonePermission from '@utils/chatForm/checkMicrophonePermission';
 import handleSendMessage from '@utils/chatForm/handleSendMessage';
 import handleUpdateEditMessage from '@utils/messages/handleUpdateEditMessage';
 
@@ -104,8 +106,14 @@ const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
     }
   };
 
-  const handleToggleRecordingStatus = () => {
-    setIsRecording(prev => !prev);
+  const handleToggleRecordingStatus = async () => {
+    const hasPermission = await checkMicrophonePermission();
+
+    if (hasPermission) {
+      setIsRecording(prev => !prev);
+    } else {
+      toast.error('Do not have microphone permission');
+    }
   };
 
   return (

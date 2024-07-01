@@ -1,50 +1,15 @@
-import {
-  type Dispatch,
-  type MutableRefObject,
-  type SetStateAction,
-  useEffect,
-} from 'react';
-
-import type { DocumentData } from 'firebase/firestore';
-
-import useChatStore from '@store/store';
-
-import type { GroupedMessages } from 'types/GroupedMessages';
+import { useEffect } from 'react';
 
 type UseResetMessagesStates = (
-  isReadyToFetchFirstNewChatMessages: MutableRefObject<boolean>,
-  lastLoadedMessage: MutableRefObject<DocumentData | null>,
-  isFinishMessages: MutableRefObject<boolean>,
-  setIsReadyFirstMessages: Dispatch<SetStateAction<boolean>>,
-  setGroupedMessages: Dispatch<SetStateAction<GroupedMessages | null>>
+  chatUID: string | null,
+  onReset: () => void
 ) => void;
 
-const useResetMessagesStates: UseResetMessagesStates = (
-  isReadyToFetchFirstNewChatMessages,
-  lastLoadedMessage,
-  isFinishMessages,
-  setIsReadyFirstMessages,
-  setGroupedMessages
-) => {
-  const { chatUID } = useChatStore(state => state.currentChatInfo);
-
+const useResetMessagesStates: UseResetMessagesStates = (chatUID, onReset) => {
   useEffect(() => {
     if (!chatUID) return;
-
-    isReadyToFetchFirstNewChatMessages.current = true;
-    lastLoadedMessage.current = null;
-    isFinishMessages.current = false;
-
-    setGroupedMessages(null);
-    setIsReadyFirstMessages(false);
-  }, [
-    chatUID,
-    isFinishMessages,
-    isReadyToFetchFirstNewChatMessages,
-    lastLoadedMessage,
-    setGroupedMessages,
-    setIsReadyFirstMessages,
-  ]);
+    onReset();
+  }, [chatUID, onReset]);
 };
 
 export default useResetMessagesStates;
