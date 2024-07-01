@@ -5,7 +5,7 @@ import * as i18n from 'i18next';
 import {
   Auth,
   ChatForm,
-  ChatListUnreadMsg,
+  ChatListUnreadMessage,
   ContextMenu,
   FileInput,
   General,
@@ -49,8 +49,8 @@ export const resources = {
       [ChatForm.EditMessage]: 'Edit message',
       [ChatForm.EmptyMessage]: 'Empty message... =)',
 
-      [ChatListUnreadMsg.UnreadMessage]: 'unread message!',
-      [ChatListUnreadMsg.UnreadMessages]: 'unread messages!',
+      [ChatListUnreadMessage.UnreadMessage]: 'unread message!',
+      [ChatListUnreadMessage.UnreadMessages]: 'unread messages!',
 
       [ContextMenu.Edit]: 'EDIT',
       [ContextMenu.Copy]: 'COPY',
@@ -64,8 +64,8 @@ export const resources = {
       [General.Search]: 'Search... (case-sensitive)',
       [General.EmptyChatNotify]:
         'Select or search user who you would to start messaging',
-      [General.SearchMsgPlaceholder]: 'Enter text (case-sensitive)',
-      [General.NotFoundMsg]: 'Not found messages, change search value',
+      [General.SearchMessagePlaceholder]: 'Enter text (case-sensitive)',
+      [General.NotFoundMessage]: 'Not found messages, change search value',
       [General.Offline]: 'Offline',
       [General.Online]: 'Online',
       [General.Typing]: 'typing',
@@ -116,6 +116,10 @@ export const resources = {
       [Toasts.EditingMessageSuccess]: 'Message successfully edited!',
       [Toasts.EditingMessageError]: 'Message editing error!',
       [Toasts.CopyToClipboard]: 'Copied to Clipboard!',
+      [Toasts.DoNotHaveMicrophonePermission]:
+        'Permission to use microphone not granted',
+      [Toasts.DoNotHaveNotificationPermission]:
+        'Notification permission was not granted, you do not have token for firebase cloud messaging',
     },
   },
   ua: {
@@ -151,8 +155,8 @@ export const resources = {
       [ChatForm.EditMessage]: 'Редагувати повідомлення',
       [ChatForm.EmptyMessage]: 'Порожнє повідомлення... =)',
 
-      [ChatListUnreadMsg.UnreadMessage]: 'непрочитане повідомлення!',
-      [ChatListUnreadMsg.UnreadMessages]: 'непрочитані повідомлення!',
+      [ChatListUnreadMessage.UnreadMessage]: 'непрочитане повідомлення!',
+      [ChatListUnreadMessage.UnreadMessages]: 'непрочитані повідомлення!',
 
       [ContextMenu.Edit]: 'РЕДАГУВАТИ',
       [ContextMenu.Copy]: 'КОПІЮВАТИ',
@@ -166,8 +170,9 @@ export const resources = {
       [General.Search]: 'Пошук...(з урахуванням регістру)',
       [General.EmptyChatNotify]:
         'Виберіть або знайдіть користувача, з яким ви хочете почати обмін повідомленнями',
-      [General.SearchMsgPlaceholder]: 'Введіть текст (з урахуванням регістру)',
-      [General.NotFoundMsg]:
+      [General.SearchMessagePlaceholder]:
+        'Введіть текст (з урахуванням регістру)',
+      [General.NotFoundMessage]:
         'Повідомлення не знайдено, змініть значення пошуку',
       [General.Offline]: 'Офлайн',
       [General.Online]: 'Онлайн',
@@ -219,6 +224,10 @@ export const resources = {
       [Toasts.EditingMessageSuccess]: 'Повідомлення успішно відредаговано!',
       [Toasts.EditingMessageError]: 'Помилка редагування повідомлення!',
       [Toasts.CopyToClipboard]: 'Скопійовано в буфер обміну!',
+      [Toasts.DoNotHaveMicrophonePermission]:
+        'Дозвіл на використання мікрофону не наданий',
+      [Toasts.DoNotHaveNotificationPermission]:
+        'Дозвіл на сповіщення не було надано, ви не маєте токена для Firebase Cloud Messaging',
     },
   },
   ru: {
@@ -253,8 +262,8 @@ export const resources = {
       [ChatForm.EditMessage]: 'Редактировать сообщение',
       [ChatForm.EmptyMessage]: 'Пустое сообщение... =)',
 
-      [ChatListUnreadMsg.UnreadMessage]: 'непрочитанное сообщение!',
-      [ChatListUnreadMsg.UnreadMessages]: 'непрочитанных сообщения!',
+      [ChatListUnreadMessage.UnreadMessage]: 'непрочитанное сообщение!',
+      [ChatListUnreadMessage.UnreadMessages]: 'непрочитанных сообщения!',
 
       [ContextMenu.Edit]: 'РЕДАКТИР.',
       [ContextMenu.Copy]: 'КОПИРОВАТЬ',
@@ -268,8 +277,9 @@ export const resources = {
       [General.Search]: 'Поиск... (с учетом регистра)',
       [General.EmptyChatNotify]:
         'Выберите или найдите пользователя, с которым вы хотите начать обмен сообщениями',
-      [General.SearchMsgPlaceholder]: 'Введите текст (с учетом регистра)',
-      [General.NotFoundMsg]: 'Сообщения не найдены, измените значение поиска',
+      [General.SearchMessagePlaceholder]: 'Введите текст (с учетом регистра)',
+      [General.NotFoundMessage]:
+        'Сообщения не найдены, измените значение поиска',
       [General.Offline]: 'Офлайн',
       [General.Online]: 'Онлайн',
       [General.Typing]: 'печатает',
@@ -320,6 +330,10 @@ export const resources = {
       [Toasts.EditingMessageSuccess]: 'Сообщение успешно отредактировано!',
       [Toasts.EditingMessageError]: 'Ошибка исправления сообщения!',
       [Toasts.CopyToClipboard]: 'Скопировано в буфер обмена!',
+      [Toasts.DoNotHaveMicrophonePermission]:
+        'Разрешение на использование микрофона не предоставлено',
+      [Toasts.DoNotHaveNotificationPermission]:
+        'Разрешение на уведомления не было предоставлено, у вас нет токена для Firebase Cloud Messaging',
     },
   },
 };

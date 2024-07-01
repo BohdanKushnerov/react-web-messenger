@@ -14,12 +14,12 @@ import { db } from '@myfirebase/config';
 
 const getMessagesAfterLastLoaded = async (
   chatUID: string,
-  lastLoadedMsg: MutableRefObject<DocumentData | null>
+  lastLoadedMessage: MutableRefObject<DocumentData | null>
 ) => {
   const queryParams = query(
     collection(db, `chats/${chatUID}/messages`),
     orderBy('date', 'desc'),
-    startAfter(lastLoadedMsg.current),
+    startAfter(lastLoadedMessage.current),
     limit(15)
   );
 

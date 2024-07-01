@@ -6,15 +6,20 @@ import UserChatInfo from './UserChatInfo/UserChatInfo';
 import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
 import BlurImage from '@components/common/BlurImage/BlurImage';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@store/store';
 
 import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 import useChatInfo from '@hooks/useChatInfo';
 
 import handleSelectChat from '@utils/chatListItem/handleSelectChat';
 
-import type { IChatListItemProps } from '@interfaces/IChatListItemProps';
 import type { ISelectedChatInfo } from '@interfaces/ISelectedChatInfo';
+
+import type { ChatListItemType } from 'types/ChatListItemType';
+
+interface IChatListItemProps {
+  chatInfo: ChatListItemType;
+}
 
 const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
   const location = useLocation();

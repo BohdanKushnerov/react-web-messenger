@@ -3,7 +3,7 @@ import { lazy, useDeferredValue, useState } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@store/store';
 
 import useCloseModal from '@hooks/useCloseModal';
 

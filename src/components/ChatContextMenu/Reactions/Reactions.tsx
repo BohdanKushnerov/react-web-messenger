@@ -1,8 +1,10 @@
 import type { FC } from 'react';
 
-import useChatStore from '@zustand/store';
+import Button from '@components/common/Button/Button';
 
-import updateMsgReaction from '@api/firestore/updateMsgReaction';
+import useChatStore from '@store/store';
+
+import updateMessageReaction from '@api/firestore/updateMessageReaction';
 
 import defaultEmojiData from '@constants/defaultEmojiData';
 
@@ -18,7 +20,7 @@ const Reactions: FC = () => {
 
   const handleEmojiClick = (emoji: string) => {
     if (currentUserUID) {
-      updateMsgReaction(
+      updateMessageReaction(
         emoji,
         chatUID,
         currentUserUID,
@@ -32,14 +34,14 @@ const Reactions: FC = () => {
     <ul className="pointer-events-auto flex h-12 w-260px items-center justify-center gap-1 rounded-full border border-white bg-[#ffffff90] p-2 backdrop-blur-lg">
       {defaultEmojiData.map(emoji => (
         <li key={emoji.id} className="h-full w-full">
-          <button
-            className="cursor-pointer transition-all duration-100 ease-in-out hover:scale-125"
+          <Button
+            variant="reactions"
             type="button"
             onClick={() => handleEmojiClick(emoji.emoji)}
-            aria-label={emoji.emoji}
+            ariaLabel={emoji.emoji}
           >
             <img className="object-cover" src={emoji.src} alt={emoji.alt} />
-          </button>
+          </Button>
         </li>
       ))}
     </ul>

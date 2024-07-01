@@ -6,26 +6,40 @@ import type { DocumentData } from 'firebase/firestore';
 import MessageItem from '../MessageItem/MessageItem';
 import SelectIcons from '../SelectIcons/SelectIcons';
 
-import ButtonScrollDown from '@components/Buttons/ButtonScrollDown/ButtonScrollDown';
+import ScrollDown from '@components/ScrollDown/ScrollDown';
+import Button from '@components/common/Button/Button';
 import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@store/store';
 
-import useLengthOfMyUnreadMsgs from '@hooks/useLengthOfMyUnreadMsgs';
-import useQuickScrollToBottom from '@hooks/useQuickScrollToBottom';
+import useQuickScrollToBottom from '@hooks/messages/useQuickScrollToBottom';
+import useLengthOfMyUnreadMessages from '@hooks/useLengthOfMyUnreadMessages';
 
 import formatDateForGroupMessages from '@utils/messages/formatDateForGroupMessages';
 
-import type { IMessageListProps } from '@interfaces/IMessageListProps';
-
 import { ElementsId } from '@enums/elementsId';
+
+import type { GroupedMessages } from 'types/GroupedMessages';
+
+interface IMessageListProps {
+  chatUID: string | null;
+  groupedMessages: GroupedMessages | null;
+  isReadyFirstMessages: boolean;
+  selectedDocDataMessage: DocumentData[] | null;
+  isScrollDownButtonVisible: boolean;
+  handleClickRigthButtonMessage: (
+    message: DocumentData,
+    e: React.MouseEvent
+  ) => void;
+  handleToggleSelectedMessage: (message: DocumentData) => void;
+}
 
 const MessageList = memo(
   forwardRef<HTMLDivElement, IMessageListProps>((props, ref) => {
     const {
       chatUID,
       groupedMessages,
-      isReadyFirstMsgs,
+      isReadyFirstMessages,
       selectedDocDataMessage,
       handleClickRigthButtonMessage,
       handleToggleSelectedMessage,
@@ -39,10 +53,14 @@ const MessageList = memo(
 
     const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
 
-    const lengthOfUnreadMsgs = useLengthOfMyUnreadMsgs(chatUID, true, false);
+    const lengthOfUnreadMessages = useLengthOfMyUnreadMessages(
+      chatUID,
+      true,
+      false
+    );
     useQuickScrollToBottom(
       bottomElementRef,
-      isReadyFirstMsgs,
+      isReadyFirstMessages,
       isScrollDownButtonVisible,
       groupedMessages
     );
@@ -61,7 +79,7 @@ const MessageList = memo(
         <div
           ref={ref}
           className={`flex min-h-full flex-col justify-end gap-2 px-6 ${
-            !isReadyFirstMsgs && 'invisible'
+            !isReadyFirstMessages && 'invisible'
           }`}
         >
           {groupedMessages &&
@@ -84,7 +102,7 @@ const MessageList = memo(
 
                   return (
                     <li
-                      id={ElementsId.DocumentDataMsg}
+                      id={ElementsId.DocumentDataMessage}
                       className={`flex items-center justify-center gap-x-5 rounded-xl transition-all duration-150 ${
                         currentItem && 'bg-ultraDarkZinc'
                       } ${
@@ -125,13 +143,17 @@ const MessageList = memo(
           nodeRef={buttonScrollDownRef}
           exitedBehavior="hidden"
           enteredBehavior="opacity"
-          condition={isScrollDownButtonVisible && isReadyFirstMsgs}
+          condition={isScrollDownButtonVisible && isReadyFirstMessages}
           timeout={100}
         >
-          <ButtonScrollDown
-            scrollToBottom={scrollToBottom}
-            lengthOfUnreadMsgs={lengthOfUnreadMsgs}
-          />
+          <Button
+            variant="scrollDown"
+            type="button"
+            onClick={scrollToBottom}
+            ariaLabel="Scroll down"
+          >
+            <ScrollDown lengthOfUnreadMessages={lengthOfUnreadMessages} />
+          </Button>
         </TransitionComponent>
       </>
     );

@@ -2,24 +2,29 @@ import type { FC } from 'react';
 
 import VideoComponent from '../VideoComponent/VideoComponent';
 
-import type { ILinkMessageProps } from '@interfaces/ILinkMessageProps';
-
-const LinkMessage: FC<ILinkMessageProps> = ({ textContentMsg, isVideo }) => {
+interface ILinkMessageProps {
+  textContentMessage: string;
+  isVideo: boolean;
+}
+const LinkMessage: FC<ILinkMessageProps> = ({
+  textContentMessage,
+  isVideo,
+}) => {
   return (
     <>
       <a
         className="text-decoration-line: w-full break-all text-nearBlackBlue transition-colors duration-150 hover:text-extraDarkBlue hover:underline dark:text-ultraDarkZinc hover:dark:text-darkZinc"
         href={
-          textContentMsg.startsWith('https://')
-            ? textContentMsg
-            : `https://${textContentMsg}`
+          textContentMessage.startsWith('https://')
+            ? textContentMessage
+            : `https://${textContentMessage}`
         }
         target="_blank"
         rel="noreferrer noopener"
       >
-        {textContentMsg}
+        {textContentMessage}
       </a>
-      {isVideo && <VideoComponent source={textContentMsg} />}
+      {isVideo && <VideoComponent source={textContentMessage} />}
     </>
   );
 };

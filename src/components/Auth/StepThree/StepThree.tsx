@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -6,19 +6,23 @@ import { toast } from 'react-toastify';
 import { updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
-import AuthConfirmButton from '@components/Buttons/ButtonAuthConfirm/ButtonAuthConfirm';
+import Button from '@components/common/Button/Button';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import { auth, db } from '@myfirebase/config';
 
-import useChatStore from '@zustand/store';
-
-import type { IStepThreeProps } from '@interfaces/IStepThreeProps';
+import useChatStore from '@store/store';
 
 import { ElementsId } from '@enums/elementsId';
 
 import authStep3 from '@assets/auth-step3.webp';
 
 import { defaultNS } from '@i18n/i18n';
+
+interface IStepThreeProps {
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+}
 
 const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
   const [name, setName] = useState('');
@@ -57,7 +61,7 @@ const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
       }
     } catch (error) {
       toast.error(t('UpdateProfileError'));
-      console.log('handleUpdateProfile error', error);
+      console.error('handleUpdateProfile', error);
     } finally {
       setIsLoading(false);
     }
@@ -96,22 +100,29 @@ const StepThree: FC<IStepThreeProps> = ({ isLoading, setIsLoading }) => {
           />
         </label>
         <label
-          htmlFor={ElementsId.Lastname}
+          htmlFor={ElementsId.LastName}
           className="font-bold text-veryDarkGray"
         >
           {t('Surname')}
           <input
             className="h-10 w-full rounded-md border border-charcoal bg-transparent p-2"
-            id={ElementsId.Lastname}
+            id={ElementsId.LastName}
             type="text"
             value={surname}
             onChange={handleChangeSurname}
           />
         </label>
-        <AuthConfirmButton
-          isLoading={isLoading}
-          onSubmit={handleUpdateProfile}
-        />
+
+        <Button
+          variant="authConfirm"
+          id={ElementsId.SignInButton}
+          type="button"
+          disabled={isLoading}
+          onClick={handleUpdateProfile}
+          ariaLabel="Auth confirm button"
+        >
+          {isLoading ? <LoaderUIActions /> : t('Continue')}
+        </Button>
       </div>
     </>
   );

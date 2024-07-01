@@ -1,12 +1,13 @@
 import type { FC } from 'react';
 
-import useBrowserTabTitleVisibilityChange from '@hooks/useBrowserTabTitleChange';
-import useCountChatUnreadMessages from '@hooks/useCountChatUnreadMessages';
+import useBrowserTabTitleVisibilityChange from '@hooks/browserTabTitle/useBrowserTabTitleChange';
+import useCountUnreadMessagesAllChats from '@hooks/browserTabTitle/useCountUnreadMessagesAllChats';
 
-import type { IBrowserTabTitleProps } from '@interfaces/IBrowserTabTitleProps';
-
+interface IBrowserTabTitleProps {
+  docHidden: boolean;
+}
 const BrowserTabTitle: FC<IBrowserTabTitleProps> = ({ docHidden }) => {
-  const countChatUnreadMessages = useCountChatUnreadMessages();
+  const countChatUnreadMessages = useCountUnreadMessagesAllChats();
   useBrowserTabTitleVisibilityChange(countChatUnreadMessages, docHidden);
 
   return null;

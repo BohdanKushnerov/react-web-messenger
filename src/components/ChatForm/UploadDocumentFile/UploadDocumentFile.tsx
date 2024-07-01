@@ -1,9 +1,17 @@
 import type { FC } from 'react';
-import { FileIcon, defaultStyles } from 'react-file-icon';
+import {
+  type DefaultExtensionType,
+  FileIcon,
+  defaultStyles,
+} from 'react-file-icon';
 
 import { Line } from 'rc-progress';
 
-import type { IUploadDocumentFileProps } from '@interfaces/IUploadDocumentFileProps';
+interface IUploadDocumentFileProps {
+  fileType: DefaultExtensionType;
+  file: File;
+  status: number;
+}
 
 const UploadDocumentFile: FC<IUploadDocumentFileProps> = ({
   fileType,

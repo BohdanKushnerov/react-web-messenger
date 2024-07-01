@@ -2,9 +2,13 @@ import type { FC } from 'react';
 import type { DefaultExtensionType } from 'react-file-icon';
 import { FileIcon, defaultStyles } from 'react-file-icon';
 
-import useFileLinkFromStorage from '@hooks/useFileLinkFromStorage';
+import useFileLinkFromStorage from '@hooks/messages/useFileLinkFromStorage';
 
-import type { IFileComponentProps } from '@interfaces/IFileComponentProps';
+import type { IFile } from '@interfaces/IFile';
+
+interface IFileComponentProps {
+  file: IFile;
+}
 
 const FileComponent: FC<IFileComponentProps> = ({ file }) => {
   const storageLink = useFileLinkFromStorage(file);

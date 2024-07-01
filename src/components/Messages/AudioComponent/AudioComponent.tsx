@@ -6,17 +6,22 @@ import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'use-debounce';
 import type WaveSurfer from 'wavesurfer.js';
 
-import ButtonAudio from '@components/Buttons/ButtonAudio/ButtonAudio';
+import Button from '@components/common/Button/Button';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import convertTimeWithZero from '@utils/convertTimeWithZero';
 
-import type { IAudioComponentProps } from '@interfaces/IAudioComponentProps';
+import { IconId } from '@enums/iconsSpriteId';
 
 import { defaultNS } from '@i18n/i18n';
 
+interface IAudioComponentProps {
+  audioUrl: string;
+}
+
 const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
-  const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null);
+  const [waveSurfer, setWaveSurfer] = useState<WaveSurfer | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState<number>(100);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -32,28 +37,47 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
   };
 
   const onPlayPause = () => {
-    wavesurfer?.playPause();
+    waveSurfer?.playPause();
   };
 
   const onReady = (ws: WaveSurfer) => {
-    setWavesurfer(ws);
+    setWaveSurfer(ws);
     setIsPlaying(false);
     setIsLoading(false);
   };
 
-  const calculateCurrentTime = (wavesurfer: WaveSurfer) => {
-    setCurrentTime(wavesurfer?.getCurrentTime());
+  const calculateCurrentTime = (waveSurfer: WaveSurfer) => {
+    setCurrentTime(waveSurfer?.getCurrentTime());
   };
 
   useEffect(() => {
-    if (wavesurfer) {
-      wavesurfer.setVolume(debouncedVolume / 100);
+    if (waveSurfer) {
+      waveSurfer.setVolume(debouncedVolume / 100);
     }
-  }, [debouncedVolume, wavesurfer]);
+  }, [debouncedVolume, waveSurfer]);
 
   return (
     <div className="w-220px relative flex flex-row items-start gap-2 sm:w-200px md:min-w-220px md:max-w-md lg:min-w-360px">
-      <ButtonAudio isPlaying={isPlaying} onPlayPause={onPlayPause} />
+      <Button
+        variant="stopPlayRecording"
+        type="button"
+        onClick={onPlayPause}
+        ariaLabel="Stop/Play"
+      >
+        {isPlaying ? (
+          <SvgIcon
+            className="fill-darkZinc dark:fill-mediumLightZinc"
+            iconId={IconId.IconStop}
+            size={24}
+          />
+        ) : (
+          <SvgIcon
+            className="fill-darkZinc dark:fill-mediumLightZinc"
+            iconId={IconId.IconPlay}
+            size={24}
+          />
+        )}
+      </Button>
 
       {isLoading && (
         <div className="absolute left-8 top-0">
@@ -87,9 +111,9 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
                 {convertTimeWithZero(currentTime)}
               </p>
             )}
-            {!isPlaying && wavesurfer && (
+            {!isPlaying && waveSurfer && (
               <p className="text-black dark:text-white">
-                {convertTimeWithZero(wavesurfer.getDuration())}
+                {convertTimeWithZero(waveSurfer.getDuration())}
               </p>
             )}
           </div>

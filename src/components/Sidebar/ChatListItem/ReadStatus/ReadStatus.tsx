@@ -2,13 +2,16 @@ import type { FC } from 'react';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@store/store';
 
-import useIsReadMyLastMessage from '@hooks/useIsReadMyLastMessage';
-
-import type { IReadStatusProps } from '@interfaces/IReadStatusProps';
+import useIsReadMyLastMessage from '@hooks/sidebar/useIsReadMyLastMessage';
 
 import { IconId } from '@enums/iconsSpriteId';
+
+interface IReadStatusProps {
+  senderUserID: string;
+  itemChatUID: string | null;
+}
 
 const ReadStatus: FC<IReadStatusProps> = ({ senderUserID, itemChatUID }) => {
   const { chatUID } = useChatStore(state => state.currentChatInfo);

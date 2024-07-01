@@ -1,11 +1,17 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@store/store';
 
 import useCloseModal from '@hooks/useCloseModal';
 
-import type { IModalMessageContextMenuProps } from '@interfaces/IModalMessageContextMenuProps';
-
+interface IModalMessageContextMenuProps {
+  closeModal: () => void;
+  modalPosition: {
+    top: number;
+    left: number;
+  };
+  children: ReactNode;
+}
 const MessageContextMenuModal: FC<IModalMessageContextMenuProps> = ({
   closeModal,
   modalPosition,

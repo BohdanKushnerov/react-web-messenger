@@ -6,8 +6,9 @@ import BlurImage from '@components/common/BlurImage/BlurImage';
 import useBlurLoadingImage from '@hooks/useBlurLoadingImage';
 import useChatInfo from '@hooks/useChatInfo';
 
-import type { IReactionsUserProps } from '@interfaces/IReactionsUserProps';
-
+interface IReactionsUserProps {
+  userUID: string;
+}
 const ReactionsUser: FC<IReactionsUserProps> = ({ userUID }) => {
   const currentChatInfo = useChatInfo(userUID);
 

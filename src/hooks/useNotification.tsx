@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
 import { doc, updateDoc } from 'firebase/firestore';
@@ -6,13 +7,17 @@ import { onMessage } from 'firebase/messaging';
 
 import { db, messaging, requestForToken } from '@myfirebase/config';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@store/store';
 
 import makeSoundNotification from '@utils/messages/makeSoundNotification';
 
 import type { IOnMessageListenerPayload } from '@interfaces/IOnMessageListenerPayload';
 
+import { defaultNS } from '@i18n/i18n';
+
 const useNotification = () => {
+  const { t } = useTranslation(defaultNS, { keyPrefix: 'Toasts' });
+
   const currentUserUID = useChatStore(state => state.currentUser.uid);
 
   useEffect(() => {
@@ -25,9 +30,7 @@ const useNotification = () => {
         const token = await requestForToken();
 
         if (!token) {
-          toast.warn(
-            'Notification permission was not granted, you do not have token for firebase cloud messaging'
-          );
+          toast.warn(t('DoNotHaveNotificationPermission'));
           return;
         }
 
@@ -40,7 +43,7 @@ const useNotification = () => {
     };
 
     fetchTokenAndUpdateProfile();
-  }, [currentUserUID]);
+  }, [currentUserUID, t]);
 
   useEffect(() => {
     const handleNewMessage = async (payload: IOnMessageListenerPayload) => {

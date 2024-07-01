@@ -46,7 +46,7 @@ export const requestForToken = async () => {
   try {
     return await getToken(messaging, { vapidKey: myVapidKey });
   } catch (error) {
-    console.log(
+    console.error(
       'No registration token available. Request permission to generate one.',
       error
     );

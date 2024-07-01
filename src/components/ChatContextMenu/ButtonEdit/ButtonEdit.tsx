@@ -5,11 +5,17 @@ import type { DocumentData } from 'firebase/firestore';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import useChatStore from '@zustand/store';
-
-import type { IButtonEditProps } from '@interfaces/IButtonEditProps';
+import useChatStore from '@store/store';
 
 import { IconId } from '@enums/iconsSpriteId';
+
+import type { GroupedMessages } from 'types/GroupedMessages';
+
+interface IButtonEditProps {
+  groupedMessages: GroupedMessages | null;
+  textContent?: boolean;
+  color: string;
+}
 
 const ButtonEdit: FC<IButtonEditProps> = ({
   groupedMessages,

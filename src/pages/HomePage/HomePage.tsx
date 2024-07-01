@@ -7,7 +7,7 @@ import Sidebar from '@components/Sidebar/Sidebar';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
-import useBrowserTabVisibilityChange from '@hooks/useBrowserTabVisibilityChange';
+import useBrowserTabVisibilityChange from '@hooks/browserTabTitle/useBrowserTabVisibilityChange';
 import useIsOnlineMyStatus from '@hooks/useIsOnlineMyStatus';
 import useIsRedirectToCurrentChat from '@hooks/useIsRedirectToCurrentChat';
 import useNotification from '@hooks/useNotification';
@@ -63,7 +63,7 @@ const HomePage = () => {
         }
         timeout={300}
       >
-        <EmptyChat isShowNotifyMsg={pathname === '/' && isFullScreen} />
+        <EmptyChat isShowNotifyMessage={pathname === '/' && isFullScreen} />
         <Suspense
           fallback={
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">

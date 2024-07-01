@@ -7,7 +7,7 @@ import SearchChatList from '@components/Sidebar/SearchChatList/SearchChatList';
 import SearchUsers from '@components/Sidebar/SearchUsers/SearchUsers';
 import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@store/store';
 
 const ProfileSettings = lazy(
   () => import('@components/Sidebar/ProfileSettings/ProfileSettings')

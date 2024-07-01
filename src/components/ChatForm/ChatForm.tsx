@@ -1,35 +1,45 @@
 import type { FC } from 'react';
 import { Suspense, lazy, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
-import ButtonRecordAudio from '@components/Buttons/ButtonRecordAudio/ButtonRecordAudio';
-import SendMessage from '@components/Buttons/ButtonSendMessage/ButtonSendMessage';
 import Emoji from '@components/ChatForm/Emoji/Emoji';
 import FileAttachment from '@components/ChatForm/FileAttachment/FileAttachment';
+import Button from '@components/common/Button/Button';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@store/store';
 
-import useBeforeUnloadToStopTyping from '@hooks/useBeforeUnloadToStopTyping';
-import useClearMessagesOnChatChange from '@hooks/useClearMessagesOnChatChange';
-import useEditingMessage from '@hooks/useEditingMessage';
+import useBeforeUnloadToStopTyping from '@hooks/chatFrom/useBeforeUnloadToStopTyping';
+import useClearMessagesOnChatChange from '@hooks/chatFrom/useClearMessagesOnChatChange';
+import useEditingMessage from '@hooks/chatFrom/useEditingMessage';
+import useMyTyping from '@hooks/chatFrom/useMyTyping';
 import useKeyDown from '@hooks/useKeyDown';
-import useMyTyping from '@hooks/useMyTyping';
 
+import checkMicrophonePermission from '@utils/chatForm/checkMicrophonePermission';
 import handleSendMessage from '@utils/chatForm/handleSendMessage';
 import handleUpdateEditMessage from '@utils/messages/handleUpdateEditMessage';
 
-import type { IChatFormProps } from '@interfaces/IChatFormProps';
-
 import { ElementsId } from '@enums/elementsId';
+import { IconId } from '@enums/iconsSpriteId';
+
+interface IChatFormProps {
+  isShowSearchMessages: boolean;
+}
 
 const RecordingAudio = lazy(
   () => import('@components/ChatForm/RecordingAudio/RecordingAudio')
 );
-const ChatFormSelectedMsgs = lazy(
-  () => import('@components/ChatForm/ChatFormSelectedMsgs/ChatFormSelectedMsgs')
+const ChatFormSelectedMessages = lazy(
+  () =>
+    import(
+      '@components/ChatForm/ChatFormSelectedMessages/ChatFormSelectedMessages'
+    )
 );
-const EditingMsgInfo = lazy(() => import('./EditingMsgInfo/EditingMsgInfo'));
+const EditingMessageInfo = lazy(
+  () => import('./EditingMessageInfo/EditingMessageInfo')
+);
 
 const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
@@ -96,8 +106,14 @@ const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
     }
   };
 
-  const handleToggleRecordingStatus = () => {
-    setIsRecording(prev => !prev);
+  const handleToggleRecordingStatus = async () => {
+    const hasPermission = await checkMicrophonePermission();
+
+    if (hasPermission) {
+      setIsRecording(prev => !prev);
+    } else {
+      toast.error(t('Toasts.DoNotHaveMicrophonePermission'));
+    }
   };
 
   return (
@@ -112,7 +128,7 @@ const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
                 </div>
               }
             >
-              <EditingMsgInfo
+              <EditingMessageInfo
                 selectedMessage={editingMessageInfo.selectedMessage}
                 handleCancelEditingMessage={handleCancelEditingMessage}
               />
@@ -133,13 +149,32 @@ const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
               onChange={handleChangeMessage}
             />
             {message ? (
-              <SendMessage />
+              <Button
+                variant="sendMessages"
+                type="submit"
+                ariaLabel="Send message"
+              >
+                <SvgIcon
+                  className="fill-mediumLightZinc dark:fill-mediumZinc"
+                  iconId={IconId.IconSendMessage}
+                  size={24}
+                />
+              </Button>
             ) : (
               <>
                 {!isRecording ? (
-                  <ButtonRecordAudio
-                    handleToggleRecordingStatus={handleToggleRecordingStatus}
-                  />
+                  <Button
+                    variant="recording"
+                    type="button"
+                    onClick={handleToggleRecordingStatus}
+                    ariaLabel="Recording audio"
+                  >
+                    <SvgIcon
+                      className="fill-mediumLightZinc dark:fill-mediumZinc"
+                      iconId={IconId.IconMic}
+                      size={24}
+                    />
+                  </Button>
                 ) : (
                   <Suspense fallback={<LoaderUIActions size={40} />}>
                     <RecordingAudio
@@ -156,7 +191,7 @@ const ChatForm: FC<IChatFormProps> = ({ isShowSearchMessages }) => {
         </div>
       ) : (
         <Suspense fallback={<LoaderUIActions size={96} />}>
-          <ChatFormSelectedMsgs />
+          <ChatFormSelectedMessages />
         </Suspense>
       )}
     </div>

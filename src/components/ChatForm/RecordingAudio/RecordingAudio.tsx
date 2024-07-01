@@ -3,20 +3,25 @@ import { useRef, useState } from 'react';
 
 import RecordingStatusField from '../RecordingStatusField/RecordingStatusField';
 
-import ButtonCancelRecording from '@components/Buttons/ButtonCancelRecording/ButtonCancelRecording';
-import ButtonStopRecordingAndSendAudio from '@components/Buttons/ButtonStopRecordingAndSendAudio/ButtonStopRecordingAndSendAudio';
+import Button from '@components/common/Button/Button';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@store/store';
 
-import useRecordingCleanup from '@hooks/useRecordingCleanup';
-import useStartRecording from '@hooks/useStartRecording';
+import useRecordingCleanup from '@hooks/chatFrom/useRecordingCleanup';
+import useStartRecording from '@hooks/chatFrom/useStartRecording';
 
 import cleanUpRecordingResources from '@utils/chatForm/cleanupRecordingResources';
 import handleSendAudio from '@utils/chatForm/handleSendAudio';
 
-import type { IRecordingAudioProps } from '@interfaces/IRecordingAudioProps';
+import { IconId } from '@enums/iconsSpriteId';
 
 import type { MimeType } from 'types/MimeType';
+
+interface IRecordingAudioProps {
+  isRecording: boolean;
+  handleToggleRecordingStatus: () => void;
+}
 
 const RecordingAudio: FC<IRecordingAudioProps> = ({
   isRecording,
@@ -93,7 +98,7 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
             handleToggleRecordingStatus();
             await handleSendAudio(audioBlob, chatUID, userUID, currentUserUID);
           } catch (error) {
-            console.log('stopRecordingAndSendAudio error', error);
+            console.error('stopRecordingAndSendAudio', error);
           }
         }
       };
@@ -108,10 +113,30 @@ const RecordingAudio: FC<IRecordingAudioProps> = ({
         ref={canvasRef}
       />
 
-      <ButtonCancelRecording cancelRecording={cancelRecording} />
-      <ButtonStopRecordingAndSendAudio
-        stopRecordingAndSendAudio={stopRecordingAndSendAudio}
-      />
+      <Button
+        variant="recording"
+        type="button"
+        onClick={cancelRecording}
+        ariaLabel="Cancel recording"
+      >
+        <SvgIcon
+          className="fill-mediumLightZinc dark:fill-mediumZinc"
+          iconId={IconId.IconDeleteButton}
+          size={24}
+        />
+      </Button>
+      <Button
+        variant="recording"
+        type="button"
+        onClick={stopRecordingAndSendAudio}
+        ariaLabel="Stop recording and send audio"
+      >
+        <SvgIcon
+          className="fill-mediumLightZinc dark:fill-mediumZinc"
+          iconId={IconId.IconStop}
+          size={24}
+        />
+      </Button>
     </>
   );
 };

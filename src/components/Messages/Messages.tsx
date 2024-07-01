@@ -16,13 +16,13 @@ import MessagesSkeleton from './MessagesSkeleton/MessagesSkeleton';
 
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@store/store';
 
-import useChatMessageUpdates from '@hooks/useChatMessageUpdates';
-import useGetFirstMsgs from '@hooks/useFirstMsgs';
+import useChatMessageUpdates from '@hooks/messages/useChatMessageUpdates';
+import useGetFirstMessages from '@hooks/messages/useGetFirstMessages';
+import useResetMessagesStates from '@hooks/messages/useResetMessagesStates';
+import useSelectedMessagesHandling from '@hooks/messages/useSelectedMessagesHandling';
 import usePersistChatUID from '@hooks/usePersistChatUID';
-import useResetMsgsStates from '@hooks/useResetMsgsStates';
-import useSelectedMessagesHandling from '@hooks/useSelectedMessagesHandling';
 
 import calculateMenuPosition from '@utils/messages/calculateMenuPosition';
 import handleScrollLoadMoreMessages from '@utils/messages/handleScrollLoadMoreMessages';
@@ -39,10 +39,12 @@ const ChatContextMenu = lazy(
   () => import('../ChatContextMenu/ChatContextMenu')
 );
 
+const throttleScrollTime = 100;
+
 const Messages: FC = () => {
   const [groupedMessages, setGroupedMessages] =
     useState<GroupedMessages | null>(null);
-  const [isReadyFirstMsgs, setIsReadyFirstMsgs] = useState(false);
+  const [isReadyFirstMessages, setIsReadyFirstMessages] = useState(false);
   const [isScrollDownButtonVisible, setIsScrollDownButtonVisible] =
     useState(false);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
@@ -50,10 +52,10 @@ const Messages: FC = () => {
   const scrollbarsRef = useRef<HTMLDivElement>(null);
   const msgListWrapRef = useRef<HTMLDivElement>(null);
   const handleScrollTimeout = useRef<NodeJS.Timeout | null>(null);
-  const isReadyToFetchFirstNewChatMsgs = useRef<boolean>(true);
+  const isReadyToFetchFirstNewChatMessages = useRef<boolean>(true);
   const isInfinityScrollLoading = useRef<boolean>(false);
-  const lastLoadedMsg = useRef<DocumentData | null>(null);
-  const isFinishMsgs = useRef<boolean>(false);
+  const lastLoadedMessage = useRef<DocumentData | null>(null);
+  const isFinishMessages = useRef<boolean>(false);
 
   const { chatUID } = useChatStore(state => state.currentChatInfo);
   const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
@@ -74,24 +76,26 @@ const Messages: FC = () => {
     groupedMessages && selectedDocDataMessage
   );
 
+  const onReset = useCallback(() => {
+    isReadyToFetchFirstNewChatMessages.current = true;
+    lastLoadedMessage.current = null;
+    isFinishMessages.current = false;
+
+    setGroupedMessages(null);
+    setIsReadyFirstMessages(false);
+  }, []);
+
   usePersistChatUID();
   useSelectedMessagesHandling();
   useChatMessageUpdates(setGroupedMessages);
-  useResetMsgsStates(
-    isReadyToFetchFirstNewChatMsgs,
-    lastLoadedMsg,
-    isFinishMsgs,
-    setIsReadyFirstMsgs,
+  useResetMessagesStates(chatUID, onReset);
+  useGetFirstMessages(
+    chatUID,
+    isReadyToFetchFirstNewChatMessages,
+    lastLoadedMessage,
+    setIsReadyFirstMessages,
     setGroupedMessages
   );
-  useGetFirstMsgs(
-    isReadyToFetchFirstNewChatMsgs,
-    lastLoadedMsg,
-    setIsReadyFirstMsgs,
-    setGroupedMessages
-  );
-
-  const throttleScrollTime = 100;
 
   const handleScroll = useCallback(async () => {
     if (handleScrollTimeout.current) {
@@ -108,12 +112,12 @@ const Messages: FC = () => {
       const isNearBottom = scrollHeight - scrollTop - clientHeight > 100;
       const top = scrollTop <= 700;
 
-      if (top && isNearBottom && isFinishMsgs.current === false) {
+      if (top && isNearBottom && isFinishMessages.current === false) {
         await handleScrollLoadMoreMessages(
           chatUID,
           isInfinityScrollLoading,
-          lastLoadedMsg,
-          isFinishMsgs,
+          lastLoadedMessage,
+          isFinishMessages,
           setGroupedMessages
         );
         isInfinityScrollLoading.current = false;
@@ -162,13 +166,13 @@ const Messages: FC = () => {
     (message: DocumentData) => {
       if (selectedDocDataMessage?.find(msg => msg.id === message.id)) {
         updateSelectedDocDataMessage(prev => {
-          const filteredMsgs = prev?.filter(msg => msg.id !== message.id);
+          const filteredMessages = prev?.filter(msg => msg.id !== message.id);
 
-          if (filteredMsgs?.length === 0) {
+          if (filteredMessages?.length === 0) {
             return null;
           }
 
-          return filteredMsgs ?? null;
+          return filteredMessages ?? null;
         });
       } else {
         updateSelectedDocDataMessage(prev =>
@@ -196,7 +200,7 @@ const Messages: FC = () => {
           <MessageList
             chatUID={chatUID}
             groupedMessages={groupedMessages}
-            isReadyFirstMsgs={isReadyFirstMsgs}
+            isReadyFirstMessages={isReadyFirstMessages}
             selectedDocDataMessage={selectedDocDataMessage}
             isScrollDownButtonVisible={isScrollDownButtonVisible}
             handleClickRigthButtonMessage={handleClickRigthButtonMessage}
@@ -205,7 +209,7 @@ const Messages: FC = () => {
           />
         </MessagesScrollBar>
 
-        <MessagesSkeleton isLoadedContent={isReadyFirstMsgs} />
+        <MessagesSkeleton isLoadedContent={isReadyFirstMessages} />
       </div>
 
       {deferredIsShowMenuModal && (

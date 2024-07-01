@@ -3,11 +3,13 @@ import { useTranslation } from 'react-i18next';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import type { IIsEditedProps } from '@interfaces/IIsEditedProps';
-
 import { IconId } from '@enums/iconsSpriteId';
 
 import { defaultNS } from '@i18n/i18n';
+
+interface IIsEditedProps {
+  isEdited: boolean;
+}
 
 const IsEdited: FC<IIsEditedProps> = ({ isEdited }) => {
   const { t } = useTranslation(defaultNS, { keyPrefix: 'General' });

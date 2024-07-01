@@ -3,11 +3,14 @@ import { useTranslation } from 'react-i18next';
 
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import useChatStore from '@zustand/store';
-
-import type { IButtonSelectProps } from '@interfaces/IButtonSelectProps';
+import useChatStore from '@store/store';
 
 import { IconId } from '@enums/iconsSpriteId';
+
+interface IButtonSelectProps {
+  textContent?: boolean;
+  color: string;
+}
 
 const ButtonSelect: FC<IButtonSelectProps> = ({ textContent = true }) => {
   const { t } = useTranslation();

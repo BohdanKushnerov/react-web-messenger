@@ -9,7 +9,7 @@ const downloadFileFromStorage = async (url: string) => {
     const refer = await getDownloadURL(httpsReference);
     return refer;
   } catch (error) {
-    console.error('Ошибка при получении URL:', error);
+    console.error('downloadFileFromStorage', error);
     return null;
   }
 };

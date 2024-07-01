@@ -1,0 +1,42 @@
+import { useEffect, useState } from 'react';
+
+import type { DocumentData } from 'firebase/firestore';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+
+import { db } from '@myfirebase/config';
+
+import useChatStore from '@store/store';
+
+const useSearchMessageValue = () => {
+  const [searchMessageValue, setSearchMessageValue] = useState('');
+  const [searchMessages, setSearchMessages] = useState<DocumentData[] | null>(
+    null
+  );
+
+  const { chatUID } = useChatStore(state => state.currentChatInfo);
+
+  useEffect(() => {
+    if (!searchMessageValue) {
+      setSearchMessages(null);
+      return;
+    }
+
+    const queryParams = query(
+      collection(db, `chats/${chatUID}/messages`),
+      where('message', '>=', searchMessageValue),
+      where('message', '<=', `${searchMessageValue}\uf8ff`)
+    );
+
+    const unsubSearchMessages = onSnapshot(queryParams, querySnapshot => {
+      setSearchMessages(querySnapshot.docs);
+    });
+
+    return () => {
+      unsubSearchMessages();
+    };
+  }, [chatUID, searchMessageValue]);
+
+  return { searchMessages, searchMessageValue, setSearchMessageValue };
+};
+
+export default useSearchMessageValue;

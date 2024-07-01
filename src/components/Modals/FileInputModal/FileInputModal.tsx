@@ -1,25 +1,36 @@
-import { forwardRef, useRef, useState } from 'react';
+import {
+  type Dispatch,
+  type SetStateAction,
+  forwardRef,
+  useRef,
+  useState,
+} from 'react';
 import type { DefaultExtensionType } from 'react-file-icon';
 import { useTranslation } from 'react-i18next';
 
-import ButtonClose from '@components/Buttons/ButtonClose/ButtonClose';
 import UploadDocumentFile from '@components/ChatForm/UploadDocumentFile/UploadDocumentFile';
 import UploadPhotoFile from '@components/ChatForm/UploadPhotoFile/UploadPhotoFile';
 import ModalWindow from '@components/Modals/ModalWindow/ModalWindow';
+import Button from '@components/common/Button/Button';
+import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@store/store';
 
 import handleSendAttachedFilesMessage from '@utils/chatForm/handleSendAttachedFilesMessage';
 
-import type { IFileInputModalProps } from '@interfaces/IFileInputModalProps';
-
 import { ElementsId } from '@enums/elementsId';
+import { IconId } from '@enums/iconsSpriteId';
 
 import type { FilesUploadStatuses } from 'types/FilesUploadStatuses';
 
 import { defaultNS } from '@i18n/i18n';
 
-const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
+interface IModalFileInputProps {
+  setIsModalAddFileOpen: Dispatch<SetStateAction<boolean>>;
+  handleToggleModal: () => void;
+}
+
+const FileInputModal = forwardRef<HTMLInputElement, IModalFileInputProps>(
   ({ setIsModalAddFileOpen, handleToggleModal }, ref) => {
     const [fileDescription, setFileDescription] = useState('');
     const [uploadFilesStatus, setUploadFilesStatus] =
@@ -71,7 +82,18 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
               } ${t('Files')}`}
             </p>
 
-            <ButtonClose handleClickButtonClose={handleCloseAddFileModal} />
+            <Button
+              variant="close"
+              type="button"
+              onClick={handleCloseAddFileModal}
+              ariaLabel="Close"
+            >
+              <SvgIcon
+                className="fill-darkZinc transition-all duration-300 group-hover:fill-darkGreen dark:fill-white"
+                iconId={IconId.IconCrossClose}
+                size={16}
+              />
+            </Button>
 
             <div ref={scrollbarsRef} className="h-full w-full overflow-scroll">
               <ul className="flex flex-col gap-2">
@@ -110,7 +132,7 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
             >
               <div className="relative h-10 w-full sm:w-8/12">
                 <input
-                  id={ElementsId.AtachFilesModalInput}
+                  id={ElementsId.AttachFilesModalInput}
                   className="h-full w-full rounded-3xl border-2 border-transparent bg-mediumDarkZinc px-10 py-1 text-white outline-none focus:border-mediumDarkCyan dark:bg-darkBackground"
                   type="text"
                   placeholder={t('ImageCaptionPlaceholder')}
@@ -118,14 +140,14 @@ const FileInputModal = forwardRef<HTMLInputElement, IFileInputModalProps>(
                   onChange={handleChangeFileDescription}
                 />
               </div>
-              <button
-                className="rounded-full border border-veryDarkGray px-2 py-1 text-black transition-all duration-300 hover:bg-mediumZinc hover:shadow-mainShadow dark:text-white hover:dark:bg-extraDarkGray"
+              <Button
+                variant="sendFileMessages"
                 type="submit"
                 disabled={Object.keys(uploadFilesStatus).length > 0}
-                aria-label="Send"
+                ariaLabel="Send"
               >
                 {t('Send')}
-              </button>
+              </Button>
             </form>
           </div>
         </div>

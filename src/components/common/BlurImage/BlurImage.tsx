@@ -1,6 +1,9 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
-import type { IBlurImageProps } from '@interfaces/IBlurImageProps';
+interface IBlurImageProps {
+  loading: boolean;
+  children: ReactNode;
+}
 
 const BlurImage: FC<IBlurImageProps> = ({ loading, children }) => {
   return (

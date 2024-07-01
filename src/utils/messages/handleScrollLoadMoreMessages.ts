@@ -2,7 +2,7 @@ import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
 
 import type { DocumentData } from 'firebase/firestore';
 
-import groupNewMsgs from './groupNewMsgs';
+import groupNewMessages from './groupNewMessages';
 import sortAndMergeScrollNewGroupedMessages from './sortAndMergeScrollNewGroupedMessages';
 
 import getMessagesAfterLastLoaded from '@api/firestore/getMessagesAfterLastLoaded';
@@ -12,8 +12,8 @@ import type { GroupedMessages } from 'types/GroupedMessages';
 const handleScrollLoadMoreMessages = async (
   chatUID: string | null,
   isInfinityScrollLoading: MutableRefObject<boolean>,
-  lastLoadedMsg: MutableRefObject<DocumentData | null>,
-  isFinishMsgs: MutableRefObject<boolean>,
+  lastLoadedMessage: MutableRefObject<DocumentData | null>,
+  isFinishMessages: MutableRefObject<boolean>,
   setGroupedMessages: Dispatch<SetStateAction<GroupedMessages | null>>
 ) => {
   if (!chatUID || isInfinityScrollLoading.current) {
@@ -22,22 +22,22 @@ const handleScrollLoadMoreMessages = async (
 
   isInfinityScrollLoading.current = true;
 
-  const snapshot = await getMessagesAfterLastLoaded(chatUID, lastLoadedMsg);
+  const snapshot = await getMessagesAfterLastLoaded(chatUID, lastLoadedMessage);
 
   if (!snapshot.empty) {
     const updatedMessages: DocumentData[] = snapshot.docs;
     const lastVisible = updatedMessages[updatedMessages.length - 1];
 
-    if (lastLoadedMsg.current?.id === lastVisible.id) {
+    if (lastLoadedMessage.current?.id === lastVisible.id) {
       return;
     }
 
-    lastLoadedMsg.current = lastVisible;
+    lastLoadedMessage.current = lastVisible;
 
-    const groupedMsgs = groupNewMsgs(updatedMessages);
-    sortAndMergeScrollNewGroupedMessages(groupedMsgs, setGroupedMessages);
+    const groupedMessages = groupNewMessages(updatedMessages);
+    sortAndMergeScrollNewGroupedMessages(groupedMessages, setGroupedMessages);
   } else {
-    isFinishMsgs.current = true;
+    isFinishMessages.current = true;
   }
 };
 

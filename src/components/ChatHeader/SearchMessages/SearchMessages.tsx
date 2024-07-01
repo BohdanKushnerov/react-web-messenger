@@ -3,22 +3,25 @@ import { useTranslation } from 'react-i18next';
 
 import SearchInput from '@components/Inputs/SearchInput/SearchInput';
 import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
+import Button from '@components/common/Button/Button';
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 import TransitionComponent from '@components/common/TransitionComponent/TransitionComponent';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@store/store';
 
+import useSearchMessageValue from '@hooks/chatHeader/useSearchMessageValue';
 import useChatInfo from '@hooks/useChatInfo';
-import useSearchMessageValue from '@hooks/useSearchMessageValue';
 import useStartTransition from '@hooks/useStartTransition';
 
-import formatTimeSearchMsg from '@utils/messages/formatTimeSearchMsg';
-
-import type { ISearchMessagesProps } from '@interfaces/ISearchMessagesProps';
+import formatTimeSearchMessage from '@utils/messages/formatTimeSearchMessage';
 
 import { IconId } from '@enums/iconsSpriteId';
 
 import { defaultNS } from '@i18n/i18n';
+
+interface ISearchMessagesProps {
+  setIsShowSearchMessages: (value: boolean) => void;
+}
 
 const SearchMessages: FC<ISearchMessagesProps> = ({
   setIsShowSearchMessages,
@@ -55,30 +58,32 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
       timeout={300}
     >
       <div className="flex items-center justify-around gap-1">
-        <button
-          className="flex h-9 w-10 cursor-pointer items-center justify-center rounded-full bg-transparent transition-all duration-300 hover:bg-mediumZinc hover:dark:bg-veryLightZincOpacity10"
+        <Button
+          variant="close2"
           type="button"
           onClick={handleClickCloseSearchMessage}
-          aria-label="Close"
+          ariaLabel="Close"
         >
           <SvgIcon
             className="fill-darkZinc dark:fill-mediumZinc"
             iconId={IconId.IconCrossClose}
             size={16}
           />
-        </button>
+        </Button>
 
         <SearchInput
           value={searchMessageValue}
           handleChange={handleChangeSearchMessage}
-          placeholderText={t('SearchMsgPlaceholder')}
+          placeholderText={t('SearchMessagePlaceholder')}
           autoFocus={true}
         />
       </div>
       {searchMessages && (
         <ul className="flex flex-col justify-center gap-2">
           {searchMessages.length === 0 && (
-            <p className="text-darkZinc dark:text-white">{t('NotFoundMsg')}</p>
+            <p className="text-darkZinc dark:text-white">
+              {t('NotFoundMessage')}
+            </p>
           )}
           {searchMessages.map(msg => (
             <li key={msg.id} className="flex items-center justify-start gap-2">
@@ -101,7 +106,9 @@ const SearchMessages: FC<ISearchMessagesProps> = ({
                 </p>
                 <p className="text-darkZinc dark:text-white">
                   {msg.data().date &&
-                    formatTimeSearchMsg(msg.data().date.toDate().toString())}
+                    formatTimeSearchMessage(
+                      msg.data().date.toDate().toString()
+                    )}
                 </p>
               </div>
             </li>

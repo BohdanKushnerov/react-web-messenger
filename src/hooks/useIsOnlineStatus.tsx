@@ -4,7 +4,7 @@ import { onValue, ref } from 'firebase/database';
 
 import { database } from '@myfirebase/config';
 
-import type { UseIsOnlineStatus } from 'types/hooks/UseIsOnlineStatus';
+type UseIsOnlineStatus = (userUID: string | null) => boolean | null;
 
 const useIsOnlineStatus: UseIsOnlineStatus = (userUID: string | null) => {
   const [isOnline, setIsOnline] = useState<boolean | null>(null);

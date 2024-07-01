@@ -14,7 +14,9 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@types/valid-url": "^1.0.7",
     "@wavesurfer/react": "^1.0.6",
+    "class-variance-authority": "^0.7.0",
     "dotenv": "^16.4.5",
     "emoji-picker-react": "^4.9.3",
     "firebase": "^10.3.1",
@@ -39,6 +41,7 @@
     "react-transition-group": "^4.4.5",
     "use-debounce": "^10.0.0",
     "uuid": "^9.0.0",
+    "valid-url": "^1.0.9",
     "wavesurfer.js": "^7.7.5",
     "yet-another-react-lightbox": "^3.16.0",
     "zustand": "^4.4.1"

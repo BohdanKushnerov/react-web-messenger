@@ -9,19 +9,22 @@ import StepOne from '@components/Auth/StepOne/StepOne';
 import StepThree from '@components/Auth/StepThree/StepThree';
 import StepTwo from '@components/Auth/StepTwo/StepTwo';
 import TestNumbers from '@components/Auth/TestNumbers/TestNumbers';
-import AuthConfirmButton from '@components/Buttons/ButtonAuthConfirm/ButtonAuthConfirm';
 import LanguageSwitcher from '@components/Sidebar/LanguageSwitcher/LanguageSwitcher';
 import Theme from '@components/Sidebar/Theme/Theme';
+import Button from '@components/common/Button/Button';
+import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
 import { auth } from '@myfirebase/config';
 
-import useStoredConfirmationResult from '@hooks/useStoredConfirmationResult';
+import useStoredConfirmationResult from '@hooks/auth/useStoredConfirmationResult';
 
 import getStoredAuthStep from '@utils/auth/getStoredAuthStep';
 import getStoredPhone from '@utils/auth/getStoredPhone';
 import handleSubmitVerifyCode from '@utils/auth/handleSubmitVerifyCode';
 import isValidPhoneNumber from '@utils/auth/isValidPhoneNumber';
 import setUpRecaptcha from '@utils/auth/setUpRecaptcha';
+
+import { ElementsId } from '@enums/elementsId';
 
 import type { AuthSteps } from 'types/AuthSteps';
 
@@ -70,13 +73,13 @@ const Auth: FC = () => {
       localStorage.setItem('step', 'Step 2/3');
     } catch (error) {
       toast.error(t('ReloadPage'));
-      console.log('handleSubmitPhone error', error);
+      console.error('handleSubmitPhone', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleMannageVerifyCode = async (e: React.FormEvent) => {
+  const handleManageVerifyCode = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
@@ -99,7 +102,7 @@ const Auth: FC = () => {
       }
     } catch (error) {
       toast.error(t('InvalidVerificationCode'));
-      console.log('handleMannageVerifyCode error', error);
+      console.error('handleManageVerifyCode', error);
     } finally {
       setIsLoading(false);
     }
@@ -111,7 +114,7 @@ const Auth: FC = () => {
     if (step === 'Step 1/3') {
       handleManageSubmitPhone(e);
     } else if (step === 'Step 2/3') {
-      handleMannageVerifyCode(e);
+      handleManageVerifyCode(e);
     }
   };
 
@@ -146,24 +149,30 @@ const Auth: FC = () => {
         )}
 
         {step !== 'Step 3/3' && (
-          <AuthConfirmButton
-            isLoading={isLoading}
-            onSubmit={handleSubmitAuthFirstTwoSteps}
-          />
+          <Button
+            variant="authConfirm"
+            id={ElementsId.SignInButton}
+            type="button"
+            disabled={isLoading}
+            onClick={handleSubmitAuthFirstTwoSteps}
+            ariaLabel="Auth confirm button"
+          >
+            {isLoading ? <LoaderUIActions /> : t('Continue')}
+          </Button>
         )}
 
         {step === 'Step 3/3' && (
           <StepThree isLoading={isLoading} setIsLoading={setIsLoading} />
         )}
 
-        <button
-          className="mt-2 w-full rounded-md bg-mediumRed p-2 font-bold text-white disabled:text-veryDarkZinc"
+        <Button
+          variant="clearRegistrationForm"
           type="button"
           onClick={handleFullResetFrom}
-          aria-label="Full reset from"
+          ariaLabel="Full reset from"
         >
           {t('ClearRegistrationForm')}
-        </button>
+        </Button>
       </div>
 
       {step !== 'Step 3/3' && <TestNumbers />}

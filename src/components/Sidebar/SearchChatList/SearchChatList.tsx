@@ -7,9 +7,9 @@ import type { DocumentData } from 'firebase/firestore';
 import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
 import LoaderUIActions from '@components/common/LoaderUIActions/LoaderUIActions';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@store/store';
 
-import useSearchUsers from '@hooks/useSearchUsers';
+import useSearchUsers from '@hooks/sidebar/useSearchUsers';
 
 import handleCreateAndNavigateToChat from '@utils/chatListItem/handleCreateAndNavigateToChat';
 

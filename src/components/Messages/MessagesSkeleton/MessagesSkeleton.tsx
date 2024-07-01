@@ -5,9 +5,11 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 import useResizeWindow from '@hooks/useResizeWindow';
 
-import type { IMessagesSkeletonProps } from '@interfaces/IMessagesSkeletonProps';
-
 import { ElementsId } from '@enums/elementsId';
+
+interface IMessagesSkeletonProps {
+  isLoadedContent: boolean;
+}
 
 const MessagesSkeleton: FC<IMessagesSkeletonProps> = memo(
   ({ isLoadedContent }) => {

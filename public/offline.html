@@ -36,7 +36,7 @@
             return;
           }
         } catch (e) {
-          console.log('checkNetworkAndReload error', e);
+          console.error('checkNetworkAndReload', e);
         }
         window.setTimeout(checkNetworkAndReload, 2500);
       };

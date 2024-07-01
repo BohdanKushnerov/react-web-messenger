@@ -5,7 +5,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 
 import { db } from '@myfirebase/config';
 
-import type { UseChatInfo } from 'types/hooks/UseChatInfo';
+type UseChatInfo = (userUID: string | null) => DocumentData | null;
 
 const useChatInfo: UseChatInfo = userUID => {
   const [currentChatInfo, setCurrentChatInfo] = useState<DocumentData | null>(

@@ -1,8 +1,15 @@
 import type { FC } from 'react';
 
-import type { ISvgIconProps } from '@interfaces/ISvgIconProps';
+import type { IconId } from '@enums/iconsSpriteId';
 
 import sprite from '@assets/sprite.svg';
+
+interface ISvgIconProps {
+  id?: string;
+  className: string;
+  size: string | number;
+  iconId: IconId;
+}
 
 const SvgIcon: FC<ISvgIconProps> = ({ id, className, iconId, size }) => {
   return (

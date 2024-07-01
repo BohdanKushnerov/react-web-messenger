@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+import type { DocumentData } from 'firebase/firestore';
 import urlParser from 'js-video-url-parser';
 
 import IsEdited from '../IsEdited/IsEdited';
@@ -8,35 +9,39 @@ import MessageFiles from '../MessageFiles/MessageFiles';
 import MessageImagesWithLightBox from '../MessageImagesWithLightBox/MessageImagesWithLightBox';
 import ReactionsDisplay from '../MessageReactions/ReactionsDisplay';
 
-import IsReadMsg from '@components/Messages/IsReadMsg/IsReadMsg';
+import IsReadMessage from '@components/Messages/IsReadMessage/IsReadMessage';
 import MessageTriangle from '@components/Messages/MessageTriangle/MessageTriangle';
 
-import useChatStore from '@zustand/store';
+import useChatStore from '@store/store';
 
-import useMakeReadMsg from '@hooks/useMakeReadMsg';
+import useMakeReadMessage from '@hooks/messages/useMakeReadMessage';
 
-import isLinkMsg from '@utils/isLinkMsg';
-import formatTimeMsg from '@utils/messages/formatTimeMsg';
+import isLinkMessage from '@utils/isLinkMessage';
+import formatTimeMessage from '@utils/messages/formatTimeMessage';
 import getFilesWithoutImages from '@utils/messages/getFilesWithoutImages';
 
 import type { IFile } from '@interfaces/IFile';
-import type { IMessageItemProps } from '@interfaces/IMessageItemProps';
 
 import { ElementsId } from '@enums/elementsId';
+
+interface IMessageItemProps {
+  msg: DocumentData;
+  isNearBottom: boolean;
+}
 
 const MessageItem: FC<IMessageItemProps> = ({ msg, isNearBottom }) => {
   const currentUserUID = useChatStore(state => state.currentUser.uid);
   const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
 
-  useMakeReadMsg(msg, isNearBottom);
+  useMakeReadMessage(msg, isNearBottom);
 
   const myUID = currentUserUID === msg.data().senderUserID;
 
-  const textContentMsg: string = msg.data().message;
+  const textContentMessage: string = msg.data().message;
 
-  const info = urlParser.parse(textContentMsg);
+  const info = urlParser.parse(textContentMessage);
 
-  const isLink = isLinkMsg(textContentMsg);
+  const isLink = isLinkMessage(textContentMessage);
 
   const isImages = msg
     .data()
@@ -68,7 +73,7 @@ const MessageItem: FC<IMessageItemProps> = ({ msg, isNearBottom }) => {
 
         {isLink ? (
           <LinkMessage
-            textContentMsg={textContentMsg}
+            textContentMessage={textContentMessage}
             isVideo={info?.mediaType === 'video'}
           />
         ) : (
@@ -86,10 +91,10 @@ const MessageItem: FC<IMessageItemProps> = ({ msg, isNearBottom }) => {
             <div className="flex items-center gap-2">
               <p className="text-nearBlackGreen dark:text-veryLightZinc">
                 {msg.data().date &&
-                  formatTimeMsg(msg.data().date.toDate().toString())}
+                  formatTimeMessage(msg.data().date.toDate().toString())}
               </p>
 
-              {myUID && <IsReadMsg msg={msg} />}
+              {myUID && <IsReadMessage msg={msg} />}
             </div>
           </div>
         </div>

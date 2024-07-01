@@ -1,3 +1,3 @@
 export interface IEmptyChatProps {
-  isShowNotifyMsg: boolean;
+  isShowNotifyMessage: boolean;
 }
