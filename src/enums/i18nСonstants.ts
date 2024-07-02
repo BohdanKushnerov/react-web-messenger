@@ -18,6 +18,7 @@ export enum Auth {
   TooManyRequests = 'Auth.TooManyRequests',
   ClearRegistrationForm = 'Auth.ClearRegistrationForm',
   ResendSMS = 'Auth.ResendSMS',
+  WaitingForMessage = 'Auth.WaitingForMessage',
 }
 
 export enum MonthNames {

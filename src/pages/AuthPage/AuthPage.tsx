@@ -21,7 +21,6 @@ import useStoredConfirmationResult from '@hooks/auth/useStoredConfirmationResult
 import getStoredAuthStep from '@utils/auth/getStoredAuthStep';
 import getStoredPhone from '@utils/auth/getStoredPhone';
 import handleSubmitVerifyCode from '@utils/auth/handleSubmitVerifyCode';
-import isValidPhoneNumber from '@utils/auth/isValidPhoneNumber';
 import setUpRecaptcha from '@utils/auth/setUpRecaptcha';
 
 import { ElementsId } from '@enums/elementsId';
@@ -51,11 +50,6 @@ const Auth: FC = () => {
   const handleManageSubmitPhone = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
 
-    if (!isValidPhoneNumber(phone)) {
-      toast.error(t('InvalidPhoneNumber'));
-      return;
-    }
-
     try {
       setIsLoading(true);
       const response = await setUpRecaptcha(
@@ -65,6 +59,9 @@ const Auth: FC = () => {
         setRecaptcha,
         t
       );
+
+      if (!response) return;
+
       setStep('Step 2/3');
 
       setConfirmationResult(response);

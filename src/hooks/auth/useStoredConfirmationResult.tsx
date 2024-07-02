@@ -1,5 +1,6 @@
 import { type Dispatch, type SetStateAction, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import type { ConfirmationResult, RecaptchaVerifier } from 'firebase/auth';
 
@@ -31,6 +32,8 @@ const useStoredConfirmationResult: UseStoredConfirmationResult = (
       if (step === 'Step 2/3') {
         const result = await getStoredConfirmResult(recaptcha, setRecaptcha, t);
         setConfirmationResult(result);
+
+        toast.success(t('WaitingForMessage'));
       }
     };
 

@@ -1,20 +1,13 @@
 import { initReactI18next } from 'react-i18next';
 
+
+
 import * as i18n from 'i18next';
 
-import {
-  Auth,
-  ChatForm,
-  ChatListUnreadMessage,
-  ContextMenu,
-  FileInput,
-  General,
-  MonthNames,
-  NavBar,
-  ProfileSettings,
-  Sidebar,
-  Toasts,
-} from '../enums/i18nСonstants';
+
+
+import { Auth, ChatForm, ChatListUnreadMessage, ContextMenu, FileInput, General, MonthNames, NavBar, ProfileSettings, Sidebar, Toasts } from '../enums/i18nСonstants';
+
 
 export const defaultNS = 'translation';
 
@@ -44,6 +37,8 @@ export const resources = {
         'You have made too many attempts. Wait a moment and retry.',
       [Auth.ClearRegistrationForm]: 'Reset the registration form',
       [Auth.ResendSMS]: 'Send the SMS again',
+      [Auth.WaitingForMessage]:
+        'You updated the page. We sent you a message again on your phone. Please wait for the message...',
 
       [ChatForm.ChatInputPlaceholder]: 'Write your message...',
       [ChatForm.EditMessage]: 'Edit message',
@@ -150,6 +145,8 @@ export const resources = {
         'Зроблено занадто багато спроб. Зачекайте трохи і повторіть спробу.',
       [Auth.ClearRegistrationForm]: 'Скинути форму реєстрації',
       [Auth.ResendSMS]: 'Повторно надіслати SMS',
+      [Auth.WaitingForMessage]:
+        'Ви оновили сторінку. Ми знову надіслали вам повідомлення на телефон. Будь ласка, зачекайте на повідомлення...',
 
       [ChatForm.ChatInputPlaceholder]: 'Напиши своє повідомлення...',
       [ChatForm.EditMessage]: 'Редагувати повідомлення',
@@ -257,6 +254,8 @@ export const resources = {
         'Слишком много попыток. Подождите немного и повторите попытку.',
       [Auth.ClearRegistrationForm]: 'Сбросить форму регистрации',
       [Auth.ResendSMS]: 'Повторно отправить SMS',
+      [Auth.WaitingForMessage]:
+        'Вы обновили страницу. Мы снова отправили вам сообщение на телефон. Пожалуйста, дождитесь сообщения...',
 
       [ChatForm.ChatInputPlaceholder]: 'Напишите своё сообщение...',
       [ChatForm.EditMessage]: 'Редактировать сообщение',

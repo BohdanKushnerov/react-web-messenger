@@ -12,7 +12,10 @@ interface IButtonSelectProps {
   color: string;
 }
 
-const ButtonSelect: FC<IButtonSelectProps> = ({ textContent = true }) => {
+const ButtonSelect: FC<IButtonSelectProps> = ({
+  textContent = true,
+  color,
+}) => {
   const { t } = useTranslation();
 
   const isSelectedMessages = useChatStore(state => state.isSelectedMessages);
@@ -38,7 +41,7 @@ const ButtonSelect: FC<IButtonSelectProps> = ({ textContent = true }) => {
       onClick={handleToggleSelect}
       aria-label="Select message"
     >
-      <SvgIcon className="fill-white" iconId={IconId.IconSelect} size={16} />
+      <SvgIcon className={color} iconId={IconId.IconSelect} size={16} />
       {textContent && (
         <span className="text-base">{t('ContextMenu.Select')}</span>
       )}

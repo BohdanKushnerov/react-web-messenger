@@ -40,7 +40,7 @@ const ChatContextMenu: FC<IChatContextMenuProps> = ({ groupedMessages }) => {
 
         <DeleteButton color="fill-white" />
 
-        <ButtonSelect color="white" />
+        <ButtonSelect color="fill-white" />
       </div>
     </>
   );
