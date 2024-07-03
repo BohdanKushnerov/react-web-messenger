@@ -14,10 +14,10 @@ const ReactionsDisplay: FC<IReactionsDisplayProps> = ({ reactions }) => {
       {reactions && (
         <>
           {Object.entries(reactions).map(([emoji, ids]) => (
-            <div className="flex flex-row items-end gap-0" key={emoji}>
+            <div className="flex items-center justify-center gap-0" key={emoji}>
               {Array.isArray(ids) &&
                 ids.map(id => <ReactionsUser key={id} userUID={id} />)}
-              <span>{emoji}</span>
+              <span className="h-5 w-5">{emoji}</span>
             </div>
           ))}
         </>

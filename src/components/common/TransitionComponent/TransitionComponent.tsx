@@ -1,4 +1,4 @@
-import type { FC, MutableRefObject, ReactNode } from 'react';
+import type { FC, MutableRefObject } from 'react';
 import { Transition, type TransitionStatus } from 'react-transition-group';
 
 type ExitedBehaviorValue = 'opacity' | 'hidden';
@@ -15,7 +15,7 @@ interface ITransitionComponentProps {
   timeout: number;
   exitedBehavior: ExitedBehaviorValue;
   enteredBehavior: EnteredBehaviorValue;
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 const getExitedBehaviorStyles = (

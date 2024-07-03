@@ -30,7 +30,7 @@ const AvatarProfile: FC<IAvatarProfileProps> = ({
     </div>
   ) : (
     <Avatar
-      className="rounded-full shadow-secondaryShadow transition-all duration-150 group-hover:scale-105"
+      className="overflow-hidden rounded-full shadow-secondaryShadow transition-all duration-150 group-hover:scale-105"
       name={`${displayName}`}
       size={size}
       textSizeRatio={0}

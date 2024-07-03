@@ -1,10 +1,10 @@
-import { type ReactNode, forwardRef, memo } from 'react';
+import { forwardRef, memo } from 'react';
 
 import { ElementsId } from '@enums/elementsId';
 
 interface IMessagesScrollBarProps {
   handleScroll: () => void;
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 const MessagesScrollBar = memo(

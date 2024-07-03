@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 
 import useChatStore from '@store/store';
 
@@ -10,7 +10,7 @@ interface IModalMessageContextMenuProps {
     top: number;
     left: number;
   };
-  children: ReactNode;
+  children: React.ReactNode;
 }
 const MessageContextMenuModal: FC<IModalMessageContextMenuProps> = ({
   closeModal,

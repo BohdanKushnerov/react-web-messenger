@@ -26,11 +26,11 @@ const EditingMessageInfo: FC<IEditingMessageInfoProps> = ({
         iconId={IconId.IconPencil}
         size={20}
       />
-      <div>
+      <div className="w-full">
         <p className="flex text-mediumDarkViolet">
           {t('ChatForm.EditMessage')}
         </p>
-        <p className="max-w-[60%] overflow-hidden text-ellipsis whitespace-nowrap text-black dark:text-white lg:max-w-[85]">
+        <p className="w-[80%] overflow-hidden text-ellipsis whitespace-nowrap text-black dark:text-white">
           {selectedMessage.data().message || t('ChatForm.EmptyMessage')}
         </p>
       </div>

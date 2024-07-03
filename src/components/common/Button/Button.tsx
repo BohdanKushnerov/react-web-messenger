@@ -1,4 +1,4 @@
-import { type FC, type ReactNode } from 'react';
+import { type FC } from 'react';
 
 import type { VariantProps } from 'class-variance-authority';
 
@@ -10,7 +10,7 @@ interface IButtonProps extends VariantProps<typeof buttonStyles> {
   disabled?: boolean;
   onClick?: (() => void) | ((e: React.MouseEvent) => void);
   ariaLabel: string;
-  children: ReactNode;
+  children: React.ReactNode;
 }
 const Button: FC<IButtonProps> = ({
   variant,

@@ -37,9 +37,9 @@ const handleUpdateEditMessage = async (
       updateEditedStatusMessageDoc(chatUID, selectedMessage),
     ]);
 
-    toast.success(t(Toasts.DeleteMessageSuccess));
+    toast.success(t(Toasts.EditingMessageSuccess));
   } catch (error) {
-    toast.error(t(Toasts.DeleteMessageError));
+    toast.error(t(Toasts.EditingMessageError));
     console.error('handleUpdateEditMessage', error);
   } finally {
     resetCursorOnDefault();

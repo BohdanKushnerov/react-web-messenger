@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+const throttleResizeTime = 100;
 
 const useResizeWindow = () => {
   const [isFullScreen, setIsFullScreen] = useState(
     () => window.innerWidth > 639
   );
   const [heightWindow, setHeightWindow] = useState(() => window.innerHeight);
+  const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -18,10 +21,20 @@ const useResizeWindow = () => {
       setHeightWindow(height);
     };
 
-    window.addEventListener('resize', handleResize);
+    const throttledResize = () => {
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
+      resizeTimeoutRef.current = setTimeout(handleResize, throttleResizeTime);
+    };
+
+    window.addEventListener('resize', throttledResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', throttledResize);
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
     };
   }, []);
 
