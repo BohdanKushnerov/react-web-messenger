@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+import classNames from 'classnames';
 import type { DocumentData } from 'firebase/firestore';
 import urlParser from 'js-video-url-parser';
 
@@ -52,20 +53,23 @@ const MessageItem: FC<IMessageItemProps> = ({ msg, isNearBottom }) => {
   return (
     <div
       id={ElementsId.Message}
-      className={`relative flex w-full items-end xl:w-8/12 ${
-        myUID ? 'justify-end' : 'justify-start'
-      } ${isSelectedMessages && 'pointer-events-none'}`}
+      className={classNames('relative flex w-full items-end xl:w-8/12', {
+        'justify-end': myUID,
+        'justify-start': !myUID,
+        'pointer-events-none': isSelectedMessages,
+      })}
     >
       <div
-        className={`flex flex-col items-center px-4 py-2 ${
-          isLink && info?.mediaType === 'video' && 'w-full'
-        } rounded-xl ${
-          msg.data().file?.length === 1 ? 'max-w-md' : 'max-w-xl'
-        } ${
-          myUID
-            ? 'rounded-br-none bg-mediumEmerald dark:bg-mediumDarkCyan'
-            : 'rounded-bl-none bg-veryLightZinc dark:bg-darkGreen'
-        } shadow-secondaryShadow`}
+        className={classNames(
+          'flex flex-col items-center rounded-xl px-4 py-2 shadow-secondaryShadow',
+          {
+            'w-full': isLink && info?.mediaType === 'video',
+            'max-w-md': msg.data()?.file?.length === 1,
+            'max-w-xl': !(msg.data()?.file?.length === 1),
+            'rounded-br-none bg-mediumEmerald dark:bg-mediumDarkCyan': myUID,
+            'rounded-bl-none bg-veryLightZinc dark:bg-darkGreen': !myUID,
+          }
+        )}
       >
         {isImages && <MessageImagesWithLightBox msg={msg} />}
 

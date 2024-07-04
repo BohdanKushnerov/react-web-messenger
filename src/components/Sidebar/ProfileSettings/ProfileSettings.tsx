@@ -2,6 +2,8 @@ import type { FC } from 'react';
 import { Suspense, lazy, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import classNames from 'classnames';
+
 import FileInput from '@components/Inputs/FileInput/FileInput';
 import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
 import BlurImage from '@components/common/BlurImage/BlurImage';
@@ -147,11 +149,15 @@ const ProfileSettings: FC = () => {
               </p>
             </div>
             <button
-              className={`w-48 rounded-3xl border-2 ${
-                displayName === newDisplayName
-                  ? 'border-darkZinc bg-transparent text-darkZinc'
-                  : 'cursor-pointer border-black bg-transparent text-black hover:bg-mediumZinc dark:border-white dark:text-white hover:dark:bg-extraDarkGray'
-              } transition-all duration-300 hover:shadow-mainShadow`}
+              className={classNames(
+                'w-48 rounded-3xl border-2 transition-all duration-300 hover:shadow-mainShadow',
+                {
+                  'border-darkZinc bg-transparent text-darkZinc':
+                    displayName === newDisplayName,
+                  'cursor-pointer border-black bg-transparent text-black hover:bg-mediumZinc dark:border-white dark:text-white hover:dark:bg-extraDarkGray':
+                    displayName !== newDisplayName,
+                }
+              )}
               type="button"
               onClick={() =>
                 uid !== null &&

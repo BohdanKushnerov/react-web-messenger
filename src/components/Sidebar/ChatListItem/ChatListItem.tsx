@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import classNames from 'classnames';
+
 import UserChatInfo from './UserChatInfo/UserChatInfo';
 
 import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
@@ -50,13 +52,15 @@ const ChatListItem: FC<IChatListItemProps> = ({ chatInfo }) => {
       onClick={handleManageSelectChat}
     >
       <Link
-        className={`group flex h-72px content-center items-center gap-3 rounded-md p-1 transition-all duration-300 ${
-          chatUID === chatInfo[0] &&
-          'bg-veryDarkZinc hover:bg-darkZinc dark:bg-mediumDarkCyan hover:dark:bg-veryDarkCyan'
-        } ${
-          chatUID !== chatInfo[0] &&
-          'hover:bg-mediumZinc hover:dark:bg-veryDarkZinc'
-        } `}
+        className={classNames(
+          'group flex h-72px content-center items-center gap-3 rounded-md p-1 transition-all duration-300',
+          {
+            'bg-veryDarkZinc hover:bg-darkZinc dark:bg-mediumDarkCyan hover:dark:bg-veryDarkCyan':
+              chatUID === chatInfo[0],
+            'hover:bg-mediumZinc hover:dark:bg-veryDarkZinc':
+              chatUID !== chatInfo[0],
+          }
+        )}
         to={`/${chatInfo[0]}`}
         state={{ from: location }}
       >

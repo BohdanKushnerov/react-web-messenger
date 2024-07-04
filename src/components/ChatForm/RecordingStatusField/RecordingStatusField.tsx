@@ -14,11 +14,7 @@ const RecordingStatusField = forwardRef<
   IRecordingStatusFieldProps
 >(({ isRecording, recordingDuration }, ref) => {
   return (
-    <div
-      className={`absolute right-28 top-1/2 z-20 flex -translate-y-1/2 items-center gap-2 rounded-full bg-lightRed px-3 py-1 ${
-        isRecording ? 'block' : 'hidden'
-      }`}
-    >
+    <div className="absolute right-28 top-1/2 z-20 flex -translate-y-1/2 items-center gap-2 rounded-full bg-lightRed px-3 py-1">
       <SvgIcon
         className="animate-pulse fill-veryDarkRed"
         iconId={IconId.IconRec}

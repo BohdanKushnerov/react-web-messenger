@@ -1,5 +1,7 @@
 import type { FC } from 'react';
 
+import classNames from 'classnames';
+
 interface IBlurImageProps {
   loading: boolean;
   children: React.ReactNode;
@@ -8,7 +10,9 @@ interface IBlurImageProps {
 const BlurImage: FC<IBlurImageProps> = ({ loading, children }) => {
   return (
     <div
-      className={`transition-filter h-min w-min duration-500 ${loading && 'bg-mediumZinc blur-lg filter'}`}
+      className={classNames('transition-filter h-min w-min duration-500', {
+        'bg-mediumZinc blur-lg filter': loading,
+      })}
     >
       {children}
     </div>

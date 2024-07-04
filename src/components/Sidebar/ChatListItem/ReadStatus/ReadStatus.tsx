@@ -1,5 +1,7 @@
 import type { FC } from 'react';
 
+import classNames from 'classnames';
+
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@store/store';
@@ -24,21 +26,19 @@ const ReadStatus: FC<IReadStatusProps> = ({ senderUserID, itemChatUID }) => {
       {senderUserID === uid &&
         (isReadMyLastMessage ? (
           <SvgIcon
-            className={`${
-              chatUID === itemChatUID
-                ? 'fill-white'
-                : 'fill-ultraDarkZinc dark:fill-white'
-            }`}
+            className={classNames({
+              'fill-white': chatUID === itemChatUID,
+              'fill-ultraDarkZinc dark:fill-white': chatUID !== itemChatUID,
+            })}
             iconId={IconId.IconDoubleCheck}
             size={48}
           />
         ) : (
           <SvgIcon
-            className={`${
-              chatUID === itemChatUID
-                ? 'fill-white'
-                : 'fill-ultraDarkZinc dark:fill-white'
-            } drop-shadow-2xl`}
+            className={classNames({
+              'fill-white': chatUID === itemChatUID,
+              'fill-ultraDarkZinc dark:fill-white': chatUID !== itemChatUID,
+            })}
             iconId={IconId.IconSingleCheck}
             size={48}
           />

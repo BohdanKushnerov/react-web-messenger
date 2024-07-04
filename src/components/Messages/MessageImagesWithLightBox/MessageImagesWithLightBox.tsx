@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { Suspense, lazy, useState } from 'react';
 import 'yet-another-react-lightbox/styles.css';
 
+import classNames from 'classnames';
 import type { DocumentData } from 'firebase/firestore';
 
 import MessageImage from '../MessageImage/MessageImage';
@@ -44,11 +45,13 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
       {msg.data().file?.some((file: IFile) => file.type.includes('image')) && (
         <div
           id={ElementsId.LightBoxContainer}
-          className={`flex flex-wrap gap-0.5 sm:justify-center lg:justify-normal ${
-            msg.data().file?.length === 1
-              ? 'max-w-md'
-              : 'w-160px max-w-xs lg:w-full'
-          }`}
+          className={classNames(
+            'flex flex-wrap gap-0.5 sm:justify-center lg:justify-normal',
+            {
+              'max-w-md': msg.data()?.file?.length === 1,
+              'w-160px max-w-xs lg:w-full': !(msg.data()?.file?.length === 1),
+            }
+          )}
         >
           {imagesForMessage.map((fileInside: IFile, index: number) => {
             if (fileInside.type.includes('image')) {

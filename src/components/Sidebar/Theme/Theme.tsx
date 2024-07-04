@@ -2,6 +2,8 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import classNames from 'classnames';
+
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useTheme from '@hooks/useTheme';
@@ -51,11 +53,14 @@ const Theme: FC = () => {
           <button
             key={id}
             id={id}
-            className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-extraDarkGray ${
-              isActive
-                ? 'bg-mediumZinc dark:bg-mediumGray'
-                : 'hover:bg-mediumDarkGray dark:text-mediumGray dark:hover:bg-main'
-            } rounded-md transition-all duration-300 disabled:pointer-events-none hover:dark:text-extraDarkGray`}
+            className={classNames(
+              'w-full whitespace-nowrap rounded-md px-3 py-2 text-sm font-normal text-extraDarkGray transition-all duration-300 disabled:pointer-events-none hover:dark:text-extraDarkGray',
+              {
+                'bg-mediumZinc dark:bg-mediumGray': isActive,
+                'hover:bg-mediumDarkGray dark:text-mediumGray dark:hover:bg-main':
+                  !isActive,
+              }
+            )}
             type="button"
             data-theme={theme}
             onClick={handleChangeTheme}

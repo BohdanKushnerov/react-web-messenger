@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import classNames from 'classnames';
+
 import { defaultNS } from '@i18n/i18n';
 
 const LanguageSwitcher: FC = () => {
@@ -30,11 +32,16 @@ const LanguageSwitcher: FC = () => {
         {languages.map(language => (
           <button
             key={language.code}
-            className={`w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-extraDarkGray dark:text-mediumGray dark:hover:text-extraDarkGray disabled:dark:text-extraDarkGray ${
-              currentLanguage === language.code
-                ? 'bg-mediumZinc dark:bg-mediumGray dark:text-extraDarkGray'
-                : 'hover:bg-mediumDarkGray dark:hover:bg-main'
-            } rounded-md transition-all duration-300 disabled:pointer-events-none`}
+            className={classNames(
+              'w-full whitespace-nowrap px-3 py-2 text-sm font-normal text-extraDarkGray dark:text-mediumGray dark:hover:text-extraDarkGray disabled:dark:text-extraDarkGray',
+              {
+                'bg-mediumZinc dark:bg-mediumGray dark:text-extraDarkGray':
+                  currentLanguage === language.code,
+                'hover:bg-mediumDarkGray dark:hover:bg-main':
+                  currentLanguage !== language.code,
+              },
+              'rounded-md transition-all duration-300 disabled:pointer-events-none'
+            )}
             type="button"
             onClick={() => changeLanguage(language.code)}
             aria-label={`Choose ${language.label} language`}
