@@ -3,6 +3,8 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+import classNames from 'classnames';
+
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@store/store';
@@ -44,9 +46,10 @@ const CopyButton: FC<IButtonCopyProps> = ({
           onCopy={handleClickCopyTextMessage}
         >
           <div
-            className={`flex items-center ${
-              textContent ? 'justify-between' : 'justify-center'
-            } w-full px-8 py-2 text-white transition-all duration-150 hover:cursor-pointer hover:rounded-md hover:bg-darkZincOpacity90`}
+            className={classNames(
+              'flex w-full items-center px-8 py-2 text-white transition-all duration-150 hover:cursor-pointer hover:rounded-md hover:bg-darkZincOpacity90',
+              { 'justify-between': textContent, 'justify-center': !textContent }
+            )}
           >
             <SvgIcon
               className={`flex fill-${white} dark:fill-${dark}`}

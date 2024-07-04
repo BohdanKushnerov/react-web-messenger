@@ -1,6 +1,8 @@
 import type { FC, MutableRefObject } from 'react';
 import { Transition, type TransitionStatus } from 'react-transition-group';
 
+import classNames from 'classnames';
+
 type ExitedBehaviorValue = 'opacity' | 'hidden';
 type EnteredBehaviorValue =
   | 'translate-left'
@@ -83,13 +85,13 @@ const TransitionComponent: FC<ITransitionComponentProps> = ({
       {state => (
         <div
           ref={nodeRef}
-          className={`${className} ${getExitedBehaviorStyles(
-            state,
-            exitedBehavior
-          )} transform transition-transform duration-[${timeout}] ${getEnteredBehaviorStyles(
-            state,
-            enteredBehavior
-          )}`}
+          className={classNames(
+            className,
+            getExitedBehaviorStyles(state, exitedBehavior),
+            'transform transition-transform',
+            `duration-${timeout}`,
+            getEnteredBehaviorStyles(state, enteredBehavior)
+          )}
         >
           {children}
         </div>

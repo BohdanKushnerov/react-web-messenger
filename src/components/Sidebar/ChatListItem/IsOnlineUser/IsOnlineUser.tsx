@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import classNames from 'classnames';
+
 import useIsOnlineStatus from '@hooks/useIsOnlineStatus';
 
 import { defaultNS } from '@i18n/i18n';
@@ -15,7 +17,12 @@ const IsOnlineUser: FC<IIsOnlineUserProps> = ({ userUID }) => {
   const isOnline = useIsOnlineStatus(userUID);
 
   return (
-    <div className={`${isOnline ? 'text-veryDarkGreen' : 'text-veryDarkRed'}`}>
+    <div
+      className={classNames({
+        'text-veryDarkGreen': isOnline,
+        'text-veryDarkRed': !isOnline,
+      })}
+    >
       {isOnline ? t('Online') : t('Offline')}
     </div>
   );

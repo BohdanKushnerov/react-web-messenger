@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import classNames from 'classnames';
+
 import AvatarProfile from '@components/common/AvatarProfile/AvatarProfile';
 import BlurImage from '@components/common/BlurImage/BlurImage';
 
@@ -19,7 +21,7 @@ const ChatHeaderOpponentInfo: FC = () => {
   const userUID = useChatStore(state => state.currentChatInfo.userUID);
 
   const isOpponentTyping = useShowTyping();
-  const isOponentOnline = useIsOnlineStatus(userUID);
+  const isOpponentOnline = useIsOnlineStatus(userUID);
   const currentChatInfo = useChatInfo(userUID);
   const loadingImg = useBlurLoadingImage(currentChatInfo?.photoURL);
 
@@ -41,11 +43,12 @@ const ChatHeaderOpponentInfo: FC = () => {
         <h2 className="text-black dark:text-white">{t('Typing')}...</h2>
       ) : (
         <div
-          className={`${
-            isOponentOnline ? 'text-darkGreen' : 'text-veryDarkRed'
-          }`}
+          className={classNames({
+            'text-darkGreen': isOpponentOnline,
+            'text-veryDarkRed': !isOpponentOnline,
+          })}
         >
-          {isOponentOnline ? t('Online') : t('Offline')}
+          {isOpponentOnline ? t('Online') : t('Offline')}
         </div>
       )}
     </>

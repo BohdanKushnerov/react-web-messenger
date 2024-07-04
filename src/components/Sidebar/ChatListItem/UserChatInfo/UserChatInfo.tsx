@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+import classNames from 'classnames';
 import type { DocumentData } from 'firebase/firestore';
 
 import IsOnlineUser from '../IsOnlineUser/IsOnlineUser';
@@ -33,29 +34,29 @@ const UserChatInfo: FC<IUserChatInfoProps> = ({
     <>
       <div className="w-full">
         <p
-          className={`font-bold ${
-            currentChatUID === itemChatUID
-              ? 'text-white'
-              : 'text-ultraDarkZinc dark:text-white'
-          }`}
+          className={classNames('font-bold', {
+            'text-white': currentChatUID === itemChatUID,
+            'text-ultraDarkZinc dark:text-white':
+              currentChatUID !== itemChatUID,
+          })}
         >
           {userInfo?.displayName}
         </p>
         <p
-          className={`w-full sm:w-100px md:hidden ${
-            currentChatUID === itemChatUID
-              ? 'text-white'
-              : 'text-darkZinc dark:text-veryLightZinc'
-          }`}
+          className={classNames('w-full sm:w-100px md:hidden', {
+            'text-white': currentChatUID === itemChatUID,
+            'text-darkZinc dark:text-veryLightZinc':
+              currentChatUID !== itemChatUID,
+          })}
         >
           {lastMessage && truncateLastMessageString(lastMessage, 10)}
         </p>
         <p
-          className={`hidden md:block ${
-            currentChatUID === itemChatUID
-              ? 'text-white'
-              : 'text-darkZinc dark:text-veryLightZinc'
-          }`}
+          className={classNames('hidden md:block', {
+            'text-white': currentChatUID === itemChatUID,
+            'text-darkZinc dark:text-veryLightZinc':
+              currentChatUID !== itemChatUID,
+          })}
         >
           {lastMessage && truncateLastMessageString(lastMessage, 25)}
         </p>

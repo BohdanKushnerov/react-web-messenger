@@ -1,6 +1,8 @@
 import type { FC, KeyboardEvent } from 'react';
 import { lazy, useDeferredValue, useState } from 'react';
 
+import classNames from 'classnames';
+
 import SvgIcon from '@components/common/SvgIcon/SvgIcon';
 
 import useChatStore from '@store/store';
@@ -50,9 +52,10 @@ const Emoji: FC = () => {
     <div
       role="button"
       tabIndex={0}
-      className={`absolute ${
-        editingMessageInfo ? 'bottom-1' : 'top-7'
-      } left-3 cursor-pointer`}
+      className={classNames('absolute left-3 cursor-pointer', {
+        'bottom-1': editingMessageInfo,
+        'top-7': !editingMessageInfo,
+      })}
       onMouseEnter={handleMouseEnterEmoji}
       onMouseLeave={handleMouseLeaveEmoji}
       onKeyDown={handleEnterKeyDownEmoji}

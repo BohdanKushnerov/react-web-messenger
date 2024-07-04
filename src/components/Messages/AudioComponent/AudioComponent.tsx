@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import classNames from 'classnames';
 import { useDebounce } from 'use-debounce';
 import type WaveSurfer from 'wavesurfer.js';
 
@@ -87,9 +88,9 @@ const AudioComponent: FC<IAudioComponentProps> = ({ audioUrl }) => {
 
       <div className="flex w-full flex-1 flex-col items-start">
         <div
-          className={`${
-            isLoading && 'opacity-0'
-          } w-full flex-1 sm:w-[95%] md:w-full`}
+          className={classNames('w-full flex-1 sm:w-[95%] md:w-full', {
+            'opacity-0': isLoading,
+          })}
         >
           <WavesurferPlayer
             height={60}

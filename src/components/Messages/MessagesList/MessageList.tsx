@@ -1,6 +1,7 @@
 import { forwardRef, memo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import classNames from 'classnames';
 import type { DocumentData } from 'firebase/firestore';
 
 import MessageItem from '../MessageItem/MessageItem';
@@ -82,16 +83,20 @@ const MessageList = memo(
         <>
           <div
             ref={ref}
-            className={`flex min-h-full flex-col justify-end gap-2 px-6 ${
-              !isReadyFirstMessages && 'invisible'
-            }`}
+            className={classNames(
+              'flex min-h-full flex-col justify-end gap-2 px-6',
+              {
+                invisible: !isReadyFirstMessages,
+              }
+            )}
           >
             {groupedMessages &&
               Object.keys(groupedMessages).map(date => (
                 <ul
-                  className={`relative flex flex-col ${
-                    isSelectedMessages ? 'gap-0' : 'gap-2'
-                  }`}
+                  className={classNames('relative flex flex-col', {
+                    'gap-0': isSelectedMessages,
+                    'gap-2': !isSelectedMessages,
+                  })}
                   key={date}
                 >
                   <li className="pointer-events-none sticky top-1 z-10 flex justify-center">
@@ -107,12 +112,14 @@ const MessageList = memo(
                     return (
                       <li
                         id={ElementsId.DocumentDataMessage}
-                        className={`flex items-center justify-center gap-x-5 rounded-xl transition-all duration-150 ${
-                          currentItem && 'bg-ultraDarkZinc'
-                        } ${
-                          isSelectedMessages &&
-                          'hover:z-10 hover:cursor-pointer hover:outline hover:outline-1 hover:outline-white'
-                        }`}
+                        className={classNames(
+                          'flex items-center justify-center gap-x-5 rounded-xl transition-all duration-150',
+                          {
+                            'bg-ultraDarkZinc': currentItem,
+                            'hover:z-10 hover:cursor-pointer hover:outline hover:outline-1 hover:outline-white':
+                              isSelectedMessages,
+                          }
+                        )}
                         key={message.id}
                         onContextMenu={e =>
                           handleClickRigthButtonMessage(message, e)

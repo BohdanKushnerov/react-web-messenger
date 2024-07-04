@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+import classNames from 'classnames';
 import type { DocumentData } from 'firebase/firestore';
 
 import BlurImage from '@components/common/BlurImage/BlurImage';
@@ -36,9 +37,13 @@ const MessageImage: FC<IMessageImageProps> = ({
   return (
     <BlurImage loading={loadingImg}>
       <button
-        className={`${
-          loadingImg ? 'invisible' : 'block'
-        } cursor-pointer overflow-hidden rounded-md object-cover`}
+        className={classNames(
+          'cursor-pointer overflow-hidden rounded-md object-cover',
+          {
+            invisible: loadingImg,
+            block: !loadingImg,
+          }
+        )}
         style={{
           height: imgHeight,
           width: imgWidth,
