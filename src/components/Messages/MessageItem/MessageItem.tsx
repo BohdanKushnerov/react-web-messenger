@@ -65,7 +65,7 @@ const MessageItem: FC<IMessageItemProps> = ({ msg, isNearBottom }) => {
           {
             'w-full': isLink && info?.mediaType === 'video',
             'max-w-md': msg.data()?.file?.length === 1,
-            'max-w-xl': !(msg.data()?.file?.length === 1),
+            'max-w-xl': msg.data()?.file?.length !== 1,
             'rounded-br-none bg-mediumEmerald dark:bg-mediumDarkCyan': myUID,
             'rounded-bl-none bg-veryLightZinc dark:bg-darkGreen': !myUID,
           }

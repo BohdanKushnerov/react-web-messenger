@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import {
   Suspense,
   lazy,
@@ -7,6 +6,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import type { FC } from 'react';
 
 import type { DocumentData } from 'firebase/firestore';
 
@@ -52,7 +52,6 @@ const Messages: FC = () => {
   const scrollbarsRef = useRef<HTMLDivElement>(null);
   const msgListWrapRef = useRef<HTMLDivElement>(null);
   const handleScrollTimeout = useRef<NodeJS.Timeout | null>(null);
-  const isReadyToFetchFirstNewChatMessages = useRef<boolean>(true);
   const isInfinityScrollLoading = useRef<boolean>(false);
   const lastLoadedMessage = useRef<DocumentData | null>(null);
   const isFinishMessages = useRef<boolean>(false);
@@ -77,7 +76,6 @@ const Messages: FC = () => {
   );
 
   const onReset = useCallback(() => {
-    isReadyToFetchFirstNewChatMessages.current = true;
     lastLoadedMessage.current = null;
     isFinishMessages.current = false;
 
@@ -91,7 +89,6 @@ const Messages: FC = () => {
   useResetMessagesStates(chatUID, onReset);
   useGetFirstMessages(
     chatUID,
-    isReadyToFetchFirstNewChatMessages,
     lastLoadedMessage,
     setIsReadyFirstMessages,
     setGroupedMessages

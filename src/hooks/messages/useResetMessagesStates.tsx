@@ -7,8 +7,9 @@ type UseResetMessagesStates = (
 
 const useResetMessagesStates: UseResetMessagesStates = (chatUID, onReset) => {
   useEffect(() => {
-    if (!chatUID) return;
-    onReset();
+    return () => {
+      onReset();
+    };
   }, [chatUID, onReset]);
 };
 

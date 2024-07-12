@@ -36,7 +36,7 @@ const useQuickScrollToBottom: UseQuickScrollToBottom = (
     if (isMobileScreen && !isScrollDownButtonVisible && heightWindow) {
       setTimeout(() => {
         quickScrollBottom();
-      }, 100);
+      }, 300);
     }
   }, [
     isScrollDownButtonVisible,
@@ -51,7 +51,7 @@ const useQuickScrollToBottom: UseQuickScrollToBottom = (
     if (isReadyFirstMessages && !isScrollDownButtonVisible && isMobileScreen) {
       setTimeout(() => {
         quickScrollBottom();
-      }, 300);
+      }, 100);
     }
   }, [
     isFullScreen,
