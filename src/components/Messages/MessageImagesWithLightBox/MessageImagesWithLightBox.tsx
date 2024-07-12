@@ -49,7 +49,7 @@ const MessageImagesWithLightBox: FC<IMessageImagesWithLightBoxProps> = ({
             'flex flex-wrap gap-0.5 sm:justify-center lg:justify-normal',
             {
               'max-w-md': msg.data()?.file?.length === 1,
-              'w-160px max-w-xs lg:w-full': !(msg.data()?.file?.length === 1),
+              'w-160px max-w-xs lg:w-full': msg.data()?.file?.length !== 1,
             }
           )}
         >

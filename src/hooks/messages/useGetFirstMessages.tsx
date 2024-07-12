@@ -13,7 +13,6 @@ import type { GroupedMessages } from 'types/GroupedMessages';
 
 type UseGetFirstMessages = (
   chatUID: string | null,
-  isReadyToFetchFirstNewChatMessages: MutableRefObject<boolean>,
   lastLoadedMessage: MutableRefObject<DocumentData | null>,
   setIsReadyFirstMessages: Dispatch<SetStateAction<boolean>>,
   setGroupedMessages: Dispatch<SetStateAction<GroupedMessages | null>>
@@ -21,16 +20,11 @@ type UseGetFirstMessages = (
 
 const useGetFirstMessages: UseGetFirstMessages = (
   chatUID,
-  isReadyToFetchFirstNewChatMessages,
   lastLoadedMessage,
   setIsReadyFirstMessages,
   setGroupedMessages
 ) => {
   useEffect(() => {
-    if (isReadyToFetchFirstNewChatMessages.current === false) {
-      return;
-    }
-
     const fetchFirstMessages = async (chatUID: string | null) => {
       if (!chatUID) return;
 
@@ -66,8 +60,6 @@ const useGetFirstMessages: UseGetFirstMessages = (
 
           setGroupedMessages(sortedData);
           setIsReadyFirstMessages(true);
-
-          isReadyToFetchFirstNewChatMessages.current = false;
         } else {
           setGroupedMessages({});
           lastLoadedMessage.current = null;
@@ -79,13 +71,7 @@ const useGetFirstMessages: UseGetFirstMessages = (
     };
 
     fetchFirstMessages(chatUID);
-  }, [
-    chatUID,
-    isReadyToFetchFirstNewChatMessages,
-    lastLoadedMessage,
-    setGroupedMessages,
-    setIsReadyFirstMessages,
-  ]);
+  }, [chatUID, lastLoadedMessage, setGroupedMessages, setIsReadyFirstMessages]);
 };
 
 export default useGetFirstMessages;
